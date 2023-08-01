@@ -1,0 +1,12 @@
+export '../table.columns.data.models/contact.us.shop.info.dart';
+export '../table.columns.data.models/customer.cart.enable.field.dart';
+export '../table.columns.data.models/customer.license.information.dart';
+export '../table.columns.data.models/customer.signup.allowed.field.dart';
+export '../table.columns.data.models/customer.signupable.social.auth.data.dart';
+export '../table.columns.data.models/footer.dart';
+export '../table.columns.data.models/reservation.requirements.for.products.dart';
+export '../table.columns.data.models/shop.details.dart';
+export '../table.columns.data.models/shop.home.landing.view.dart';
+export '../table.columns.data.models/shop.home.scroll.page.dart';
+export '../table.columns.data.models/shop.navbar.dart';
+export '../table.columns.data.models/shop.reservation.types.dart';
