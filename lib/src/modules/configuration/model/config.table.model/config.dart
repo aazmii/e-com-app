@@ -11,7 +11,8 @@ class Config {
   String? companyCity;
   String? companyCountry;
   String? companyPostCode;
-  String? companyLicense;
+  DateTime? companyLicenseExpireDate, lastUpdate;
+  int? daysLeftToExpireLicense;
   String? companyInvoiceHeaderText;
   String? companyInvoiceFooterText;
   Config({
@@ -22,7 +23,9 @@ class Config {
     this.companyCity,
     this.companyCountry,
     this.companyPostCode,
-    this.companyLicense,
+    this.companyLicenseExpireDate,
+    this.lastUpdate,
+    this.daysLeftToExpireLicense,
     this.companyInvoiceHeaderText,
     this.companyInvoiceFooterText,
   });
@@ -34,11 +37,15 @@ class Config {
     'companyCity',
     'companyCountry',
     'companyPostCode',
-    'companyLicense',
+    'companyLicenseExpireDate',
+    'lastUpdate',
+    'daysLeftToExpireLicense',
     'companyInvoiceHeaderText',
     'companyInvoiceFooterText',
   ];
-
+  bool get hasNullValue =>
+      companyName == null || companyShortName == null || companyLogo == null;
+      
   get fieldValues => [
         companyName,
         companyShortName,
@@ -47,7 +54,9 @@ class Config {
         companyCity,
         companyCountry,
         companyPostCode,
-        companyLicense,
+        companyLicenseExpireDate?.toIso8601String(),
+        lastUpdate?.toIso8601String(),
+        daysLeftToExpireLicense?.toString(),
         companyInvoiceHeaderText,
         companyInvoiceFooterText,
       ];
@@ -66,7 +75,7 @@ class Config {
     Database db, {
     required String sl,
     required String keyName,
-    required String value,
+    required String? value,
   }) async {
     bool isSuccess = true;
     try {
@@ -90,7 +99,9 @@ class Config {
     String? companyCity,
     String? companyCountry,
     String? companyPostCode,
-    String? companyLicense,
+    DateTime? companyLicenseExpireDate,
+    DateTime? lastUpdate,
+    int? daysLeftToExpireLicense,
     String? companyInvoiceHeaderText,
     String? companyInvoiceFooterText,
   }) {
@@ -102,7 +113,11 @@ class Config {
       companyCity: companyCity ?? this.companyCity,
       companyCountry: companyCountry ?? this.companyCountry,
       companyPostCode: companyPostCode ?? this.companyPostCode,
-      companyLicense: companyLicense ?? this.companyLicense,
+      companyLicenseExpireDate:
+          companyLicenseExpireDate ?? this.companyLicenseExpireDate,
+      lastUpdate: lastUpdate ?? this.lastUpdate,
+      daysLeftToExpireLicense:
+          daysLeftToExpireLicense ?? this.daysLeftToExpireLicense,
       companyInvoiceHeaderText:
           companyInvoiceHeaderText ?? this.companyInvoiceHeaderText,
       companyInvoiceFooterText:
@@ -119,7 +134,9 @@ class Config {
       'companyCity': companyCity,
       'companyCountry': companyCountry,
       'companyPostCode': companyPostCode,
-      'companyLicense': companyLicense,
+      'companyLicenseExpireDate': companyLicenseExpireDate,
+      'lastUpdate': lastUpdate,
+      'daysLeftToExpireLicense': daysLeftToExpireLicense,
       'companyInvoiceHeaderText': companyInvoiceHeaderText,
       'companyInvoiceFooterText': companyInvoiceFooterText,
     };
@@ -134,7 +151,15 @@ class Config {
       companyCity: map['companyCity'] as String?,
       companyCountry: map['companyCountry'] as String?,
       companyPostCode: map['companyPostCode'] as String?,
-      companyLicense: map['companyLicense'] as String?,
+      companyLicenseExpireDate: map['companyLicenseExpireDate'] != null
+          ? DateTime.tryParse(map['companyLicenseExpireDate'])
+          : null,
+      lastUpdate: map['lastUpdate'] != null
+          ? DateTime.tryParse(map['lastUpdate'])
+          : null,
+      daysLeftToExpireLicense: map['daysLeftToExpireLicense'] != null
+          ? int.tryParse(map['daysLeftToExpireLicense'])
+          : null,
       companyInvoiceHeaderText: map['companyInvoiceHeaderText'] as String?,
       companyInvoiceFooterText: map['companyInvoiceFooterText'] as String?,
     );
@@ -147,8 +172,6 @@ class Config {
 
   @override
   String toString() {
-    return 'Config(companyName: $companyName, companyShortName: $companyShortName, companyLogo: $companyLogo, companyAddress: $companyAddress, companyCity: $companyCity, companyCountry: $companyCountry, companyPostCode: $companyPostCode, companyLicense: $companyLicense, companyInvoiceHeaderText: $companyInvoiceHeaderText, companyInvoiceFooterText: $companyInvoiceFooterText)';
+    return 'Config(companyName: $companyName, companyShortName: $companyShortName, companyLogo: $companyLogo, companyAddress: $companyAddress, companyCity: $companyCity, companyCountry: $companyCountry, companyPostCode: $companyPostCode, companyLicense: $companyLicenseExpireDate,daysLeftToExpireLicense: $daysLeftToExpireLicense, companyInvoiceHeaderText: $companyInvoiceHeaderText, companyInvoiceFooterText: $companyInvoiceFooterText)';
   }
-
- 
 }

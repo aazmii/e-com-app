@@ -54,34 +54,37 @@ class LocalDB {
     return data[0];
   }
 
-  Future<Map<String, dynamic>?> getCellData({
+  Future<String?> getCellData({
     required String tableName,
-    required int id,
-    required String columnName,
+    required String keyName,
   }) async {
     final db = await database;
     final data = await db.query(
       tableName,
-      columns: [columnName],
-      where: 'id =?',
-      whereArgs: [id],
+      columns: ['col2'],
+      where: 'col1 = ?',
+      whereArgs: [keyName],
     );
-    if (data.isNotEmpty) return data.first;
-    return null;
+    // if (data.isNotEmpty) return data.first[keyName] as String;
+    return data.first['col2'] as String;
   }
 
-  Future<int> updateTableRow({
+  Future<int> updateTableCell({
     required String tableName,
-    required int id,
-    required Map<String, dynamic> value,
+    required String keyName,
+    dynamic value,
   }) async {
     final db = await database;
-    return await db.update(
-      tableName,
-      value,
-      where: 'id=?',
-      whereArgs: [id],
-    );
+    try {
+      return db.rawUpdate('''
+        UPDATE $tableName
+        SET col2 = '$value'
+        WHERE col1= '$keyName';
+    ''');
+    } catch (e) {
+      print('$e');
+      return 0;
+    }
   }
 
   Future<int> deleteTableRow({
@@ -104,7 +107,7 @@ class LocalDB {
   Future<bool> insertToConfig({
     required String sl,
     required String keyName,
-    required String configValue,
+    required String? configValue,
   }) async {
     bool isInserted = true;
     final db = await database;

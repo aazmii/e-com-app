@@ -14,18 +14,13 @@ class ConfigPage extends ConsumerWidget {
           children: [
             const SizedBox(height: 80),
             ListTile(
-              leading: const Icon(Icons.settings),
-              onTap: ref.read(configurationProvider.notifier).onPressedInsert,
-              title: const Text('Configure'),
-            ),
-            ListTile(
               leading: const Icon(Icons.delete),
-              onTap: ref.read(configurationProvider.notifier).deleteTable,
+              onTap: ref.read(configProvider.notifier).deleteTable,
               title: const Text('delete configure table'),
             ),
             ListTile(
               leading: const Icon(Icons.download),
-              onTap: ref.read(configurationProvider.notifier).getConfiguaration,
+              onTap: ref.read(configProvider.notifier).getConfiguaration,
               title: const Text('get app configuration'),
             ),
           ],
@@ -34,7 +29,7 @@ class ConfigPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Configuration'),
       ),
-      body: const SizedBox(),
+      body: SizedBox(),
       floatingActionButton: ElevatedButton(
         onPressed: () => Navigator.pop(context),
         child: const Text('Back'),
