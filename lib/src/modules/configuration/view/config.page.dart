@@ -15,39 +15,41 @@ class ConfigPage extends ConsumerWidget {
         title: const Text('Configuration'),
       ),
       body: Center(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.red.withOpacity(0.2),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.red.withOpacity(0.2),
+                ),
+                width: 300,
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'App Configuration',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 10),
+                    makeConfigTable(config),
+                  ],
+                ),
               ),
-              width: 300,
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'App Configuration',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 10),
-                  makeConfigTable(config),
+                  TextButton(
+                    onPressed: () {
+                      LocalDB().deleteTableFromDB('config');
+                    },
+                    child: const Text('Delete Table'),
+                  )
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    LocalDB().deleteTableFromDB('config');
-                  },
-                  icon: const Icon(Icons.delete),
-                )
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

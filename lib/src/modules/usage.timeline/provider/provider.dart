@@ -19,7 +19,7 @@ class ActivityProvider extends Notifier<Activity> {
 
   void saveLogin() async {
     final now = DateTime.now();
-    final DateTime? apiDateTime = now;
+    final DateTime? apiDateTime = now.addDays(7);
 
     final list = (await LocalDB().getAllData('usageTimeline'))
         .map((e) => UsageTimeline.fromMap(e))
@@ -48,9 +48,7 @@ class ActivityProvider extends Notifier<Activity> {
         final gapInHours = apiDateTime.difference(lastLogin.time!).inHours;
         final days = gapInHours ~/ 24;
         UsageTimeline(
-          date: days > 0
-              ? apiDateTime.addDays(days)
-              : apiDateTime, //need a validation?
+          date: apiDateTime, //need a validation?
           time: apiDateTime,
           gap: Duration(hours: apiDateTime.difference(lastLogin.time!).inHours),
         ).insertInDb(await LocalDB().database);
