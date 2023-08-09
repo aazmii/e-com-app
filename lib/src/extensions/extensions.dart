@@ -3,3 +3,6 @@ import 'package:intl/intl.dart';
 part 'src/context.dart';
 part 'src/string.dart';
 part 'src/double.dart';
+part 'src/duration.dart';
+part 'src/date.dart';
+part 'src/int.dart';
