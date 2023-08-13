@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'methods.dart';
+import 'provider/methods.dart';
 
 final apiDateTimeProvider =
     NotifierProvider<ApiDateTimeProvider, ApiDateTime>(ApiDateTimeProvider.new);

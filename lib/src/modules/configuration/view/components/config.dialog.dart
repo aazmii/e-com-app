@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
-import 'package:pos_sq/src/modules/configuration/view/config.table.dart';
+import 'package:pos_sq/src/modules/configuration/view/components/config.table.dart';
 
 Future<void> showConfigDialog(BuildContext context) async {
   await showDialog(

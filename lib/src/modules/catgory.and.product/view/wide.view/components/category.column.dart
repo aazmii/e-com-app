@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product.item.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/mother.category.providier.dart';
 
 import 'category.card.dart';

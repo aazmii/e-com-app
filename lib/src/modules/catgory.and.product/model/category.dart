@@ -1,7 +1,6 @@
-
 import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
-import 'product.item.dart';
+import 'product.dart';
 part 'category.ext.dart';
 
 class Category {
@@ -33,6 +32,17 @@ class Category {
   String? parent;
   String? imageUrl;
   List<Category>? children;
+  static createTable(Database db) async {
+    await db.execute('''
+          CREATE TABLE category (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            children JSONB,
+            products JSONB,
+            label TEXT,
+            imageUrl TEXT[]
+          )
+    ''');
+  }
 
   Category copyWith({
     List<Product>? products,

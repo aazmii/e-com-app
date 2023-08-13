@@ -1,6 +1,46 @@
 part of 'order.dart';
 
 extension OrderExtension on Order {
+
+  createTable(Database db) async {
+    await db.execute('''
+          CREATE TABLE order (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            savedTime  TIMESTAMP, 
+            products JSONB,
+            discountFactor DECIMAL, 
+            transactions JSONB,
+            discountAmout DECIMAL, 
+            quantity INT
+          )
+    ''');
+  }
+
+  Future<bool> insertInDb(Database db) async {
+    bool isSuccess = true;
+    try {
+      await db.rawInsert('''
+            INSERT INTO product(
+              name,
+              price,
+              discountPrice,
+              images,
+              description,
+              quantity
+            )
+            VALUES('$orderId',
+            '$savedTime',
+            '$products',
+            '$discountFactor',
+            '$transactions',
+     
+            )
+      ''');
+    } catch (e) {
+      isSuccess = false;
+    }
+    return isSuccess;
+  }
   double get grossTotal => products!.fold(0.00, (prevValue, item) {
         final quantity = item.quantity ?? 1;
         final price = double.tryParse(item.price ?? '0.00') ?? 0.00;

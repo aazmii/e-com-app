@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/usage.timeline/provider/api.dart';
+import 'package:pos_sq/src/modules/usage.timeline/api.dart';
 
 class ApiCard extends ConsumerWidget {
   const ApiCard({super.key});

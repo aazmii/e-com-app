@@ -1,15 +1,15 @@
-part of 'product.dart';
+part of 'order.dart';
 
-extension ProductExt on Product {
-  static createTable(Database db) async {
+extension OrderExtension on Order {
+  createTable(Database db) async {
     await db.execute('''
-          CREATE TABLE product (
+          CREATE TABLE order (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name  TEXT, 
-            price DECIMAL,
-            discountPrice DECIMAL, 
-            images TEXT[],
-            description TEXT, 
+            savedTime  TIMESTAMP, 
+            products JSONB,
+            discountFactor DECIMAL, 
+            transactions JSONB,
+            discountAmout DECIMAL, 
             quantity INT
           )
     ''');
@@ -27,13 +27,12 @@ extension ProductExt on Product {
               description,
               quantity
             )
-            VALUES('$id',
-            '$name',
-            '$price',
-            '$discountPrice',
-            '$images',
-            '$description',
-            '$quantity'
+            VALUES('$orderId',
+            '$savedTime',
+            '$products',
+            '$discountFactor',
+            '$transactions',
+     
             )
       ''');
     } catch (e) {

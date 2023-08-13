@@ -1,4 +1,6 @@
 import 'package:path/path.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,13 +28,13 @@ class LocalDB {
 
   Future _onCreate(Database db, int version) async {
     await _createTable(db, 'config');
-    // await _createTable(db, 'usageTimeline');
     await UsageTimeline.createTable(db);
+    await Product.createTable(db);
+    await Category.createTable(db);
   }
 
   _createTable(Database db, String tableName) async {
-    await db.execute(
-        '''
+    await db.execute('''
           CREATE TABLE $tableName (
             sl SMALLSERIAL PRIMARY KEY,
             col1 TEXT, 
@@ -55,8 +57,7 @@ class LocalDB {
     final db = await database;
     bool isSuccess = true;
     try {
-      await db.rawInsert(
-          '''
+      await db.rawInsert('''
             INSERT INTO $tableName(sl,col1, col2)
             VALUES
             ('$sl','$keyName','$value')
@@ -75,8 +76,7 @@ class LocalDB {
   }) async {
     final db = await database;
 
-    return await db.rawQuery(
-        '''
+    return await db.rawQuery('''
     SELECT $column1,$column2 
     FROM $tableName 
     ''');
@@ -115,14 +115,12 @@ class LocalDB {
   }) async {
     final db = await database;
     try {
-      return db.rawUpdate(
-          '''
+      return db.rawUpdate('''
         UPDATE $tableName
         SET col2 = '$value'
         WHERE col1= '$keyName';
     ''');
     } catch (e) {
-   
       return 0;
     }
   }

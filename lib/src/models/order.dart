@@ -1,8 +1,9 @@
 import 'package:pos_sq/src/constants/constants.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product.item.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
+import 'package:pos_sq/src/modules/order.detail/models/transaction.dart';
+import 'package:sqflite/sqflite.dart';
 
-import '../modules/order.detail/models/transaction.dart';
-
+part 'order.db.methods.dart';
 part 'order.ext.dart';
 
 class Order {
@@ -11,7 +12,7 @@ class Order {
 
   List<Product>? products;
 
-  List<Transaction>? transactions;
+  List<CustomerTransaction>? transactions;
   double? discountAmout;
   double? discountFactor;
 
@@ -30,7 +31,7 @@ class Order {
     int? orderId,
     DateTime? savedTime,
     List<Product>? products,
-    List<Transaction>? transactions,
+    List<CustomerTransaction>? transactions,
     double? discountAmout,
     double? discountFactor,
     DiscountType? discountType,

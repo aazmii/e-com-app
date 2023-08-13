@@ -19,6 +19,7 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
       state = AsyncData(_config);
       return state.value;
     }
+
     await _updateLicenseDateInLocalDb();
     state = AsyncData(await getConfiguaration());
     return state.value;

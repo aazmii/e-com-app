@@ -12,9 +12,7 @@ class Wrapper extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
-      drawer: const Drawer(
-        child: Text('hello'),
-      ),
+   
       body: ref.watch(configProvider).when(
             data: (config) {
               if (ref.read(configProvider.notifier).isLicenseExpired()) {
