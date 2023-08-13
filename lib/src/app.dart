@@ -15,6 +15,7 @@ class HomeScreen extends ConsumerWidget {
         title: const Text('POS Deskop'),
         elevation: 0.0,
       ),
+      drawer: const Drawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const ConfigPage();
+                      return const ConfigScreen();
                     },
                   ),
                 );

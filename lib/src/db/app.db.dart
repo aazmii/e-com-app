@@ -1,6 +1,5 @@
 import 'package:path/path.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
-// import 'package:pos_sq/src/constants/constants.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDB {
@@ -32,7 +31,8 @@ class LocalDB {
   }
 
   _createTable(Database db, String tableName) async {
-    await db.execute('''
+    await db.execute(
+        '''
           CREATE TABLE $tableName (
             sl SMALLSERIAL PRIMARY KEY,
             col1 TEXT, 
@@ -55,13 +55,13 @@ class LocalDB {
     final db = await database;
     bool isSuccess = true;
     try {
-      await db.rawInsert('''
+      await db.rawInsert(
+          '''
             INSERT INTO $tableName(sl,col1, col2)
             VALUES
             ('$sl','$keyName','$value')
       ''');
     } catch (e) {
-      print(e);
       isSuccess = false;
     }
 
@@ -75,7 +75,8 @@ class LocalDB {
   }) async {
     final db = await database;
 
-    return await db.rawQuery('''
+    return await db.rawQuery(
+        '''
     SELECT $column1,$column2 
     FROM $tableName 
     ''');
@@ -114,13 +115,14 @@ class LocalDB {
   }) async {
     final db = await database;
     try {
-      return db.rawUpdate('''
+      return db.rawUpdate(
+          '''
         UPDATE $tableName
         SET col2 = '$value'
         WHERE col1= '$keyName';
     ''');
     } catch (e) {
-      print('$e');
+   
       return 0;
     }
   }

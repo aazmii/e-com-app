@@ -4,8 +4,8 @@ import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
 import 'package:pos_sq/src/modules/configuration/view/config.table.dart';
 
-class ConfigPage extends ConsumerWidget {
-  const ConfigPage({super.key});
+class ConfigScreen extends ConsumerWidget {
+  const ConfigScreen({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

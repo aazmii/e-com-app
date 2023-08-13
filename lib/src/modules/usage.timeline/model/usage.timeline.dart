@@ -36,12 +36,7 @@ class UsageTimeline {
     ''')).first);
   }
 
-  // static x(Database db, {required DateTime d}) async {
-  //   await db.execute('''
-  //         SELECT date FROM usageTimeline where date = $d
-  //         )
-  //   ''');
-  // }
+ 
 
   static Future<Map<String, dynamic>?> getDataRow(
     Database db, {
@@ -62,10 +57,8 @@ class UsageTimeline {
             ('$date','$time','$gap')
       ''');
     } catch (e) {
-      print(e);
       isSuccess = false;
     }
-
     return isSuccess;
   }
 
