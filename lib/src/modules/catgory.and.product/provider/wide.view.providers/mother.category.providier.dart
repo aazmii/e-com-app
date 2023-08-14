@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
-import '../../model/category.dart';
 import 'selected.category.id.provider.dart';
 
 final motherCategoryProvider =
@@ -41,7 +41,7 @@ class _CategoryColumnProvider extends FamilyNotifier<List<dynamic>, Category> {
     Category category = state[index] as Category;
 
     if (index == 0) {
-      reset();
+      // reset();
       return;
     }
 
@@ -88,21 +88,21 @@ class _CategoryColumnProvider extends FamilyNotifier<List<dynamic>, Category> {
     }
   }
 
-  void reset() {
-    Category category = state[0] as Category;
-    ref
-        .read(selectedCategoryProvider.notifier)
-        .set(ref.read(selectedCategoryProvider) == null ? category : null);
+  // void reset() {
+  //   Category? category = state[0] as Category?;
+  //   ref
+  //       .read(selectedCategoryProvider.notifier)
+  //       .set(ref.read(selectedCategoryProvider) == null ? category : null);
 
-    final newState = [
-      state.first,
-      ...category.children!.map((e) {
-        return e.copyWith(isExpanded: false);
-      }).toList(),
-      ...category.products as List<Product>
-    ];
-    state = newState;
-  }
+  //   final newState = [
+  //     state.first,
+  //     ...category!.children!.map((e) {
+  //       return e.copyWith(isExpanded: false);
+  //     }).toList(),
+  //     ...category.products as List<Product>
+  //   ];
+  //   state = newState;
+  // }
 
   void _addProductsFromIndex({
     required int insertIndex,

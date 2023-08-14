@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 
 class CategoryContainer extends StatelessWidget {
   const CategoryContainer({

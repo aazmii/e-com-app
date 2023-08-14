@@ -2,8 +2,8 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+ import 'package:sqflite/sqflite.dart';
 part 'customer.order.ext.dart';
 class CustomerOrder {
   String? posId;

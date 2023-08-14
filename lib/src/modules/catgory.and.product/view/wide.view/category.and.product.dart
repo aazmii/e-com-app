@@ -4,8 +4,8 @@ import 'package:pos_sq/src/components/data.not.found.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 
-import '../../../catgory.and.product/model/category.dart';
 import '../../../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'components/category.column.dart';
 import 'components/scroll.navigation.dart';
@@ -18,7 +18,6 @@ class CategoryView extends StatelessWidget {
   final List<Category>? motherCategories;
   @override
   Widget build(BuildContext context) {
-  
     // if (motherCategories == null) return emptyWidget;
     return CustomScrollView(
       physics: const NeverScrollableScrollPhysics(),

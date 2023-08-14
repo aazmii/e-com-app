@@ -1,24 +1,34 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
-part 'category2.ext.dart';
 
-class Category2 {
+import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/person.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+
+part 'category.ext.dart';
+
+class Category {
+  String? id;
   String? label;
   String? parentId;
   String? description;
 
+  List<Category>? children;
+  List<Product>? products;
+
   String? type;
   String? rackLocation;
-
-  String? id;
   int? position;
   int? shelfLife;
+
   int? minimumInventory;
   bool? enable;
   bool? menu;
   bool? liveSales;
+
   bool? root;
   bool? home;
   bool? specialCategory;
@@ -34,11 +44,13 @@ class Category2 {
 
   Location? warehouseLocation;
   Location? outletLocation;
-  Category2({
+  Category({
     this.id,
     this.label,
     this.parentId,
     this.description,
+    this.children,
+    this.products,
     this.type,
     this.rackLocation,
     this.position,
@@ -61,11 +73,13 @@ class Category2 {
     this.outletLocation,
   });
 
-  Category2 copyWith({
+  Category copyWith({
     String? id,
     String? label,
     String? parentId,
     String? description,
+    List<Category>? children,
+    List<Product>? products,
     String? type,
     String? rackLocation,
     int? position,
@@ -79,7 +93,6 @@ class Category2 {
     bool? specialCategory,
     bool? bestSaleCategory,
     List<String>? tags,
-    List<String>? categoryImages,
     List<String>? categoryFiles,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -88,15 +101,17 @@ class Category2 {
     Location? warehouseLocation,
     Location? outletLocation,
   }) {
-    return Category2(
+    return Category(
+      id: id ?? this.id,
       label: label ?? this.label,
       parentId: parentId ?? this.parentId,
       description: description ?? this.description,
+      children: children ?? this.children,
+      products: products ?? this.products,
       type: type ?? this.type,
       rackLocation: rackLocation ?? this.rackLocation,
       position: position ?? this.position,
       shelfLife: shelfLife ?? this.shelfLife,
-      id: id ?? this.id,
       minimumInventory: minimumInventory ?? this.minimumInventory,
       enable: enable ?? this.enable,
       menu: menu ?? this.menu,
@@ -118,10 +133,12 @@ class Category2 {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'label': label,
       'parentId': parentId,
       'description': description,
-      'id': id,
+      'children': children?.map((x) => x.toMap()).toList(),
+      'products': products!.map((x) => x.toMap()).toList(),
       'type': type,
       'rackLocation': rackLocation,
       'position': position,
@@ -145,13 +162,27 @@ class Category2 {
     };
   }
 
-  factory Category2.fromMap(Map<String, dynamic> map) {
-    return Category2(
+  factory Category.fromMap(Map<String, dynamic> map) {
+    return Category(
       id: map['id'] != null ? map['id'] as String : null,
       label: map['label'] != null ? map['label'] as String : null,
       parentId: map['parentId'] != null ? map['parentId'] as String : null,
       description:
           map['description'] != null ? map['description'] as String : null,
+      children: map['children'] != null
+          ? List<Category>.from(
+              (map['children'] as List<int>).map<Category?>(
+                (x) => Category.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      products: map['products'] != null
+          ? List<Product>.from(
+              (map['products'] as List<int>).map<Product?>(
+                (x) => Product.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
       type: map['type'] != null ? map['type'] as String : null,
       rackLocation:
           map['rackLocation'] != null ? map['rackLocation'] as String : null,
@@ -171,12 +202,8 @@ class Category2 {
       bestSaleCategory: map['bestSaleCategory'] != null
           ? map['bestSaleCategory'] as bool
           : null,
-      tags: map['tags'] != null
-          ? List<String>.from((map['tags'] as List<String>))
-          : null,
-      categoryFiles: map['categoryFiles'] != null
-          ? List<String>.from((map['categoryFiles'] as List<String>))
-          : null,
+      tags: null,
+      categoryFiles: null,
       createdAt: map['createdAt'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
           : null,
@@ -200,109 +227,73 @@ class Category2 {
 
   String toJson() => json.encode(toMap());
 
-  factory Category2.fromJson(String source) =>
-      Category2.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Category.fromJson(String source) =>
+      Category.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Category2(label: $label, parentId: $parentId, description: $description, type: $type, rackLocation: $rackLocation, position: $position, shelfLife: $shelfLife, minimumInventory: $minimumInventory, enable: $enable, menu: $menu, liveSales: $liveSales, root: $root, home: $home, specialCategory: $specialCategory, bestSaleCategory: $bestSaleCategory, tags: $tags, categoryFiles: $categoryFiles, createdAt: $createdAt, updatedAt: $updatedAt, createdBy: $createdBy, updatedBy: $updatedBy, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation)';
+    return 'Category(id: $id, label: $label, parentId: $parentId, description: $description, children: $children, products: $products, type: $type, rackLocation: $rackLocation, position: $position, shelfLife: $shelfLife, minimumInventory: $minimumInventory, enable: $enable, menu: $menu, liveSales: $liveSales, root: $root, home: $home, specialCategory: $specialCategory, bestSaleCategory: $bestSaleCategory, tags: $tags, categoryFiles: $categoryFiles, createdAt: $createdAt, updatedAt: $updatedAt, createdBy: $createdBy, updatedBy: $updatedBy, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation)';
   }
-}
-
-class Person {
-  String? name;
-  String? designation;
-  Person({
-    this.name,
-    this.designation,
-  });
-
-  Person copyWith({
-    String? name,
-    String? designation,
-  }) {
-    return Person(
-      name: name ?? this.name,
-      designation: designation ?? this.designation,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'name': name,
-      'designation': designation,
-    };
-  }
-
-  factory Person.fromMap(Map<String, dynamic> map) {
-    return Person(
-      name: map['name'] != null ? map['name'] as String : null,
-      designation:
-          map['designation'] != null ? map['designation'] as String : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Person.fromJson(String source) =>
-      Person.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Person(name: $name, designation: $designation)';
-
-  @override
-  bool operator ==(covariant Person other) {
+  bool operator ==(covariant Category other) {
     if (identical(this, other)) return true;
 
-    return other.name == name && other.designation == designation;
+    return other.id == id &&
+        other.label == label &&
+        other.parentId == parentId &&
+        other.description == description &&
+        listEquals(other.children, children) &&
+        listEquals(other.products, products) &&
+        other.type == type &&
+        other.rackLocation == rackLocation &&
+        other.position == position &&
+        other.shelfLife == shelfLife &&
+        other.minimumInventory == minimumInventory &&
+        other.enable == enable &&
+        other.menu == menu &&
+        other.liveSales == liveSales &&
+        other.root == root &&
+        other.home == home &&
+        other.specialCategory == specialCategory &&
+        other.bestSaleCategory == bestSaleCategory &&
+        listEquals(other.tags, tags) &&
+        listEquals(other.categoryFiles, categoryFiles) &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt &&
+        other.createdBy == createdBy &&
+        other.updatedBy == updatedBy &&
+        other.warehouseLocation == warehouseLocation &&
+        other.outletLocation == outletLocation;
   }
 
   @override
-  int get hashCode => name.hashCode ^ designation.hashCode;
-}
-
-class Location {
-  String? addressLine;
-  Location({
-    this.addressLine,
-  });
-
-  Location copyWith({
-    String? addressLine,
-  }) {
-    return Location(
-      addressLine: addressLine ?? this.addressLine,
-    );
+  int get hashCode {
+    return id.hashCode ^
+        label.hashCode ^
+        parentId.hashCode ^
+        description.hashCode ^
+        children.hashCode ^
+        products.hashCode ^
+        type.hashCode ^
+        rackLocation.hashCode ^
+        position.hashCode ^
+        shelfLife.hashCode ^
+        minimumInventory.hashCode ^
+        enable.hashCode ^
+        menu.hashCode ^
+        liveSales.hashCode ^
+        root.hashCode ^
+        home.hashCode ^
+        specialCategory.hashCode ^
+        bestSaleCategory.hashCode ^
+        tags.hashCode ^
+        categoryFiles.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode ^
+        createdBy.hashCode ^
+        updatedBy.hashCode ^
+        warehouseLocation.hashCode ^
+        outletLocation.hashCode;
   }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'addressLine': addressLine,
-    };
-  }
-
-  factory Location.fromMap(Map<String, dynamic> map) {
-    return Location(
-      addressLine:
-          map['addressLine'] != null ? map['addressLine'] as String : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Location.fromJson(String source) =>
-      Location.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() => 'Location(addressLine: $addressLine)';
-
-  @override
-  bool operator ==(covariant Location other) {
-    if (identical(this, other)) return true;
-
-    return other.addressLine == addressLine;
-  }
-
-  @override
-  int get hashCode => addressLine.hashCode;
 }

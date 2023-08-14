@@ -1,6 +1,6 @@
-part of 'category2.dart';
+part of 'category.dart';
 
-extension CategoryDbExt on Category2 {
+extension CategoryDbExt on Category {
   createTable(Database db) async {
     await db.execute(
         '''

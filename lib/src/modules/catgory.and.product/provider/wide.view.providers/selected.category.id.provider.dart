@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 
 final selectedCategoryProvider =
     NotifierProvider<SelectedCategoryIdProvider, Category?>(
