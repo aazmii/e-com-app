@@ -4,7 +4,6 @@ import 'package:pos_sq/src/modules/order.detail/models/transaction.dart';
 import 'package:sqflite/sqflite.dart';
 
 part 'order.db.methods.dart';
-part 'order.ext.dart';
 
 class Order {
   int? orderId;

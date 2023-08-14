@@ -68,15 +68,16 @@ class CardContent extends StatelessWidget {
       children: [
         Expanded(
           child: Card(
-            child: ProductImage(
-              productUrl: (product.images == null || product.images!.isEmpty)
-                  ? null
-                  : product.images!.first.image,
-            ),
+            // child: ProductImage(
+            //   productUrl: (product.images == null || product.images!.isEmpty)
+            //       ? null
+            //       : product.images!.first.image,
+            // ),
           ),
         ),
         Text(
-          product.name ?? '',
+          // product.name ?? '',
+          '',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             overflow: TextOverflow.ellipsis,
@@ -84,15 +85,15 @@ class CardContent extends StatelessWidget {
           maxLines: 2,
           textAlign: TextAlign.center,
         ),
-        if (product.price != product.discountPrice)
-          Text(
-            '৳ ${product.price}',
-            style: context.titleSmall.copyWith(
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.lineThrough,
-              color: Colors.red,
-            ),
-          ),
+        // if (product.price != product.discountPrice)
+        //   Text(
+        //     '৳ ${product.price}',
+        //     style: context.titleSmall.copyWith(
+        //       fontWeight: FontWeight.bold,
+        //       decoration: TextDecoration.lineThrough,
+        //       color: Colors.red,
+        //     ),
+        //   ),
         Text(
           'TK.${product.price}',
           style: context.titleSmall.copyWith(

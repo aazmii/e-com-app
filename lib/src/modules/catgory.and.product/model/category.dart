@@ -81,13 +81,7 @@ class Category {
   String toRawJson() => json.encode(toJson());
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        products: json['products'] == null
-            ? []
-            : List<Product>.from(
-                json['products']!.map(
-                  (x) => Product.fromJson(x),
-                ),
-              ),
+        products:  null,
         id: json['id'],
         parentId: json['parent_id'],
         label: json['label'],

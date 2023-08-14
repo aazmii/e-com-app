@@ -15,30 +15,31 @@ extension ProductExt on Product {
     ''');
   }
 
-  Future<bool> insertInDb(Database db) async {
-    bool isSuccess = true;
-    try {
-      await db.rawInsert('''
-            INSERT INTO product(
-              name,
-              price,
-              discountPrice,
-              images,
-              description,
-              quantity
-            )
-            VALUES('$id',
-            '$name',
-            '$price',
-            '$discountPrice',
-            '$images',
-            '$description',
-            '$quantity'
-            )
-      ''');
-    } catch (e) {
-      isSuccess = false;
-    }
-    return isSuccess;
-  }
+  // Future<bool> insertInDb(Database db) async {
+  //   bool isSuccess = true;
+  //   try {
+  //     await db.rawInsert('''
+  //           INSERT INTO product(
+  //             name,
+  //             price,
+  //             discountPrice,
+  //             images,
+  //             description,
+  //             quantity
+  //           )
+  //           VALUES('$id',
+  //           '$name',
+  //           '$price',
+  //           '$discountPrice',
+  //           '$images',
+  //           '$description',
+  //           '$quantity'
+  //           )
+  //     ''');
+  //   } catch (e) {
+  //     isSuccess = false;
+  //   }
+  //   return isSuccess;
+  // }
+  fromMap(){}
 }
