@@ -1,8 +1,9 @@
 part of 'product.dart';
 
 extension ProductExt on Product {
-  static createTable(Database db) async {
-    await db.execute('''
+  createTable(Database db) async {
+    await db.execute(
+        '''
           CREATE TABLE product (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name  TEXT, 
@@ -41,5 +42,5 @@ extension ProductExt on Product {
   //   }
   //   return isSuccess;
   // }
-  fromMap(){}
+  fromMap() {}
 }

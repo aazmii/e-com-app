@@ -29,7 +29,7 @@ class LocalDB {
   Future _onCreate(Database db, int version) async {
     await _createTable(db, 'config');
     await UsageTimeline.createTable(db);
-    await Product.createTable(db);
+    await Product().createTable(db);
     await Category.createTable(db);
   }
 
