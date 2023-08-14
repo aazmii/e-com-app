@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
 import '../../model/category.dart';
 import 'selected.category.id.provider.dart';

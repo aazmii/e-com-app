@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:sqflite/sqflite.dart';
-import 'product.dart';
 part 'category.ext.dart';
 
 class Category {
@@ -81,7 +81,7 @@ class Category {
   String toRawJson() => json.encode(toJson());
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        products:  null,
+        products: null,
         id: json['id'],
         parentId: json['parent_id'],
         label: json['label'],

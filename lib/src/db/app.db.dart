@@ -1,6 +1,6 @@
 import 'package:path/path.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
 import 'package:sqflite/sqflite.dart';
 

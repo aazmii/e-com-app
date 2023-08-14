@@ -17,8 +17,6 @@ extension CategoryDbExt on Category {
         children,
       ];
 
-
-
   Future<bool> insertInDb(Database db) async {
     bool isSuccess = true;
     try {

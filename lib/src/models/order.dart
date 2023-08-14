@@ -1,5 +1,5 @@
 import 'package:pos_sq/src/constants/constants.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/order.detail/models/transaction.dart';
 import 'package:sqflite/sqflite.dart';
 
