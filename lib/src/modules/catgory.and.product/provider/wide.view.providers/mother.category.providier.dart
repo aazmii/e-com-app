@@ -4,7 +4,6 @@ import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
 import 'selected.category.id.provider.dart';
 

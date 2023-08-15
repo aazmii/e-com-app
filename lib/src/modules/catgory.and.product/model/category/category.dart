@@ -1,12 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:sqflite/sqflite.dart';
-
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/person.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:sqflite/sqflite.dart';
 
 part 'category.ext.dart';
 
@@ -162,26 +160,22 @@ class Category {
     };
   }
 
-  factory Category.fromMap(Map<String, dynamic> map) {
-    return Category(
-      id: map['id'] != null ? map['id'] as String : null,
+  static Category fromMap(Map<String, dynamic> map) {
+    final category = Category(
+      id: map['id'] != null ? map['id'] as String? : null,
       label: map['label'] != null ? map['label'] as String : null,
       parentId: map['parentId'] != null ? map['parentId'] as String : null,
       description:
           map['description'] != null ? map['description'] as String : null,
       children: map['children'] != null
-          ? List<Category>.from(
-              (map['children'] as List<int>).map<Category?>(
-                (x) => Category.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+          ? (map['children'] as List<dynamic>)
+              .map((e) => Category.fromJson(e))
+              .toList()
           : null,
       products: map['products'] != null
-          ? List<Product>.from(
-              (map['products'] as List<int>).map<Product?>(
-                (x) => Product.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+          ? (map['products'] as List<dynamic>)
+              .map((e) => Product.fromMap(e))
+              .toList()
           : null,
       type: map['type'] != null ? map['type'] as String : null,
       rackLocation:
@@ -223,12 +217,12 @@ class Category {
           ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
           : null,
     );
+    return category;
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Category.fromJson(String source) =>
-      Category.fromMap(json.decode(source) as Map<String, dynamic>);
+  static Category fromJson(dynamic source) => Category.fromMap(source);
 
   @override
   String toString() {
@@ -239,61 +233,11 @@ class Category {
   bool operator ==(covariant Category other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.label == label &&
-        other.parentId == parentId &&
-        other.description == description &&
-        listEquals(other.children, children) &&
-        listEquals(other.products, products) &&
-        other.type == type &&
-        other.rackLocation == rackLocation &&
-        other.position == position &&
-        other.shelfLife == shelfLife &&
-        other.minimumInventory == minimumInventory &&
-        other.enable == enable &&
-        other.menu == menu &&
-        other.liveSales == liveSales &&
-        other.root == root &&
-        other.home == home &&
-        other.specialCategory == specialCategory &&
-        other.bestSaleCategory == bestSaleCategory &&
-        listEquals(other.tags, tags) &&
-        listEquals(other.categoryFiles, categoryFiles) &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt &&
-        other.createdBy == createdBy &&
-        other.updatedBy == updatedBy &&
-        other.warehouseLocation == warehouseLocation &&
-        other.outletLocation == outletLocation;
+    return other.id == id;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        label.hashCode ^
-        parentId.hashCode ^
-        description.hashCode ^
-        children.hashCode ^
-        products.hashCode ^
-        type.hashCode ^
-        rackLocation.hashCode ^
-        position.hashCode ^
-        shelfLife.hashCode ^
-        minimumInventory.hashCode ^
-        enable.hashCode ^
-        menu.hashCode ^
-        liveSales.hashCode ^
-        root.hashCode ^
-        home.hashCode ^
-        specialCategory.hashCode ^
-        bestSaleCategory.hashCode ^
-        tags.hashCode ^
-        categoryFiles.hashCode ^
-        createdAt.hashCode ^
-        updatedAt.hashCode ^
-        createdBy.hashCode ^
-        updatedBy.hashCode ^
-        warehouseLocation.hashCode ^
-        outletLocation.hashCode;
+    return id.hashCode;
   }
 }

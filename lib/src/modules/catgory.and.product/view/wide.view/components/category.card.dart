@@ -25,14 +25,13 @@ class CategoryContainer extends StatelessWidget {
           horizontal: isSelected ? 2 : 14,
           vertical: 6,
         ),
-        padding: const EdgeInsets.symmetric(vertical: 4),
+        // padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
         decoration: BoxDecoration(
-          color: context.primaryColor.withOpacity(0.6),
+          color: Colors.grey.withOpacity(0.3),
           border: Border.all(
-            width: 2,
+            width: 0,
             color: isSelected ? Colors.orange : Colors.transparent,
           ),
-          borderRadius: BorderRadius.circular(5),
         ),
         // height: category.isExpanded! ? categoryHeight : categoryHeight - 10,
         height: isSelected ? categoryHeight : categoryHeight - 10,
@@ -40,19 +39,20 @@ class CategoryContainer extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                category.label ?? '',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
             const _DisplayImage(),
+            Container(
+              height: 25,
+              color: context.secondaryColor,
+              width: double.infinity,
+              child: Center(
+                child: Text(
+                  category.label ?? '',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -72,7 +72,7 @@ class _DisplayImage extends StatelessWidget {
           topRight: Radius.circular(15),
         ),
       ),
-      height: 80,
+      // height: 70,
       // child: SvgPicture.asset('assets/images/Poke-bowl-pana.svg'),
     );
   }

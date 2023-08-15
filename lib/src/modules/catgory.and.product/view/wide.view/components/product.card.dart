@@ -19,7 +19,7 @@ class ProductCard extends ConsumerWidget {
   final VoidCallback? onSelect;
   @override
   Widget build(BuildContext context, ref) {
-    final parentName = product.categoryLabel!.split('/').last;
+    final categoryId = product.categoryId ?? false;
     return InkWell(
       splashColor: context.secondaryColor,
       onTap: onSelect,
@@ -29,20 +29,21 @@ class ProductCard extends ConsumerWidget {
           duration: const Duration(milliseconds: expandDuration),
           margin: EdgeInsets.symmetric(
             vertical: 10,
-            horizontal: ref.watch(selectedCategoryProvider)?.label == parentName
-                ? 12
-                : 2,
+            horizontal:
+                ref.watch(selectedCategoryProvider)?.parentId == categoryId
+                    ? 12
+                    : 2,
           ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              width: 2,
-              color: ref.watch(selectedCategoryProvider)?.label == parentName
-                  ? Colors.orange
-                  : Colors.transparent,
-            ),
-          ),
-          height: ref.watch(selectedCategoryProvider)?.label == parentName
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.circular(0),
+          //   border: Border.all(
+          //     width: 2,
+          //     color: ref.watch(selectedCategoryProvider)?.parentId == categoryId
+          //         ? Colors.orange
+          //         : Colors.transparent,
+          //   ),
+          // ),
+          height: ref.watch(selectedCategoryProvider)?.parentId == categoryId
               ? categoryHeight - 10
               : categoryHeight,
           child: CardContent(
@@ -68,37 +69,21 @@ class CardContent extends StatelessWidget {
       children: [
         Expanded(
           child: Card(
-              // child: ProductImage(
-              //   productUrl: (product.images == null || product.images!.isEmpty)
-              //       ? null
-              //       : product.images!.first.image,
-              // ),
-              ),
+            child: ProductImage(
+              productUrl: (product.files == null || product.files!.isEmpty)
+                  ? null
+                  : product.files!.first,
+            ),
+          ),
         ),
         Text(
-          // product.name ?? '',
-          '',
+          product.label ?? '',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             overflow: TextOverflow.ellipsis,
           ),
           maxLines: 2,
           textAlign: TextAlign.center,
-        ),
-        // if (product.price != product.discountPrice)
-        //   Text(
-        //     '৳ ${product.price}',
-        //     style: context.titleSmall.copyWith(
-        //       fontWeight: FontWeight.bold,
-        //       decoration: TextDecoration.lineThrough,
-        //       color: Colors.red,
-        //     ),
-        //   ),
-        Text(
-          'TK.${product.price}',
-          style: context.titleSmall.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
         ),
       ],
     );
@@ -115,7 +100,7 @@ class ProductImage extends StatelessWidget {
     if (productUrl!.isEmpty) return defaultImage;
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(0),
       child: CachedNetworkImage(
         imageUrl: fullUrl,
         placeholder: (context, url) => const SizedBox(),
