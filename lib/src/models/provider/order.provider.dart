@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/db/app.db.dart';
-import 'package:pos_sq/src/models/order.dart';
+import 'package:pos_sq/src/models/order/customer.order.dart';
 
 final orderProvider =
     AsyncNotifierProvider<OrderNotifier, Order>(OrderNotifier.new);
@@ -9,11 +8,11 @@ final orderProvider =
 class OrderNotifier extends AsyncNotifier<Order> {
   @override
   build() async {
-    return Order(discountType: DiscountType.cash);
+    return Order();
   }
 
   Future createtable() async {
-    Order(discountType: DiscountType.cash).createTable(
+    Order().createTable(
       await LocalDB().database,
     );
   }
