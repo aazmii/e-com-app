@@ -47,6 +47,10 @@ class SalesScreen extends ConsumerWidget {
                   ?.first
                   .products
                   ?.first;
+
+              // ref.watch(motherCategoriesProvider.notifier).insertProduct();
+
+              print(product);
             },
           ),
         ),

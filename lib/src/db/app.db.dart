@@ -1,4 +1,5 @@
 import 'package:path/path.dart';
+import 'package:pos_sq/src/models/order.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
@@ -33,7 +34,7 @@ class LocalDB {
     await UsageTimeline.createTable(db);
     await Product().createTable(db);
     await Category().createTable(db);
-    await Order().createTable(db);
+    // await Order().createTable(db);
   }
 
   _createTable(Database db, String tableName) async {

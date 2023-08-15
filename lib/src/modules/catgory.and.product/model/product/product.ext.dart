@@ -74,14 +74,22 @@ extension ProductExt on Product {
   inertIntoDb(Database db) async {
     try {
       await db.rawInsert(
-          ''' INSERT INTO  Product(id, categoryId, inventory, minimumInventory, label, 
+          ''' INSERT INTO  Product(productId, categoryId, inventory, minimumInventory, label, 
           warehouseLocation, outletLocation, rackLocation, manufactureCountry, description,
           posLabel, categoryLabel, types, shortDescription, createdBy, updatedBy, shelfLife, 
           price, specialPrice, promotionPrice, advancedPrice, taxInPercentage, vatInPercentage, 
           weight, height, average5PercentRating, average4PercentRating, average3PercentRating, 
           average2PercentRating, average1PercentRating, averageRating, totalNumberOfRating,
           barcode, qrcode, tags, enable, isdownloadable, manufacturedDate, expireDate, createdAt,
-          updatedAt, dowanloadFile, files) VALUES()
+          updatedAt, dowanloadFile, files) VALUES($productId, $categoryId, $inventory, $minimumInventory, $label, 
+          $warehouseLocation, $outletLocation, $rackLocation, $manufactureCountry, $description,
+          $posLabel, $categoryLabel, $types, $shortDescription, $createdBy, $updatedBy, $shelfLife, 
+          $price, $specialPrice, $promotionPrice, $advancedPrice, $taxInPercentage, $vatInPercentage, 
+          $weight, $height, $average5PercentRating, $average4PercentRating, $average3PercentRating, 
+          $average2PercentRating, $average1PercentRating, $averageRating, $totalNumberOfRating,
+          $barcode, $qrcode, $tags, $enable, $isdownloadable, $manufacturedDate, $expireDate, $createdAt,
+          $updatedAt, $dowanloadFile, $files)
+
           ) ''');
     } catch (e) {
       // ignore: avoid_print
