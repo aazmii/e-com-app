@@ -15,7 +15,9 @@ final motherCategoriesProvider =
 class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
   @override
   FutureOr<List<Category>> build() async {
-    return await getProductCategories() ?? [];
+    final productAndCategories = await getProductCategories() ?? [];
+
+    return productAndCategories;
   }
 
   void onNext(double px) {

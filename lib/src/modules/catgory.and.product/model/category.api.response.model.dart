@@ -29,14 +29,17 @@ class CategoryApi {
 
   String toRawJson() => json.encode(toJson());
 
-  factory CategoryApi.fromJson(Map<String, dynamic> json) => CategoryApi(
-        success: json['success'],
-        message: json['message'],
-        data: json['data'] == null
-            ? []
-            : List<Category>.from(
-                json['data']!.map((x) => Category.fromJson(x))),
-      );
+  factory CategoryApi.fromJson(Map<String, dynamic> json) {
+    return CategoryApi(
+      success: json['success'],
+      message: json['message'],
+      data: json['data'] == null
+          ? []
+          : List<Category>.from(
+              json['data']!.map((x) => Category.fromJson(x)),
+            ),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'success': success,

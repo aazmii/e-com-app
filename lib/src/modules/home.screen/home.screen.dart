@@ -39,6 +39,16 @@ class SalesScreen extends ConsumerWidget {
                   loading: () => const CenterText(text: 'Loading..'),
                 ),
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              final product = ref
+                  .watch(motherCategoriesProvider)
+                  .value
+                  ?.first
+                  .products
+                  ?.first;
+            },
+          ),
         ),
       ),
     );
