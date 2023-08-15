@@ -1,66 +1,86 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/person.dart';
 import 'package:sqflite/sqflite.dart';
-
 part 'product.ext.dart';
 
 class Product {
   String? productId;
   String? categoryId;
-  int? inventory;
-  int? minimumInventory;
+  int? position;
   String? label;
+  String? categoryLabel;
 
+  String? posLabel;
+  String? description;
+  String? shortDescription;
+  double? price;
+  double? promotionPrice;
+
+  double? specialPrice;
+  double? advancedPrice;
+  bool? enable;
   Location? warehouseLocation;
   Location? outletLocation;
+
   String? rackLocation;
-  String? manufactureCountry;
-  String? description;
-  String? posLabel;
-  String? categoryLabel;
-  List<Type>? types;
-  String? shortDescription;
-
-  Person? createdBy;
-  Person? updatedBy;
-  int? shelfLife;
-
-  double? price;
-  double? specialPrice;
-  double? promotionPrice;
-  double? advancedPrice;
-  double? taxInPercentage;
-  double? vatInPercentage;
   double? weight;
   double? height;
+  String? manufactureCountry;
+  DateTime? manufacturedDate;
+
+  DateTime? expireDate;
+  double? averageRating;
+  double? totalNumberOfRating;
   double? average5PercentRating;
   double? average4PercentRating;
+
   double? average3PercentRating;
   double? average2PercentRating;
   double? average1PercentRating;
-  double? averageRating;
-  double? totalNumberOfRating;
   String? barcode;
   String? qrcode;
+
+  double? taxInPercentage;
+  double? vatInPercentage;
+  List<Type>? types;
   List<String>? tags;
-  bool? enable;
-  bool? isdownloadable;
-  DateTime? manufacturedDate;
-  DateTime? expireDate;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  File? dowanloadFile;
+  String? sku;
+
+  int? inventory;
+  DateTime? newFrom;
+  DateTime? newTill;
+  bool? isDownloadable;
+  File? downloadedFile;
+
+  List<Product>? relatedProducts;
+  List<Product>? crossSellProducts;
+  List<Product>? upSellProducts;
   List<String>? files;
+  DateTime? createdAt;
+
+  Person? createdBy;
+  Person? updatedBy;
+  DateTime? updatedAt;
+  int? shelfLife;
+  int? minimumInventory;
+
   Product({
     this.productId,
     this.categoryId,
     this.inventory,
     this.minimumInventory,
+    this.relatedProducts,
+    this.crossSellProducts,
+    this.upSellProducts,
     this.label,
+    this.newFrom,
+    this.newTill,
+    this.isDownloadable,
+    this.downloadedFile,
+    this.position,
     this.categoryLabel,
     this.warehouseLocation,
     this.outletLocation,
@@ -71,6 +91,7 @@ class Product {
     this.types,
     this.shortDescription,
     this.createdBy,
+    this.sku,
     this.updatedBy,
     this.shelfLife,
     this.price,
@@ -92,12 +113,10 @@ class Product {
     this.qrcode,
     this.tags,
     this.enable,
-    this.isdownloadable,
     this.manufacturedDate,
     this.expireDate,
     this.createdAt,
     this.updatedAt,
-    this.dowanloadFile,
     this.files,
   });
 
@@ -106,14 +125,19 @@ class Product {
     String? categoryId,
     int? inventory,
     int? minimumInventory,
+    int? position,
     String? label,
     String? categoryLabel,
+    List<Product>? relatedProducts,
+    List<Product>? crossSellProducts,
+    List<Product>? upSellProducts,
     Location? warehouseLocation,
     Location? outletLocation,
     String? rackLocation,
     String? manufactureCountry,
     String? description,
     String? posLabel,
+    String? sku,
     List<Type>? types,
     String? shortDescription,
     Person? createdBy,
@@ -138,12 +162,12 @@ class Product {
     String? qrcode,
     List<String>? tags,
     bool? enable,
-    bool? isdownloadable,
+    bool? isDownloadable,
     DateTime? manufacturedDate,
     DateTime? expireDate,
     DateTime? createdAt,
     DateTime? updatedAt,
-    File? dowanloadFile,
+    File? downloadedFile,
     List<String>? files,
   }) {
     return Product(
@@ -152,12 +176,16 @@ class Product {
       inventory: inventory ?? this.inventory,
       minimumInventory: minimumInventory ?? this.minimumInventory,
       label: label ?? this.label,
+      crossSellProducts: crossSellProducts ?? this.crossSellProducts,
+      upSellProducts: upSellProducts ?? this.upSellProducts,
       warehouseLocation: warehouseLocation ?? this.warehouseLocation,
       outletLocation: outletLocation ?? this.outletLocation,
+      position: position ?? this.position,
       rackLocation: rackLocation ?? this.rackLocation,
       manufactureCountry: manufactureCountry ?? this.manufactureCountry,
       description: description ?? this.description,
       posLabel: posLabel ?? this.posLabel,
+      sku: sku ?? this.sku,
       categoryLabel: categoryLabel ?? this.categoryLabel,
       types: types ?? this.types,
       shortDescription: shortDescription ?? this.shortDescription,
@@ -188,12 +216,12 @@ class Product {
       qrcode: qrcode ?? this.qrcode,
       tags: tags ?? this.tags,
       enable: enable ?? this.enable,
-      isdownloadable: isdownloadable ?? this.isdownloadable,
+      isDownloadable: isDownloadable ?? this.isDownloadable,
       manufacturedDate: manufacturedDate ?? this.manufacturedDate,
       expireDate: expireDate ?? this.expireDate,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      dowanloadFile: dowanloadFile ?? this.dowanloadFile,
+      downloadedFile: downloadedFile ?? this.downloadedFile,
       files: files ?? this.files,
     );
   }
@@ -205,12 +233,17 @@ class Product {
       'inventory': inventory,
       'minimumInventory': minimumInventory,
       'label': label,
+      'position': position,
+      'relatedProducts': relatedProducts,
+      'crollSaleProducts': crossSellProducts,
+      'upSellProducts': upSellProducts,
       'warehouseLocation': warehouseLocation?.toMap(),
       'outletLocation': outletLocation?.toMap(),
       'rackLocation': rackLocation,
       'manufactureCountry': manufactureCountry,
       'description': description,
       'posLabel': posLabel,
+      'sku': sku,
       'categoryLabel': categoryLabel,
       'types': null,
       'shortDescription': shortDescription,
@@ -236,7 +269,7 @@ class Product {
       'qrcode': qrcode,
       'tags': tags,
       'enable': enable,
-      'isdownloadable': isdownloadable,
+      'isDownloadable': isDownloadable,
       'manufacturedDate': manufacturedDate?.millisecondsSinceEpoch,
       'expireDate': expireDate?.millisecondsSinceEpoch,
       'createdAt': createdAt?.millisecondsSinceEpoch,
@@ -257,14 +290,17 @@ class Product {
           ? map['minimumInventory'] as int
           : null,
       label: map['name'] != null ? map['name'] as String : null,
-      warehouseLocation: map['warehouseLocation'] != null
-          ? Location.fromMap(map['warehouseLocation'] as Map<String, dynamic>)
-          : null,
+      position:   null,
+      relatedProducts: null,
+      crossSellProducts: null,
+      upSellProducts: null,
+      warehouseLocation: null,
       outletLocation: map['outletLocation'] != null
           ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
           : null,
       rackLocation:
           map['rackLocation'] != null ? map['rackLocation'] as String : null,
+      sku: map['sku'] != null ? map['sku'] as String : null,
       manufactureCountry: map['manufactureCountry'] != null
           ? map['manufactureCountry'] as String
           : null,
@@ -324,7 +360,7 @@ class Product {
       qrcode: map['qrcode'] != null ? map['qrcode'] as String : null,
       tags: null,
       enable: map['enable'] != null ? map['enable'] as bool : null,
-      isdownloadable:
+      isDownloadable:
           map['isdownloadable'] != null ? map['isdownloadable'] as bool : null,
       manufacturedDate: map['manufacturedDate'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['manufacturedDate'] as int)
@@ -338,7 +374,7 @@ class Product {
       updatedAt: map['updatedAt'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
           : null,
-      dowanloadFile: null,
+      downloadedFile: null,
       files: ((map['images'] as List<dynamic>).map(
         (e) => e['image'] as String,
       )).toList(),
@@ -352,7 +388,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(productId: $productId, categoryId: $categoryId, inventory: $inventory, minimumInventory: $minimumInventory, label: $label, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation, rackLocation: $rackLocation, manufactureCountry: $manufactureCountry, description: $description, posLabel: $posLabel, categoryLabel: $categoryLabel, types: $types, shortDescription: $shortDescription, createdBy: $createdBy, updatedBy: $updatedBy, shelfLife: $shelfLife, price: $price, specialPrice: $specialPrice, promotionPrice: $promotionPrice, advancedPrice: $advancedPrice, taxInPercentage: $taxInPercentage, vatInPercentage: $vatInPercentage, weight: $weight, height: $height, average5PercentRating: $average5PercentRating, average4PercentRating: $average4PercentRating, average3PercentRating: $average3PercentRating, average2PercentRating: $average2PercentRating, average1PercentRating: $average1PercentRating, averageRating: $averageRating, totalNumberOfRating: $totalNumberOfRating, barcode: $barcode, qrcode: $qrcode, tags: $tags, enable: $enable, isdownloadable: $isdownloadable, manufacturedDate: $manufacturedDate, expireDate: $expireDate, createdAt: $createdAt, updatedAt: $updatedAt, dowanloadFile: $dowanloadFile, files: $files)';
+    return 'Product(productId: $productId, categoryId: $categoryId, inventory: $inventory, minimumInventory: $minimumInventory, label: $label, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation, rackLocation: $rackLocation, manufactureCountry: $manufactureCountry, description: $description, posLabel: $posLabel, categoryLabel: $categoryLabel, types: $types, shortDescription: $shortDescription, createdBy: $createdBy, updatedBy: $updatedBy, shelfLife: $shelfLife, price: $price, specialPrice: $specialPrice, promotionPrice: $promotionPrice, advancedPrice: $advancedPrice, taxInPercentage: $taxInPercentage, vatInPercentage: $vatInPercentage, weight: $weight, height: $height, average5PercentRating: $average5PercentRating, average4PercentRating: $average4PercentRating, average3PercentRating: $average3PercentRating, average2PercentRating: $average2PercentRating, average1PercentRating: $average1PercentRating, averageRating: $averageRating, totalNumberOfRating: $totalNumberOfRating, barcode: $barcode, qrcode: $qrcode, tags: $tags, enable: $enable, isdownloadable: $isDownloadable, manufacturedDate: $manufacturedDate, expireDate: $expireDate, createdAt: $createdAt, updatedAt: $updatedAt, dowanloadFile: $downloadedFile, files: $files)';
   }
 
   @override

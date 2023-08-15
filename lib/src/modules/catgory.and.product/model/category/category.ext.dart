@@ -40,7 +40,7 @@ extension CategoryDbExt on Category {
           ''');
   }
 
-  Future<bool> insertInDb(Database db) async {
+  Future<bool> saveInLocalDb(Database db) async {
     bool isSuccess = true;
 
     try {

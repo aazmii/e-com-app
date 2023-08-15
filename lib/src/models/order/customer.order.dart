@@ -3,16 +3,17 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
- import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqflite.dart';
 part 'customer.order.ext.dart';
-class CustomerOrder {
+
+class Order {
   String? posId;
   String? posUserId;
-  String? customerName;
+  String? orderId;
 
+  String? customerName;
   String? customerPhone;
   String? loyalityCard;
-  String? orderId;
 
   List<Product>? products;
   double? grossTotal;
@@ -27,7 +28,8 @@ class CustomerOrder {
   double? returnAmount;
 
   DateTime? dateTime;
-  CustomerOrder({
+
+  Order({
     this.posId,
     this.posUserId,
     this.customerName,
@@ -46,7 +48,7 @@ class CustomerOrder {
     this.dateTime,
   });
 
-  CustomerOrder copyWith({
+  Order copyWith({
     String? posId,
     String? posUserId,
     String? customerName,
@@ -64,7 +66,7 @@ class CustomerOrder {
     double? returnAmount,
     DateTime? dateTime,
   }) {
-    return CustomerOrder(
+    return Order(
       posId: posId ?? this.posId,
       posUserId: posUserId ?? this.posUserId,
       customerName: customerName ?? this.customerName,
@@ -105,8 +107,8 @@ class CustomerOrder {
     };
   }
 
-  factory CustomerOrder.fromMap(Map<String, dynamic> map) {
-    return CustomerOrder(
+  factory Order.fromMap(Map<String, dynamic> map) {
+    return Order(
       posId: map['posId'] != null ? map['posId'] as String : null,
       posUserId: map['posUserId'] != null ? map['posUserId'] as String : null,
       customerName:
@@ -143,16 +145,16 @@ class CustomerOrder {
 
   String toJson() => json.encode(toMap());
 
-  factory CustomerOrder.fromJson(String source) =>
-      CustomerOrder.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Order.fromJson(String source) =>
+      Order.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'CustomerOrder(posId: $posId, posUserId: $posUserId, customerName: $customerName, customerPhone: $customerPhone, loyalityCard: $loyalityCard, orderId: $orderId, products: $products, grossTotal: $grossTotal, discountAmount: $discountAmount, disocuntName: $disocuntName, discountType: $discountType, netTotal: $netTotal, receivedAmount: $receivedAmount, receivedAmountDetail: $receivedAmountDetail, returnAmount: $returnAmount, dateTime: $dateTime)';
+    return 'Order(posId: $posId, posUserId: $posUserId, customerName: $customerName, customerPhone: $customerPhone, loyalityCard: $loyalityCard, orderId: $orderId, products: $products, grossTotal: $grossTotal, discountAmount: $discountAmount, disocuntName: $disocuntName, discountType: $discountType, netTotal: $netTotal, receivedAmount: $receivedAmount, receivedAmountDetail: $receivedAmountDetail, returnAmount: $returnAmount, dateTime: $dateTime)';
   }
 
   @override
-  bool operator ==(covariant CustomerOrder other) {
+  bool operator ==(covariant Order other) {
     if (identical(this, other)) return true;
 
     return other.posId == posId &&
