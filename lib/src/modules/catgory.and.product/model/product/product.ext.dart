@@ -68,4 +68,24 @@ extension ProductExt on Product {
           )
     ''');
   }
+
+  // get values =>
+
+  inertIntoDb(Database db) async {
+    try {
+      await db.rawInsert(
+          ''' INSERT INTO  Product(id, categoryId, inventory, minimumInventory, label, 
+          warehouseLocation, outletLocation, rackLocation, manufactureCountry, description,
+          posLabel, categoryLabel, types, shortDescription, createdBy, updatedBy, shelfLife, 
+          price, specialPrice, promotionPrice, advancedPrice, taxInPercentage, vatInPercentage, 
+          weight, height, average5PercentRating, average4PercentRating, average3PercentRating, 
+          average2PercentRating, average1PercentRating, averageRating, totalNumberOfRating,
+          barcode, qrcode, tags, enable, isdownloadable, manufacturedDate, expireDate, createdAt,
+          updatedAt, dowanloadFile, files) VALUES()
+          ) ''');
+    } catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
+    }
+  }
 }

@@ -32,6 +32,7 @@ extension OrderExtension on Order {
             '$products',
             '$discountFactor',
             '$transactions',
+            '$discountType'
      
             )
       ''');
