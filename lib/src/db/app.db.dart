@@ -1,6 +1,5 @@
 import 'package:path/path.dart';
-import 'package:pos_sq/src/models/order.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category.dart';
+import 'package:pos_sq/src/models/order/customer.order.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
 import 'package:sqflite/sqflite.dart';
@@ -32,6 +31,7 @@ class LocalDB {
   Future _onCreate(Database db, int version) async {
     await _createTable(db, 'config');
     await UsageTimeline.createTable(db);
+    await Order().createTable(db);
     await Product().createTable(db);
     await Category().createTable(db);
     // await Order().createTable(db);
