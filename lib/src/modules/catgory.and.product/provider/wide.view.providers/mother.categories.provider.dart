@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
-import 'package:sqflite/sqflite.dart';
 
 ScrollController horizonalScrollController = ScrollController();
 
@@ -23,6 +21,8 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
 
     return productAndCategories;
   }
+
+
 
   void onNext(double px) {
     // ref.read(layoutProvider);

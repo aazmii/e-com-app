@@ -6,11 +6,11 @@ extension CategoryDbExt on Category {
           CREATE TABLE category (
               sl INTEGER PRIMARY KEY AUTOINCREMENT,
               
-              id VARCHAR,
+              category_id VARCHAR,
               parent_id VARCHAR,
               position INT, 
               label TEXT, 
-
+        
               description TEXT,
               warehouse_location	JSONB,
               outlet_location	JSONB,
@@ -22,7 +22,7 @@ extension CategoryDbExt on Category {
               special_category BOOL,
 
               best_sale_category BOOL,
-              enable BOOL, 
+              is_enable BOOL, 
               menu BOOL, 
               live_sales BOOL, 
 
@@ -45,7 +45,7 @@ extension CategoryDbExt on Category {
     try {
       await db.rawInsert('''
             INSERT INTO category(
-              id, 
+              category_id, 
               parent_id,
               position, 
               label,
@@ -61,7 +61,7 @@ extension CategoryDbExt on Category {
               special_category,
 
               best_sale_category,
-              enable, 
+              is_enable, 
               menu, 
               live_sales, 
 
@@ -88,10 +88,10 @@ extension CategoryDbExt on Category {
               '$type', 
               '$tags',
               '$minimumInventory',
-              '$specialCategory',
-
-              '$bestSaleCategory',
-              '$enable', 
+              '$showInSpecialCategory',
+ 
+              '$showBestSaleCategory',
+              '$isEnable', 
               '$menu', 
               '$liveSales', 
 
@@ -102,7 +102,7 @@ extension CategoryDbExt on Category {
 
               '$createdBy',
               '$updatedAt',
-              '$updatedBy',
+              '$updatedBy', 
               '$shelfLife'
               )''');
     } catch (e) {

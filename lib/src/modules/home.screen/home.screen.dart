@@ -5,7 +5,6 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
 
 import '../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
@@ -44,17 +43,17 @@ class SalesScreen extends ConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              final product = ref
-                  .watch(motherCategoriesProvider)
-                  .value
-                  ?.first
-                  .products
-                  ?.first;
-              final category = ref.watch(motherCategoriesProvider).value?.first;
-              print(category);
+              // final product = ref
+              //     .watch(motherCategoriesProvider)
+              //     .value
+              //     ?.first
+              //     .products
+              //     ?.first;
+              final category = ref.watch(motherCategoriesProvider).value!.first;
+             
               try {
-                await product!.saveInLocalDb(await LocalDB().database);
-                await category!.saveInLocalDb(await LocalDB().database);
+                // await product!.saveInLocalDb(await LocalDB().database);
+                await category.saveInLocalDb(await LocalDB().database);
               } catch (e) {
                 print(e);
               }
