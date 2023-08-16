@@ -4,6 +4,7 @@ import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
 
@@ -49,8 +50,11 @@ class SalesScreen extends ConsumerWidget {
                   ?.first
                   .products
                   ?.first;
+              final category = ref.watch(motherCategoriesProvider).value?.first;
+              print(category);
               try {
                 await product!.saveInLocalDb(await LocalDB().database);
+                await category!.saveInLocalDb(await LocalDB().database);
               } catch (e) {
                 print(e);
               }

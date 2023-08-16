@@ -2,8 +2,7 @@ part of 'category.dart';
 
 extension CategoryDbExt on Category {
   createTable(Database db) async {
-    await db.execute(
-        '''
+    await db.execute('''
           CREATE TABLE category (
               sl INTEGER PRIMARY KEY AUTOINCREMENT,
               
@@ -33,7 +32,7 @@ extension CategoryDbExt on Category {
               created_at TIMESTAMP,
 
               created_by JSONB, 
-              updated_at TIMESTAMP
+              updated_at TIMESTAMP,
               updated_by JSONB,
               shelf_life INT 
            )
@@ -44,13 +43,12 @@ extension CategoryDbExt on Category {
     bool isSuccess = true;
 
     try {
-      await db.rawInsert(
-          '''
+      await db.rawInsert('''
             INSERT INTO category(
               id, 
               parent_id,
               position, 
-              label, 
+              label,
 
               description,
               warehouse_location,
@@ -71,24 +69,22 @@ extension CategoryDbExt on Category {
               home, 
               category_files, 
               created_at,
-
+                        
               created_by,
               updated_at,
               updated_by,
               shelf_life
-            )
-            VALUES(
-              '$id'
+              )
+              VALUES(
+              '$id',
               '$parentId',
               '$position', 
-              '$label', 
-              '$description',
+              '$label',
 
+              '$description',
               '$warehouseLocation',
               '$outletLocation',
-              '$warehouseLocation',
               '$rackLocation',
-
               '$type', 
               '$tags',
               '$minimumInventory',
@@ -108,10 +104,10 @@ extension CategoryDbExt on Category {
               '$updatedAt',
               '$updatedBy',
               '$shelfLife'
-            )
-      ''');
+              )''');
     } catch (e) {
       isSuccess = false;
+      print(e);
     }
     return isSuccess;
   }

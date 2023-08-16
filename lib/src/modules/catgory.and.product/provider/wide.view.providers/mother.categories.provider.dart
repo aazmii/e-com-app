@@ -24,10 +24,6 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
     return productAndCategories;
   }
 
-  Future insertProduct(Database db) async {
-    await Product().inertIntoDb(db);
-  }
-
   void onNext(double px) {
     // ref.read(layoutProvider);
     horizonalScrollController.animateTo(
