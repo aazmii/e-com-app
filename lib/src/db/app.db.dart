@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:pos_sq/src/models/order/customer.order.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category.and.product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
 import 'package:sqflite/sqflite.dart';
@@ -34,6 +35,7 @@ class LocalDB {
     await Order().createTable(db);
     await Product().createTable(db);
     await Category().createTable(db);
+    await MotherCategory.createTable(db);
     // await Order().createTable(db);
   }
 

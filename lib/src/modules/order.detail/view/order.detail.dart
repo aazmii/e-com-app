@@ -15,7 +15,7 @@ class OrderDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var isCartVisible = ref.watch(isCartVisibleProvider);
-    var orderNotifier = ref.watch(orderProvider);
+    // var orderNotifier = ref.watch(orderProvider);
 
     return Scaffold(
       appBar: const OrderDetailAppBar(),

@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/person.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -23,22 +22,22 @@ class Category {
   int? shelfLife;
 
   int? minimumInventory;
-  bool? enable;
+  bool? isEnable;
   bool? menu;
   bool? liveSales;
 
   bool? root;
   bool? home;
-  bool? specialCategory;
-  bool? bestSaleCategory;
+  bool? showInSpecialCategory;
+  bool? showBestSaleCategory;
 
   List<String>? tags;
   List<String>? categoryFiles;
   DateTime? createdAt;
 
   DateTime? updatedAt;
-  Person? createdBy;
-  Person? updatedBy;
+  String? createdBy;
+  String? updatedBy;
 
   Location? warehouseLocation;
   Location? outletLocation;
@@ -54,13 +53,13 @@ class Category {
     this.position,
     this.shelfLife,
     this.minimumInventory,
-    this.enable,
+    this.isEnable,
     this.menu,
     this.liveSales,
     this.root,
     this.home,
-    this.specialCategory,
-    this.bestSaleCategory,
+    this.showInSpecialCategory,
+    this.showBestSaleCategory,
     this.tags,
     this.categoryFiles,
     this.createdAt,
@@ -83,19 +82,19 @@ class Category {
     int? position,
     int? shelfLife,
     int? minimumInventory,
-    bool? enable,
+    bool? isEnable,
     bool? menu,
     bool? liveSales,
     bool? root,
     bool? home,
-    bool? specialCategory,
-    bool? bestSaleCategory,
+    bool? showInSpecialCategory,
+    bool? showBestSaleCategory,
     List<String>? tags,
     List<String>? categoryFiles,
     DateTime? createdAt,
     DateTime? updatedAt,
-    Person? createdBy,
-    Person? updatedBy,
+    String? createdBy,
+    String? updatedBy,
     Location? warehouseLocation,
     Location? outletLocation,
   }) {
@@ -111,13 +110,14 @@ class Category {
       position: position ?? this.position,
       shelfLife: shelfLife ?? this.shelfLife,
       minimumInventory: minimumInventory ?? this.minimumInventory,
-      enable: enable ?? this.enable,
+      isEnable: isEnable ?? this.isEnable,
       menu: menu ?? this.menu,
       liveSales: liveSales ?? this.liveSales,
       root: root ?? this.root,
       home: home ?? this.home,
-      specialCategory: specialCategory ?? this.specialCategory,
-      bestSaleCategory: bestSaleCategory ?? this.bestSaleCategory,
+      showInSpecialCategory:
+          showInSpecialCategory ?? this.showInSpecialCategory,
+      showBestSaleCategory: showBestSaleCategory ?? this.showBestSaleCategory,
       tags: tags ?? this.tags,
       categoryFiles: categoryFiles ?? this.categoryFiles,
       createdAt: createdAt ?? this.createdAt,
@@ -142,19 +142,19 @@ class Category {
       'position': position,
       'shelfLife': shelfLife,
       'minimumInventory': minimumInventory,
-      'enable': enable,
+      'isEnable': isEnable,
       'menu': menu,
       'liveSales': liveSales,
       'root': root,
       'home': home,
-      'specialCategory': specialCategory,
-      'bestSaleCategory': bestSaleCategory,
+      'showInSpecialCategory': showInSpecialCategory,
+      'showBestSaleCategory': showBestSaleCategory,
       'tags': tags,
       'categoryFiles': categoryFiles,
       'createdAt': createdAt?.millisecondsSinceEpoch,
       'updatedAt': updatedAt?.millisecondsSinceEpoch,
-      'createdBy': createdBy?.toMap(),
-      'updatedBy': updatedBy?.toMap(),
+      'createdBy': createdBy,
+      'updatedBy': updatedBy,
       'warehouseLocation': warehouseLocation?.toMap(),
       'outletLocation': outletLocation?.toMap(),
     };
@@ -164,7 +164,7 @@ class Category {
     final category = Category(
       id: map['id'] != null ? map['id'] as String? : null,
       label: map['label'] != null ? map['label'] as String : null,
-      parentId: map['parentId'] != null ? map['parentId'] as String : null,
+      parentId: map['parent'] != null ? map['parent'] as String : null,
       description:
           map['description'] != null ? map['description'] as String : null,
       children: map['children'] != null
@@ -185,31 +185,25 @@ class Category {
       minimumInventory: map['minimumInventory'] != null
           ? map['minimumInventory'] as int
           : null,
-      enable: map['enable'] != null ? map['enable'] as bool : null,
+      isEnable: map['is_enable'] != null ? map['is_enable'] as bool : null,
       menu: map['menu'] != null ? map['menu'] as bool : null,
       liveSales: map['liveSales'] != null ? map['liveSales'] as bool : null,
       root: map['root'] != null ? map['root'] as bool : null,
       home: map['home'] != null ? map['home'] as bool : null,
-      specialCategory: map['specialCategory'] != null
-          ? map['specialCategory'] as bool
+      showInSpecialCategory: map['show_in_special_category'] != null
+          ? map['show_in_special_category'] as bool
           : null,
-      bestSaleCategory: map['bestSaleCategory'] != null
-          ? map['bestSaleCategory'] as bool
+      showBestSaleCategory: map['show_best_sale_category'] != null
+          ? map['show_best_sale_category'] as bool
           : null,
       tags: null,
       categoryFiles: null,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
-          : null,
-      updatedAt: map['updatedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
-          : null,
-      createdBy: map['createdBy'] != null
-          ? Person.fromMap(map['createdBy'] as Map<String, dynamic>)
-          : null,
-      updatedBy: map['updatedBy'] != null
-          ? Person.fromMap(map['updatedBy'] as Map<String, dynamic>)
-          : null,
+      createdAt:
+          map['created_at'] != null ? DateTime.parse(map['created_at']) : null,
+      updatedAt:
+          map['updated_at'] != null ? DateTime.parse(map['updated_at']) : null,
+      createdBy: map['created_by'] as String?,
+      updatedBy: map['updated_by'] as String?,
       warehouseLocation: map['warehouseLocation'] != null
           ? Location.fromMap(map['warehouseLocation'] as Map<String, dynamic>)
           : null,
@@ -226,7 +220,7 @@ class Category {
 
   @override
   String toString() {
-    return 'Category(id: $id, label: $label, parentId: $parentId, description: $description, children: $children, products: $products, type: $type, rackLocation: $rackLocation, position: $position, shelfLife: $shelfLife, minimumInventory: $minimumInventory, enable: $enable, menu: $menu, liveSales: $liveSales, root: $root, home: $home, specialCategory: $specialCategory, bestSaleCategory: $bestSaleCategory, tags: $tags, categoryFiles: $categoryFiles, createdAt: $createdAt, updatedAt: $updatedAt, createdBy: $createdBy, updatedBy: $updatedBy, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation)';
+    return 'Category(id: $id, label: $label, parentId: $parentId, description: $description, children: $children, products: $products, type: $type, rackLocation: $rackLocation, position: $position, shelfLife: $shelfLife, minimumInventory: $minimumInventory, isEnable: $isEnable, menu: $menu, liveSales: $liveSales, root: $root, home: $home, showInSpecialCategory: $showInSpecialCategory, showBestSaleCategory: $showBestSaleCategory, tags: $tags, categoryFiles: $categoryFiles, createdAt: $createdAt, updatedAt: $updatedAt, createdBy: $createdBy, updatedBy: $updatedBy, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation)';
   }
 
   @override
