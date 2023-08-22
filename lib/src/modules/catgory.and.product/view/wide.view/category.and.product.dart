@@ -42,7 +42,7 @@ class CategoryView extends StatelessWidget {
                     itemBuilder: (context, i) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 5,
+                          horizontal: 2,
                         ),
                         child: Consumer(
                           builder: (context, ref, child) {

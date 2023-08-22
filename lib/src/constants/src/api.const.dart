@@ -32,7 +32,7 @@ MultipartRequest postURL(String trail) =>
 MultipartRequest getURL(String trail) =>
     MultipartRequest('GET', Uri.parse(baseLink + trail));
 
-const categoryWidth = 160.0, categoryHeight = 150.0, subCategoryHeight = 50.0;
+const categoryWidth = 130.0, categoryHeight = 140.0, subCategoryHeight = 50.0;
 const textFieldHeight = 33.0;
 final discountKey = GlobalKey<FormState>();
 

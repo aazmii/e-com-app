@@ -2,45 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-
 class CategoryContainer extends StatelessWidget {
-  const CategoryContainer({
-    super.key,
-    required this.category,
-    this.onSelect,
-    required this.isSelected,
-  });
+  const CategoryContainer(
+      {super.key,
+      required this.category,
+      this.onSelect,
+      required this.isSelected,
+      required this.isChild});
   final Category category;
   final VoidCallback? onSelect;
   final bool isSelected;
+  final bool isChild;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onSelect,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 80),
+        duration: const Duration(milliseconds: 150),
         margin: EdgeInsets.symmetric(
-          // horizontal: category.isExpanded! ? 2 : 14,
-          horizontal: isSelected ? 2 : 14,
+          horizontal: isSelected ? 0 : 5,
           vertical: 6,
         ),
-        // padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.3),
           border: Border.all(
             width: 0,
-            color: isSelected ? Colors.orange : Colors.transparent,
+            color: isSelected || isChild ? Colors.orange : Colors.transparent,
           ),
         ),
-        // height: category.isExpanded! ? categoryHeight : categoryHeight - 10,
-        height: isSelected ? categoryHeight : categoryHeight - 10,
+        height: categoryHeight,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const _DisplayImage(),
             Container(
+              margin: const EdgeInsets.symmetric(horizontal: 1),
               height: 25,
               color: context.secondaryColor,
               width: double.infinity,

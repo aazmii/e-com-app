@@ -4,6 +4,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/column.provider.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/selected.category.id.provider.dart';
 
 import 'category.card.dart';
 import 'product.card.dart';
@@ -28,11 +29,13 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
             itemBuilder: (context, index) {
               final categoryOrProduct = d[index];
               if (categoryOrProduct is Category) {
+                final selectedId = ref.watch(selectedCategoryProvider)?.id;
                 return CategoryContainer(
                   category: categoryOrProduct,
-                  onSelect: () =>
-                      notifier.onSelectCategory(context, index: index),
-                  isSelected: false,
+                  onSelect: () => notifier.onTapCategory(context, index: index),
+                  // notifier.onSelectCategory(context, index: index),
+                  isSelected: selectedId == categoryOrProduct.id,
+                  isChild: selectedId == categoryOrProduct.parentId,
                 );
               }
               if (categoryOrProduct is Product) {

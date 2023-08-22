@@ -40,11 +40,7 @@ class SalesScreen extends ConsumerWidget {
                 ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              final id = ref
-                  .read(motherCategoriesProvider.notifier)
-                  .getProductAndChildren();
-            },
+            onPressed: () async {},
           ),
         ),
       ),

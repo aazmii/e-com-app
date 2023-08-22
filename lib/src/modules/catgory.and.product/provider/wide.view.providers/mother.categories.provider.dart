@@ -17,6 +17,7 @@ final motherCategoriesProvider =
 
 class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
   late Database db;
+
   @override
   FutureOr<List<Category>> build() async {
     db = await LocalDB().database;
@@ -40,8 +41,6 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
       return Category.fromMap(e);
     }).toList();
   }
-
-  Future getProductAndChildren() async {}
 
   void onNext(double px) {
     // ref.read(layoutProvider);
