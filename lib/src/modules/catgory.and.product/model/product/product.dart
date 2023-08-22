@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:pos_sq/src/modules/catgory.and.product/model/image.model.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/person.dart';
 import 'package:sqflite/sqflite.dart';
+
 part 'product.ext.dart';
 
 class Product {
@@ -279,18 +281,20 @@ class Product {
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> map) {
-    // print(map['images']['image']);
-    return Product(
+  static Product fromMap(Map<String, dynamic> map) {
+    final List<String> files = map['images'] == null
+        ? []
+        : (map['images'] as List<dynamic>)
+            .map((e) => ImageModel.fromJson(e).image!)
+            .toList();
+
+    final product = Product(
       productId: map['id'] != null ? map['id'] as String : null,
-      categoryId:
-          map['categoryId'] != null ? map['categoryId'] as String : null,
-      inventory: map['inventory'] as int?,
-      minimumInventory: map['minimumInventory'] != null
-          ? map['minimumInventory'] as int
-          : null,
+      categoryId: map['category_id'],
+      inventory: null,
+      minimumInventory: null,
       label: map['name'] != null ? map['name'] as String : null,
-      position:   null,
+      position: null,
       relatedProducts: null,
       crossSellProducts: null,
       upSellProducts: null,
@@ -320,22 +324,17 @@ class Product {
           ? Person.fromMap(map['updatedBy'] as Map<String, dynamic>)
           : null,
       shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
-      price: map['price'] != null ? double.parse(map['price'] as String) : null,
-      specialPrice:
-          map['specialPrice'] != null ? map['specialPrice'] as double : null,
+      price: null,
+      specialPrice: null,
       promotionPrice: map['promotionPrice'] != null
           ? map['promotionPrice'] as double
           : null,
       advancedPrice:
           map['advancedPrice'] != null ? map['advancedPrice'] as double : null,
-      taxInPercentage: map['taxInPercentage'] != null
-          ? map['taxInPercentage'] as double
-          : null,
-      vatInPercentage: map['vatInPercentage'] != null
-          ? map['vatInPercentage'] as double
-          : null,
-      weight: map['weight'] != null ? map['weight'] as double : null,
-      height: map['height'] != null ? map['height'] as double : null,
+      taxInPercentage: null,
+      vatInPercentage: null,
+      weight: map['weight'] != null ? double.tryParse(map['weight']) : null,
+      height: map['height'] != null ? double.tryParse(map['height']) : null,
       average5PercentRating: map['average5PercentRating'] != null
           ? map['average5PercentRating'] as double
           : null,
@@ -359,7 +358,8 @@ class Product {
       barcode: map['barcode'] != null ? map['barcode'] as String : null,
       qrcode: map['qrcode'] != null ? map['qrcode'] as String : null,
       tags: null,
-      enable: map['enable'] != null ? map['enable'] as bool : null,
+      enable: null,
+      // enable: map['enable'] != null ? map['enable'] as bool : null,
       isDownloadable:
           map['isdownloadable'] != null ? map['isdownloadable'] as bool : null,
       manufacturedDate: map['manufacturedDate'] != null
@@ -375,16 +375,16 @@ class Product {
           ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
           : null,
       downloadedFile: null,
-      files: ((map['images'] as List<dynamic>).map(
-        (e) => e['image'] as String,
-      )).toList(),
+      files: files,
     );
+
+    return product;
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Product.fromJson(String source) =>
-      Product.fromMap(json.decode(source) as Map<String, dynamic>);
+  // factory Product.fromJson(String source) =>
+  //     Product.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

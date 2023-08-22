@@ -1,13 +1,34 @@
 part of 'category.dart';
 
 extension CategoryDbExt on Category {
+  Future<List<Category>> getChildren(Database db) async => (await db.query(
+        'category',
+        where: 'parent = ?',
+        whereArgs: [id],
+      ))
+          .map((e) => Category.fromMap(e))
+          .toList();
+
+  Future<List<Product>> getProducts(Database db) async {
+    final products = (await db.query(
+      'product',
+      where: 'category_id = ?',
+      whereArgs: [id],
+    ))
+        .map((e) {
+      return Product.fromMap(e);
+    }).toList();
+
+    return products;
+  }
+
   createTable(Database db) async {
     await db.execute('''
           CREATE TABLE category (
               sl INTEGER PRIMARY KEY AUTOINCREMENT,
               
-              id VARCHAR,
-              parent_id VARCHAR,
+              id VARCHAR UNIQUE ,
+              parent VARCHAR,
               position INT, 
               label TEXT, 
         
@@ -46,7 +67,7 @@ extension CategoryDbExt on Category {
       await db.rawInsert('''
             INSERT INTO category(
               id, 
-              parent_id,
+              parent,
               position, 
               label,
 

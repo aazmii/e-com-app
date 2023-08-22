@@ -9,6 +9,7 @@ import 'src/wrapper.dart';
 
 void main() async {
   sqfliteFfiInit();
+  // LocalDB().database;
   databaseFactory = databaseFactoryFfi;
 
   if (Platform.isAndroid) {}

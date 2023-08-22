@@ -16,18 +16,32 @@ final motherCategoriesProvider =
 );
 
 class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
-  List<Category> categoriesWithParentId = [];
-
-  LocalDB? db;
+  late Database db;
   @override
   FutureOr<List<Category>> build() async {
-    final db = await LocalDB().database;
-    final categories = await getProductCategories() ?? [];
-    for (var c in categories) {
-      insertParentIdBelongingCategoryId(db, c);
+    db = await LocalDB().database;
+    List<Category> dbCategories = await getCategoriesFromDb();
+    if (dbCategories.isEmpty) {
+      await initLocalDb(db);
+      dbCategories = await getCategoriesFromDb();
     }
-    return categoriesWithParentId;
+    return dbCategories
+        .where((e) => (e.parentId == null || e.parentId == 'null'))
+        .toList();
   }
+
+  Future<void> initLocalDb(Database db) async {
+    final apiCategories = await getProductCategories() ?? [];
+    await _extractAndSaveCategory(db, apiCategories);
+  }
+
+  Future<List<Category>> getCategoriesFromDb() async {
+    return (await LocalDB().getAllData('category')).map((e) {
+      return Category.fromMap(e);
+    }).toList();
+  }
+
+  Future getProductAndChildren() async {}
 
   void onNext(double px) {
     // ref.read(layoutProvider);
@@ -47,33 +61,23 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
     );
   }
 
-  void insertParentIdBelongingCategoryId(Database db, Category category) {
-    if (category.children != null) {
-      _setParentId(db, category.children, category.id);
-      //?seems fine
-      // modifiedCategory.forEach((e) {
-      //   print(e.parentId);
-      // });
-    }
-  }
-
-  void _setParentId(Database db, List<Category>? list, String? parentId) async {
+  Future<void> _extractAndSaveCategory(
+    Database db,
+    List<Category>? list,
+  ) async {
     list?.forEach(
       (e) async {
-        final categoryWithParentId = e.copyWith(parentId: parentId);
-        if (e.products != null && e.products!.isNotEmpty) {
-          for (var p in e.products!) {
-            await p
-                .copyWith(
-                  categoryId: e.id,
-                  categoryLabel: e.label,
-                )
-                .saveInLocalDb(db);
+        try {
+          await e.saveInLocalDb(db);
+          if (e.products != null && e.products!.isNotEmpty) {
+            for (var p in e.products!) {
+              await p.copyWith(categoryId: e.id).saveInLocalDb(db);
+            }
           }
+        } catch (e) {
+          // print('error from db: $e');
         }
-        categoryWithParentId.saveInLocalDb(db);
-        categoriesWithParentId.add(categoryWithParentId);
-        _setParentId(db, e.children, e.id);
+        await _extractAndSaveCategory(db, e.children);
       },
     );
   }

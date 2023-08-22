@@ -133,7 +133,7 @@ class Category {
     return <String, dynamic>{
       'id': id,
       'label': label,
-      'parentId': parentId,
+      'parent': parentId,
       'description': description,
       'children': children?.map((x) => x.toMap()).toList(),
       'products': products!.map((x) => x.toMap()).toList(),
@@ -185,11 +185,11 @@ class Category {
       minimumInventory: map['minimumInventory'] != null
           ? map['minimumInventory'] as int
           : null,
-      isEnable: map['is_enable'] != null ? map['is_enable'] as bool : null,
-      menu: map['menu'] != null ? map['menu'] as bool : null,
+      // isEnable: map['is_enable'] as bool?,
+      // menu: map['menu'] != null ? map['menu'] as bool : null,
       liveSales: map['liveSales'] != null ? map['liveSales'] as bool : null,
-      root: map['root'] != null ? map['root'] as bool : null,
-      home: map['home'] != null ? map['home'] as bool : null,
+      // root: map['root'] != null ? map['root'] as bool : null,
+      // home: map['home'] != null ? map['home'] as bool : null,
       showInSpecialCategory: map['show_in_special_category'] != null
           ? map['show_in_special_category'] as bool
           : null,
@@ -216,11 +216,8 @@ class Category {
 
   String toJson() => json.encode(toMap());
 
-  static Category fromJson(dynamic source) => Category.fromMap(source);
-
-  @override
-  String toString() {
-    return 'Category(id: $id, label: $label, parentId: $parentId, description: $description, children: $children, products: $products, type: $type, rackLocation: $rackLocation, position: $position, shelfLife: $shelfLife, minimumInventory: $minimumInventory, isEnable: $isEnable, menu: $menu, liveSales: $liveSales, root: $root, home: $home, showInSpecialCategory: $showInSpecialCategory, showBestSaleCategory: $showBestSaleCategory, tags: $tags, categoryFiles: $categoryFiles, createdAt: $createdAt, updatedAt: $updatedAt, createdBy: $createdBy, updatedBy: $updatedBy, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation)';
+  static Category fromJson(dynamic source) {
+    return Category.fromMap(source);
   }
 
   @override

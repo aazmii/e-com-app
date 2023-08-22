@@ -7,10 +7,10 @@ extension ProductExt on Product {
           CREATE TABLE product (
            sl INTEGER PRIMARY KEY AUTOINCREMENT,
 
-           product_id TEXT,
+           id TEXT,
            category_id TEXT,
            position INTEGER,
-           label TEXT,
+           name TEXT,
            category_label TEXT,
 
            pos_label TEXT,
@@ -77,10 +77,10 @@ extension ProductExt on Product {
     try {
       await db.rawInsert('''
             INSERT INTO product(
-              product_id,
+              id,
               category_id,
               position,
-              label,
+              name,
               category_label,
 
               pos_label,

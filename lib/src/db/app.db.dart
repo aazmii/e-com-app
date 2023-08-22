@@ -1,18 +1,18 @@
 import 'package:path/path.dart';
 import 'package:pos_sq/src/models/order/customer.order.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category.and.product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../modules/catgory.and.product/model/category/category.dart';
 
+Database? _db;
+
 class LocalDB {
-  Database? _db;
   static const _databaseName = "POS.db";
   static const _databaseVersion = 1;
   Future<Database> get database async {
-    if (_db != null) return _db!;
+    // if (_db != null) return _db!;
     _db = await _initDB();
     return _db!;
   }
@@ -35,7 +35,7 @@ class LocalDB {
     await Order().createTable(db);
     await Product().createTable(db);
     await Category().createTable(db);
-    await MotherCategory.createTable(db);
+    // await MotherCategory.createTable(db);
     // await Order().createTable(db);
   }
 

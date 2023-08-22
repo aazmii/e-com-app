@@ -4,6 +4,7 @@ import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'selected.category.id.provider.dart';
 
@@ -13,20 +14,30 @@ final motherCategoryProvider =
 );
 
 class _CategoryColumnProvider extends FamilyNotifier<List<dynamic>, Category> {
+  late final Database db;
   late final List<dynamic> defultState;
   @override
   List<dynamic> build(Category motherCategory) {
     defultState = [
       motherCategory,
-      if (motherCategory.children != null)
-        ...List.generate(motherCategory.children!.length,
-            (i) => motherCategory.children![i]),
-      if (motherCategory.products != null)
-        ...List.generate(motherCategory.products!.length,
-            (i) => motherCategory.products![i]),
+      motherCategory.getChildren(db),
+      motherCategory.getProducts(db)
     ];
     return defultState;
   }
+
+  // List<dynamic> build(Category motherCategory) {
+  //   defultState = [
+  //     motherCategory,
+  //     if (motherCategory.children != null)
+  //       ...List.generate(motherCategory.children!.length,
+  //           (i) => motherCategory.children![i]),
+  //     if (motherCategory.products != null)
+  //       ...List.generate(motherCategory.products!.length,
+  //           (i) => motherCategory.products![i]),
+  //   ];
+  //   return defultState;
+  // }
 
   List<dynamic> deletableCategoryAndProduct = [];
   int? prevIndex;

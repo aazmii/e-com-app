@@ -12,7 +12,9 @@ Future<List<Category>?> getProductCategories() async {
     var request = http.Request(
         'GET',
         Uri.parse(
-            'https://bar-b-q-tonightapi.algorithmgeneration.com/api/v1/categories/'));
+          'https://bar-b-q-tonightapi.algorithmgeneration.com/api/v1/categories/',
+        ));
+
     request.headers.addAll(xHeaders);
     http.StreamedResponse response = await request.send();
     final body = await response.stream.bytesToString();

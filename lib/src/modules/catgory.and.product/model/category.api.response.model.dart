@@ -24,21 +24,26 @@ class CategoryApi {
         data: data ?? this.data,
       );
 
-  factory CategoryApi.fromRawJson(String str) =>
-      CategoryApi.fromJson(json.decode(str));
+  factory CategoryApi.fromRawJson(String str) {
+    return CategoryApi.fromJson(json.decode(str));
+  }
 
   String toRawJson() => json.encode(toJson());
 
   factory CategoryApi.fromJson(Map<String, dynamic> json) {
-    return CategoryApi(
+    final api = CategoryApi(
       success: json['success'],
       message: json['message'],
       data: json['data'] == null
           ? []
           : List<Category>.from(
-              json['data']!.map((x) => Category.fromJson(x)),
+              json['data']!.map((x) {
+                return Category.fromJson(x);
+              }),
             ),
     );
+
+    return api;
   }
 
   Map<String, dynamic> toJson() => {
