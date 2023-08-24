@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
@@ -18,7 +20,6 @@ final columnProvider =
 class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
   late final Database db;
   late final List<dynamic> defultState;
-  List<Category> nestedCategories = [];
 
   @override
   Future<List<dynamic>> build(Category motherCategory) async {
@@ -74,9 +75,11 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
     }
   }
 
+  List<Category> nestedCategories = [];
   List<Product> nestedProducts = [];
   void _removeNestedItems(Category category) async {
     List<dynamic> tempList = state.value!;
+
     final subCategoriesFromDb = await category.getChildren(db);
     await _extractChildrenFromDb(db, subCategoriesFromDb);
 
@@ -102,9 +105,11 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
         nestedCategories.add(e);
         final children = await e.getChildren(db);
         final products = await e.getProducts(db);
+        // log('$children');
+        // log('$products');
 
-        nestedCategories.addAll(children);
-        nestedProducts.addAll(products);
+        // nestedCategories.addAll(children);
+        // nestedProducts.addAll(products);
         await _extractChildrenFromDb(db, children);
       },
     );

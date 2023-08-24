@@ -3,13 +3,34 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'layouts/horizontal.view.dart';
 
 class SalesScreen extends ConsumerWidget {
   const SalesScreen({Key? key}) : super(key: key);
+
+  Future<List<Category>> getAllNestedCategories(Database db, category) async {
+    List<Category> result = [];
+    Future traverse(Category current) async {
+      final children = await current.getChildren(db);
+
+      for (var c in children) {
+        result.add(c);
+        // print('added ${c.label}');
+      }
+      for (var child in children) {
+        traverse(child);
+      }
+    }
+
+    await traverse(category);
+    print('returning ${result.length} items');
+    return result;
+  }
 
   @override
   Widget build(BuildContext context, ref) {
