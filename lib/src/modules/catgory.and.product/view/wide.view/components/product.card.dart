@@ -25,70 +25,59 @@ class ProductCard extends ConsumerWidget {
       onTap: onSelect,
       child: Padding(
         padding: EdgeInsets.only(bottom: isLastItem ? 120 : 0),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: expandDuration),
-          margin: EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal:
-                ref.watch(selectedCategoryProvider)?.parentId == categoryId
-                    ? 12
-                    : 2,
-          ),
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(0),
-          //   border: Border.all(
-          //     width: 2,
-          //     color: ref.watch(selectedCategoryProvider)?.parentId == categoryId
-          //         ? Colors.orange
-          //         : Colors.transparent,
-          //   ),
-          // ),
-          height: ref.watch(selectedCategoryProvider)?.parentId == categoryId
-              ? categoryHeight - 10
-              : categoryHeight,
-          child: CardContent(
-            product: product,
-          ),
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: expandDuration),
+              margin: EdgeInsets.symmetric(
+                horizontal:
+                    ref.watch(selectedCategoryProvider)?.parentId == categoryId
+                        ? 12
+                        : 2,
+              ),
+              height: categoryHeight - 30,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: Card(
+                      shape: ref.watch(selectedCategoryProvider)?.id ==
+                              product.categoryId
+                          ? _selectedBorder
+                          : null,
+                      child: ProductImage(
+                        productUrl:
+                            (product.files == null || product.files!.isEmpty)
+                                ? null
+                                : product.files!.first,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              product.label ?? '',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis,
+              ),
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class CardContent extends StatelessWidget {
-  const CardContent({
-    super.key,
-    required this.product,
-  });
-
-  final Product product;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: Card(
-            child: ProductImage(
-              productUrl: (product.files == null || product.files!.isEmpty)
-                  ? null
-                  : product.files!.first,
-            ),
-          ),
-        ),
-        Text(
-          product.label ?? '',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis,
-          ),
-          maxLines: 2,
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-}
+const _selectedBorder = RoundedRectangleBorder(
+  side: BorderSide(
+    width: 1,
+    color: Colors.orange,
+  ),
+);
 
 class ProductImage extends StatelessWidget {
   const ProductImage({super.key, this.productUrl});

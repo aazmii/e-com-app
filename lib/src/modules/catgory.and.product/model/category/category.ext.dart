@@ -1,13 +1,16 @@
 part of 'category.dart';
 
 extension CategoryDbExt on Category {
-  Future<List<Category>> getChildren(Database db) async => (await db.query(
-        'category',
-        where: 'parent = ?',
-        whereArgs: [id],
-      ))
-          .map((e) => Category.fromMap(e))
-          .toList();
+  Future<List<Category>> getChildren(Database db) async {
+    final children = (await db.query(
+      'category',
+      where: 'parent = ?',
+      whereArgs: [id],
+    ))
+        .map((e) => Category.fromMap(e))
+        .toList();
+    return children;
+  }
 
   Future<List<Product>> getProducts(Database db) async {
     final products = (await db.query(

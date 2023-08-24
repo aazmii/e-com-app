@@ -211,6 +211,7 @@ class Category {
           ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
           : null,
     );
+
     return category;
   }
 

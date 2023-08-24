@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
+
 class CategoryContainer extends StatelessWidget {
-  const CategoryContainer(
-      {super.key,
-      required this.category,
-      this.onSelect,
-      required this.isSelected,
-      required this.isChild});
+  const CategoryContainer({
+    super.key,
+    required this.category,
+    this.onSelect,
+    required this.isSelected,
+    required this.isChild,
+  });
   final Category category;
   final VoidCallback? onSelect;
   final bool isSelected;
@@ -22,23 +24,18 @@ class CategoryContainer extends StatelessWidget {
         duration: const Duration(milliseconds: 150),
         margin: EdgeInsets.symmetric(
           horizontal: isSelected ? 0 : 5,
-          vertical: 6,
+          vertical: 4,
         ),
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.3),
-          border: Border.all(
-            width: 0,
-            color: isSelected || isChild ? Colors.orange : Colors.transparent,
-          ),
+          border: isSelected || isChild ? _selectedBorder : null,
         ),
-        height: categoryHeight,
+        height: isSelected ? categoryHeight + 8 : categoryHeight,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const _DisplayImage(),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 1),
               height: 25,
               color: context.secondaryColor,
               width: double.infinity,
@@ -57,6 +54,11 @@ class CategoryContainer extends StatelessWidget {
     );
   }
 }
+
+final _selectedBorder = Border.all(
+  width: 2,
+  color: Colors.orange,
+);
 
 class _DisplayImage extends StatelessWidget {
   const _DisplayImage();
