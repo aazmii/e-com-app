@@ -51,11 +51,10 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
     ref.read(selectedCategoryProvider.notifier).set(category);
     if (ref.read(selectedCategoryProvider)?.id != category.id) {
       _removeNestedItems(category);
-
       _reposition(context, scrollDownword: false);
     } else {
       final subCategories = await category.getChildren(db);
-      if (subCategories.isEmpty) return;
+      // if (subCategories.isEmpty) return;//?
       if (hasCommonElements(state.value!, subCategories)) return;
 
       List<dynamic>? tempList = state.value!;

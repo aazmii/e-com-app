@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
+import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
 
@@ -40,7 +41,16 @@ class SalesScreen extends ConsumerWidget {
                 ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () async {},
+            onPressed: () async {
+              final db = await LocalDB().database;
+              final products = await db.query('product',
+                  where: 'category_id =?',
+                  whereArgs: ['9e06e21a-118d-4ae7-9a1e-6144d5c7a59f']);
+              print(products.length);
+              for (var p in products) {
+                print(p['name']);
+              }
+            },
           ),
         ),
       ),
