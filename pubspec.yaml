@@ -21,6 +21,7 @@ dependencies:
   pdf: ^3.10.4
   sqflite: ^2.2.8+4
   sqflite_common_ffi: ^2.3.0
+  visibility_detector: ^0.4.0+2
 
     
 

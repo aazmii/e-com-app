@@ -18,39 +18,46 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final subCagetoryOrProduct = ref.watch(columnProvider(category));
-
+    ref.watch(columnProvider(category));
     final notifier = ref.watch(columnProvider(category).notifier);
 
     return subCagetoryOrProduct.when(
         data: (d) {
-          return ListView.builder(
-            itemCount: d.length,
-            controller: notifier.scrollController,
-            itemBuilder: (context, index) {
-              final categoryOrProduct = d[index];
-              if (categoryOrProduct is Category) {
-                final selectedId = ref.watch(selectedCategoryProvider)?.id;
-                return CategoryContainer(
-                  category: categoryOrProduct,
-                  onSelect: () => notifier.onTapCategory(context, index: index),
-                  // notifier.onSelectCategory(context, index: index),
-                  isSelected: selectedId == categoryOrProduct.id,
-                  isChild: selectedId == categoryOrProduct.parentId,
-                );
-              }
-              if (categoryOrProduct is Product) {
-                return ProductCard(
-                  onSelect: () async {},
-                  product: categoryOrProduct,
-                  isLastItem: d.last == categoryOrProduct,
-                );
-              } else {
-                return emptyWidget;
-              }
-            },
+          return Stack(
+            children: [
+              ListView.builder(
+                itemCount: d.length,
+                controller: notifier.scrollController,
+                itemBuilder: (context, index) {
+                  final categoryOrProduct = d[index];
+                  if (categoryOrProduct is Category) {
+                    final selectedId = ref.watch(selectedCategoryProvider)?.id;
+                    return CategoryContainer(
+                        category: categoryOrProduct,
+                        onSelect: () =>
+                            notifier.onTapCategory(context, index: index),
+                        // notifier.onSelectCategory(context, index: index),
+                        isSelected: selectedId == categoryOrProduct.id,
+                        isChild: selectedId == categoryOrProduct.parentId,
+                        onTogglePinnedCategory: (info) {
+                          notifier.onTogglePinnedCategory(category, info);
+                        });
+                  }
+                  if (categoryOrProduct is Product) {
+                    return ProductCard(
+                      onSelect: () async {},
+                      product: categoryOrProduct,
+                      isLastItem: d.last == categoryOrProduct,
+                    );
+                  } else {
+                    return emptyWidget;
+                  }
+                },
+              ),
+            ],
           );
         },
         error: (e, s) => Text('Error: $e'),
-        loading: () => Text('Loading'));
+        loading: () => const Text('Loading'));
   }
 }

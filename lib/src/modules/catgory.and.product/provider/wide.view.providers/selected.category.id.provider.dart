@@ -9,6 +9,5 @@ final selectedCategoryProvider =
 class SelectedCategoryIdProvider extends Notifier<Category?> {
   @override
   Category? build() => null;
-  set(Category? s) =>
-      state?.id == s?.id ? state = null : state = s;
+  set(Category? s) => state?.id == s?.id ? state = null : state = s;
 }
