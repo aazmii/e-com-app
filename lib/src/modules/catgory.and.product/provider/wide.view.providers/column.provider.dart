@@ -42,9 +42,9 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
     if (category != ref.read(selectedCategoryProvider)) return;
     var visiblePercentage = info.visibleFraction * 100;
     if (visiblePercentage == 0) {
-      pinnedCategory = null;
-    } else {
       pinnedCategory = category;
+    } else {
+      pinnedCategory = null;
     }
     ref.notifyListeners();
   }
