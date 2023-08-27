@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/api/time.api.dart';
 import 'package:pos_sq/src/db/app.db.dart';
-import 'package:pos_sq/src/extensions/src/date.time.dart';
+import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/configuration/model/config.table.model/config.dart';
 
-final configProvider =
-    AsyncNotifierProvider<ConfiurationProvider, Config?>(
-        ConfiurationProvider.new);
+final configProvider = AsyncNotifierProvider<ConfiurationProvider, Config?>(
+    ConfiurationProvider.new);
 
 class ConfiurationProvider extends AsyncNotifier<Config?> {
   late Config config;
@@ -20,6 +19,7 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
       state = AsyncData(_config);
       return state.value;
     }
+
     await _updateLicenseDateInLocalDb();
     state = AsyncData(await getConfiguaration());
     return state.value;
@@ -98,12 +98,12 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
       await LocalDB().deleteTableRow(tableName: 'config', id: 1);
 
   Future insertConfiguration(Config config) async {
-    config.fieldValues;
     for (int i = 0; i < Config.configfields.length; i++) {
-      await LocalDB().insertToConfig(
+      await LocalDB().insertData(
+        'config',
         sl: '$i',
         keyName: Config.configfields[i],
-        configValue: config.fieldValues[i],
+        value: config.fieldValues[i],
       );
     }
   }

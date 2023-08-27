@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
 
-import 'app.dart';
+import 'components/footer.dart';
+import 'modules/configuration/provider/configuration.provider.dart';
+import 'modules/home.screen/home.screen.dart';
 import 'modules/license.expire.and.renew/license.expired.page.dart';
 
 class Wrapper extends ConsumerWidget {
@@ -11,11 +12,13 @@ class Wrapper extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
+   
       body: ref.watch(configProvider).when(
             data: (config) {
               if (ref.read(configProvider.notifier).isLicenseExpired()) {
-                return const HomeScreen();
+                return const SalesScreen();
               }
+              // return const HomeScreen();
               return LicenseExpiredPage();
             },
             error: (s, e) => Scaffold(
@@ -25,6 +28,7 @@ class Wrapper extends ConsumerWidget {
               child: CircularProgressIndicator(),
             ),
           ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }

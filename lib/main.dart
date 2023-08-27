@@ -3,16 +3,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/wrapper.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+import 'src/wrapper.dart';
 
 void main() async {
   sqfliteFfiInit();
+  // LocalDB().database;
   databaseFactory = databaseFactoryFfi;
 
-    if (Platform.isAndroid) {
- 
-  }
+  if (Platform.isAndroid) {}
   runApp(const MainApp());
 }
 

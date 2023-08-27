@@ -1,14 +1,18 @@
 import 'package:path/path.dart';
-import 'package:pos_sq/src/modules/configuration/model/config.table.model/config.dart';
-// import 'package:pos_sq/src/constants/constants.dart';
+import 'package:pos_sq/src/models/order/customer.order.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../modules/catgory.and.product/model/category/category.dart';
+
+Database? _db;
+
 class LocalDB {
-  Database? _db;
   static const _databaseName = "POS.db";
   static const _databaseVersion = 1;
   Future<Database> get database async {
-    if (_db != null) return _db!;
+    // if (_db != null) return _db!;
     _db = await _initDB();
     return _db!;
   }
@@ -26,8 +30,49 @@ class LocalDB {
   }
 
   Future _onCreate(Database db, int version) async {
-    // await Configuration.createTable(db);
-    await Config.createTable(db);
+    await _createTable(db, 'config');
+    await UsageTimeline.createTable(db);
+    await Order().createTable(db);
+    await Product().createTable(db);
+    await Category().createTable(db);
+    // await MotherCategory.createTable(db);
+    // await Order().createTable(db);
+  }
+
+  _createTable(Database db, String tableName) async {
+    await db.execute('''
+          CREATE TABLE $tableName (
+            sl SMALLSERIAL PRIMARY KEY,
+            col1 TEXT, 
+            col2 TEXT
+          )
+    ''');
+  }
+
+  Future<List<Map<String, dynamic>>> getAllData(String tableName) async {
+    final db = await database;
+    return await db.query(tableName);
+  }
+
+  Future<bool> insertData(
+    String tableName, {
+    required String sl,
+    required String keyName,
+    required String? value,
+  }) async {
+    final db = await database;
+    bool isSuccess = true;
+    try {
+      await db.rawInsert('''
+            INSERT INTO $tableName(sl,col1, col2)
+            VALUES
+            ('$sl','$keyName','$value')
+      ''');
+    } catch (e) {
+      isSuccess = false;
+    }
+
+    return isSuccess;
   }
 
   Future<List<Map<String, dynamic>>> getColumns(
@@ -72,7 +117,7 @@ class LocalDB {
   Future<int> updateTableCell({
     required String tableName,
     required String keyName,
-    dynamic value,
+    required dynamic value,
   }) async {
     final db = await database;
     try {
@@ -82,7 +127,6 @@ class LocalDB {
         WHERE col1= '$keyName';
     ''');
     } catch (e) {
-      print('$e');
       return 0;
     }
   }
@@ -104,20 +148,20 @@ class LocalDB {
     return db.delete(tableName);
   }
 
-  Future<bool> insertToConfig({
-    required String sl,
-    required String keyName,
-    required String? configValue,
-  }) async {
-    bool isInserted = true;
-    final db = await database;
-    await Config.insertData(
-      db,
-      sl: sl,
-      keyName: keyName,
-      value: configValue,
-    );
+  // Future<bool> insertToConfig({
+  //   required String sl,
+  //   required String keyName,
+  //   required String? configValue,
+  // }) async {
+  //   bool isInserted = true;
+  //   final db = await database;
+  //   await Config.insertData(
+  //     db,
+  //     sl: sl,
+  //     keyName: keyName,
+  //     value: configValue,
+  //   );
 
-    return isInserted;
-  }
+  //   return isInserted;
+  // }
 }
