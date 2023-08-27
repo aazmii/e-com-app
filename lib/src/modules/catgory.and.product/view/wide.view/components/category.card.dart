@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
+import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -12,11 +13,13 @@ class CategoryContainer extends StatelessWidget {
     required this.isSelected,
     required this.isChild,
     this.onTogglePinnedCategory,
+    this.verticalMergin,
   });
   final Category category;
   final VoidCallback? onSelect;
   final bool isSelected;
   final bool isChild;
+  final double? verticalMergin;
   final void Function(VisibilityInfo)? onTogglePinnedCategory;
 
   @override
@@ -30,10 +33,10 @@ class CategoryContainer extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           margin: EdgeInsets.symmetric(
             horizontal: isSelected ? 0 : 5,
-            vertical: 4,
+            vertical: verticalMergin ?? 4,
           ),
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.3),
+            color: categoryCardColor,
             border: isSelected || isChild ? _selectedBorder : null,
           ),
           height: isSelected ? categoryHeight + 8 : categoryHeight,

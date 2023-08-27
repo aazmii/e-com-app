@@ -36,18 +36,19 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
   }
 
   Category? pinnedCategory;
+  double? pinnedCategoryVisibility;
 
-  // void onTogglePinnedCategory(Category category, VisibilityInfo info) {
-  //   if (category != ref.read(selectedCategoryProvider)) return;
+  void onTogglePinnedCategory(Category category, VisibilityInfo info) {
+    if (category != ref.read(selectedCategoryProvider)) return;
 
-  //   var visiblePercentage = info.visibleFraction * 100;
-  //   if (visiblePercentage == 0) {
-  //     pinnedCategory = null;
-  //   } else {
-  //     pinnedCategory = pinnedCategory = category;
-  //   }
-  //   ref.notifyListeners();
-  // }
+    var visiblePercentage = info.visibleFraction * 100;
+    if (visiblePercentage == 0) {
+      pinnedCategory = null;
+    } else {
+      pinnedCategory = pinnedCategory = category;
+    }
+    ref.notifyListeners();
+  }
 
   List<dynamic> deletableCategoryAndProduct = [];
   int? prevIndex;
