@@ -37,15 +37,17 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
   }
 
   Category? pinnedCategory;
+  double? pinnedCategoryVisibility;
 
   void onTogglePinnedCategory(Category category, VisibilityInfo info) {
     if (category != ref.read(selectedCategoryProvider)) return;
-
     var visiblePercentage = info.visibleFraction * 100;
-    if (visiblePercentage == 0) {
-      pinnedCategory = null;
+    if (visiblePercentage < 100) {
+      pinnedCategoryVisibility = visiblePercentage;
+      pinnedCategory = category;
     } else {
-      pinnedCategory = pinnedCategory = category;
+      pinnedCategory = null;
+      pinnedCategoryVisibility = 0;
     }
     ref.notifyListeners();
   }

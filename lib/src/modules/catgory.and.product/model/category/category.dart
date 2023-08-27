@@ -41,6 +41,9 @@ class Category {
 
   Location? warehouseLocation;
   Location? outletLocation;
+
+  //needed only for state management
+  Category? pinnedCategory;
   Category({
     this.id,
     this.label,
