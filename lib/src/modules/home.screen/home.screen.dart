@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
+import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
@@ -18,12 +19,10 @@ class SalesScreen extends ConsumerWidget {
     Future traverse(Category current) async {
       final children = await current.getChildren(db);
 
-      for (var c in children) {
-        result.add(c);
-        // print('added ${c.label}');
-      }
       for (var child in children) {
-        traverse(child);
+        result.add(child);
+        print('added ${child.label}');
+        await traverse(child);
       }
     }
 
@@ -61,7 +60,13 @@ class SalesScreen extends ConsumerWidget {
                 ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () async {},
+            onPressed: () async {
+              final db = await LocalDB().database;
+              final testCategoryTwo = (await ref
+                  .read(motherCategoriesProvider.notifier)
+                  .getCategoriesFromDb())[1];
+              print(getAllNestedCategories(db, testCategoryTwo));
+            },
           ),
         ),
       ),

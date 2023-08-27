@@ -108,8 +108,8 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
         // log('$children');
         // log('$products');
 
-        // nestedCategories.addAll(children);
-        // nestedProducts.addAll(products);
+        nestedCategories.addAll(children);
+        nestedProducts.addAll(products);
         await _extractChildrenFromDb(db, children);
       },
     );
