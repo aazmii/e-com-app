@@ -41,6 +41,9 @@ class Category {
 
   Location? warehouseLocation;
   Location? outletLocation;
+
+  //needed only for state management
+  Category? pinnedCategory;
   Category({
     this.id,
     this.label,
@@ -211,6 +214,7 @@ class Category {
           ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
           : null,
     );
+
     return category;
   }
 

@@ -62,10 +62,13 @@ class SalesScreen extends ConsumerWidget {
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               final db = await LocalDB().database;
-              final testCategoryTwo = (await ref
-                  .read(motherCategoriesProvider.notifier)
-                  .getCategoriesFromDb())[1];
-              print(getAllNestedCategories(db, testCategoryTwo));
+              final products = await db.query('product',
+                  where: 'category_id =?',
+                  whereArgs: ['9e06e21a-118d-4ae7-9a1e-6144d5c7a59f']);
+              print(products.length);
+              for (var p in products) {
+                print(p['name']);
+              }
             },
           ),
         ),

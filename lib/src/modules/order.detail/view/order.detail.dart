@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
-import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/models/provider/order.provider.dart';
 import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
@@ -9,8 +8,7 @@ import 'package:pos_sq/src/modules/order.detail/components/drawer/drawer.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/provider.dart';
 
 class OrderDetail extends ConsumerWidget {
-  OrderDetail({super.key});
-  LocalDB? db;
+  const OrderDetail({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

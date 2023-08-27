@@ -395,7 +395,7 @@ class Product {
   bool operator ==(covariant Product other) {
     if (identical(this, other)) return true;
 
-    return other.productId == productId && other.categoryId == categoryId;
+    return other.productId == productId;
   }
 
   @override

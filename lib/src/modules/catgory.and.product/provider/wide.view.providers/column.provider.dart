@@ -7,9 +7,10 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
+import 'methods.dart';
 import 'selected.category.id.provider.dart';
 
 final columnProvider =
@@ -36,6 +37,19 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
     return defultState;
   }
 
+  Category? pinnedCategory;
+
+  void onTogglePinnedCategory(Category category, VisibilityInfo info) {
+    if (category != ref.read(selectedCategoryProvider)) return;
+    var visiblePercentage = info.visibleFraction * 100;
+    if (visiblePercentage == 0) {
+      pinnedCategory = null;
+    } else {
+      pinnedCategory = category;
+    }
+    ref.notifyListeners();
+  }
+
   List<dynamic> deletableCategoryAndProduct = [];
   int? prevIndex;
   final scrollController = ScrollController();
@@ -44,7 +58,6 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
     BuildContext context, {
     required int index,
   }) async {
-    // ref.watch(nodeProvider(NodeProvider.searchNode)).requestFocus();
     Category category = state.value![index] as Category;
     if (index == 0) {
       // reset();
@@ -56,8 +69,9 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
       _reposition(context, scrollDownword: false);
     } else {
       final subCategories = await category.getChildren(db);
-      if (subCategories.isEmpty) return;
-      // if (state.value!.contains(subCategories.first)) return;
+      // if (subCategories.isEmpty) return;//?
+      if (hasCommonElements(state.value!, subCategories)) return;
+
       List<dynamic>? tempList = state.value!;
       tempList.insertAll(index + 1, subCategories);
 
@@ -75,45 +89,44 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
     }
   }
 
-  List<Category> nestedCategories = [];
-  List<Product> nestedProducts = [];
   void _removeNestedItems(Category category) async {
     List<dynamic> tempList = state.value!;
-
-    final subCategoriesFromDb = await category.getChildren(db);
-    await _extractChildrenFromDb(db, subCategoriesFromDb);
-
-    print('removing ${nestedProducts.length} products');
+    final nestedCategories = await getAllNestedCategories(db, category);
+    final nestedProducts = await getAllProducts(
+      db,
+      [category, ...nestedCategories],
+    );
 
     tempList.removeWhere((e) {
-      return (e is Category)
+      return e is Category
           ? nestedCategories.contains(e)
           : nestedProducts.contains(e);
     });
 
     state = AsyncData([...tempList]);
-    nestedCategories.clear();
-    nestedProducts.clear();
   }
 
-  Future<void> _extractChildrenFromDb(
-    Database db,
-    List<Category>? list,
-  ) async {
-    list?.forEach(
-      (e) async {
-        nestedCategories.add(e);
-        final children = await e.getChildren(db);
-        final products = await e.getProducts(db);
-        // log('$children');
-        // log('$products');
+  void _remove(Category category) {
+    void extractCategories(List<Category>? list) {
+      list?.forEach(
+        (e) {
+          deletableCategoryAndProduct.add(e);
+          if (e.products != null) {
+            deletableCategoryAndProduct.addAll(e.products!);
+          }
+          extractCategories(e.children);
+        },
+      );
+    }
 
-        nestedCategories.addAll(children);
-        nestedProducts.addAll(products);
-        await _extractChildrenFromDb(db, children);
-      },
-    );
-    print('finished with remove list ${nestedProducts.length} products');
+    List<dynamic> tempList = state.value!;
+    extractCategories(category.children);
+    tempList.removeWhere((e) {
+      return deletableCategoryAndProduct.contains(e);
+    });
+    tempList.removeWhere((e) => category.products!.contains(e));
+    state = AsyncData([...tempList]);
+    deletableCategoryAndProduct.clear();
   }
 
   _reposition(
