@@ -21,7 +21,6 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
     final subCagetoryOrProduct = ref.watch(columnProvider(category));
 
     final notifier = ref.watch(columnProvider(category).notifier);
-
     return subCagetoryOrProduct.when(
         data: (d) {
           final categrories = d.whereType<Category>().toList();
@@ -36,15 +35,16 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                   if (categoryOrProduct is Category) {
                     final selectedId = ref.watch(selectedCategoryProvider)?.id;
                     return CategoryContainer(
-                        category: categoryOrProduct,
-                        onSelect: () =>
-                            notifier.onTapCategory(context, index: index),
-                        // notifier.onSelectCategory(context, index: index),
-                        isSelected: selectedId == categoryOrProduct.id,
-                        isChild: selectedId == categoryOrProduct.parentId,
-                        onTogglePinnedCategory: (info) {
-                          notifier.onTogglePinnedCategory(category, info);
-                        });
+                      category: categoryOrProduct,
+                      onSelect: () =>
+                          notifier.onTapCategory(context, index: index),
+                      isSelected: selectedId == categoryOrProduct.id,
+                      isChild: selectedId == categoryOrProduct.parentId,
+                      onTogglePinnedCategory: (info) {
+                        notifier.onTogglePinnedCategory(
+                            categoryOrProduct, info);
+                      },
+                    );
                   }
                   if (categoryOrProduct is Product) {
                     return ProductCard(

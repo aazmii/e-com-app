@@ -6,6 +6,7 @@ import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'methods.dart';
 import 'selected.category.id.provider.dart';
@@ -36,16 +37,14 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
   }
 
   Category? pinnedCategory;
-  double? pinnedCategoryVisibility;
 
   void onTogglePinnedCategory(Category category, VisibilityInfo info) {
     if (category != ref.read(selectedCategoryProvider)) return;
-
     var visiblePercentage = info.visibleFraction * 100;
     if (visiblePercentage == 0) {
       pinnedCategory = null;
     } else {
-      pinnedCategory = pinnedCategory = category;
+      pinnedCategory = category;
     }
     ref.notifyListeners();
   }
