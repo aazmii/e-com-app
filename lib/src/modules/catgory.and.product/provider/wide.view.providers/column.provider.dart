@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
@@ -19,7 +21,6 @@ final columnProvider =
 class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
   late final Database db;
   late final List<dynamic> defultState;
-  List<Category> nestedCategories = [];
 
   @override
   Future<List<dynamic>> build(Category motherCategory) async {

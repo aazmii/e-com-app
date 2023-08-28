@@ -1,33 +1,33 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:pos_sq/src/db/app.db.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'package:pos_sq/src/models/payment_details/payment_details.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+
 part 'customer.order.ext.dart';
 
 class Order {
   String? posId;
   String? posUserId;
-  String? orderId;
-
   String? customerName;
   String? customerPhone;
+
   String? loyalityCard;
-
-  List<Product>? products;
+  List<Product>? items;
+  double? subtotal;
   double? grossTotal;
-  double? discountAmount;
 
-  String? disocuntName;
+  int? discountAmount;
   String? discountType;
+  double? vatorgst;
   double? netTotal;
 
   double? receivedAmount;
-  String? receivedAmountDetail;
   double? returnAmount;
-
-  DateTime? dateTime;
+  List<PaymentDetails>? paymentDetails;
 
   Order({
     this.posId,
@@ -35,56 +35,17 @@ class Order {
     this.customerName,
     this.customerPhone,
     this.loyalityCard,
-    this.orderId,
-    this.products,
+    this.items,
+    this.subtotal,
     this.grossTotal,
     this.discountAmount,
-    this.disocuntName,
     this.discountType,
+    this.vatorgst,
     this.netTotal,
     this.receivedAmount,
-    this.receivedAmountDetail,
     this.returnAmount,
-    this.dateTime,
+    this.paymentDetails,
   });
-
-  Order copyWith({
-    String? posId,
-    String? posUserId,
-    String? customerName,
-    String? customerPhone,
-    String? loyalityCard,
-    String? orderId,
-    List<Product>? products,
-    double? grossTotal,
-    double? discountAmount,
-    String? disocuntName,
-    String? discountType,
-    double? netTotal,
-    double? receivedAmount,
-    String? receivedAmountDetail,
-    double? returnAmount,
-    DateTime? dateTime,
-  }) {
-    return Order(
-      posId: posId ?? this.posId,
-      posUserId: posUserId ?? this.posUserId,
-      customerName: customerName ?? this.customerName,
-      customerPhone: customerPhone ?? this.customerPhone,
-      loyalityCard: loyalityCard ?? this.loyalityCard,
-      orderId: orderId ?? this.orderId,
-      products: products ?? this.products,
-      grossTotal: grossTotal ?? this.grossTotal,
-      discountAmount: discountAmount ?? this.discountAmount,
-      disocuntName: disocuntName ?? this.disocuntName,
-      discountType: discountType ?? this.discountType,
-      netTotal: netTotal ?? this.netTotal,
-      receivedAmount: receivedAmount ?? this.receivedAmount,
-      receivedAmountDetail: receivedAmountDetail ?? this.receivedAmountDetail,
-      returnAmount: returnAmount ?? this.returnAmount,
-      dateTime: dateTime ?? this.dateTime,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -93,17 +54,16 @@ class Order {
       'customerName': customerName,
       'customerPhone': customerPhone,
       'loyalityCard': loyalityCard,
-      'orderId': orderId,
-      'products': null,
+      'items': items?.map((x) => x.toMap()).toList(),
+      'subtotal': subtotal,
       'grossTotal': grossTotal,
       'discountAmount': discountAmount,
-      'disocuntName': disocuntName,
       'discountType': discountType,
+      'vatorgst': vatorgst,
       'netTotal': netTotal,
       'receivedAmount': receivedAmount,
-      'receivedAmountDetail': receivedAmountDetail,
       'returnAmount': returnAmount,
-      'dateTime': dateTime?.millisecondsSinceEpoch,
+      'paymentdetails': paymentDetails?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -117,28 +77,33 @@ class Order {
           map['customerPhone'] != null ? map['customerPhone'] as String : null,
       loyalityCard:
           map['loyalityCard'] != null ? map['loyalityCard'] as String : null,
-      orderId: map['orderId'] != null ? map['orderId'] as String : null,
-      products: null,
+      items: map['items'] != null
+          ? List<Product>.from(
+              (map['items'] as List<int>).map<Product?>(
+                (x) => Product.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      subtotal: map['subtotal'] != null ? map['subtotal'] as double : null,
       grossTotal:
           map['grossTotal'] != null ? map['grossTotal'] as double : null,
-      discountAmount: map['discountAmount'] != null
-          ? map['discountAmount'] as double
-          : null,
-      disocuntName:
-          map['disocuntName'] != null ? map['disocuntName'] as String : null,
+      discountAmount:
+          map['discountAmount'] != null ? map['discountAmount'] as int : null,
       discountType:
           map['discountType'] != null ? map['discountType'] as String : null,
+      vatorgst: map['vatorgst'] != null ? map['vatorgst'] as double : null,
       netTotal: map['netTotal'] != null ? map['netTotal'] as double : null,
       receivedAmount: map['receivedAmount'] != null
           ? map['receivedAmount'] as double
           : null,
-      receivedAmountDetail: map['receivedAmountDetail'] != null
-          ? map['receivedAmountDetail'] as String
-          : null,
       returnAmount:
           map['returnAmount'] != null ? map['returnAmount'] as double : null,
-      dateTime: map['dateTime'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['dateTime'] as int)
+      paymentDetails: map['paymentdetails'] != null
+          ? List<PaymentDetails>.from(
+              (map['paymentdetails'] as List<int>).map<PaymentDetails?>(
+                (x) => PaymentDetails.fromMap(x as Map<String, dynamic>),
+              ),
+            )
           : null,
     );
   }
@@ -148,50 +113,39 @@ class Order {
   factory Order.fromJson(String source) =>
       Order.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  @override
-  String toString() {
-    return 'Order(posId: $posId, posUserId: $posUserId, customerName: $customerName, customerPhone: $customerPhone, loyalityCard: $loyalityCard, orderId: $orderId, products: $products, grossTotal: $grossTotal, discountAmount: $discountAmount, disocuntName: $disocuntName, discountType: $discountType, netTotal: $netTotal, receivedAmount: $receivedAmount, receivedAmountDetail: $receivedAmountDetail, returnAmount: $returnAmount, dateTime: $dateTime)';
-  }
-
-  @override
-  bool operator ==(covariant Order other) {
-    if (identical(this, other)) return true;
-
-    return other.posId == posId &&
-        other.posUserId == posUserId &&
-        other.customerName == customerName &&
-        other.customerPhone == customerPhone &&
-        other.loyalityCard == loyalityCard &&
-        other.orderId == orderId &&
-        listEquals(other.products, products) &&
-        other.grossTotal == grossTotal &&
-        other.discountAmount == discountAmount &&
-        other.disocuntName == disocuntName &&
-        other.discountType == discountType &&
-        other.netTotal == netTotal &&
-        other.receivedAmount == receivedAmount &&
-        other.receivedAmountDetail == receivedAmountDetail &&
-        other.returnAmount == returnAmount &&
-        other.dateTime == dateTime;
-  }
-
-  @override
-  int get hashCode {
-    return posId.hashCode ^
-        posUserId.hashCode ^
-        customerName.hashCode ^
-        customerPhone.hashCode ^
-        loyalityCard.hashCode ^
-        orderId.hashCode ^
-        products.hashCode ^
-        grossTotal.hashCode ^
-        discountAmount.hashCode ^
-        disocuntName.hashCode ^
-        discountType.hashCode ^
-        netTotal.hashCode ^
-        receivedAmount.hashCode ^
-        receivedAmountDetail.hashCode ^
-        returnAmount.hashCode ^
-        dateTime.hashCode;
+  Order copyWith({
+    String? posId,
+    String? posUserId,
+    String? customerName,
+    String? customerPhone,
+    String? loyalityCard,
+    List<Product>? items,
+    double? subtotal,
+    double? grossTotal,
+    int? discountAmount,
+    String? discountType,
+    double? vatorgst,
+    double? netTotal,
+    double? receivedAmount,
+    double? returnAmount,
+    List<PaymentDetails>? paymentDetails,
+  }) {
+    return Order(
+      posId: posId ?? this.posId,
+      posUserId: posUserId ?? this.posUserId,
+      customerName: customerName ?? this.customerName,
+      customerPhone: customerPhone ?? this.customerPhone,
+      loyalityCard: loyalityCard ?? this.loyalityCard,
+      items: items ?? this.items,
+      subtotal: subtotal ?? this.subtotal,
+      grossTotal: grossTotal ?? this.grossTotal,
+      discountAmount: discountAmount ?? this.discountAmount,
+      discountType: discountType ?? this.discountType,
+      vatorgst: vatorgst ?? this.vatorgst,
+      netTotal: netTotal ?? this.netTotal,
+      receivedAmount: receivedAmount ?? this.receivedAmount,
+      returnAmount: returnAmount ?? this.returnAmount,
+      paymentDetails: paymentDetails ?? this.paymentDetails,
+    );
   }
 }
