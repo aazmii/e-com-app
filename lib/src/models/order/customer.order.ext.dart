@@ -1,43 +1,31 @@
+// ignore_for_file: avoid_print
+
 part of 'customer.order.dart';
 
 extension CustomerOrderExt on Order {
-  static ex(Database db) async {
-    await db.execute('''
-          CREATE TABLE usageTimeline (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            date TIMESTAMP, 
-            time TIMESTAMP,
-            gap INT
-          )
-    ''');
-  }
-
   createTable(Database db) async {
     await db.execute('''
           CREATE TABLE orders (
               sl INTEGER PRIMARY KEY AUTOINCREMENT,
 
-              posId VARCHAR,
-              posUserId VARCHAR,
-              orderId VARCHAR,
+              posid VARCHAR,
+              posuserid VARCHAR,
+              customername VARCHAR,
+              customerphone VARCHAR,
 
-              customerName TEXT,
-              customerPhone TEXT,
-              loyalityCard TEXT,
+              loyalitycard VARCHAR,
+              items JSON[],
+              subtotal DOUBLE,
+              grosstotal DOUBLE,
 
-              products JSONB,
-              grossTotal FLOAT,
-              discountAmount FLOAT,
+              discountamount INTEGER,
+              discounttype VARCHAR,
+              vatorgst DOUBLE,
+              nettotal DOUBLE,
 
-              disocuntName TEXT,
-              discountType TEXT,
-              netTotal FLOAT,
-
-              receivedAmount FLOAT,
-              receivedAmountDetail TEXT,
-              returnAmount FLOAT,
-
-              dateTime TIMESTAMP
+              receivedamount DOUBLE,
+              returnamount DOUBLE,
+              paymentdetails JSON[]
            )
           ''');
   }
@@ -47,56 +35,97 @@ extension CustomerOrderExt on Order {
 
     try {
       await db.rawInsert('''
-            INSERT INTO category(
-              posId,
-              posUserId,
-              orderId,
+            INSERT INTO customerOrder(
+              sl INTEGER PRIMARY KEY AUTOINCREMENT,
 
-              customerName,
-              customerPhone,
-              loyalityCard,
+              pos_id,
+              pos_user_id,
+              customer_name,
+              customer_phone,
 
-              products,
-              grossTotal,
-              discountAmount,
+              loyality_card,
+              items,
+              subtotal,
+              gross_total,
 
-              disocuntName,
-              discountType,
-              netTotal,
+              discount_amount,
+              discount_type,
+              vatorgst,
+              net_total,
 
-              receivedAmount,
-              receivedAmountDetail,
-              returnAmount,
+              received_amount,
+              return_amount,
+              paymentdetails 
 
-              dateTime
             )
             VALUES(
               '$posId',
               '$posUserId',
-              '$orderId',
-
               '$customerName',
               '$customerPhone',
+
               '$loyalityCard',
-
-              '$products',
+              '$items',
+              '$subtotal',
               '$grossTotal',
-              '$discountAmount',
 
-              '$disocuntName',
+              '$discountAmount',
               '$discountType',
+              '$vatorgst',
               '$netTotal',
 
               '$receivedAmount',
-              '$receivedAmountDetail',
               '$returnAmount',
+              '$paymentDetails'
 
-              '$dateTime' 
             )
       ''');
     } catch (e) {
       isSuccess = false;
     }
     return isSuccess;
+  }
+
+  Future<void> postRequest() async {
+    final Map<String, dynamic> jsonData = {
+      "customername": "Rabbi hasan",
+      "customerphone": "01681194424",
+      "loyalitycard": "32lkafj",
+      "subtotal": 1700.00,
+      "grosstotal": 1700.00,
+      "discountamount": 34,
+      "discounttype": "2,%",
+      "vatorgst": 0.00,
+      "nettotal": 1666.00,
+      "receivedamount": 1700.00,
+      "returnamount": 34.00,
+      "posid": "123kkdkja",
+      "posuserid": "321ikakd"
+    };
+
+    Future<void> insertOrder(Order order) async {
+      final db = await LocalDB().database;
+      await db.insert(
+        'orders',
+        order.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+
+    Order order = Order(
+      customerName: jsonData['customername'],
+      customerPhone: jsonData['customerphone'],
+      discountAmount: jsonData['discountamount'],
+      grossTotal: jsonData['grosstotal'],
+      subtotal: jsonData['subtotal'],
+      discountType: jsonData['discounttype'],
+      vatorgst: jsonData['vatorgst'],
+      receivedAmount: jsonData['receivedamount'],
+      posId: jsonData['posid'],
+      posUserId: jsonData['posuserid'],
+      loyalityCard: jsonData['loyalitycard'],
+    );
+
+    insertOrder(order);
   }
 }
