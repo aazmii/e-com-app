@@ -39,6 +39,11 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                       category: category,
                       isSelected: false,
                       isChild: false,
+                      onSelect: () {
+                        ref
+                            .read(selectedCategoryProvider.notifier)
+                            .set(category);
+                      },
                     ),
                   ),
                   SliverList.builder(
