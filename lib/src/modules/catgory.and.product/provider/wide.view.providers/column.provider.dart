@@ -108,29 +108,6 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
     state = AsyncData([...tempList]);
   }
 
-  void _remove(Category category) {
-    void extractCategories(List<Category>? list) {
-      list?.forEach(
-        (e) {
-          deletableCategoryAndProduct.add(e);
-          if (e.products != null) {
-            deletableCategoryAndProduct.addAll(e.products!);
-          }
-          extractCategories(e.children);
-        },
-      );
-    }
-
-    List<dynamic> tempList = state.value!;
-    extractCategories(category.children);
-    tempList.removeWhere((e) {
-      return deletableCategoryAndProduct.contains(e);
-    });
-    tempList.removeWhere((e) => category.products!.contains(e));
-    state = AsyncData([...tempList]);
-    deletableCategoryAndProduct.clear();
-  }
-
   _reposition(
     BuildContext context, {
     required bool scrollDownword,

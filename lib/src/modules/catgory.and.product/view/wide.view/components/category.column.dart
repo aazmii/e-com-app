@@ -19,7 +19,6 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final subCagetoryOrProduct = ref.watch(columnProvider(category));
-
     final notifier = ref.watch(columnProvider(category).notifier);
 
     return subCagetoryOrProduct.when(
@@ -60,6 +59,12 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                   }
                 },
               ),
+              if (notifier.pinnedCategory == null)
+                CategoryContainer(
+                  category: category,
+                  isSelected: false,
+                  isChild: false,
+                ),
               if (notifier.pinnedCategory != null &&
                   categrories.contains(ref.watch(selectedCategoryProvider)))
                 CategoryContainer(

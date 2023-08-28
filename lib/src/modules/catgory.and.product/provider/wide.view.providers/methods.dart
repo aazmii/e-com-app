@@ -31,8 +31,6 @@ Future<List<Product>> getAllProducts(
     final products = await v.getProducts(db);
     result.addAll(products);
   }
-  print(
-      'from ${categories.length} categories, delete ${result.length} products');
   return result;
 }
 

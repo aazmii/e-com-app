@@ -8,6 +8,7 @@ import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.d
 
 import '../../../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'components/category.column.dart';
+import 'components/saved.orders.dart';
 import 'components/scroll.navigation.dart';
 
 class CategoryView extends StatelessWidget {
@@ -18,13 +19,21 @@ class CategoryView extends StatelessWidget {
   final List<Category>? motherCategories;
   @override
   Widget build(BuildContext context) {
-    // if (motherCategories == null) return emptyWidget;
     return CustomScrollView(
       physics: const NeverScrollableScrollPhysics(),
       slivers: [
         // const SliverToBoxAdapter(child: SearchAndOrientationButton()),
         const SliverToBoxAdapter(child: height10),
-        // const SliverToBoxAdapter(child: SavedOrders()),
+        const SliverPadding(padding: EdgeInsets.only(left: 10)),
+        const SliverToBoxAdapter(
+            child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'Drafts',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        )),
+        const SliverToBoxAdapter(child: SavedOrders()),
         const SliverToBoxAdapter(child: height10),
         if (motherCategories == null || motherCategories!.isNotEmpty)
           const SliverToBoxAdapter(

@@ -5,7 +5,6 @@ import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
- 
 
 class ScrollNavigationButotns extends ConsumerWidget {
   const ScrollNavigationButotns({super.key});
@@ -20,8 +19,9 @@ class ScrollNavigationButotns extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CircleAvatar(
-            backgroundColor: context.secondaryColor,
+            backgroundColor: context.primaryColor,
             child: IconButton(
+              color: Colors.white,
               onPressed: () => ref
                   .read(motherCategoriesProvider.notifier)
                   .onPrevious(
@@ -30,8 +30,9 @@ class ScrollNavigationButotns extends ConsumerWidget {
             ),
           ),
           CircleAvatar(
-            backgroundColor: context.secondaryColor,
+            backgroundColor: context.primaryColor,
             child: IconButton(
+              color: Colors.white,
               onPressed: () {
                 ref.read(motherCategoriesProvider.notifier).onNext(
                     context.isMobileWidth ? context.width / 2 : jumpPixel);
