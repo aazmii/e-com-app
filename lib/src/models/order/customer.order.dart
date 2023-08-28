@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:pos_sq/src/db/app.db.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/models/payment_details/payment_details.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
@@ -28,6 +28,7 @@ class Order {
   double? receivedAmount;
   double? returnAmount;
   List<PaymentDetails>? paymentDetails;
+  DateTime? dateTime;
 
   Order({
     this.posId,
@@ -45,6 +46,7 @@ class Order {
     this.receivedAmount,
     this.returnAmount,
     this.paymentDetails,
+    this.dateTime,
   });
 
   Map<String, dynamic> toMap() {
@@ -64,6 +66,7 @@ class Order {
       'receivedAmount': receivedAmount,
       'returnAmount': returnAmount,
       'paymentdetails': paymentDetails?.map((x) => x.toMap()).toList(),
+      'dateTime': dateTime?.millisecondsSinceEpoch,
     };
   }
 
@@ -105,6 +108,9 @@ class Order {
               ),
             )
           : null,
+      dateTime: map['dateTime'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['dateTime'] as int)
+          : null,
     );
   }
 
@@ -129,6 +135,7 @@ class Order {
     double? receivedAmount,
     double? returnAmount,
     List<PaymentDetails>? paymentDetails,
+    DateTime? dateTime,
   }) {
     return Order(
       posId: posId ?? this.posId,
@@ -146,6 +153,7 @@ class Order {
       receivedAmount: receivedAmount ?? this.receivedAmount,
       returnAmount: returnAmount ?? this.returnAmount,
       paymentDetails: paymentDetails ?? this.paymentDetails,
+      dateTime: dateTime ?? this.dateTime,
     );
   }
 }
