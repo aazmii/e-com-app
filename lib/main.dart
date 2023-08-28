@@ -21,10 +21,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ProviderScope(
+    return ProviderScope(
       child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.black,
+        ),
         debugShowCheckedModeBanner: false,
-        home: Wrapper(),
+        home: const Wrapper(),
       ),
     );
   }

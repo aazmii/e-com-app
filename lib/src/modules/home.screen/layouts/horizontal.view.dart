@@ -19,7 +19,7 @@ class HorizontalView extends ConsumerWidget {
       children: [
         Expanded(
           flex: context.width < 1350 ? 6 : 5,
-          child: OrderDetail(),
+          child: const OrderDetail(),
         ),
         width10,
         Expanded(

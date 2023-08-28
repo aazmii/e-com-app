@@ -43,7 +43,7 @@ class OrderDetail extends ConsumerWidget {
                       height20,
                       const Align(
                         alignment: Alignment.centerRight,
-                        child: Text('summary'),
+                        child: Text(' '),
                       ),
                       height10,
                       ElevatedButton(
