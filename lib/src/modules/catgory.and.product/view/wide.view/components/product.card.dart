@@ -24,7 +24,8 @@ class ProductCard extends ConsumerWidget {
       splashColor: context.secondaryColor,
       onTap: onSelect,
       child: Padding(
-        padding: EdgeInsets.only(bottom: isLastItem ? 120 : 0),
+        // padding: EdgeInsets.only(bottom: isLastItem ? 120 : 0),
+        padding: const EdgeInsets.only(bottom: 0),
         child: Column(
           children: [
             AnimatedContainer(
