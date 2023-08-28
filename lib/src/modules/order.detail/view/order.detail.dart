@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/provider/order.provider.dart';
+import 'package:pos_sq/src/modules/cart.table/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
-import 'package:pos_sq/src/modules/order.detail/components/drawer/drawer.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/provider.dart';
+
+import '../components/customer.info.fields/customer.info.fields.dart';
 
 class OrderDetail extends ConsumerWidget {
   const OrderDetail({super.key});
@@ -17,46 +18,41 @@ class OrderDetail extends ConsumerWidget {
 
     return Scaffold(
       appBar: const OrderDetailAppBar(),
-      drawer: const AppDrawer(),
-      body: ListView(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              if (context.isMobileWidth)
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
-                ),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: context.secondaryColor,
           ),
-          AnimatedSize(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.linear,
-            child: (isCartVisible && context.width > 235)
-                ? Column(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (context.isMobileWidth)
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                  ),
+              ],
+            ),
+            (isCartVisible && context.width > 235)
+                ? const Column(
                     children: [
-                      const Text('cart'),
                       height20,
-                      const Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(' '),
-                      ),
+                      CustomerInfoFields(),
                       height10,
-                      ElevatedButton(
-                        onPressed: () {
-                          ref.read(orderProvider.notifier).createtable();
-                        },
-                        child: const Text('Save Order'),
-                      ),
+                      Cart(),
+                      // CartTable()
                     ],
                   )
                 : const SizedBox.shrink(),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

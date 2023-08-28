@@ -1,11 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:sqflite/sqflite.dart';
-
-import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/models/payment_details/payment_details.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:sqflite/sqflite.dart';
 
 part 'customer.order.ext.dart';
 
@@ -70,43 +68,37 @@ class Order {
     };
   }
 
-  factory Order.fromMap(Map<String, dynamic> map) {
+  static Order fromMap(Map<String, dynamic> map) {
     return Order(
-      posId: map['posId'] != null ? map['posId'] as String : null,
-      posUserId: map['posUserId'] != null ? map['posUserId'] as String : null,
+      posId: map['posid'] != null ? map['posid'] as String : null,
+      posUserId: map['posuserid'] != null ? map['posuserid'] as String : null,
       customerName:
-          map['customerName'] != null ? map['customerName'] as String : null,
+          map['customername'] != null ? map['customername'] as String : null,
       customerPhone:
-          map['customerPhone'] != null ? map['customerPhone'] as String : null,
+          map['customerphone'] != null ? map['customerphone'] as String : null,
       loyalityCard:
-          map['loyalityCard'] != null ? map['loyalityCard'] as String : null,
+          map['loyalitycard'] != null ? map['loyalitycard'] as String : null,
       items: map['items'] != null
-          ? List<Product>.from(
-              (map['items'] as List<int>).map<Product?>(
-                (x) => Product.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+          ? (map['items'] as List).map((e) => Product.fromMap(e)).toList()
           : null,
       subtotal: map['subtotal'] != null ? map['subtotal'] as double : null,
       grossTotal:
-          map['grossTotal'] != null ? map['grossTotal'] as double : null,
+          map['grosstotal'] != null ? map['grosstotal'] as double : null,
       discountAmount:
-          map['discountAmount'] != null ? map['discountAmount'] as int : null,
+          map['discountamount'] != null ? map['discountamount'] as int : null,
       discountType:
-          map['discountType'] != null ? map['discountType'] as String : null,
+          map['discounttype'] != null ? map['discounttype'] as String : null,
       vatorgst: map['vatorgst'] != null ? map['vatorgst'] as double : null,
-      netTotal: map['netTotal'] != null ? map['netTotal'] as double : null,
-      receivedAmount: map['receivedAmount'] != null
-          ? map['receivedAmount'] as double
+      netTotal: map['nettotal'] != null ? map['nettotal'] as double : null,
+      receivedAmount: map['receivedamount'] != null
+          ? map['receivedamount'] as double
           : null,
       returnAmount:
-          map['returnAmount'] != null ? map['returnAmount'] as double : null,
+          map['returnamount'] != null ? map['returnamount'] as double : null,
       paymentDetails: map['paymentdetails'] != null
-          ? List<PaymentDetails>.from(
-              (map['paymentdetails'] as List<int>).map<PaymentDetails?>(
-                (x) => PaymentDetails.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+          ? (map['paymentdetails'] as List)
+              .map((e) => PaymentDetails.fromMap(e))
+              .toList()
           : null,
       dateTime: map['dateTime'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['dateTime'] as int)
@@ -157,3 +149,59 @@ class Order {
     );
   }
 }
+
+final demoData = {
+  "customername": "Rabbi hasan",
+  "customerphone": "01681194424",
+  "loyalitycard": "32lkafj",
+  "items": [
+    {
+      "id": "1",
+      "name": "Product One",
+      "count": 3,
+      "price": 100.00,
+      "imageurl": "dfadsfs"
+    },
+    {
+      "id": "2",
+      "name": "Product Two",
+      "count": 1,
+      "price": 200.00,
+      "imageurl": "dfadsfs"
+    },
+    {
+      "id": "3",
+      "name": "Product Three",
+      "count": 4,
+      "price": 300.00,
+      "imageurl": null
+    }
+  ],
+  "subtotal": 1700.00,
+  "grosstotal": 1700.00,
+  "discountamount": 34,
+  "discounttype": "2,%",
+  "vatorgst": 0.00,
+  "nettotal": 1666.00,
+  "receivedamount": 1700.00,
+  "returnamount": 34.00,
+  "paymentdetails": [
+    {
+      "paymenttype": "cash",
+      "transactiondetails": "vai pocket theke disi",
+      "amount": 1000.00
+    },
+    {
+      "paymenttype": "card",
+      "transactiondetails": "ebl theke disi",
+      "amount": 500.00
+    },
+    {
+      "paymenttype": "bkash",
+      "transactiondetails": "bkash theke disi",
+      "amount": 200.00
+    }
+  ],
+  "posid": "123kkdkja",
+  "posuserid": "321ikakd"
+};

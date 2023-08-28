@@ -2,40 +2,40 @@ import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class PaymentDetails {
-  String? paymenttype;
-  String? transactiondetails;
+  String? paymentType;
+  String? transactionDetails;
   double? amount;
   PaymentDetails({
-    this.paymenttype,
-    this.transactiondetails,
+    this.paymentType,
+    this.transactionDetails,
     this.amount,
   });
 
   PaymentDetails copyWith({
-    String? paymenttype,
-    String? transactiondetails,
+    String? paymentType,
+    String? transactionDetails,
     double? amount,
   }) {
     return PaymentDetails(
-      paymenttype: paymenttype ?? this.paymenttype,
-      transactiondetails: transactiondetails ?? this.transactiondetails,
+      paymentType: paymentType ?? this.paymentType,
+      transactionDetails: transactionDetails ?? this.transactionDetails,
       amount: amount ?? this.amount,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'paymenttype': paymenttype,
-      'transactiondetails': transactiondetails,
+      'paymenttype': paymentType,
+      'transactiondetails': transactionDetails,
       'amount': amount,
     };
   }
 
-  factory PaymentDetails.fromMap(Map<String, dynamic> map) {
+  static PaymentDetails fromMap(Map<String, dynamic> map) {
     return PaymentDetails(
-      paymenttype:
+      paymentType:
           map['paymenttype'] != null ? map['paymenttype'] as String : null,
-      transactiondetails: map['transactiondetails'] != null
+      transactionDetails: map['transactiondetails'] != null
           ? map['transactiondetails'] as String
           : null,
       amount: map['amount'] != null ? map['amount'] as double : null,
@@ -49,5 +49,5 @@ class PaymentDetails {
 
   @override
   String toString() =>
-      'PaymentDetails(paymenttype: $paymenttype, transactiondetails: $transactiondetails, amount: $amount)';
+      'PaymentDetails(paymentType: $paymentType, transactionDetails: $transactionDetails, amount: $amount)';
 }

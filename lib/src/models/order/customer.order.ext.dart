@@ -3,41 +3,40 @@
 part of 'customer.order.dart';
 
 extension CustomerOrderExt on Order {
-  createTable(Database db) async {
+  Future createTable(Database db) async {
     await db.execute('''
           CREATE TABLE orders (
               sl INTEGER PRIMARY KEY AUTOINCREMENT,
 
-              posid VARCHAR,
-              posuserid VARCHAR,
-              customername VARCHAR,
-              customerphone VARCHAR,
+              pos_id VARCHAR,
+              pos_user_id VARCHAR,
+              customer_name VARCHAR,
+              customer_phone VARCHAR,
 
-              loyalitycard VARCHAR,
+              loyality_card VARCHAR,
               items JSON[],
               subtotal DOUBLE,
-              grosstotal DOUBLE,
+              gross_total DOUBLE,
 
-              discountamount INTEGER,
-              discounttype VARCHAR,
+              discount_amount INTEGER,
+              discount_type VARCHAR,
               vatorgst DOUBLE,
               nettotal DOUBLE,
 
-              receivedamount DOUBLE,
-              returnamount DOUBLE,
-              paymentdetails JSON[]
+              received_amount DOUBLE,
+              return_amount DOUBLE,
+              payment_details JSONB
            )
           ''');
   }
 
-  Future<bool> insertInDb(Database db) async {
+  Future<bool> saveInLocalDb(Database db) async {
     bool isSuccess = true;
 
     try {
       await db.rawInsert('''
-            INSERT INTO customerOrder(
-              sl INTEGER PRIMARY KEY AUTOINCREMENT,
-
+            INSERT INTO orders(
+             
               pos_id,
               pos_user_id,
               customer_name,
@@ -51,11 +50,11 @@ extension CustomerOrderExt on Order {
               discount_amount,
               discount_type,
               vatorgst,
-              net_total,
+              nettotal,
 
               received_amount,
-              return_amount,
-              paymentdetails 
+              return_amount ,
+              payment_details
 
             )
             VALUES(
@@ -82,50 +81,8 @@ extension CustomerOrderExt on Order {
       ''');
     } catch (e) {
       isSuccess = false;
+      print(e);
     }
     return isSuccess;
-  }
-
-  Future<void> postRequest() async {
-    final Map<String, dynamic> jsonData = {
-      "customername": "Rabbi hasan",
-      "customerphone": "01681194424",
-      "loyalitycard": "32lkafj",
-      "subtotal": 1700.00,
-      "grosstotal": 1700.00,
-      "discountamount": 34,
-      "discounttype": "2,%",
-      "vatorgst": 0.00,
-      "nettotal": 1666.00,
-      "receivedamount": 1700.00,
-      "returnamount": 34.00,
-      "posid": "123kkdkja",
-      "posuserid": "321ikakd"
-    };
-
-    Future<void> insertOrder(Order order) async {
-      final db = await LocalDB().database;
-      await db.insert(
-        'orders',
-        order.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-
-    Order order = Order(
-      customerName: jsonData['customername'],
-      customerPhone: jsonData['customerphone'],
-      discountAmount: jsonData['discountamount'],
-      grossTotal: jsonData['grosstotal'],
-      subtotal: jsonData['subtotal'],
-      discountType: jsonData['discounttype'],
-      vatorgst: jsonData['vatorgst'],
-      receivedAmount: jsonData['receivedamount'],
-      posId: jsonData['posid'],
-      posUserId: jsonData['posuserid'],
-      loyalityCard: jsonData['loyalitycard'],
-    );
-
-    insertOrder(order);
   }
 }

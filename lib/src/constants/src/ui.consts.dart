@@ -41,4 +41,5 @@ const height50 = SizedBox(height: 50);
 
 const scrollbarWidth = 12.0;
 
+const textFieldHeight = 40.0;
 const categoryCardColor = Color(0xFFE5E5E5);

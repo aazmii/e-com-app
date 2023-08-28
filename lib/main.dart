@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+import 'src/theme/custom.theme.dart';
 import 'src/wrapper.dart';
 
 void main() async {
@@ -23,9 +24,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: MaterialApp(
-        theme: ThemeData(
-          primaryColor: Colors.black,
-        ),
+        theme: lightTheme,
         debugShowCheckedModeBanner: false,
         home: const Wrapper(),
       ),
