@@ -5,7 +5,7 @@ class CustomButton extends StatelessWidget {
     super.key,
     this.size = 20,
     this.onPressed,
-    required this.icon,
+    this.icon,
     this.iconColor,
     this.margineAll,
     this.backgroundColor,
@@ -13,7 +13,7 @@ class CustomButton extends StatelessWidget {
   final double? size;
   final double? margineAll;
   final VoidCallback? onPressed;
-  final IconData icon;
+  final IconData? icon;
   final Color? iconColor;
   final Color? backgroundColor;
 

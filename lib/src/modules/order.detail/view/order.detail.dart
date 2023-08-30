@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/cart.table/cart.dart';
+import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
-import 'package:pos_sq/src/providers/order.stream.dart';
+import 'package:pos_sq/src/providers/order.provider.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
 import '../components/customer.info.fields/customer.info.fields.dart';
@@ -15,8 +15,6 @@ class OrderDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var isCartVisible = ref.watch(isCartVisibleProvider);
-    // var orderNotifier = ref.watch(orderProvider);
-
     return Scaffold(
       appBar: const OrderDetailAppBar(),
       body: Container(

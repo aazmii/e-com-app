@@ -4,9 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/components/square.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/modules/cart.table/cart.components.dart';
+import 'package:pos_sq/src/modules/cart.table/provider/cart.state.provider.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:pos_sq/src/providers/order.provider.dart';
+import 'package:pos_sq/src/providers/order.stream.dart';
 
-import 'cart.components.dart';
+import 'components/collapse.button.dart';
+import 'components/collapsed.view.dart';
 
 final _flexes = [0, 3, 2, 2, 2, 1, 1];
 final products = [Product(), Product(), Product()];
@@ -16,49 +21,69 @@ class Cart extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return Column(
-      children: [
-        TableTitles(flexes: _flexes),
-        ...List.generate(
-          products.length,
-          (i) => Column(
+    return ref.watch(cartStateProvider) == CartState.collapsed
+        ? const CollapsedView()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                color: i % 2 == 0 ? Colors.transparent : Colors.white60,
-                child: _CustomRow(
-                  flexes: _flexes,
-                  sl: i + 1,
-                  item: products[i],
-                ),
+              TableTitles(flexes: _flexes),
+              ...ref.watch(orderProvider).when(
+                    data: (order) {
+                      if (order.items == null || order.items!.isEmpty) {
+                        return [];
+                      }
+                      return List.generate(
+                        products.length,
+                        (i) => Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              color: i % 2 == 0
+                                  ? Colors.transparent
+                                  : Colors.white60,
+                              child: _CustomRow(
+                                flexes: _flexes,
+                                sl: i + 1,
+                                item: products[i],
+                              ),
+                            ),
+                            const Divider()
+                          ],
+                        ),
+                      );
+                    },
+                    error: (e, s) {
+                      return [];
+                    },
+                    loading: () => [],
+                  ),
+              AddNewItemRow(flexes: _flexes),
+              const Divider(),
+              const CustomTableRow(
+                title: 'Gross Total',
+                value: 23.42,
               ),
-              const Divider()
+              const Divider(),
+              const CustomTableRow(
+                title: 'Total Vat',
+                value: 23.42,
+              ),
+              const Divider(),
+              const CustomTableRow(
+                title: 'Total Tax',
+                value: 23.42,
+              ),
+              const Divider(),
+              const CustomTableRow(
+                title: 'Net Total',
+                value: 23.42,
+              ),
+              const Divider(),
+              CartStateButton(
+                onPressed: ref.read(cartStateProvider.notifier).toggleCartState,
+              ),
             ],
-          ),
-        ),
-        AddNewItemRow(flexes: _flexes),
-        const Divider(),
-        const CustomTableRow(
-          title: 'Gross Total',
-          value: 23.42,
-        ),
-        const Divider(),
-        const CustomTableRow(
-          title: 'Total Vat',
-          value: 23.42,
-        ),
-        const Divider(),
-        const CustomTableRow(
-          title: 'Total Tax',
-          value: 23.42,
-        ),
-        const Divider(),
-        const CustomTableRow(
-          title: 'Net Total',
-          value: 23.42,
-        ),
-      ],
-    );
+          );
   }
 }
 

@@ -10,6 +10,23 @@ extension OrderExt on Order {
   Future<void> onLoyalityCardChanged(String s) async =>
       _updateCustomerInfo('loyality_card', s);
 
+  Future addItem(Item item) async {
+    // final db = await LocalDB.database;
+
+    try {
+      // await db.update(
+      //   'orders',
+      //   {
+      //     'items': [item.toJson()]
+      //   },
+      //   where: 'sl =?',
+      //   whereArgs: [sl],
+      // );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<bool> delete() async {
     if (sl == null) return false;
     return (await LocalDB.deleteTableRowBySl(tableName: 'orders', sl: sl!)) == 1

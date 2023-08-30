@@ -5,6 +5,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/column.provider.dart';
+import 'package:pos_sq/src/providers/order.provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../provider/wide.view.providers/selected.category.id.provider.dart';
@@ -69,7 +70,9 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                       }
                       if (categoryOrProduct is Product) {
                         return ProductCard(
-                          onSelect: () async {},
+                          onSelect: () async => ref
+                              .read(orderProvider.notifier)
+                              .addToCart(categoryOrProduct),
                           product: categoryOrProduct,
                           isLastItem: dynamicList.last == categoryOrProduct,
                         );

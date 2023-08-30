@@ -10,7 +10,7 @@ import '../modules/catgory.and.product/model/category/category.dart';
 class LocalDB {
   static Database? _db;
 
-  static const _databaseName = "POS._db";
+  static const _databaseName = "POS.db";
   static const _databaseVersion = 1;
   static Future<Database> get database async {
     if (_db != null) return _db!;
@@ -41,9 +41,9 @@ class LocalDB {
     // await Order().createTable(_db);
   }
 
-  static Future<int> getDbCount(String tableName) async {
-    return (await _db!.rawQuery('SELECT COUNT(*) FROM $tableName')).length;
-  }
+  static Future<int?> getDbCount(String tableName) async =>
+      Sqflite.firstIntValue(
+          await _db!.rawQuery('SELECT COUNT(*) FROM $tableName'));
 
   static Future<Map<String, dynamic>> getLastItem(String tableName) async {
     if (_db == null) await _initDB();
@@ -52,8 +52,8 @@ class LocalDB {
     return data.first;
   }
 
-  static _createTable(Database _db, String tableName) async {
-    await _db.execute('''
+  static _createTable(Database db, String tableName) async {
+    await db.execute('''
           CREATE TABLE $tableName (
             sl SMALLSERIAL PRIMARY KEY,
             col1 TEXT, 

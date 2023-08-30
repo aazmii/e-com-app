@@ -4,7 +4,6 @@ import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/order/order.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'package:pos_sq/src/modules/home.screen/layouts/horizontal.view.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
@@ -44,11 +43,8 @@ class SalesScreen extends ConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-          
-              final drafts = (await LocalDB.getAllData('orders'))
-                  .map((e) => Order.fromDbMap(e))
-                  .toList();
-              print(drafts.length);
+              print(await LocalDB.getDbCount('orders'));
+              // print(await LocalDB.getAllData('orders'));
             },
           ),
         ),

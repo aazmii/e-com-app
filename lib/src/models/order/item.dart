@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+
 class Item {
   final String? id;
   final String? name;
   final int? count;
-  final int? price;
+  final double? price;
   final String? imageurl;
   Item({
     this.id,
@@ -18,7 +20,7 @@ class Item {
     String? id,
     String? name,
     int? count,
-    int? price,
+    double? price,
     String? imageurl,
   }) {
     return Item(
@@ -40,12 +42,22 @@ class Item {
     };
   }
 
+  static Item fromProduct(Product p) {
+    return Item(
+      id: p.productId,
+      name: p.label,
+      price: p.price,
+      count: null,
+      imageurl: p.files!.isEmpty ? null : p.files!.first,
+    );
+  }
+
   static Item fromMap(Map<String, dynamic> map) {
     return Item(
       id: map['id'] as String?,
       name: map['name'] as String?,
       count: map['count'] != null ? map['count'] as int : null,
-      price: map['price'] != null ? map['price'] as int : null,
+      price: map['price'] != null ? map['price'] as double : null,
       imageurl: map['imageurl'] as String?,
     );
   }
@@ -64,19 +76,11 @@ class Item {
   bool operator ==(covariant Item other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.name == name &&
-        other.count == count &&
-        other.price == price &&
-        other.imageurl == imageurl;
+    return other.id == id;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        count.hashCode ^
-        price.hashCode ^
-        imageurl.hashCode;
+    return id.hashCode;
   }
 }
