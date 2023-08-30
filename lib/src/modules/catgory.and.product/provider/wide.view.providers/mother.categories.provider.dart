@@ -20,7 +20,7 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
 
   @override
   FutureOr<List<Category>> build() async {
-    db = await LocalDB().database;
+    db = await LocalDB.database;
     List<Category> dbCategories = await getCategoriesFromDb();
     if (dbCategories.isEmpty) {
       await initLocalDb(db);
@@ -37,7 +37,7 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
   }
 
   Future<List<Category>> getCategoriesFromDb() async {
-    return (await LocalDB().getAllData('category')).map((e) {
+    return (await LocalDB.getAllData('category')).map((e) {
       return Category.fromMap(e);
     }).toList();
   }

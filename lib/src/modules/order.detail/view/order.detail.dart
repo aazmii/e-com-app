@@ -4,7 +4,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/provider.dart';
+import 'package:pos_sq/src/providers/providers.dart';
 
 import '../components/customer.info.fields/customer.info.fields.dart';
 

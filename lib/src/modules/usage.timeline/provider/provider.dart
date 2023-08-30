@@ -21,7 +21,7 @@ class ActivityProvider extends Notifier<Activity> {
     final now = DateTime.now();
     final DateTime? apiDateTime = now.addDays(7);
 
-    final list = (await LocalDB().getAllData('usageTimeline'))
+    final list = (await LocalDB.getAllData('usageTimeline'))
         .map((e) => UsageTimeline.fromMap(e))
         .toList();
 
@@ -31,7 +31,7 @@ class ActivityProvider extends Notifier<Activity> {
         time: state.loginTime,
         gap: null,
       ).insertInDb(
-        await LocalDB().database,
+        await LocalDB.database,
       );
       return;
     }
@@ -43,7 +43,7 @@ class ActivityProvider extends Notifier<Activity> {
           date: gapInHours < 0 ? apiDateTime.nextDay : apiDateTime,
           time: apiDateTime,
           gap: Duration(hours: gapInHours),
-        ).insertInDb(await LocalDB().database);
+        ).insertInDb(await LocalDB.database);
       } else {
         final gapInHours = apiDateTime.difference(lastLogin.time!).inHours;
         final days = gapInHours ~/ 24;
@@ -51,7 +51,7 @@ class ActivityProvider extends Notifier<Activity> {
           date: apiDateTime, //need a validation?
           time: apiDateTime,
           gap: Duration(hours: apiDateTime.difference(lastLogin.time!).inHours),
-        ).insertInDb(await LocalDB().database);
+        ).insertInDb(await LocalDB.database);
         if (days > 0) _updateDeadlineInConfig(days);
       }
       //api datetime not found
@@ -64,7 +64,7 @@ class ActivityProvider extends Notifier<Activity> {
             : lastLogin.date, //need a validation?
         time: state.loginTime,
         gap: Duration(hours: localTime.difference(lastLogin.time!).inHours),
-      ).insertInDb(await LocalDB().database);
+      ).insertInDb(await LocalDB.database);
       if (gap.isNegative) _updateDeadlineInConfig(1);
     }
   }

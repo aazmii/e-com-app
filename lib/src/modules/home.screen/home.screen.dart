@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
-import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/order/customer.order.dart';
+import 'package:pos_sq/src/models/order/order.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
 
 import '../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'layouts/horizontal.view.dart';
 
+Map<String, dynamic>? map;
+
 class SalesScreen extends ConsumerWidget {
   const SalesScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, ref) {
     final isVertical = ref.watch(layoutProvider) == AppLayout.verticalView;
@@ -41,12 +41,15 @@ class SalesScreen extends ConsumerWidget {
                   loading: () => const CenterText(text: 'Loading..'),
                 ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              final orderObj = Order.fromMap(demoData);
-              await orderObj.saveInLocalDb(await LocalDB().database);
-            },
-          ),
+          floatingActionButton: FloatingActionButton(onPressed: () async {
+            // await demoOrderObject.saveInLocalDb(await LocalDB.database);
+            // map = await LocalDB.getLastItem('orders');
+
+            print(Order.fromDbMap(map!));
+
+            // print(await LocalDB()
+            //     .deleteTableRowBySl(tableName: 'orders', sl: 11));
+          }),
         ),
       ),
     );

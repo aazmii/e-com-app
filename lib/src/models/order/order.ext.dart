@@ -1,35 +1,6 @@
-// ignore_for_file: avoid_print
+part of 'order.dart';
 
-part of 'customer.order.dart';
-
-extension CustomerOrderExt on Order {
-  Future createTable(Database db) async {
-    await db.execute('''
-          CREATE TABLE orders (
-              sl INTEGER PRIMARY KEY AUTOINCREMENT,
-
-              pos_id VARCHAR,
-              pos_user_id VARCHAR,
-              customer_name VARCHAR,
-              customer_phone VARCHAR,
-
-              loyality_card VARCHAR,
-              items JSON[],
-              subtotal DOUBLE,
-              gross_total DOUBLE,
-
-              discount_amount INTEGER,
-              discount_type VARCHAR,
-              vatorgst DOUBLE,
-              nettotal DOUBLE,
-
-              received_amount DOUBLE,
-              return_amount DOUBLE,
-              payment_details JSONB
-           )
-          ''');
-  }
-
+extension OrderExt on Order {
   Future<bool> saveInLocalDb(Database db) async {
     bool isSuccess = true;
 
@@ -44,13 +15,13 @@ extension CustomerOrderExt on Order {
 
               loyality_card,
               items,
-              subtotal,
+              sub_total,
               gross_total,
 
               discount_amount,
               discount_type,
-              vatorgst,
-              nettotal,
+              vat_or_gst,
+              net_total,
 
               received_amount,
               return_amount ,
@@ -64,8 +35,8 @@ extension CustomerOrderExt on Order {
               '$customerPhone',
 
               '$loyalityCard',
-              '$items',
-              '$subtotal',
+              '${items?.map((e) => e.toJson()).toList()}',
+              '$subTotal',
               '$grossTotal',
 
               '$discountAmount',
@@ -75,7 +46,7 @@ extension CustomerOrderExt on Order {
 
               '$receivedAmount',
               '$returnAmount',
-              '$paymentDetails'
+              '${paymentDetails?.map((e) => e.toJson()).toList()}'
 
             )
       ''');

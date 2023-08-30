@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/components/confirm.dialog.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/order/customer.order.dart';
+import 'package:pos_sq/src/models/order/order.dart';
 
 final orders = [
-  Order(dateTime: DateTime.now()),
-  Order(dateTime: DateTime.now().previousDay),
-  Order(dateTime: DateTime.now().nextDay),
-  Order(dateTime: DateTime.now().nextDay),
-  Order(dateTime: DateTime.now().nextDay),
-  Order(dateTime: DateTime.now().nextDay),
+  Order(orderTime: DateTime.now()),
+  Order(orderTime: DateTime.now().previousDay),
+  Order(orderTime: DateTime.now().nextDay),
+  Order(orderTime: DateTime.now().nextDay),
+  Order(orderTime: DateTime.now().nextDay),
+  Order(orderTime: DateTime.now().nextDay),
 ];
 
 class SavedOrders extends ConsumerWidget {
@@ -24,7 +24,7 @@ class SavedOrders extends ConsumerWidget {
         itemCount: orders.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, i) => CustomChoiceChip(
-          label: orders[i].dateTime,
+          label: orders[i].orderTime,
           isSelected: false,
           onSelect: () {},
           onDelete: () async {

@@ -1,23 +1,24 @@
 import 'package:path/path.dart';
-import 'package:pos_sq/src/models/order/customer.order.dart';
+import 'package:pos_sq/src/models/order/order.dart';
+import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/usage.timeline/model/usage.timeline.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../modules/catgory.and.product/model/category/category.dart';
 
-Database? _db;
-
 class LocalDB {
+  static Database? _db;
+
   static const _databaseName = "POS.db";
   static const _databaseVersion = 1;
-  Future<Database> get database async {
-    // if (_db != null) return _db!;
+  static Future<Database> get database async {
+    if (_db != null) return _db!;
     _db = await _initDB();
     return _db!;
   }
 
-  Future<Database> _initDB() async {
+  static Future<Database> _initDB() async {
     final documentsDirectory = await getDatabasesPath();
     final path = join(documentsDirectory, _databaseName);
 
@@ -29,18 +30,26 @@ class LocalDB {
     );
   }
 
-  Future _onCreate(Database db, int version) async {
-    await _createTable(db, 'config');
-    await UsageTimeline.createTable(db);
-    await Order().createTable(db);
-    await Product().createTable(db);
-    await Category().createTable(db);
-    // await MotherCategory.createTable(db);
-    // await Order().createTable(db);
+  static Future _onCreate(Database _db, int version) async {
+    await _createTable(_db, 'config');
+    await UsageTimeline.createTable(_db);
+    await Order.createTable(_db);
+    await Product.createTable(_db);
+    await Category.createTable(_db);
+    await PaymentDetail.createTable(_db);
+    // await MotherCategory.createTable(_db);
+    // await Order().createTable(_db);
   }
 
-  _createTable(Database db, String tableName) async {
-    await db.execute('''
+  static Future<Map<String, dynamic>> getLastItem(String tableName) async {
+    if (_db == null) await _initDB();
+    final data = await _db!
+        .rawQuery('SELECT * FROM $tableName ORDER BY sl DESC LIMIT 1');
+    return data.first;
+  }
+
+  static _createTable(Database _db, String tableName) async {
+    await _db.execute('''
           CREATE TABLE $tableName (
             sl SMALLSERIAL PRIMARY KEY,
             col1 TEXT, 
@@ -49,9 +58,9 @@ class LocalDB {
     ''');
   }
 
-  Future<List<Map<String, dynamic>>> getAllData(String tableName) async {
-    final db = await database;
-    return await db.query(tableName);
+  static Future<List<Map<String, dynamic>>> getAllData(String tableName) async {
+    final _db = await database;
+    return await _db.query(tableName);
   }
 
   Future<bool> insertData(
@@ -60,10 +69,10 @@ class LocalDB {
     required String keyName,
     required String? value,
   }) async {
-    final db = await database;
+    final _db = await database;
     bool isSuccess = true;
     try {
-      await db.rawInsert('''
+      await _db.rawInsert('''
             INSERT INTO $tableName(sl,col1, col2)
             VALUES
             ('$sl','$keyName','$value')
@@ -80,9 +89,9 @@ class LocalDB {
     required String column1,
     required String column2,
   }) async {
-    final db = await database;
+    final _db = await database;
 
-    return await db.rawQuery('''
+    return await _db.rawQuery('''
     SELECT $column1,$column2 
     FROM $tableName 
     ''');
@@ -92,9 +101,9 @@ class LocalDB {
     required String tableName,
     required int id,
   }) async {
-    final db = await database;
+    final _db = await database;
 
-    final data = await db.query(tableName, where: 'id =?', whereArgs: [id]);
+    final data = await _db.query(tableName, where: 'id =?', whereArgs: [id]);
     if (data.isEmpty) return null;
     return data[0];
   }
@@ -103,8 +112,8 @@ class LocalDB {
     required String tableName,
     required String keyName,
   }) async {
-    final db = await database;
-    final data = await db.query(
+    final _db = await database;
+    final data = await _db.query(
       tableName,
       columns: ['col2'],
       where: 'col1 = ?',
@@ -119,9 +128,9 @@ class LocalDB {
     required String keyName,
     required dynamic value,
   }) async {
-    final db = await database;
+    final _db = await database;
     try {
-      return db.rawUpdate('''
+      return _db.rawUpdate('''
         UPDATE $tableName
         SET col2 = '$value'
         WHERE col1= '$keyName';
@@ -135,17 +144,29 @@ class LocalDB {
     required String tableName,
     required int id,
   }) async {
-    final db = await database;
-    return await db.delete(
+    final _db = await database;
+    return await _db.delete(
       tableName,
       where: 'id=?',
       whereArgs: [id],
     );
   }
 
+  Future<int> deleteTableRowBySl({
+    required String tableName,
+    required int sl,
+  }) async {
+    final _db = await database;
+    return await _db.delete(
+      tableName,
+      where: 'sl=?',
+      whereArgs: [sl],
+    );
+  }
+
   Future<int> deleteTableFromDB(String tableName) async {
-    final db = await database;
-    return db.delete(tableName);
+    final _db = await database;
+    return _db.delete(tableName);
   }
 
   // Future<bool> insertToConfig({
@@ -154,9 +175,9 @@ class LocalDB {
   //   required String? configValue,
   // }) async {
   //   bool isInserted = true;
-  //   final db = await database;
+  //   final _db = await database;
   //   await Config.insertData(
-  //     db,
+  //     _db,
   //     sl: sl,
   //     keyName: keyName,
   //     value: configValue,

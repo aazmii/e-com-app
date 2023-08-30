@@ -235,4 +235,42 @@ class Category {
   int get hashCode {
     return id.hashCode;
   }
+
+  static Future createTable(Database db) async {
+    await db.execute('''
+          CREATE TABLE category (
+              sl INTEGER PRIMARY KEY AUTOINCREMENT,
+              
+              id VARCHAR UNIQUE ,
+              parent VARCHAR,
+              position INT, 
+              label TEXT, 
+        
+              description TEXT,
+              warehouse_location	JSONB,
+              outlet_location	JSONB,
+              rack_location	VARCHAR,
+
+              type TEXT, 
+              tags TEXT[],
+              minimum_inventory	INT,
+              special_category BOOL,
+
+              best_sale_category BOOL,
+              is_enable BOOL, 
+              menu BOOL, 
+              live_sales BOOL, 
+
+              root BOOL,
+              home BOOL, 
+              category_files TEXT[], 
+              created_at TIMESTAMP,
+
+              created_by JSONB, 
+              updated_at TIMESTAMP,
+              updated_by JSONB,
+              shelf_life INT 
+           )
+          ''');
+  }
 }
