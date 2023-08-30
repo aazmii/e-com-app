@@ -1,15 +1,18 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/db/app.db.dart';
-import 'package:pos_sq/src/models/order/order.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:pos_sq/src/db/app.db.dart';
+// import 'package:pos_sq/src/models/order/order.dart';
 
-final selectedOrderProvider =
-    AsyncNotifierProvider<OrderProvider, Order>(OrderProvider.new);
+// final selectedOrderProvider =
+//     AsyncNotifierProvider<OrderProvider, Order>(OrderProvider.new);
 
-class OrderProvider extends AsyncNotifier<Order> {
-  @override
-  Future<Order> build() async {
-    final order = Order();
-    order.saveInLocalDb(await LocalDB.database);
-    return Order();
-  }
-}
+// class OrderProvider extends AsyncNotifier<Order> {
+//   @override
+//   Future<Order> build() async {
+//     if (await LocalDB.getDbCount('orders') > 1) {
+//       return Order.fromDbMap(await LocalDB.getLastItem('orders'));
+//     } else {
+//       await Order().saveInLocalDb(await LocalDB.database);
+//       return Order.fromDbMap(await LocalDB.getLastItem('orders'));
+//     }
+//   }
+// }

@@ -6,10 +6,9 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/view/wide.view/components/search.and.orientation.button.dart';
-
 import '../../../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'components/category.column.dart';
-import 'components/saved.orders.dart';
+import 'components/draft.orders.dart';
 import 'components/scroll.navigation.dart';
 
 class CategoryView extends StatelessWidget {
@@ -34,7 +33,7 @@ class CategoryView extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         )),
-        const SliverToBoxAdapter(child: SavedOrders()),
+        const SliverToBoxAdapter(child: DraftOrders()),
         const SliverToBoxAdapter(child: height10),
         if (motherCategories == null || motherCategories!.isNotEmpty)
           const SliverToBoxAdapter(

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
+import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/models/order/order.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
+import 'package:pos_sq/src/modules/home.screen/layouts/horizontal.view.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
-
-import '../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
-import 'layouts/horizontal.view.dart';
 
 Map<String, dynamic>? map;
 
@@ -16,6 +16,7 @@ class SalesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final isVertical = ref.watch(layoutProvider) == AppLayout.verticalView;
+
     return SafeArea(
       child: GestureDetector(
         child: Scaffold(
@@ -41,15 +42,15 @@ class SalesScreen extends ConsumerWidget {
                   loading: () => const CenterText(text: 'Loading..'),
                 ),
           ),
-          floatingActionButton: FloatingActionButton(onPressed: () async {
-            // await demoOrderObject.saveInLocalDb(await LocalDB.database);
-            // map = await LocalDB.getLastItem('orders');
-
-            print(Order.fromDbMap(map!));
-
-            // print(await LocalDB()
-            //     .deleteTableRowBySl(tableName: 'orders', sl: 11));
-          }),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+          
+              final drafts = (await LocalDB.getAllData('orders'))
+                  .map((e) => Order.fromDbMap(e))
+                  .toList();
+              print(drafts.length);
+            },
+          ),
         ),
       ),
     );

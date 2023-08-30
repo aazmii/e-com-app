@@ -1,6 +1,40 @@
 part of 'order.dart';
 
 extension OrderExt on Order {
+  Future<void> onNameChange(String s) async =>
+      _updateCustomerInfo('customer_name', s);
+
+  Future<void> onPhoneChange(String s) async =>
+      _updateCustomerInfo('customer_phone', s);
+
+  Future<void> onLoyalityCardChanged(String s) async =>
+      _updateCustomerInfo('loyality_card', s);
+
+  Future<bool> delete() async {
+    if (sl == null) return false;
+    return (await LocalDB.deleteTableRowBySl(tableName: 'orders', sl: sl!)) == 1
+        ? true
+        : false;
+  }
+
+  Future _updateCustomerInfo(
+    String columnName,
+    String s,
+  ) async {
+    final db = await LocalDB.database;
+
+    try {
+      await db.update(
+        'orders',
+        {columnName: s},
+        where: 'sl = ?',
+        whereArgs: [sl],
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<bool> saveInLocalDb(Database db) async {
     bool isSuccess = true;
 
@@ -25,7 +59,9 @@ extension OrderExt on Order {
 
               received_amount,
               return_amount ,
-              payment_details
+              payment_details, 
+
+              order_time
 
             )
             VALUES(
@@ -46,7 +82,9 @@ extension OrderExt on Order {
 
               '$receivedAmount',
               '$returnAmount',
-              '${paymentDetails?.map((e) => e.toJson()).toList()}'
+              '${paymentDetails?.map((e) => e.toJson()).toList()}',
+
+              '$orderTime'
 
             )
       ''');

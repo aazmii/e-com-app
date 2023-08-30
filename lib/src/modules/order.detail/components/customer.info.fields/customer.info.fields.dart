@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
+import 'package:pos_sq/src/models/order/order.dart';
 
 class CustomerInfoFields extends ConsumerWidget {
-  const CustomerInfoFields({super.key});
-
+  const CustomerInfoFields({super.key, this.order});
+  final Order? order;
   @override
   Widget build(BuildContext context, ref) {
-    return const Padding(
-      padding: EdgeInsets.only(left: 8.0, right: 80),
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 80),
       child: Row(
         children: [
           SizedBox(
@@ -16,24 +17,27 @@ class CustomerInfoFields extends ConsumerWidget {
               width: 150,
               child: SizedBox(
                 child: TextField(
-                  decoration: InputDecoration(
+                  onChanged: order?.onNameChange,
+                  decoration: const InputDecoration(
                     hintText: 'Customer Name',
                   ),
                 ),
               )),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           SizedBox(
               height: textFieldHeight,
               width: 150,
               child: TextField(
-                decoration: InputDecoration(hintText: 'Phone Number'),
+                onChanged: order?.onPhoneChange,
+                decoration: const InputDecoration(hintText: 'Phone Number'),
               )),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           SizedBox(
             height: textFieldHeight,
             width: 150,
             child: TextField(
-              decoration: InputDecoration(hintText: 'Loyality Card'),
+              onChanged: order?.onLoyalityCardChanged,
+              decoration: const InputDecoration(hintText: 'Loyality Card'),
             ),
           ),
         ],

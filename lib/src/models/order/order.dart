@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
@@ -8,6 +9,8 @@ import 'package:sqflite/sqflite.dart';
 part 'order.ext.dart';
 
 class Order {
+  int? sl;
+
   String? customerName;
   String? customerPhone;
   String? loyalityCard;
@@ -29,6 +32,7 @@ class Order {
   List<Product>? products;
 
   Order({
+    this.sl,
     this.customerName,
     this.customerPhone,
     this.loyalityCard,
@@ -47,6 +51,8 @@ class Order {
     this.orderTime,
     this.products,
   });
+  final db = LocalDB.database;
+
   static Future createTable(Database db) async {
     await db.execute('''
           CREATE TABLE orders (
@@ -134,33 +140,41 @@ class Order {
 
   static Order fromDbMap(Map<String, dynamic> map) {
     return Order(
+      sl: map['sl'] as int,
       customerName: map['customer_name'] as String,
       customerPhone: map['customer_phone'] as String,
       loyalityCard: map['loyality_card'] as String,
-      items: (jsonDecode(map['items']) as List).map((e) {
-        return Item.fromMap(e as Map<String, dynamic>);
-      }).toList(),
-      subTotal: map['sub_total'] != null ? map['sub_total'] as double : null,
+      items: map['items'] != 'null'
+          ? (jsonDecode(map['items']) as List).map((e) {
+              return Item.fromMap(e as Map<String, dynamic>);
+            }).toList()
+          : null,
+      subTotal: map['sub_total'] != 'null' ? map['sub_total'] as double : null,
       grossTotal:
-          map['gross_total'] != null ? map['gross_total'] as double : null,
-      discountAmount: map['discount_amount'] != null
+          map['gross_total'] != 'null' ? map['gross_total'] as double : null,
+      discountAmount: map['discount_amount'] != 'null'
           ? map['discount_amount'] as double
           : null,
       discountType: map['discount_type'] as String,
-      vatorgst: map['vat_or_gst'] != null ? map['vat_or_gst'] as double : null,
-      netTotal: map['net_total'] != null ? map['net_total'] as double : null,
-      receivedAmount: map['received_amount'] != null
+      vatorgst:
+          map['vat_or_gst'] != 'null' ? map['vat_or_gst'] as double : null,
+      netTotal: map['net_total'] != 'null' ? map['net_total'] as double : null,
+      receivedAmount: map['received_amount'] != 'null'
           ? double.parse(map['received_amount'])
           : null,
-      returnAmount: map['return_amount'] != null
+      returnAmount: map['return_amount'] != 'null'
           ? double.parse(map['return_amount'])
           : null,
-      paymentDetails: (jsonDecode(map['payment_details']) as List).map((e) {
-        return PaymentDetail.fromDbMap(e as Map<String, dynamic>);
-      }).toList(),
+      paymentDetails: map['payment_details'] != 'null'
+          ? (jsonDecode(map['payment_details']) as List).map((e) {
+              return PaymentDetail.fromDbMap(e as Map<String, dynamic>);
+            }).toList()
+          : null,
       posId: map['pos_id'] as String,
       posUserId: map['pos_user_id'] as String,
-      orderTime: map['order_ime'] != null ? map['order_ime'] as DateTime : null,
+      orderTime: map['order_time'] != 'null'
+          ? DateTime.parse(map['order_time'])
+          : null,
     );
   }
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(
+  useMaterial3: true,
   primaryColor: Colors.black,
   secondaryHeaderColor: const Color(0xFFECF0F3),
   inputDecorationTheme: inputDecorationTheme,
 );
 InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
+  contentPadding: const EdgeInsets.only(top: 10, left: 5),
   floatingLabelBehavior: FloatingLabelBehavior.always,
   border: OutlineInputBorder(
     borderSide: const BorderSide(

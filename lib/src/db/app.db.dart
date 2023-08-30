@@ -10,7 +10,7 @@ import '../modules/catgory.and.product/model/category/category.dart';
 class LocalDB {
   static Database? _db;
 
-  static const _databaseName = "POS.db";
+  static const _databaseName = "POS._db";
   static const _databaseVersion = 1;
   static Future<Database> get database async {
     if (_db != null) return _db!;
@@ -30,15 +30,19 @@ class LocalDB {
     );
   }
 
-  static Future _onCreate(Database _db, int version) async {
-    await _createTable(_db, 'config');
-    await UsageTimeline.createTable(_db);
-    await Order.createTable(_db);
-    await Product.createTable(_db);
-    await Category.createTable(_db);
-    await PaymentDetail.createTable(_db);
+  static Future _onCreate(Database db, int version) async {
+    await _createTable(db, 'config');
+    await UsageTimeline.createTable(db);
+    await Order.createTable(db);
+    await Product.createTable(db);
+    await Category.createTable(db);
+    await PaymentDetail.createTable(db);
     // await MotherCategory.createTable(_db);
     // await Order().createTable(_db);
+  }
+
+  static Future<int> getDbCount(String tableName) async {
+    return (await _db!.rawQuery('SELECT COUNT(*) FROM $tableName')).length;
   }
 
   static Future<Map<String, dynamic>> getLastItem(String tableName) async {
@@ -58,9 +62,13 @@ class LocalDB {
     ''');
   }
 
+  static deleteAllRowFromTable(String tableName) {
+    _db!.delete(tableName);
+  }
+
   static Future<List<Map<String, dynamic>>> getAllData(String tableName) async {
-    final _db = await database;
-    return await _db.query(tableName);
+    final db = await database;
+    return await db.query(tableName);
   }
 
   Future<bool> insertData(
@@ -69,10 +77,10 @@ class LocalDB {
     required String keyName,
     required String? value,
   }) async {
-    final _db = await database;
+    final db = await database;
     bool isSuccess = true;
     try {
-      await _db.rawInsert('''
+      await db.rawInsert('''
             INSERT INTO $tableName(sl,col1, col2)
             VALUES
             ('$sl','$keyName','$value')
@@ -152,7 +160,7 @@ class LocalDB {
     );
   }
 
-  Future<int> deleteTableRowBySl({
+  static Future<int> deleteTableRowBySl({
     required String tableName,
     required int sl,
   }) async {

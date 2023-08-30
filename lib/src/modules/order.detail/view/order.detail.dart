@@ -4,6 +4,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
+import 'package:pos_sq/src/providers/order.stream.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
 import '../components/customer.info.fields/customer.info.fields.dart';
@@ -25,34 +26,41 @@ class OrderDetail extends ConsumerWidget {
           ),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                if (context.isMobileWidth)
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                  ),
-              ],
-            ),
-            (isCartVisible && context.width > 235)
-                ? const Column(
+        child: ref.watch(orderProvider).when(
+            data: (order) {
+              return ListView(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      height20,
-                      CustomerInfoFields(),
-                      height10,
-                      Cart(),
-                      // CartTable()
+                      if (context.isMobileWidth)
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                          ),
+                        ),
                     ],
-                  )
-                : const SizedBox.shrink(),
-          ],
-        ),
+                  ),
+                  (isCartVisible && context.width > 235)
+                      ? Column(
+                          children: [
+                            height20,
+                            CustomerInfoFields(
+                              order: order,
+                            ),
+                            height10,
+                            const Cart(),
+                            // CartTable()
+                          ],
+                        )
+                      : const SizedBox.shrink(),
+                ],
+              );
+            },
+            error: (e, s) => Center(child: Text('Problem loading order\n$e')),
+            loading: () => const Center(child: Text('Initializing Order'))),
       ),
     );
   }

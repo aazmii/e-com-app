@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/components/confirm.dialog.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/models/order/order.dart';
+import 'package:pos_sq/src/providers/draft.orders.provider.dart';
 
 final orders = [
   Order(orderTime: DateTime.now()),
@@ -13,28 +14,38 @@ final orders = [
   Order(orderTime: DateTime.now().nextDay),
 ];
 
-class SavedOrders extends ConsumerWidget {
-  const SavedOrders({super.key});
+class DraftOrders extends ConsumerWidget {
+  const DraftOrders({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
-    return SizedBox(
-      height: 40,
-      child: ListView.builder(
-        itemCount: orders.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, i) => CustomChoiceChip(
-          label: orders[i].orderTime,
-          isSelected: false,
-          onSelect: () {},
-          onDelete: () async {
-            if (!await confirmDialog(context, 'Delete from draft?')) {
-              return;
-            } else {}
+    return ref.watch(draftOrdersProvider).when(
+          data: (draftOrders) {
+            return SizedBox(
+              height: 40,
+              child: ListView.builder(
+                itemCount: draftOrders.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, i) => CustomChoiceChip(
+                  label: draftOrders[i].orderTime,
+                  isSelected: false,
+                  onSelect: () {},
+                  onDelete: () async {
+                    if (!await confirmDialog(context, 'Delete from draft?')) {
+                      return;
+                    } else {
+                      await ref
+                          .read(draftOrdersProvider.notifier)
+                          .delete(draftOrders[i]);
+                    }
+                  },
+                ),
+              ),
+            );
           },
-        ),
-      ),
-    );
+          error: (e, s) => Text('Could not load drafts $e'),
+          loading: () => const SizedBox(),
+        );
   }
 }
 
@@ -60,8 +71,8 @@ class CustomChoiceChip extends StatelessWidget {
       !context.isMobileWidth ? _chipWidth : _chipWidth - 25;
   @override
   Widget build(BuildContext context) {
-    final date = label!.toFormattedDate;
-    final time = label!.toFormattedTime;
+    final date = label?.toFormattedDate ?? '-';
+    final time = label?.toFormattedTime ?? '-';
     return GestureDetector(
       onTap: onSelect,
       child: AnimatedContainer(
@@ -91,7 +102,7 @@ class CustomChoiceChip extends StatelessWidget {
                 ],
               ),
               Text(
-                time ?? '',
+                time,
                 style: TextStyle(
                   fontSize: context.isMobileWidth ? 10 : 16,
                   color: Colors.white,
