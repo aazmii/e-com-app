@@ -10,21 +10,123 @@ extension OrderExt on Order {
   Future<void> onLoyalityCardChanged(String s) async =>
       _updateCustomerInfo('loyality_card', s);
 
-  Future addItem(Item item) async {
-    // final db = await LocalDB.database;
+  Future removeItem(String id) async {
+    final db = await LocalDB.database;
+    final result = await db.query(
+      'orders',
+      columns: ['items'],
+      where: 'sl = ?',
+      whereArgs: [sl],
+    );
+    final jsonStr = result[0]['items'] as String?;
+    List<dynamic> itemJsonList = json.decode(jsonStr!);
 
-    try {
-      // await db.update(
-      //   'orders',
-      //   {
-      //     'items': [item.toJson()]
-      //   },
-      //   where: 'sl =?',
-      //   whereArgs: [sl],
-      // );
-    } catch (e) {
-      print(e);
+    itemJsonList.removeWhere((json) => jsonDecode(json)['id'] == id);
+
+    await db.update(
+      'orders',
+      {
+        'items': json.encode(itemJsonList),
+      },
+      where: 'sl = ?',
+      whereArgs: [sl],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future addItem(Item item) async {
+    final db = await LocalDB.database;
+    final result = await db.query(
+      'orders',
+      columns: ['items'],
+      where: 'sl = ?',
+      whereArgs: [sl],
+    );
+
+    final jsonStr = result[0]['items'] as String?;
+    //not first item
+    if (jsonStr != 'null') {
+      final List itemJsonList = json.decode(jsonStr!);
+      final items = itemJsonList.map((e) {
+        return Item.fromJson(e);
+      }).toList();
+
+      if (items.contains(item)) {
+        await changeItemQuantity(
+          item,
+          ChangeType.increase,
+        );
+      } else {
+        itemJsonList.add(item.toJson());
+        await db.update(
+          'orders',
+          {
+            'items': json.encode(itemJsonList),
+          },
+          where: 'sl = ?',
+          whereArgs: [sl],
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    } else {
+      //first item
+      await db.update(
+        'orders',
+        {
+          'items': json.encode([item.toJson()]),
+        },
+        where: 'sl = ?',
+        whereArgs: [sl],
+      );
     }
+  }
+
+  Future changeItemQuantity(
+    Item? item,
+    ChangeType type,
+  ) async {
+    final db = await LocalDB.database;
+    if (item == null) return;
+    int? updatedCount;
+    final result = await db.query(
+      'orders',
+      columns: ['items'],
+      where: 'sl = ?',
+      whereArgs: [sl],
+    );
+
+    final jsonStr = result[0]['items'] as String?;
+    if (jsonStr == 'null') return;
+    final List<dynamic> jsonList = json.decode(jsonStr!);
+
+    Map<String, dynamic>? map;
+    for (var jsonItem in jsonList) {
+      map = json.decode(jsonItem);
+      if (map == null) return;
+      if (map['id'] == item.id) {
+        switch (type) {
+          case ChangeType.increase:
+            updatedCount = map['count'] + 1;
+          case ChangeType.decrease:
+            if (map['count'] <= 1) return;
+            updatedCount = map['count'] - 1;
+            break;
+        }
+        map.update('count', (value) => updatedCount);
+      }
+    }
+    jsonList.removeWhere((e) => json.decode(e)['id'] == item.id);
+    jsonList.add(Item.fromMap(map!).toJson());
+
+    await db.update(
+      'orders',
+      {
+        'items': jsonEncode(jsonList),
+      },
+      where: 'sl = ?',
+      whereArgs: [sl],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<bool> delete() async {
@@ -48,7 +150,7 @@ extension OrderExt on Order {
         whereArgs: [sl],
       );
     } catch (e) {
-      print(e);
+      ///
     }
   }
 
@@ -88,7 +190,7 @@ extension OrderExt on Order {
               '$customerPhone',
 
               '$loyalityCard',
-              '${items?.map((e) => e.toJson()).toList()}',
+              '${json.encode(items?.map((e) => e.toJson()).toList())}',
               '$subTotal',
               '$grossTotal',
 
@@ -99,7 +201,7 @@ extension OrderExt on Order {
 
               '$receivedAmount',
               '$returnAmount',
-              '${paymentDetails?.map((e) => e.toJson()).toList()}',
+              '${json.encode(paymentDetails?.map((e) => e.toJson()).toList())}',
 
               '$orderTime'
 

@@ -164,6 +164,7 @@ class Category {
   }
 
   static Category fromMap(Map<String, dynamic> map) {
+    
     final category = Category(
       id: map['id'] != null ? map['id'] as String? : null,
       label: map['label'] != null ? map['label'] as String : null,

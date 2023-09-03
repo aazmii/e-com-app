@@ -49,6 +49,7 @@ class LocalDB {
     if (_db == null) await _initDB();
     final data = await _db!
         .rawQuery('SELECT * FROM $tableName ORDER BY sl DESC LIMIT 1');
+
     return data.first;
   }
 
@@ -97,9 +98,9 @@ class LocalDB {
     required String column1,
     required String column2,
   }) async {
-    final _db = await database;
+    final db = await database;
 
-    return await _db.rawQuery('''
+    return await db.rawQuery('''
     SELECT $column1,$column2 
     FROM $tableName 
     ''');
@@ -109,9 +110,9 @@ class LocalDB {
     required String tableName,
     required int id,
   }) async {
-    final _db = await database;
+    final db = await database;
 
-    final data = await _db.query(tableName, where: 'id =?', whereArgs: [id]);
+    final data = await db.query(tableName, where: 'id =?', whereArgs: [id]);
     if (data.isEmpty) return null;
     return data[0];
   }
@@ -120,8 +121,8 @@ class LocalDB {
     required String tableName,
     required String keyName,
   }) async {
-    final _db = await database;
-    final data = await _db.query(
+    final db = await database;
+    final data = await db.query(
       tableName,
       columns: ['col2'],
       where: 'col1 = ?',
@@ -136,9 +137,9 @@ class LocalDB {
     required String keyName,
     required dynamic value,
   }) async {
-    final _db = await database;
+    final db = await database;
     try {
-      return _db.rawUpdate('''
+      return db.rawUpdate('''
         UPDATE $tableName
         SET col2 = '$value'
         WHERE col1= '$keyName';
@@ -152,8 +153,8 @@ class LocalDB {
     required String tableName,
     required int id,
   }) async {
-    final _db = await database;
-    return await _db.delete(
+    final db = await database;
+    return await db.delete(
       tableName,
       where: 'id=?',
       whereArgs: [id],
@@ -164,8 +165,8 @@ class LocalDB {
     required String tableName,
     required int sl,
   }) async {
-    final _db = await database;
-    return await _db.delete(
+    final db = await database;
+    return await db.delete(
       tableName,
       where: 'sl=?',
       whereArgs: [sl],
@@ -173,8 +174,8 @@ class LocalDB {
   }
 
   Future<int> deleteTableFromDB(String tableName) async {
-    final _db = await database;
-    return _db.delete(tableName);
+    final db = await database;
+    return db.delete(tableName);
   }
 
   // Future<bool> insertToConfig({

@@ -16,7 +16,7 @@ class CollapsedView extends ConsumerWidget {
       children: [
         ElevatedButton(
             onPressed: () async {
-              await ref.read(orderProvider.notifier).onNewOrder();
+              await ref.read(orderProvider.notifier).resetOrder();
             },
             child: const Text('New Order')),
         Text(

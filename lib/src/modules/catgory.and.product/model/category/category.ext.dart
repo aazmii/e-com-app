@@ -19,13 +19,12 @@ extension CategoryDbExt on Category {
       whereArgs: [id],
     ))
         .map((e) {
-      return Product.fromMap(e);
+      return Product.fromDbMap(e);
     }).toList();
 
     return products;
   }
 
-  
   Future<bool> saveInLocalDb(Database db) async {
     bool isSuccess = true;
 

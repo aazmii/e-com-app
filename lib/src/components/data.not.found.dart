@@ -8,7 +8,7 @@ class DataNotFoundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        '🔍Categories are not found',
+        '🔍 No categories are found',
         style: context.titleMedium,
       ),
     );

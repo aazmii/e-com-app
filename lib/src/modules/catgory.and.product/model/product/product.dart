@@ -239,8 +239,8 @@ class Product {
       'relatedProducts': relatedProducts,
       'crollSaleProducts': crossSellProducts,
       'upSellProducts': upSellProducts,
-      'warehouseLocation': warehouseLocation?.toMap(),
-      'outletLocation': outletLocation?.toMap(),
+      'warehouseLocation': warehouseLocation?.toJson(),
+      'outletLocation': outletLocation?.toJson(),
       'rackLocation': rackLocation,
       'manufactureCountry': manufactureCountry,
       'description': description,
@@ -249,8 +249,8 @@ class Product {
       'categoryLabel': categoryLabel,
       'types': null,
       'shortDescription': shortDescription,
-      'createdBy': createdBy?.toMap(),
-      'updatedBy': updatedBy?.toMap(),
+      'createdBy': createdBy?.toJson(),
+      'updatedBy': updatedBy?.toJson(),
       'shelfLife': shelfLife,
       'price': price,
       'specialPrice': specialPrice,
@@ -324,7 +324,110 @@ class Product {
           ? Person.fromMap(map['updatedBy'] as Map<String, dynamic>)
           : null,
       shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
-      price: null,
+
+      price: map['price'] != null ? double.parse(map['price']) : null,
+      specialPrice: null,
+      promotionPrice: map['promotionPrice'] != null
+          ? map['promotionPrice'] as double
+          : null,
+      advancedPrice:
+          map['advancedPrice'] != null ? map['advancedPrice'] as double : null,
+      taxInPercentage: null,
+      vatInPercentage: null,
+      weight: map['weight'] != null ? double.tryParse(map['weight']) : null,
+      height: map['height'] != null ? double.tryParse(map['height']) : null,
+      average5PercentRating: map['average5PercentRating'] != null
+          ? map['average5PercentRating'] as double
+          : null,
+      average4PercentRating: map['average4PercentRating'] != null
+          ? map['average4PercentRating'] as double
+          : null,
+      average3PercentRating: map['average3PercentRating'] != null
+          ? map['average3PercentRating'] as double
+          : null,
+      average2PercentRating: map['average2PercentRating'] != null
+          ? map['average2PercentRating'] as double
+          : null,
+      average1PercentRating: map['average1PercentRating'] != null
+          ? map['average1PercentRating'] as double
+          : null,
+      averageRating:
+          map['averageRating'] != null ? map['averageRating'] as double : null,
+      totalNumberOfRating: map['totalNumberOfRating'] != null
+          ? map['totalNumberOfRating'] as double
+          : null,
+      barcode: map['barcode'] != null ? map['barcode'] as String : null,
+      qrcode: map['qrcode'] != null ? map['qrcode'] as String : null,
+      tags: null,
+      enable: null,
+      // enable: map['enable'] != null ? map['enable'] as bool : null,
+      isDownloadable:
+          map['isdownloadable'] != null ? map['isdownloadable'] as bool : null,
+      manufacturedDate: map['manufacturedDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['manufacturedDate'] as int)
+          : null,
+      expireDate: map['expireDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['expireDate'] as int)
+          : null,
+      createdAt: map['createdAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
+          : null,
+      updatedAt: map['updatedAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
+          : null,
+      downloadedFile: null,
+      files: files,
+    );
+
+    return product;
+  }
+
+  static Product fromDbMap(Map<String, dynamic> map) {
+    final List<String> files = map['images'] == null
+        ? []
+        : (map['images'] as List<dynamic>)
+            .map((e) => ImageModel.fromJson(e).image!)
+            .toList();
+
+    final product = Product(
+      productId: map['id'] != null ? map['id'] as String : null,
+      categoryId: map['category_id'],
+      inventory: null,
+      minimumInventory: null,
+      label: map['name'] != null ? map['name'] as String : null,
+      position: null,
+      relatedProducts: null,
+      crossSellProducts: null,
+      upSellProducts: null,
+      warehouseLocation: null,
+      outletLocation: map['outletLocation'] != null
+          ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
+          : null,
+      rackLocation:
+          map['rackLocation'] != null ? map['rackLocation'] as String : null,
+      sku: map['sku'] != null ? map['sku'] as String : null,
+      manufactureCountry: map['manufactureCountry'] != null
+          ? map['manufactureCountry'] as String
+          : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
+      posLabel: map['posLabel'] != null ? map['posLabel'] as String : null,
+      categoryLabel:
+          map['categoryLabel'] != null ? map['categoryLabel'] as String : null,
+      types: null,
+      shortDescription: map['shortDescription'] != null
+          ? map['shortDescription'] as String
+          : null,
+      createdBy: map['createdBy'] != null
+          ? Person.fromMap(map['createdBy'] as Map<String, dynamic>)
+          : null,
+      updatedBy: map['updatedBy'] != null
+          ? Person.fromMap(map['updatedBy'] as Map<String, dynamic>)
+          : null,
+      shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
+
+      price: (map['price'] != 'null') ? map['price'] as double : null,
+
       specialPrice: null,
       promotionPrice: map['promotionPrice'] != null
           ? map['promotionPrice'] as double
@@ -383,8 +486,11 @@ class Product {
 
   String toJson() => json.encode(toMap());
 
-  factory Product.fromJson(String source) =>
-      Product.fromMap(json.decode(source) as Map<String, dynamic>);
+  static Product fromJson(String source) {
+    print('in product js');
+    print('s $source');
+    return Product.fromMap(json.decode(source) as Map<String, dynamic>);
+  }
 
   @override
   String toString() {

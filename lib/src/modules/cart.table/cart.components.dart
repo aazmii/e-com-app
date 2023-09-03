@@ -107,6 +107,7 @@ class AddNewItemRow extends StatelessWidget {
           flex: flexes[0],
           child: const Text('2'),
         ),
+        const SizedBox(width: 8),
         Expanded(
           flex: flexes[1],
           child: const SizedBox(

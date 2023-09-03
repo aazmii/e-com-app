@@ -3,18 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/components/square.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
-import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/modules/cart.table/cart.components.dart';
 import 'package:pos_sq/src/modules/cart.table/provider/cart.state.provider.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/providers/order.provider.dart';
-import 'package:pos_sq/src/providers/order.stream.dart';
 
 import 'components/collapse.button.dart';
 import 'components/collapsed.view.dart';
 
 final _flexes = [0, 3, 2, 2, 2, 1, 1];
-final products = [Product(), Product(), Product()];
 
 class Cart extends ConsumerWidget {
   const Cart({super.key});
@@ -33,7 +30,7 @@ class Cart extends ConsumerWidget {
                         return [];
                       }
                       return List.generate(
-                        products.length,
+                        order.items!.length,
                         (i) => Column(
                           children: [
                             Container(
@@ -44,7 +41,7 @@ class Cart extends ConsumerWidget {
                               child: _CustomRow(
                                 flexes: _flexes,
                                 sl: i + 1,
-                                item: products[i],
+                                item: order.items![i],
                               ),
                             ),
                             const Divider()
@@ -93,15 +90,17 @@ class _CustomRow extends ConsumerWidget {
     required this.flexes,
     required this.item,
   });
-  final Product item;
+  final Item item;
   final int sl;
 
   final List<int> flexes;
 
   @override
   Widget build(BuildContext context, ref) {
-    final double itemPrice = double.tryParse('0.0') ?? 0.0;
-
+    final notifier = ref.watch(orderProvider.notifier);
+    final price = item.price ?? 0;
+    final count = item.count ?? 0;
+    final totalPrice = price * count;
     return Row(
       children: [
         Expanded(
@@ -110,7 +109,10 @@ class _CustomRow extends ConsumerWidget {
         ),
         Expanded(
           flex: flexes[1],
-          child: Text(item.label ?? ''),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(item.name ?? ''),
+          ),
         ),
         width10,
         Expanded(
@@ -123,14 +125,14 @@ class _CustomRow extends ConsumerWidget {
                     backgroundColor: Colors.red,
                     iconColor: Colors.white,
                     icon: Icons.remove,
-                    onPressed: () => {},
+                    onPressed: () async => notifier.onQuantityRemove(item),
                   ),
                 ),
               ),
               width5,
-              const Text(
-                '4',
-                style: TextStyle(
+              Text(
+                '$count',
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -141,32 +143,35 @@ class _CustomRow extends ConsumerWidget {
                     backgroundColor: Colors.green,
                     iconColor: Colors.white,
                     icon: Icons.add,
-                    onPressed: () => {},
+                    onPressed: () async => notifier.onQuantityAdd(item),
                   ),
                 ),
               ),
             ],
           ),
         ),
+        //unit price
         Expanded(
           flex: flexes[3],
           child: Align(
             alignment: Alignment.center,
-            child: Text(itemPrice.formatted),
+            child: Text('$price'),
           ),
         ),
+        //total price
+
         Expanded(
           flex: flexes[4],
           child: Align(
             alignment: Alignment.center,
-            child: Text(itemPrice.formatted),
+            child: Text('$totalPrice'),
           ),
         ),
         Expanded(
           flex: flexes[5],
           child: const Align(
             alignment: Alignment.centerRight,
-            child: Text('23'),
+            child: Text('0.00'),
           ),
         ),
         Flexible(
@@ -175,7 +180,7 @@ class _CustomRow extends ConsumerWidget {
             alignment: Alignment.center,
             child: CustomButton(
               iconColor: Colors.black54,
-              onPressed: () {},
+              onPressed: () async => notifier.removeItemFromCart(item),
               icon: FontAwesomeIcons.xmark,
             ),
           ),

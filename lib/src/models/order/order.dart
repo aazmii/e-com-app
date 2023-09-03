@@ -8,6 +8,8 @@ import 'package:sqflite/sqflite.dart';
 
 part 'order.ext.dart';
 
+enum ChangeType { increase, decrease }
+
 class Order {
   int? sl;
 
@@ -64,7 +66,7 @@ class Order {
           customer_phone VARCHAR,
 
           loyality_card VARCHAR,
-          items JSONB,
+          items TEXT,
           sub_total DOUBLE,
           gross_total DOUBLE,
 
@@ -73,10 +75,10 @@ class Order {
           vat_or_gst DOUBLE,
           net_total DOUBLE,
 
-          received_amount,
-          return_amount ,
-          payment_details,
-          order_time
+          received_amount DOUBLE,
+          return_amount DOUBLE,
+          payment_details TEXT,
+          order_time DATETIME
           )
     ''');
   }
@@ -146,7 +148,7 @@ class Order {
       loyalityCard: map['loyality_card'] as String,
       items: map['items'] != 'null'
           ? (jsonDecode(map['items']) as List).map((e) {
-              return Item.fromMap(e as Map<String, dynamic>);
+              return Item.fromJson(e);
             }).toList()
           : null,
       subTotal: map['sub_total'] != 'null' ? map['sub_total'] as double : null,
@@ -183,13 +185,11 @@ class Order {
       customerName: map['customername'] as String?,
       customerPhone: map['customerphone'] as String?,
       loyalityCard: map['loyalitycard'] as String?,
-
-      // items: List<Item>.from(
-      //   (map['items'] as List<double>).map<Item>(
-      //     (x) => Item.fromMap(x as Map<String, dynamic>),
-      //   ),
-      // ),
-
+      items: List<Item>.from(
+        (map['items'] as List<dynamic>).map<Item>(
+          (x) => Item.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       subTotal: map['subtotal'].todouble() as double,
       grossTotal: map['grosstotal'].todouble() as double,
       discountAmount: map['discountamount'].todouble() as double,
