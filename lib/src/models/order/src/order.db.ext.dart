@@ -88,73 +88,84 @@ extension OrderDbExt on Order {
     }
   }
 
-  Future increaseQuantity(String id) async {
+  Future<bool> increaseQuantity(String id) async {
     final db = await LocalDB.database;
-    final result = await db.query(
-      'orders',
-      columns: ['items'],
-      where: 'sl = ?',
-      whereArgs: [sl],
-    );
+    try {
+      final result = await db.query(
+        'orders',
+        columns: ['items'],
+        where: 'sl = ?',
+        whereArgs: [sl],
+      );
 
-    final jsonStr = result[0]['items'] as String?;
-    if (jsonStr == 'null') return;
-    List<dynamic> jsonList = json.decode(jsonStr!);
+      final jsonStr = result[0]['items'] as String?;
+      if (jsonStr == 'null') return false;
+      List<dynamic> jsonList = json.decode(jsonStr!);
 
-    for (var jsonItem in jsonList) {
-      Map<String, dynamic>? map;
-      map = json.decode(jsonItem);
-      if (map == null) return;
-      if (map['id'] == id) {
-        final updatedCount = map['count'] + 1;
+      for (var jsonItem in jsonList) {
+        Map<String, dynamic>? map;
+        map = json.decode(jsonItem);
+        if (map == null) return false;
+        if (map['id'] == id) {
+          final updatedCount = map['count'] + 1;
 
-        jsonList.removeWhere((e) => json.decode(e)['id'] == id);
-        map.update('count', (value) => updatedCount);
-        jsonList.add(Item.fromMap(map).toJson());
+          jsonList.removeWhere((e) => json.decode(e)['id'] == id);
+          map.update('count', (value) => updatedCount);
+          jsonList.add(Item.fromMap(map).toJson());
+        }
       }
+      await db.update(
+        'orders',
+        {'items': jsonEncode(jsonList)},
+        where: 'sl = ?',
+        whereArgs: [sl],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      return true;
+    } catch (e) {
+       
+      return false;
     }
-    await db.update(
-      'orders',
-      {'items': jsonEncode(jsonList)},
-      where: 'sl = ?',
-      whereArgs: [sl],
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
   }
 
-  Future decreaseQuantity(Item item) async {
+  Future<bool> decreaseQuantity(Item item) async {
     final db = await LocalDB.database;
-    final result = await db.query(
-      'orders',
-      columns: ['items'],
-      where: 'sl = ?',
-      whereArgs: [sl],
-    );
+    try {
+      final result = await db.query(
+        'orders',
+        columns: ['items'],
+        where: 'sl = ?',
+        whereArgs: [sl],
+      );
 
-    final jsonStr = result[0]['items'] as String?;
-    if (jsonStr == 'null') return;
-    List<dynamic> jsonList = json.decode(jsonStr!);
+      final jsonStr = result[0]['items'] as String?;
+      if (jsonStr == 'null') return false;
+      List<dynamic> jsonList = json.decode(jsonStr!);
 
-    for (var jsonItem in jsonList) {
-      Map<String, dynamic>? map;
-      map = json.decode(jsonItem);
-      if (map == null) return;
-      // if (map['count'] <= 1 ) return;
-      if (map['id'] == item.id && map['count'] > 1) {
-        final updatedCount = map['count'] - 1;
+      for (var jsonItem in jsonList) {
+        Map<String, dynamic>? map;
+        map = json.decode(jsonItem);
+        if (map == null) return false;
+        // if (map['count'] <= 1 ) return;
+        if (map['id'] == item.id && map['count'] > 1) {
+          final updatedCount = map['count'] - 1;
 
-        jsonList.removeWhere((e) => json.decode(e)['id'] == item.id);
-        map.update('count', (value) => updatedCount);
-        jsonList.add(Item.fromMap(map).toJson());
+          jsonList.removeWhere((e) => json.decode(e)['id'] == item.id);
+          map.update('count', (value) => updatedCount);
+          jsonList.add(Item.fromMap(map).toJson());
+        }
       }
+      await db.update(
+        'orders',
+        {'items': jsonEncode(jsonList)},
+        where: 'sl = ?',
+        whereArgs: [sl],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      return true;
+    } catch (e) {
+      return false;
     }
-    await db.update(
-      'orders',
-      {'items': jsonEncode(jsonList)},
-      where: 'sl = ?',
-      whereArgs: [sl],
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
   }
 
   Future<bool> deleteFromDb() async {

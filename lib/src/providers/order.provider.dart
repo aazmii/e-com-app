@@ -33,14 +33,32 @@ class OrderProvider extends Notifier<Order> {
 
   Future<void> onQuantityAdd(Item? item) async {
     if (item == null) return;
-
-    await state.increaseQuantity(item.id!);
-    // await state.value!.addItem(item);
+    print(state);
+    // await state.increaseQuantity(item.id!);
+    // final updatedItems = state.items!.map((m) {
+    //   if (m.id == item.id) {
+    //     return m.copyWith(count: m.count! + 1);
+    //   } else {
+    //     return m;
+    //   }
+    // }).toList();
+    // state = state.copyWith(items: updatedItems);
   }
 
   Future<void> onQuantityRemove(Item? item) async {
     if (item == null) return;
-    await state.decreaseQuantity(item);
+    if (await state.decreaseQuantity(item)) {
+      item = item.copyWith(count: item.count! - 1);
+
+      List<Item> updatedItems = state.items!.map((m) {
+        if (m.id == item!.id) {
+          return m.copyWith(count: m.count! - 1);
+        } else {
+          return m;
+        }
+      }).toList();
+      state = state.copyWith(items: updatedItems);
+    }
   }
 
   void setOrder(Order o) => state = o;
@@ -56,6 +74,9 @@ class OrderProvider extends Notifier<Order> {
     return Order.fromDbMap(await LocalDB.getLastItem('orders'));
   }
 }
+
+
+
 
 // final orderProvider =
 //     AsyncNotifierProvider<OrderProvider, Order>(OrderProvider.new);
