@@ -9,9 +9,10 @@ import '../modules/catgory.and.product/model/category/category.dart';
 
 class LocalDB {
   static Database? _db;
-
+  LocalDB._();
   static const _databaseName = "POS.db";
   static const _databaseVersion = 1;
+
   static Future<Database> get database async {
     if (_db != null) return _db!;
     _db = await _initDB();
@@ -41,15 +42,16 @@ class LocalDB {
     // await Order().createTable(_db);
   }
 
-  static Future<int?> getDbCount(String tableName) async =>
-      Sqflite.firstIntValue(
-          await _db!.rawQuery('SELECT COUNT(*) FROM $tableName'));
+  static Future<int?> getDbCount(String tableName) async {
+    return Sqflite.firstIntValue(
+      await _db!.rawQuery('SELECT COUNT(*) FROM $tableName'),
+    );
+  }
 
   static Future<Map<String, dynamic>> getLastItem(String tableName) async {
     if (_db == null) await _initDB();
     final data = await _db!
         .rawQuery('SELECT * FROM $tableName ORDER BY sl DESC LIMIT 1');
-
     return data.first;
   }
 
@@ -72,7 +74,7 @@ class LocalDB {
     return await db.query(tableName);
   }
 
-  Future<bool> insertData(
+  static Future<bool> insertData(
     String tableName, {
     required String sl,
     required String keyName,
@@ -93,7 +95,7 @@ class LocalDB {
     return isSuccess;
   }
 
-  Future<List<Map<String, dynamic>>> getColumns(
+  static Future<List<Map<String, dynamic>>> getColumns(
     String tableName, {
     required String column1,
     required String column2,
@@ -117,7 +119,7 @@ class LocalDB {
     return data[0];
   }
 
-  Future<String?> getCellData({
+  static Future<String?> getCellData({
     required String tableName,
     required String keyName,
   }) async {
@@ -132,7 +134,7 @@ class LocalDB {
     return data.first['col2'] as String;
   }
 
-  Future<int> updateTableCell({
+  static Future<int> updateTableCell({
     required String tableName,
     required String keyName,
     required dynamic value,
@@ -149,7 +151,7 @@ class LocalDB {
     }
   }
 
-  Future<int> deleteTableRow({
+  static Future<int> deleteTableRow({
     required String tableName,
     required int id,
   }) async {
@@ -173,7 +175,7 @@ class LocalDB {
     );
   }
 
-  Future<int> deleteTableFromDB(String tableName) async {
+  static Future<int> deleteTableFromDB(String tableName) async {
     final db = await database;
     return db.delete(tableName);
   }

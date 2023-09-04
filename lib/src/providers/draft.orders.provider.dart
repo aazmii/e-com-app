@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/db/app.db.dart';
-import 'package:pos_sq/src/models/order/order.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
+
+import '../models/order/order.dart';
 
 final draftOrdersProvider =
     AsyncNotifierProvider<DraftOrders, List<Order>>(DraftOrders.new);
@@ -11,16 +10,18 @@ final draftOrdersProvider =
 class DraftOrders extends AsyncNotifier<List<Order>> {
   @override
   FutureOr<List<Order>> build() async {
-    return (await LocalDB.getAllData('orders'))
-        .map((e) => Order.fromDbMap(e))
-        .toList();
+    // return (await LocalDB.getAllData('orders'))
+    //     .map((e) => Order.fromDbMap(e))
+    //     .toList();
+    return [];
   }
 
   Future<void> delete(Order order) async {
-    await order.delete();
-    state = AsyncData((await LocalDB.getAllData('orders'))
-        .map((e) => Order.fromDbMap(e))
-        .toList());
-    await ref.read(orderProvider.notifier).resetOrder();
+    await order.deleteFromDb();
+
+    // state = AsyncData((await LocalDB.getAllData('orders'))
+    //     .map((e) => Order.fromDbMap(e))
+    //     .toList());
+    // await ref.read(orderProvider.notifier).resetOrder();
   }
 }

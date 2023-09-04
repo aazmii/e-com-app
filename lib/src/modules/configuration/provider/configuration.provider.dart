@@ -29,7 +29,7 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
     if (config.companyLicenseExpireDate == null || config.lastUpdate == null) {
       return;
     }
-    final lastUpdateString = await LocalDB().getCellData(
+    final lastUpdateString = await LocalDB.getCellData(
       tableName: 'config',
       keyName: 'lastUpdate',
     );
@@ -41,7 +41,7 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
       now: currentDate,
       expireDate: config.companyLicenseExpireDate!,
     );
-    LocalDB().updateTableCell(
+    LocalDB.updateTableCell(
       tableName: 'config',
       value: daysLeft,
       keyName: 'daysLeftToExpireLicense',
@@ -66,7 +66,7 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
   }
 
   Future<Config> getConfiguaration() async {
-    final configInfo = await LocalDB().getColumns(
+    final configInfo = await LocalDB.getColumns(
       'config',
       column1: 'col1',
       column2: 'col2',
@@ -92,14 +92,14 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
   // }
 
   Future<int> deleteTable() async =>
-      await LocalDB().deleteTableFromDB('config');
+      await LocalDB.deleteTableFromDB('config');
 
   Future<int> deleteTableRow() async =>
-      await LocalDB().deleteTableRow(tableName: 'config', id: 1);
+      await LocalDB.deleteTableRow(tableName: 'config', id: 1);
 
   Future insertConfiguration(Config config) async {
     for (int i = 0; i < Config.configfields.length; i++) {
-      await LocalDB().insertData(
+      await LocalDB.insertData(
         'config',
         sl: '$i',
         keyName: Config.configfields[i],
@@ -128,6 +128,21 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
           'Gubergren nonumy dolor vero lorem voluptua kasd tempor lorem diam',
       companyInvoiceFooterText:
           'this is some text that will be displaied in footer',
+      paymentDetails: ConfigPaymentDetails(
+        paymentType: [
+          'cash',
+          'card',
+          'online_payment',
+          'digital_payment',
+        ],
+        digitalPaymentTypes: [
+          'bkash',
+          'rocket',
+          'nagad',
+          'cash',
+          'upay',
+        ],
+      ),
     );
   }
 }

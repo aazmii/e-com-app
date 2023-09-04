@@ -1,12 +1,9 @@
 enum PaymentType {
   cash,
   card,
-  digitalPayment;
-}
-
-enum AppLayout {
-  horizontalView,
-  verticalView,
+  onlinePayment,
+  digitalPayment,
+  none;
 }
 
 enum DigitalPaymentType {
@@ -16,6 +13,11 @@ enum DigitalPaymentType {
   nagad,
   ukash,
   upay,
+}
+
+enum AppLayout {
+  horizontalView,
+  verticalView,
 }
 
 enum DiscountType { cash, percentage }

@@ -45,7 +45,7 @@ class ConfigScreen extends ConsumerWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            LocalDB().deleteTableFromDB('config');
+                            LocalDB.deleteTableFromDB('config');
                           },
                           child: const Text('Erase Data'),
                         ),

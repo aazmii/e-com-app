@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/components/square.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/providers/order.provider.dart';
 
 final _tableHeaders = [
   'SL',
@@ -92,7 +94,7 @@ class CustomTableRow extends StatelessWidget {
   }
 }
 
-class AddNewItemRow extends StatelessWidget {
+class AddNewItemRow extends ConsumerWidget {
   const AddNewItemRow({
     super.key,
     required this.flexes,
@@ -100,12 +102,14 @@ class AddNewItemRow extends StatelessWidget {
   final List<int> flexes;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final order = ref.watch(orderProvider);
+    final sl = order.items != null ? order.items!.length + 1 : 1;
     return Row(
       children: [
         Expanded(
           flex: flexes[0],
-          child: const Text('2'),
+          child: Text('$sl'),
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -127,7 +131,7 @@ class AddNewItemRow extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: QuantityButton(
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.red.shade100,
                     iconColor: Colors.white,
                     icon: Icons.remove,
                     onPressed: () => {},
@@ -136,7 +140,7 @@ class AddNewItemRow extends StatelessWidget {
               ),
               width5,
               const Text(
-                '4',
+                '0',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -145,7 +149,7 @@ class AddNewItemRow extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: QuantityButton(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.green.shade100,
                     iconColor: Colors.white,
                     icon: Icons.add,
                     onPressed: () => {},

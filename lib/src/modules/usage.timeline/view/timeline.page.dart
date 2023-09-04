@@ -22,7 +22,7 @@ class TimelineView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            await LocalDB().deleteTableFromDB('usageTimeline');
+            await LocalDB.deleteTableFromDB('usageTimeline');
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Deleted usageTimeline')));

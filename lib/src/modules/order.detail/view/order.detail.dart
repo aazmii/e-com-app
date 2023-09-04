@@ -4,6 +4,8 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
+import 'package:pos_sq/src/modules/transacions/view/payment.detail.dart';
+import 'package:pos_sq/src/providers/methods.dart';
 import 'package:pos_sq/src/providers/order.provider.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
@@ -15,51 +17,55 @@ class OrderDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var isCartVisible = ref.watch(isCartVisibleProvider);
+    final order = ref.watch(orderProvider);
     return Scaffold(
       appBar: const OrderDetailAppBar(),
-      body: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: context.secondaryColor,
-          ),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: ref.watch(orderProvider).when(
-            data: (order) {
-              return ListView(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      if (context.isMobileWidth)
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.black,
-                          ),
-                        ),
-                    ],
+      body: ref.watch(selectedOrderProvider).when(
+            data: (data) {
+              return Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: context.secondaryColor,
                   ),
-                  (isCartVisible && context.width > 235)
-                      ? Column(
-                          children: [
-                            height20,
-                            CustomerInfoFields(
-                              order: order,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: ListView(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (context.isMobileWidth)
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.black,
                             ),
-                            height10,
-                            const Cart(),
-                            // CartTable()
-                          ],
-                        )
-                      : const SizedBox.shrink(),
-                ],
+                          ),
+                      ],
+                    ),
+                    if (isCartVisible && context.width > 235)
+                      Column(
+                        children: [
+                          height20,
+                          CustomerInfoFields(
+                            order: order,
+                          ),
+                          height10,
+                          const Cart(),
+
+                          // CartTable()
+                        ],
+                      ),
+                    const Divider(),
+                    if (context.width > 280) const PaymentDetailView(),
+                  ],
+                ),
               );
             },
-            error: (e, s) => Center(child: Text('Problem loading order\n$e')),
-            loading: () => const Center(child: Text('Initializing Order'))),
-      ),
+            error: (e, s) => emptyWidget,
+            loading: () => emptyWidget,
+          ),
     );
   }
 }

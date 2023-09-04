@@ -18,42 +18,30 @@ class Cart extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final order = ref.watch(orderProvider);
     return ref.watch(cartStateProvider) == CartState.collapsed
         ? const CollapsedView()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              TableTitles(flexes: _flexes),
-              ...ref.watch(orderProvider).when(
-                    data: (order) {
-                      if (order.items == null || order.items!.isEmpty) {
-                        return [];
-                      }
-                      return List.generate(
-                        order.items!.length,
-                        (i) => Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              color: i % 2 == 0
-                                  ? Colors.transparent
-                                  : Colors.white60,
-                              child: _CustomRow(
-                                flexes: _flexes,
-                                sl: i + 1,
-                                item: order.items![i],
-                              ),
-                            ),
-                            const Divider()
-                          ],
+              if (order.items != null)
+                ...List.generate(
+                  order.items!.length,
+                  (i) => Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        color: i % 2 == 0 ? Colors.transparent : Colors.white60,
+                        child: _CustomRow(
+                          flexes: _flexes,
+                          sl: i + 1,
+                          item: order.items![i],
                         ),
-                      );
-                    },
-                    error: (e, s) {
-                      return [];
-                    },
-                    loading: () => [],
+                      ),
+                      const Divider()
+                    ],
                   ),
+                ),
               AddNewItemRow(flexes: _flexes),
               const Divider(),
               const CustomTableRow(
@@ -82,6 +70,71 @@ class Cart extends ConsumerWidget {
             ],
           );
   }
+  // Widget build(BuildContext context, ref) {
+  //   return ref.watch(cartStateProvider) == CartState.collapsed
+  //       ? const CollapsedView()
+  //       : Column(
+  //           crossAxisAlignment: CrossAxisAlignment.end,
+  //           children: [
+  //             TableTitles(flexes: _flexes),
+  //             ...ref.watch(orderProvider).when(
+  //                   data: (order) {
+  //                     if (order?.items == null || order!.items!.isEmpty) {
+  //                       return [];
+  //                     }
+  //                     return List.generate(
+  //                       order.items!.length,
+  //                       (i) => Column(
+  //                         children: [
+  //                           Container(
+  //                             padding: const EdgeInsets.symmetric(vertical: 4),
+  //                             color: i % 2 == 0
+  //                                 ? Colors.transparent
+  //                                 : Colors.white60,
+  //                             child: _CustomRow(
+  //                               flexes: _flexes,
+  //                               sl: i + 1,
+  //                               item: order.items![i],
+  //                             ),
+  //                           ),
+  //                           const Divider()
+  //                         ],
+  //                       ),
+  //                     );
+  //                   },
+  //                   error: (e, s) {
+  //                     return [];
+  //                   },
+  //                   loading: () => [],
+  //                 ),
+  //             AddNewItemRow(flexes: _flexes),
+  //             const Divider(),
+  //             const CustomTableRow(
+  //               title: 'Gross Total',
+  //               value: 23.42,
+  //             ),
+  //             const Divider(),
+  //             const CustomTableRow(
+  //               title: 'Total Vat',
+  //               value: 23.42,
+  //             ),
+  //             const Divider(),
+  //             const CustomTableRow(
+  //               title: 'Total Tax',
+  //               value: 23.42,
+  //             ),
+  //             const Divider(),
+  //             const CustomTableRow(
+  //               title: 'Net Total',
+  //               value: 23.42,
+  //             ),
+  //             const Divider(),
+  //             CartStateButton(
+  //               onPressed: ref.read(cartStateProvider.notifier).toggleCartState,
+  //             ),
+  //           ],
+  //         );
+  // }
 }
 
 class _CustomRow extends ConsumerWidget {

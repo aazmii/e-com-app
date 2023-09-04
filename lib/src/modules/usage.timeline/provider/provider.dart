@@ -74,7 +74,7 @@ class ActivityProvider extends Notifier<Activity> {
   Future _updateDeadlineInConfig(int daysToDeduct) async {
     final dayLeft = await _dayLeft;
     if (dayLeft - daysToDeduct < 0) return;
-    await LocalDB().updateTableCell(
+    await LocalDB.updateTableCell(
       tableName: 'config',
       keyName: 'daysLeftToExpireLicense',
       value: dayLeft - daysToDeduct,
@@ -82,8 +82,8 @@ class ActivityProvider extends Notifier<Activity> {
   }
 
   Future<int> get _dayLeft async {
-    final daysLeftString = await LocalDB()
-        .getCellData(tableName: 'config', keyName: 'daysLeftToExpireLicense');
+    final daysLeftString = await LocalDB.getCellData(
+        tableName: 'config', keyName: 'daysLeftToExpireLicense');
     if (daysLeftString == null) return 0;
     final dayLeft = int.tryParse(daysLeftString);
     if (dayLeft == null) return 0;

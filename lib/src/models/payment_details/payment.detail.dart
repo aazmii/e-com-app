@@ -8,7 +8,7 @@ class PaymentDetail {
   final String? paymentType;
   final String? transactionDetails;
   final double? amount;
-   PaymentDetail({
+  PaymentDetail({
     this.paymentType,
     this.transactionDetails,
     this.amount,

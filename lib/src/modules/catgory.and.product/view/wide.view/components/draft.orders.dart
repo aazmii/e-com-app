@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/components/confirm.dialog.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/models/order/order.dart';
-import 'package:pos_sq/src/providers/draft.orders.provider.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
 
 final orders = [
   Order(orderTime: DateTime.now()),
@@ -21,39 +18,42 @@ class DraftOrders extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return ref.watch(draftOrdersProvider).when(
-          data: (draftOrders) {
-            return SizedBox(
-              height: 40,
-              child: ListView.builder(
-                itemCount: draftOrders.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, i) {
-                  // return Text('$i');
-                  return ref.watch(orderProvider).value != draftOrders[i]
-                      ? CustomChoiceChip(
-                          label: draftOrders[i].orderTime,
-                          isSelected: false,
-                          onSelect: () {},
-                          onDelete: () async {
-                            if (!await confirmDialog(
-                                context, 'Delete from draft?')) {
-                              return;
-                            } else {
-                              await ref
-                                  .read(draftOrdersProvider.notifier)
-                                  .delete(draftOrders[i]);
-                            }
-                          },
-                        )
-                      : emptyWidget;
-                },
-              ),
-            );
-          },
-          error: (e, s) => Text('Could not load drafts $e'),
-          loading: () => const SizedBox(),
-        );
+    return emptyWidget;
+    // return ref.watch(draftOrdersProvider).when(
+    //       data: (draftOrders) {
+    //         return SizedBox(
+    //           height: 40,
+    //           child: ListView.builder(
+    //             itemCount: draftOrders.length,
+    //             scrollDirection: Axis.horizontal,
+    //             itemBuilder: (context, i) {
+    //               // return Text('$i');
+    //               return ref.watch(orderProvider).value != draftOrders[i]
+    //                   ? CustomChoiceChip(
+    //                       label: draftOrders[i].orderTime,
+    //                       isSelected: false,
+    //                       onSelect: () => ref
+    //                           .read(orderProvider.notifier)
+    //                           .setOrder(draftOrders[i]),
+    //                       onDelete: () async {
+    //                         if (!await confirmDialog(
+    //                             context, 'Delete from draft?')) {
+    //                           return;
+    //                         } else {
+    //                           await ref
+    //                               .read(draftOrdersProvider.notifier)
+    //                               .delete(draftOrders[i]);
+    //                         }
+    //                       },
+    //                     )
+    //                   : emptyWidget;
+    //             },
+    //           ),
+    //         );
+    //       },
+    //       error: (e, s) => Text('Could not load drafts $e'),
+    //       loading: () => const SizedBox(),
+    //     );
   }
 }
 

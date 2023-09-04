@@ -43,7 +43,7 @@ class SalesScreen extends ConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              await LocalDB.deleteTableRowBySl(tableName: 'orders', sl: 8);
+              await LocalDB.deleteTableRowBySl(tableName: 'orders', sl: 1);
             },
           ),
         ),

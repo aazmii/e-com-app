@@ -1,12 +1,12 @@
 import 'dart:convert';
-
 import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:sqflite/sqflite.dart';
 
-part 'order.ext.dart';
+part 'src/order.calculation.ext.dart';
+part 'src/order.db.ext.dart';
 
 enum ChangeType { increase, decrease }
 
