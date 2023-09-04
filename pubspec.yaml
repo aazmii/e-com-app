@@ -22,6 +22,9 @@ dependencies:
   sqflite: ^2.2.8+4
   sqflite_common_ffi: ^2.3.0
   visibility_detector: ^0.4.0+2
+  drift: ^2.11.1
+  sqlite3_flutter_libs: ^0.5.16
+  path_provider: ^2.1.1
 
     
 

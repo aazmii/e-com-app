@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  drift:
+    dependency: "direct main"
+    description:
+      name: drift
+      sha256: "0acf8f1f584ebc9fe7462049736f65a699a2557eed9a2f77fc6465a84dd4a716"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.11.1"
   fake_async:
     dependency: transitive
     description:
@@ -292,13 +300,13 @@ packages:
     source: hosted
     version: "1.0.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
-      sha256: "909b84830485dbcd0308edf6f7368bc8fd76afa26a270420f34cabea2a6467a0"
+      sha256: a1aa8aaa2542a6bc57e381f132af822420216c80d4781f7aa085ca3229208aaa
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   path_provider_android:
     dependency: transitive
     description:
@@ -448,6 +456,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  sqlite3_flutter_libs:
+    dependency: "direct main"
+    description:
+      name: sqlite3_flutter_libs
+      sha256: fb115050b0c2589afe2085a62d77f5deda4db65db20a5c65a6e0c92fda89b45e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.16"
   stack_trace:
     dependency: transitive
     description:
@@ -594,4 +610,4 @@ packages:
     version: "6.3.0"
 sdks:
   dart: ">=3.1.0-185.0.dev <4.0.0"
-  flutter: ">=3.7.0-0"
+  flutter: ">=3.7.0"
