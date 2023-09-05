@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_sq/src/sqflite/sqflite.db.dart';
 
 import 'components/action.card.dart';
 

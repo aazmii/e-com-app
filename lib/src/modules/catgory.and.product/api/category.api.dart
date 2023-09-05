@@ -1,8 +1,7 @@
-import 'dart:convert' show jsonDecode, jsonEncode;
+import 'dart:convert' show jsonDecode;
 import 'dart:io' show SocketException;
 
 import 'package:http/http.dart' as http;
-import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 

@@ -6,7 +6,6 @@ import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import 'methods.dart';
 import 'selected.category.id.provider.dart';
 
 final columnProvider =

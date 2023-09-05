@@ -9,9 +9,7 @@ import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.provid
 import 'package:pos_sq/src/modules/home.screen/layouts/horizontal.view.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
 
-import '../catgory.and.product/model/category/category.dart';
-
-Map<String, dynamic>? map;
+Map<String, dynamic>? map;git
 
 class SalesScreen extends ConsumerWidget {
   const SalesScreen({Key? key}) : super(key: key);
@@ -36,12 +34,7 @@ class SalesScreen extends ConsumerWidget {
                   icon: const Icon(Icons.remove_red_eye_sharp),
                 ),
                 IconButton(
-                  onPressed: () async {
-                    final categoryDataList = await db.getCategories();
-                    final categories = categoryDataList
-                        .map((x) => Category.fromTableData(x))
-                        .toList();
-                  },
+                  onPressed: () async {},
                   icon: const Icon(
                     Icons.add,
                     color: Colors.black,

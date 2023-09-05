@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/sqflite/sqflite.db.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/models/order/order.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
@@ -12,7 +11,7 @@ class OrderProvider extends Notifier<Order> {
 
   Future addToCart(Product? product) async {
     if (product == null) return;
-    final item = Item.fromProduct(product);
+    // final item = Item.fromProduct(product);
     // await state.addItem(
     //   item.copyWith(count: 1, price: product.price ?? 1),
     // );
