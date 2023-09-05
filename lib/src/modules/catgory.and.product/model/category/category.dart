@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:sqflite/sqflite.dart';
@@ -15,26 +16,25 @@ class Category {
 
   List<Category>? children;
   List<Product>? products;
-
   String? type;
   String? rackLocation;
+
   int? position;
   int? shelfLife;
-
   int? minimumInventory;
   bool? isEnable;
+
   bool? menu;
   bool? liveSales;
-
   bool? root;
   bool? home;
+
   bool? showInSpecialCategory;
   bool? showBestSaleCategory;
-
   List<String>? tags;
   List<String>? categoryFiles;
-  DateTime? createdAt;
 
+  DateTime? createdAt;
   DateTime? updatedAt;
   String? createdBy;
   String? updatedBy;
@@ -45,12 +45,14 @@ class Category {
   //needed only for state management
   Category? pinnedCategory;
   Category({
-    this.id,
-    this.label,
-    this.parentId,
+    this.id, //
+
+    this.label, //
+    this.parentId, //
     this.description,
-    this.children,
-    this.products,
+    this.children, //
+
+    this.products, //
     this.type,
     this.rackLocation,
     this.position,
@@ -132,6 +134,38 @@ class Category {
     );
   }
 
+  CategoryTableData toTableData() {
+    final data = CategoryTableData(
+      id: id,
+      label: label,
+      parentId: parentId,
+      description: description,
+      children: jsonEncode(children?.map((x) => x.toJson()).toList()),
+      products: jsonEncode(products?.map((x) => x.toJson()).toList()),
+      type: type,
+      rackLocation: rackLocation,
+      position: position,
+      shelfLife: shelfLife,
+      minimumInventory: minimumInventory,
+      isEnable: isEnable,
+      menu: menu,
+      liveSales: liveSales,
+      root: root,
+      home: home,
+      showInSpecialCategory: showInSpecialCategory,
+      showBestSaleCategory: showBestSaleCategory,
+      tags: jsonEncode(tags),
+      categoryFiles: jsonEncode(categoryFiles),
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      createdBy: createdBy,
+      updatedBy: updatedBy,
+      warehouseLocation: warehouseLocation?.toJson(),
+      outletLocation: outletLocation?.toJson(),
+    );
+    return data;
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
@@ -163,8 +197,52 @@ class Category {
     };
   }
 
+  static Category fromTableData(CategoryTableData d) {
+    final category = Category(
+      id: d.id,
+      label: d.label,
+      parentId: d.parentId,
+      description: d.description,
+      children: d.children != null
+          ? (jsonDecode(d.children!) as List)
+              .map((e) => Category.fromJson(e))
+              .toList()
+          : null,
+      products: d.products != null
+          ? (jsonDecode(d.products!) as List)
+              .map((e) => Product.fromJson(e))
+              .toList()
+          : null,
+      type: d.type,
+      rackLocation: d.rackLocation,
+      position: d.position,
+      shelfLife: d.shelfLife,
+      minimumInventory: d.minimumInventory,
+      isEnable: d.isEnable,
+      menu: d.menu,
+      liveSales: d.liveSales,
+      root: d.root,
+      home: d.home,
+      showInSpecialCategory: d.showInSpecialCategory,
+      showBestSaleCategory: d.showBestSaleCategory,
+      tags: d.tags != null ? jsonDecode(d.tags!) : null,
+      categoryFiles:
+          d.categoryFiles != null ? jsonDecode(d.categoryFiles!) : null,
+      createdAt: d.createdAt,
+      updatedAt: d.updatedAt,
+      createdBy: d.createdBy,
+      updatedBy: d.updatedBy,
+      warehouseLocation: d.warehouseLocation != null
+          ? Location.fromJson(jsonDecode(d.warehouseLocation!))
+          : null,
+      outletLocation: d.outletLocation != null
+          ? Location.fromJson(jsonDecode(d.outletLocation!))
+          : null,
+    );
+    return category;
+  }
+
   static Category fromMap(Map<String, dynamic> map) {
-    
     final category = Category(
       id: map['id'] != null ? map['id'] as String? : null,
       label: map['label'] != null ? map['label'] as String : null,

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/db/app.db.dart';
+import 'package:pos_sq/src/sqflite/sqflite.db.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/models/order/order.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
@@ -13,9 +13,9 @@ class OrderProvider extends Notifier<Order> {
   Future addToCart(Product? product) async {
     if (product == null) return;
     final item = Item.fromProduct(product);
-    final isUpdated = await state.addItem(
-      item.copyWith(count: 1, price: product.price ?? 1),
-    );
+    // await state.addItem(
+    //   item.copyWith(count: 1, price: product.price ?? 1),
+    // );
     // print(isUpdated);
     // if (!isUpdated) return;
     // List<Item> items = state.value?.items ?? [];
@@ -24,7 +24,7 @@ class OrderProvider extends Notifier<Order> {
   }
 
   Future removeItemFromCart(Item item) async {
-    final isUpdated = await state.removeItem(item.id!);
+    // await state.removeItem(item.id!);
     // if (!isUpdated) return;
     // List<Item> items = state.value?.items ?? [];
     // items.remove(item);
@@ -46,19 +46,19 @@ class OrderProvider extends Notifier<Order> {
   }
 
   Future<void> onQuantityRemove(Item? item) async {
-    if (item == null) return;
-    if (await state.decreaseQuantity(item)) {
-      item = item.copyWith(count: item.count! - 1);
+    // if (item == null) return;
+    // if (await state.decreaseQuantity(item)) {
+    //   item = item.copyWith(count: item.count! - 1);
 
-      List<Item> updatedItems = state.items!.map((m) {
-        if (m.id == item!.id) {
-          return m.copyWith(count: m.count! - 1);
-        } else {
-          return m;
-        }
-      }).toList();
-      state = state.copyWith(items: updatedItems);
-    }
+    //   List<Item> updatedItems = state.items!.map((m) {
+    //     if (m.id == item!.id) {
+    //       return m.copyWith(count: m.count! - 1);
+    //     } else {
+    //       return m;
+    //     }
+    //   }).toList();
+    //   state = state.copyWith(items: updatedItems);
+    // }
   }
 
   void setOrder(Order o) => state = o;
@@ -67,12 +67,12 @@ class OrderProvider extends Notifier<Order> {
     // return state = AsyncData(await getNewOrderFromDb());
   }
 
-  Future<Order> getNewOrderFromDb() async {
-    await Order(orderTime: DateTime.now())
-        .saveInLocalDb(await LocalDB.database);
+  // Future<Order> getNewOrderFromDb() async {
+  //   await Order(orderTime: DateTime.now())
+  //       .saveInLocalDb(await LocalDB.database);
 
-    return Order.fromDbMap(await LocalDB.getLastItem('orders'));
-  }
+  //   return Order.fromDbMap(await LocalDB.getLastItem('orders'));
+  // }
 }
 
 

@@ -17,7 +17,7 @@ class CustomerInfoFields extends ConsumerWidget {
               width: 150,
               child: SizedBox(
                 child: TextField(
-                  onChanged: order?.onNameChange,
+                  // onChanged: order?.onNameChange,
                   decoration: const InputDecoration(
                     hintText: 'Customer Name',
                   ),
@@ -28,7 +28,7 @@ class CustomerInfoFields extends ConsumerWidget {
               height: textFieldHeight,
               width: 150,
               child: TextField(
-                onChanged: order?.onPhoneChange,
+                // onChanged: order?.onPhoneChange,
                 decoration: const InputDecoration(hintText: 'Phone Number'),
               )),
           const SizedBox(width: 5),
@@ -36,7 +36,7 @@ class CustomerInfoFields extends ConsumerWidget {
             height: textFieldHeight,
             width: 150,
             child: TextField(
-              onChanged: order?.onLoyalityCardChanged,
+              // onChanged: order?.onLoyalityCardChanged,
               decoration: const InputDecoration(hintText: 'Loyality Card'),
             ),
           ),

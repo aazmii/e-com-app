@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/models/order/order.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
 import 'package:pos_sq/src/modules/transacions/view/payment.detail.dart';
-import 'package:pos_sq/src/providers/methods.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
 import '../components/customer.info.fields/customer.info.fields.dart';
@@ -17,55 +16,49 @@ class OrderDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var isCartVisible = ref.watch(isCartVisibleProvider);
-    final order = ref.watch(orderProvider);
+    final order = Order();
     return Scaffold(
       appBar: const OrderDetailAppBar(),
-      body: ref.watch(selectedOrderProvider).when(
-            data: (data) {
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: context.secondaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: ListView(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        if (context.isMobileWidth)
-                          IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.black,
-                            ),
-                          ),
-                      ],
-                    ),
-                    if (isCartVisible && context.width > 235)
-                      Column(
-                        children: [
-                          height20,
-                          CustomerInfoFields(
-                            order: order,
-                          ),
-                          height10,
-                          const Cart(),
-
-                          // CartTable()
-                        ],
-                      ),
-                    const Divider(),
-                    if (context.width > 280) const PaymentDetailView(),
-                  ],
-                ),
-              );
-            },
-            error: (e, s) => emptyWidget,
-            loading: () => emptyWidget,
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: context.secondaryColor,
           ),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (context.isMobileWidth)
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                  ),
+              ],
+            ),
+            if (isCartVisible && context.width > 235)
+              Column(
+                children: [
+                  height20,
+                  CustomerInfoFields(
+                    order: order,
+                  ),
+                  height10,
+                  const Cart(),
+
+                  // CartTable()
+                ],
+              ),
+            const Divider(),
+            if (context.width > 280) const PaymentDetailView(),
+          ],
+        ),
+      ),
     );
   }
 }

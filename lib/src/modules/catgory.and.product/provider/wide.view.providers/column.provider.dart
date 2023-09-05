@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
-import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'methods.dart';
@@ -17,15 +15,12 @@ final columnProvider =
 );
 
 class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
-  late final Database db;
   late final List<dynamic> defultState;
 
   @override
   Future<List<dynamic>> build(Category motherCategory) async {
-    db = await LocalDB.database;
-
-    final subCategories = await motherCategory.getChildren(db);
-    final products = await motherCategory.getProducts(db);
+    final subCategories = motherCategory.children ?? [];
+    final products = motherCategory.products ?? [];
 
     defultState = [
       motherCategory,
@@ -52,56 +47,56 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
   int? prevIndex;
   final scrollController = ScrollController();
 
-  void onTapCategory(
-    BuildContext context, {
-    required int index,
-  }) async {
-    Category category = state.value![index] as Category;
-    if (index == 0) {
-      // reset();
-      return;
-    }
-    ref.read(selectedCategoryProvider.notifier).set(category);
-    if (ref.read(selectedCategoryProvider)?.id != category.id) {
-      _removeNestedItems(category);
-      _reposition(context, scrollDownword: false);
-    } else {
-      final subCategories = await category.getChildren(db);
-      // if (subCategories.isEmpty) return;//?
-      if (hasCommonElements(state.value!, subCategories)) return;
+  // void onTapCategory(
+  //   BuildContext context, {
+  //   required int index,
+  // }) async {
+  //   Category category = state.value![index] as Category;
+  //   if (index == 0) {
+  //     // reset();
+  //     return;
+  //   }
+  //   ref.read(selectedCategoryProvider.notifier).set(category);
+  //   if (ref.read(selectedCategoryProvider)?.id != category.id) {
+  //     _removeNestedItems(category);
+  //     _reposition(context, scrollDownword: false);
+  //   } else {
+  //     final subCategories = await category.getChildren(db);
+  //     // if (subCategories.isEmpty) return;//?
+  //     if (hasCommonElements(state.value!, subCategories)) return;
 
-      List<dynamic>? tempList = state.value!;
-      tempList.insertAll(index + 1, subCategories);
+  //     List<dynamic>? tempList = state.value!;
+  //     tempList.insertAll(index + 1, subCategories);
 
-      final products = await category.getProducts(db);
-      if (products.isEmpty) {
-        state = AsyncData([...tempList]);
-        return;
-      }
-      tempList.insertAll(index + subCategories.length + 1, products);
-      state = AsyncData([...tempList]);
+  //     final products = await category.getProducts(db);
+  //     if (products.isEmpty) {
+  //       state = AsyncData([...tempList]);
+  //       return;
+  //     }
+  //     tempList.insertAll(index + subCategories.length + 1, products);
+  //     state = AsyncData([...tempList]);
 
-      if (context.mounted) {
-        _reposition(context, scrollDownword: true);
-      }
-    }
-  }
+  //     if (context.mounted) {
+  //       _reposition(context, scrollDownword: true);
+  //     }
+  //   }
+  // }
 
   void _removeNestedItems(Category category) async {
-    List<dynamic> tempList = state.value!;
-    final nestedCategories = await getAllNestedCategories(db, category);
-    final nestedProducts = await getAllProducts(
-      db,
-      [category, ...nestedCategories],
-    );
+    // List<dynamic> tempList = state.value!;
+    // final nestedCategories = await getAllNestedCategories(db, category);
+    // final nestedProducts = await getAllProducts(
+    //   db,
+    //   [category, ...nestedCategories],
+    // );
 
-    tempList.removeWhere((e) {
-      return e is Category
-          ? nestedCategories.contains(e)
-          : nestedProducts.contains(e);
-    });
+    // tempList.removeWhere((e) {
+    //   return e is Category
+    //       ? nestedCategories.contains(e)
+    //       : nestedProducts.contains(e);
+    // });
 
-    state = AsyncData([...tempList]);
+    // state = AsyncData([...tempList]);
   }
 
   _reposition(

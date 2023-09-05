@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/image.model.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/person.dart';
@@ -228,6 +229,60 @@ class Product {
     );
   }
 
+  ProductTableData toTableData() {
+    final data = ProductTableData(
+      categoryId: categoryId,
+      productId: productId,
+      minimumInventory: minimumInventory,
+      label: label,
+      categoryLabel: categoryLabel,
+      position: position,
+      relatedProducts:
+          jsonEncode(relatedProducts?.map((x) => x.toJson()).toList()),
+      crossSellProducts:
+          jsonEncode(crossSellProducts?.map((x) => x.toJson()).toList()),
+      upSellProducts:
+          jsonEncode(upSellProducts?.map((x) => x.toJson()).toList()),
+      warehouseLocation: warehouseLocation?.toJson(),
+      outletLocation: outletLocation?.toJson(),
+      rackLocation: rackLocation,
+      manufactureCountry: manufactureCountry,
+      description: description,
+      posLabel: posLabel,
+      sku: sku,
+      shortDescription: shortDescription,
+      createdBy: createdBy?.toJson(),
+      updatedBy: updatedBy?.toJson(),
+      shelfLife: shelfLife,
+      price: price,
+      specialPrice: specialPrice,
+      promotionPrice: promotionPrice,
+      advancedPrice: advancedPrice,
+      taxInPercentage: taxInPercentage,
+      vatInPercentage: vatInPercentage,
+      weight: weight,
+      height: height,
+      average5PercentRating: average5PercentRating,
+      average4PercentRating: average4PercentRating,
+      average3PercentRating: average3PercentRating,
+      average2PercentRating: average2PercentRating,
+      average1PercentRating: average1PercentRating,
+      averageRating: averageRating,
+      totalNumberOfRating: totalNumberOfRating,
+      barcode: barcode,
+      qrcode: qrcode,
+      tags: jsonEncode(tags),
+      enable: enable,
+      isDownloadable: isDownloadable,
+      manufacturedDate: manufacturedDate,
+      expireDate: expireDate,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      files: jsonEncode(files),
+    );
+    return data;
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'productId': productId,
@@ -325,7 +380,8 @@ class Product {
           : null,
       shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
 
-      price: map['price'] != null ? double.parse(map['price']) : null,
+      // price: map['price'] != null ? double.parse(map['price']) : null,
+      price: map['price'] != null ? map['price'] as double : null,
       specialPrice: null,
       promotionPrice: map['promotionPrice'] != null
           ? map['promotionPrice'] as double
@@ -379,6 +435,68 @@ class Product {
       files: files,
     );
 
+    return product;
+  }
+
+  static Product fromDataTable(ProductTableData d) {
+    final product = Product(
+      productId: d.productId,
+      categoryId: d.categoryId,
+      inventory: d.inventory,
+      minimumInventory: d.minimumInventory,
+      label: d.label,
+      position: null,
+      relatedProducts: null,
+      crossSellProducts: null,
+      upSellProducts: null,
+      warehouseLocation: null,
+      outletLocation:
+          d.outletLocation != null ? jsonDecode(d.outletLocation!) : null,
+      rackLocation: d.rackLocation != null ? jsonDecode(d.rackLocation!) : null,
+      sku: d.sku,
+      manufactureCountry: d.manufactureCountry,
+      description: d.description,
+      posLabel: d.posLabel,
+      categoryLabel: d.categoryLabel,
+      types: null,
+      shortDescription: d.shortDescription,
+
+      createdBy: d.createdBy != null
+          ? Person.fromJson(jsonDecode(d.createdBy!))
+          : null,
+      updatedBy: d.updatedBy != null
+          ? Person.fromJson(jsonDecode(d.createdBy!))
+          : null,
+      shelfLife: d.shelfLife,
+
+      price: d.price,
+      specialPrice: d.specialPrice,
+      promotionPrice: d.promotionPrice,
+      advancedPrice: d.specialPrice,
+      taxInPercentage: d.taxInPercentage,
+      vatInPercentage: d.vatInPercentage,
+      weight: d.weight,
+      height: d.weight,
+      average5PercentRating: d.average5PercentRating,
+      average4PercentRating: d.average4PercentRating,
+      average3PercentRating: d.average3PercentRating,
+      average2PercentRating: d.average2PercentRating,
+
+      averageRating: d.averageRating,
+      totalNumberOfRating: d.totalNumberOfRating,
+      barcode: d.barcode,
+      qrcode: d.qrcode,
+      tags: null,
+      enable: null,
+      // enable: map['enable'] != null ? map['enable'] as bool : null,
+      isDownloadable: d.isDownloadable,
+      manufacturedDate: d.manufacturedDate,
+      expireDate: d.expireDate,
+      createdAt: d.createdAt,
+      updatedAt: d.updatedAt,
+      downloadedFile: null,
+      files: d.files != null ? jsonDecode(d.files!) : null,
+    );
     return product;
   }
 
@@ -487,8 +605,6 @@ class Product {
   String toJson() => json.encode(toMap());
 
   static Product fromJson(String source) {
-    print('in product js');
-    print('s $source');
     return Product.fromMap(json.decode(source) as Map<String, dynamic>);
   }
 

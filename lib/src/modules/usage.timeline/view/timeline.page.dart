@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_sq/src/db/app.db.dart';
+import 'package:pos_sq/src/sqflite/sqflite.db.dart';
 
 import 'components/action.card.dart';
 
@@ -21,14 +21,7 @@ class TimelineView extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await LocalDB.deleteTableFromDB('usageTimeline');
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Deleted usageTimeline')));
-            }
-          },
-          child: const Icon(Icons.delete)),
+          onPressed: () async {}, child: const Icon(Icons.delete)),
     );
   }
 }

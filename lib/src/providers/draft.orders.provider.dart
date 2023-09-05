@@ -17,7 +17,7 @@ class DraftOrders extends AsyncNotifier<List<Order>> {
   }
 
   Future<void> delete(Order order) async {
-    await order.deleteFromDb();
+    // await order.deleteFromDb();
 
     // state = AsyncData((await LocalDB.getAllData('orders'))
     //     .map((e) => Order.fromDbMap(e))

@@ -56,8 +56,7 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                             ref.watch(selectedCategoryProvider)?.id;
                         return CategoryContainer(
                           category: categoryOrProduct,
-                          onSelect: () =>
-                              notifier.onTapCategory(context, index: index),
+                          onSelect: () => {},
                           isSelected: selectedId == categoryOrProduct.id,
                           isChild: selectedId == categoryOrProduct.parentId,
                           onTogglePinnedCategory: (info) {
@@ -144,7 +143,9 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
           //   ],
           // );
         },
-        error: (e, s) => Text('Error: $e'),
+        error: (e, s) {
+          return Text('Error: $e');
+        },
         loading: () => const Text('Loading'));
   }
 

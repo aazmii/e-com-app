@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:pos_sq/src/db/app.db.dart';
+
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
-import 'package:sqflite/sqflite.dart';
+
 
 part 'src/order.calculation.ext.dart';
-part 'src/order.db.ext.dart';
 
 enum ChangeType { increase, decrease }
 
@@ -53,34 +52,34 @@ class Order {
     this.orderTime,
     this.products,
   });
-  final db = LocalDB.database;
+  // final db = LocalDB.database;
 
-  static Future createTable(Database db) async {
-    await db.execute('''
-          CREATE TABLE orders (
-          sl INTEGER PRIMARY KEY AUTOINCREMENT,
+  static Future createTable( ) async {
+    // await db.execute('''
+    //       CREATE TABLE orders (
+    //       sl INTEGER PRIMARY KEY AUTOINCREMENT,
 
-          pos_id VARCHAR,
-          pos_user_id VARCHAR,
-          customer_name VARCHAR,
-          customer_phone VARCHAR,
+    //       pos_id VARCHAR,
+    //       pos_user_id VARCHAR,
+    //       customer_name VARCHAR,
+    //       customer_phone VARCHAR,
 
-          loyality_card VARCHAR,
-          items TEXT,
-          sub_total DOUBLE,
-          gross_total DOUBLE,
+    //       loyality_card VARCHAR,
+    //       items TEXT,
+    //       sub_total DOUBLE,
+    //       gross_total DOUBLE,
 
-          discount_amount DOUBLE,
-          discount_type VARCHAR,
-          vat_or_gst DOUBLE,
-          net_total DOUBLE,
+    //       discount_amount DOUBLE,
+    //       discount_type VARCHAR,
+    //       vat_or_gst DOUBLE,
+    //       net_total DOUBLE,
 
-          received_amount DOUBLE,
-          return_amount DOUBLE,
-          payment_details TEXT,
-          order_time DATETIME
-          )
-    ''');
+    //       received_amount DOUBLE,
+    //       return_amount DOUBLE,
+    //       payment_details TEXT,
+    //       order_time DATETIME
+    //       )
+    // ''');
   }
 
   Order copyWith({
