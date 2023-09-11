@@ -1,10 +1,13 @@
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/category.table.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/order/order.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
-import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 import 'package:pos_sq/src/modules/transacions/view/payment.detail.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
@@ -16,9 +19,40 @@ class OrderDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var isCartVisible = ref.watch(isCartVisibleProvider);
-    final order = Order();
+
     return Scaffold(
-      appBar: const OrderDetailAppBar(),
+      // appBar: const OrderDetailAppBar(),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            IconButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DriftDbViewer(db),
+                ),
+              ),
+              icon: const Icon(Icons.remove_red_eye_sharp),
+            ),
+            IconButton(
+              onPressed: () async {
+                final list = await getProductCategories();
+                // print(list);
+                // print(list!.first.toTableData());
+                await CategoryTable()
+                    .insertCategory(list![2].toTableData().toCompanion(true));
+                // await ProductTable().insertProduct(list!.first.products!.first
+                //     .toTableData()
+                //     .toCompanion(true));
+              },
+              icon: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           border: Border.all(
@@ -45,13 +79,9 @@ class OrderDetail extends ConsumerWidget {
               Column(
                 children: [
                   height20,
-                  CustomerInfoFields(
-                    order: order,
-                  ),
+                  const CustomerInfoFields(),
                   height10,
-                  const Cart(),
-
-                  // CartTable()
+                  if (ref.watch(orderSlProvider) != null) const Cart(),
                 ],
               ),
             const Divider(),

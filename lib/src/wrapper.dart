@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/modules/home.screen/home.screen.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
+import 'package:pos_sq/src/providers/methods.dart';
 
 import 'components/footer.dart';
 
@@ -10,7 +13,17 @@ class Wrapper extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
-      body: SalesScreen(),
+      body: FutureBuilder(
+        future: setCurrentOrder(ref),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const CircularProgressIndicator();
+          if (snapshot.data != null && snapshot.data!) {
+            return const SalesScreen();
+          } else {
+            return emptyWidget;
+          }
+        },
+      ),
       // body: ref.watch(configProvider).when(
       //       data: (config) {
       //         if (ref.read(configProvider.notifier).isLicenseExpired()) {
@@ -28,5 +41,15 @@ class Wrapper extends ConsumerWidget {
       //     ),
       bottomNavigationBar: Footer(),
     );
+  }
+
+  Future<bool> setCurrentOrder(WidgetRef ref) async {
+    try {
+      ref.read(orderSlProvider.notifier).set(await getSelectedOrderSerial());
+      return true;
+    } catch (e) {
+      print('error : $e');
+      return false;
+    }
   }
 }

@@ -34,13 +34,19 @@ class CategoryApi {
     final api = CategoryApi(
       success: json['success'],
       message: json['message'],
+
       data: json['data'] == null
           ? []
-          : List<Category>.from(
-              json['data']!.map((x) {
-                return Category.fromJson(x);
-              }),
-            ),
+          : (json['data'] as List).map((e) {
+              return Category.fromMap(e);
+            }).toList(),
+      // data: json['data'] == null
+      //     ? []
+      //     : List<Category>.from(
+      //         json['data']!.map((x) {
+      //           return Category.fromMap(x);
+      //         }),
+      //       ),
     );
 
     return api;

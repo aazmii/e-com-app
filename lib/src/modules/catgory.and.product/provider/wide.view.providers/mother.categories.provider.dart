@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/category.table.dart';
+import 'package:pos_sq/src/app.db/tables/product.table.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 
@@ -16,9 +18,11 @@ final motherCategoriesProvider =
 class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
   @override
   FutureOr<List<Category>> build() async {
-    List<CategoryTableData>? categoryDataList = await db.getCategories();
+    List<CategoryTableData>? categoryDataList =
+        await CategoryTable().getCategories();
     if (categoryDataList.isEmpty) {
       await initLocalDb();
+      categoryDataList = await CategoryTable().getCategories();
     }
     return categoryDataList.map((x) => Category.fromTableData(x)).toList();
   }
@@ -60,11 +64,12 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
     list?.forEach(
       (e) async {
         try {
-          // await e.saveInLocalDb(db);
-          await db.insertCategory(e.toTableData().toCompanion(true));
+          // await CategoryTable()
+          //     .insertCategory(e.toTableData().toCompanion(true));
           if (e.products != null && e.products!.isNotEmpty) {
             for (var p in e.products!) {
-              await db.insertProduct(p.toTableData().toCompanion(true));
+              await ProductTable()
+                  .insertProduct(p.toTableData().toCompanion(true));
             }
           }
         } catch (e) {

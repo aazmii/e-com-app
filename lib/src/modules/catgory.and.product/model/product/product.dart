@@ -1,208 +1,101 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/image.model.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/person.dart';
-import 'package:sqflite/sqflite.dart';
-
-part 'product.ext.dart';
 
 class Product {
-  String? productId;
-  String? categoryId;
-  int? position;
-  String? label;
-  String? categoryLabel;
+  int? sl;
 
-  String? posLabel;
+  String? id;
+  String? name;
+  bool? isEnable;
+  double? price;
+
+  bool? isDiscount;
+  double? discountPrice;
+  double? vatPercentage;
+  List<ImageModel>? images;
+
+  String? categoryId;
+  String? categoryLabel;
   String? description;
   String? shortDescription;
-  double? price;
-  double? promotionPrice;
 
-  double? specialPrice;
-  double? advancedPrice;
-  bool? enable;
-  Location? warehouseLocation;
-  Location? outletLocation;
-
-  String? rackLocation;
-  double? weight;
-  double? height;
-  String? manufactureCountry;
-  DateTime? manufacturedDate;
-
-  DateTime? expireDate;
-  double? averageRating;
-  double? totalNumberOfRating;
+  int? position;
+  int? averageRating;
+  int? totalRating;
   double? average5PercentRating;
-  double? average4PercentRating;
 
+  double? average4PercentRating;
   double? average3PercentRating;
   double? average2PercentRating;
   double? average1PercentRating;
-  String? barcode;
-  String? qrcode;
-
-  double? taxInPercentage;
-  double? vatInPercentage;
-  List<Type>? types;
-  List<String>? tags;
-  String? sku;
-
-  int? inventory;
-  DateTime? newFrom;
-  DateTime? newTill;
-  bool? isDownloadable;
-  File? downloadedFile;
-
-  List<Product>? relatedProducts;
-  List<Product>? crossSellProducts;
-  List<Product>? upSellProducts;
-  List<String>? files;
-  DateTime? createdAt;
-
-  Person? createdBy;
-  Person? updatedBy;
-  DateTime? updatedAt;
-  int? shelfLife;
-  int? minimumInventory;
 
   Product({
-    this.productId,
-    this.categoryId,
-    this.inventory,
-    this.minimumInventory,
-    this.relatedProducts,
-    this.crossSellProducts,
-    this.upSellProducts,
-    this.label,
-    this.newFrom,
-    this.newTill,
-    this.isDownloadable,
-    this.downloadedFile,
-    this.position,
-    this.categoryLabel,
-    this.warehouseLocation,
-    this.outletLocation,
-    this.rackLocation,
-    this.manufactureCountry,
-    this.description,
-    this.posLabel,
-    this.types,
-    this.shortDescription,
-    this.createdBy,
-    this.sku,
-    this.updatedBy,
-    this.shelfLife,
+    this.sl,
+    this.id,
+    this.name,
+    this.isEnable,
     this.price,
-    this.specialPrice,
-    this.promotionPrice,
-    this.advancedPrice,
-    this.taxInPercentage,
-    this.vatInPercentage,
-    this.weight,
-    this.height,
+    this.isDiscount,
+    this.discountPrice,
+    this.vatPercentage,
+    this.images,
+    this.categoryId,
+    this.categoryLabel,
+    this.description,
+    this.shortDescription,
+    this.position,
+    this.averageRating,
+    this.totalRating,
     this.average5PercentRating,
     this.average4PercentRating,
     this.average3PercentRating,
     this.average2PercentRating,
     this.average1PercentRating,
-    this.averageRating,
-    this.totalNumberOfRating,
-    this.barcode,
-    this.qrcode,
-    this.tags,
-    this.enable,
-    this.manufacturedDate,
-    this.expireDate,
-    this.createdAt,
-    this.updatedAt,
-    this.files,
   });
 
   Product copyWith({
-    String? productId,
-    String? categoryId,
-    int? inventory,
-    int? minimumInventory,
-    int? position,
-    String? label,
-    String? categoryLabel,
-    List<Product>? relatedProducts,
-    List<Product>? crossSellProducts,
-    List<Product>? upSellProducts,
-    Location? warehouseLocation,
-    Location? outletLocation,
-    String? rackLocation,
-    String? manufactureCountry,
-    String? description,
-    String? posLabel,
-    String? sku,
-    List<Type>? types,
-    String? shortDescription,
-    Person? createdBy,
-    Person? updatedBy,
-    int? shelfLife,
+    int? sl,
+    String? id,
+    String? name,
+    bool? isEnable,
     double? price,
-    double? specialPrice,
-    double? promotionPrice,
-    double? advancedPrice,
-    double? taxInPercentage,
-    double? vatInPercentage,
-    double? weight,
-    double? height,
+    bool? isDiscount,
+    double? discountPrice,
+    double? vatPercentage,
+    List<ImageModel>? images,
+    String? categoryId,
+    String? categoryLabel,
+    String? description,
+    String? shortDescription,
+    int? position,
+    int? averageRating,
+    int? totalRating,
     double? average5PercentRating,
     double? average4PercentRating,
     double? average3PercentRating,
     double? average2PercentRating,
     double? average1PercentRating,
-    double? averageRating,
-    double? totalNumberOfRating,
-    String? barcode,
-    String? qrcode,
-    List<String>? tags,
-    bool? enable,
-    bool? isDownloadable,
-    DateTime? manufacturedDate,
-    DateTime? expireDate,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    File? downloadedFile,
-    List<String>? files,
   }) {
     return Product(
-      productId: productId ?? this.productId,
-      categoryId: categoryId ?? this.categoryId,
-      inventory: inventory ?? this.inventory,
-      minimumInventory: minimumInventory ?? this.minimumInventory,
-      label: label ?? this.label,
-      crossSellProducts: crossSellProducts ?? this.crossSellProducts,
-      upSellProducts: upSellProducts ?? this.upSellProducts,
-      warehouseLocation: warehouseLocation ?? this.warehouseLocation,
-      outletLocation: outletLocation ?? this.outletLocation,
-      position: position ?? this.position,
-      rackLocation: rackLocation ?? this.rackLocation,
-      manufactureCountry: manufactureCountry ?? this.manufactureCountry,
-      description: description ?? this.description,
-      posLabel: posLabel ?? this.posLabel,
-      sku: sku ?? this.sku,
-      categoryLabel: categoryLabel ?? this.categoryLabel,
-      types: types ?? this.types,
-      shortDescription: shortDescription ?? this.shortDescription,
-      createdBy: createdBy ?? this.createdBy,
-      updatedBy: updatedBy ?? this.updatedBy,
-      shelfLife: shelfLife ?? this.shelfLife,
+      sl: sl ?? this.sl,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      isEnable: isEnable ?? this.isEnable,
       price: price ?? this.price,
-      specialPrice: specialPrice ?? this.specialPrice,
-      promotionPrice: promotionPrice ?? this.promotionPrice,
-      advancedPrice: advancedPrice ?? this.advancedPrice,
-      taxInPercentage: taxInPercentage ?? this.taxInPercentage,
-      vatInPercentage: vatInPercentage ?? this.vatInPercentage,
-      weight: weight ?? this.weight,
-      height: height ?? this.height,
+      isDiscount: isDiscount ?? this.isDiscount,
+      discountPrice: discountPrice ?? this.discountPrice,
+      vatPercentage: vatPercentage ?? this.vatPercentage,
+      images: images ?? this.images,
+      categoryId: categoryId ?? this.categoryId,
+      categoryLabel: categoryLabel ?? this.categoryLabel,
+      description: description ?? this.description,
+      shortDescription: shortDescription ?? this.shortDescription,
+      position: position ?? this.position,
+      averageRating: averageRating ?? this.averageRating,
+      totalRating: totalRating ?? this.totalRating,
       average5PercentRating:
           average5PercentRating ?? this.average5PercentRating,
       average4PercentRating:
@@ -213,485 +106,183 @@ class Product {
           average2PercentRating ?? this.average2PercentRating,
       average1PercentRating:
           average1PercentRating ?? this.average1PercentRating,
-      averageRating: averageRating ?? this.averageRating,
-      totalNumberOfRating: totalNumberOfRating ?? this.totalNumberOfRating,
-      barcode: barcode ?? this.barcode,
-      qrcode: qrcode ?? this.qrcode,
-      tags: tags ?? this.tags,
-      enable: enable ?? this.enable,
-      isDownloadable: isDownloadable ?? this.isDownloadable,
-      manufacturedDate: manufacturedDate ?? this.manufacturedDate,
-      expireDate: expireDate ?? this.expireDate,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      downloadedFile: downloadedFile ?? this.downloadedFile,
-      files: files ?? this.files,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'sl': sl,
+      'id': id,
+      'name': name,
+      'isEnable': isEnable,
+      'price': price,
+      'is_disoucnt': isDiscount,
+      'disoucnt_price': discountPrice,
+      'vatPercentage': vatPercentage,
+      'images': images != null
+          ? jsonEncode(images!.map((e) => e.toJson()).toList())
+          : null,
+      'category_id': categoryId,
+      'category_label': categoryLabel,
+      'description': description,
+      'short_description': shortDescription,
+      'position': position,
+      'average_rating': averageRating,
+      'total_rating': totalRating,
+      'average_5_percent_rating': average5PercentRating,
+      'average_4_percent_rating': average4PercentRating,
+      'average_3_percent_rating': average3PercentRating,
+      'average_2_percent_rating': average2PercentRating,
+      'average_1_percent_rating': average1PercentRating,
+    };
+  }
+
+  static Product fromTableData(ProductTableData v) {
+    final data = Product(
+      sl: v.sl,
+      id: v.id,
+      name: v.name,
+      isEnable: v.isEnable,
+      price: v.price,
+      isDiscount: v.isDiscount,
+      discountPrice: v.discountPrice,
+      vatPercentage: v.vatPercentage,
+      images: v.images != null ? jsonDecode(v.images!) : null,
+      categoryId: v.categoryId,
+      categoryLabel: v.categoryLabel,
+      description: v.description,
+      shortDescription: v.shortDescription,
+      position: v.position,
+      averageRating: v.averageRating,
+      totalRating: v.totalRating,
+      average5PercentRating: v.average5PercentRating,
+      average4PercentRating: v.average4PercentRating,
+      average3PercentRating: v.average3PercentRating,
+      average2PercentRating: v.average2PercentRating,
+      average1PercentRating: v.average1PercentRating,
+    );
+    return data;
   }
 
   ProductTableData toTableData() {
     final data = ProductTableData(
-      categoryId: categoryId,
-      productId: productId,
-      minimumInventory: minimumInventory,
-      label: label,
-      categoryLabel: categoryLabel,
-      position: position,
-      relatedProducts:
-          jsonEncode(relatedProducts?.map((x) => x.toJson()).toList()),
-      crossSellProducts:
-          jsonEncode(crossSellProducts?.map((x) => x.toJson()).toList()),
-      upSellProducts:
-          jsonEncode(upSellProducts?.map((x) => x.toJson()).toList()),
-      warehouseLocation: warehouseLocation?.toJson(),
-      outletLocation: outletLocation?.toJson(),
-      rackLocation: rackLocation,
-      manufactureCountry: manufactureCountry,
-      description: description,
-      posLabel: posLabel,
-      sku: sku,
-      shortDescription: shortDescription,
-      createdBy: createdBy?.toJson(),
-      updatedBy: updatedBy?.toJson(),
-      shelfLife: shelfLife,
+      sl: sl,
+      id: id,
+      name: name,
+      isEnable: isEnable,
       price: price,
-      specialPrice: specialPrice,
-      promotionPrice: promotionPrice,
-      advancedPrice: advancedPrice,
-      taxInPercentage: taxInPercentage,
-      vatInPercentage: vatInPercentage,
-      weight: weight,
-      height: height,
+      isDiscount: isDiscount,
+      discountPrice: discountPrice,
+      vatPercentage: vatPercentage,
+      images: images != null ? jsonEncode(images!) : null,
+      categoryId: categoryId,
+      categoryLabel: categoryLabel,
+      description: description,
+      shortDescription: shortDescription,
+      position: position,
+      averageRating: averageRating,
+      totalRating: totalRating,
       average5PercentRating: average5PercentRating,
       average4PercentRating: average4PercentRating,
       average3PercentRating: average3PercentRating,
       average2PercentRating: average2PercentRating,
       average1PercentRating: average1PercentRating,
-      averageRating: averageRating,
-      totalNumberOfRating: totalNumberOfRating,
-      barcode: barcode,
-      qrcode: qrcode,
-      tags: jsonEncode(tags),
-      enable: enable,
-      isDownloadable: isDownloadable,
-      manufacturedDate: manufacturedDate,
-      expireDate: expireDate,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      files: jsonEncode(files),
     );
     return data;
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'productId': productId,
-      'categoryId': categoryId,
-      'inventory': inventory,
-      'minimumInventory': minimumInventory,
-      'label': label,
-      'position': position,
-      'relatedProducts': relatedProducts,
-      'crollSaleProducts': crossSellProducts,
-      'upSellProducts': upSellProducts,
-      'warehouseLocation': warehouseLocation?.toJson(),
-      'outletLocation': outletLocation?.toJson(),
-      'rackLocation': rackLocation,
-      'manufactureCountry': manufactureCountry,
-      'description': description,
-      'posLabel': posLabel,
-      'sku': sku,
-      'categoryLabel': categoryLabel,
-      'types': null,
-      'shortDescription': shortDescription,
-      'createdBy': createdBy?.toJson(),
-      'updatedBy': updatedBy?.toJson(),
-      'shelfLife': shelfLife,
-      'price': price,
-      'specialPrice': specialPrice,
-      'promotionPrice': promotionPrice,
-      'advancedPrice': advancedPrice,
-      'taxInPercentage': taxInPercentage,
-      'vatInPercentage': vatInPercentage,
-      'weight': weight,
-      'height': height,
-      'average5PercentRating': average5PercentRating,
-      'average4PercentRating': average4PercentRating,
-      'average3PercentRating': average3PercentRating,
-      'average2PercentRating': average2PercentRating,
-      'average1PercentRating': average1PercentRating,
-      'averageRating': averageRating,
-      'totalNumberOfRating': totalNumberOfRating,
-      'barcode': barcode,
-      'qrcode': qrcode,
-      'tags': tags,
-      'enable': enable,
-      'isDownloadable': isDownloadable,
-      'manufacturedDate': manufacturedDate?.millisecondsSinceEpoch,
-      'expireDate': expireDate?.millisecondsSinceEpoch,
-      'createdAt': createdAt?.millisecondsSinceEpoch,
-      'updatedAt': updatedAt?.millisecondsSinceEpoch,
-      'dowanloadFile': null,
-      'files': files,
-    };
-  }
-
   static Product fromMap(Map<String, dynamic> map) {
-    final List<String> files = map['images'] == null
-        ? []
-        : (map['images'] as List<dynamic>)
-            .map((e) => ImageModel.fromJson(e).image!)
-            .toList();
-
     final product = Product(
-      productId: map['id'] != null ? map['id'] as String : null,
-      categoryId: map['category_id'],
-      inventory: null,
-      minimumInventory: null,
-      label: map['name'] != null ? map['name'] as String : null,
-      position: null,
-      relatedProducts: null,
-      crossSellProducts: null,
-      upSellProducts: null,
-      warehouseLocation: null,
-      outletLocation: map['outletLocation'] != null
-          ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
+      sl: map['sl'] != null ? map['sl'] as int : null,
+      id: map['id'] != null ? map['id'] as String : null,
+      name: map['name'] != null ? map['name'] as String : null,
+      isEnable: map['isEnable'] != null ? map['isEnable'] as bool : null,
+      price: map['price'] != null
+          ? (map['price'] is String)
+              ? double.parse(map['price'])
+              : map['price'] as double
           : null,
-      rackLocation:
-          map['rackLocation'] != null ? map['rackLocation'] as String : null,
-      sku: map['sku'] != null ? map['sku'] as String : null,
-      manufactureCountry: map['manufactureCountry'] != null
-          ? map['manufactureCountry'] as String
+      isDiscount:
+          map['is_discount'] != null ? map['is_discount'] as bool : null,
+      discountPrice: map['discount_price'] != null
+          ? (map['discount_price'] is String)
+              ? double.parse(map['discount_price'])
+              : map['discount_price'] as double
+          : null,
+      vatPercentage: map['vatpercentage'] != null
+          ? (map['vatpercentage'] is String)
+              ? double.parse(map['vatpercentage'])
+              : map['vatpercentage'] as double
+          : null,
+      images: map['images'] != null
+          ? (map['images'] as List).map((e) => ImageModel.fromMap(e)).toList()
+          : null,
+      categoryId:
+          map['category_id'] != null ? map['category_id'] as String : null,
+      categoryLabel: map['category_label'] != null
+          ? map['category_label'] as String
           : null,
       description:
           map['description'] != null ? map['description'] as String : null,
-      posLabel: map['posLabel'] != null ? map['posLabel'] as String : null,
-      categoryLabel:
-          map['categoryLabel'] != null ? map['categoryLabel'] as String : null,
-      types: null,
-      shortDescription: map['shortDescription'] != null
-          ? map['shortDescription'] as String
+      shortDescription: map['short_description'] != null
+          ? map['short_description'] as String
           : null,
-      createdBy: map['createdBy'] != null
-          ? Person.fromMap(map['createdBy'] as Map<String, dynamic>)
-          : null,
-      updatedBy: map['updatedBy'] != null
-          ? Person.fromMap(map['updatedBy'] as Map<String, dynamic>)
-          : null,
-      shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
-
-      // price: map['price'] != null ? double.parse(map['price']) : null,
-      price: map['price'] != null ? map['price'] as double : null,
-      specialPrice: null,
-      promotionPrice: map['promotionPrice'] != null
-          ? map['promotionPrice'] as double
-          : null,
-      advancedPrice:
-          map['advancedPrice'] != null ? map['advancedPrice'] as double : null,
-      taxInPercentage: null,
-      vatInPercentage: null,
-      weight: map['weight'] != null ? double.tryParse(map['weight']) : null,
-      height: map['height'] != null ? double.tryParse(map['height']) : null,
-      average5PercentRating: map['average5PercentRating'] != null
-          ? map['average5PercentRating'] as double
-          : null,
-      average4PercentRating: map['average4PercentRating'] != null
-          ? map['average4PercentRating'] as double
-          : null,
-      average3PercentRating: map['average3PercentRating'] != null
-          ? map['average3PercentRating'] as double
-          : null,
-      average2PercentRating: map['average2PercentRating'] != null
-          ? map['average2PercentRating'] as double
-          : null,
-      average1PercentRating: map['average1PercentRating'] != null
-          ? map['average1PercentRating'] as double
-          : null,
+      position: map['position'] != null ? map['position'] as int : null,
       averageRating:
-          map['averageRating'] != null ? map['averageRating'] as double : null,
-      totalNumberOfRating: map['totalNumberOfRating'] != null
-          ? map['totalNumberOfRating'] as double
+          map['average_rating'] != null ? map['average_rating'] as int : null,
+      totalRating: map['total_rating'] != null
+          ? (map['total_rating'] is String)
+              ? int.parse(map['total_rating'])
+              : map['total_rating'] as int
           : null,
-      barcode: map['barcode'] != null ? map['barcode'] as String : null,
-      qrcode: map['qrcode'] != null ? map['qrcode'] as String : null,
-      tags: null,
-      enable: null,
-      // enable: map['enable'] != null ? map['enable'] as bool : null,
-      isDownloadable:
-          map['isdownloadable'] != null ? map['isdownloadable'] as bool : null,
-      manufacturedDate: map['manufacturedDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['manufacturedDate'] as int)
+      average5PercentRating: map['average_5_percent_rating'] != null
+          ? (map['average_5_percent_rating'] is String)
+              ? double.parse(map['average_5_percent_rating'])
+              : map['average_5_percent_rating'] as double
           : null,
-      expireDate: map['expireDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['expireDate'] as int)
+      average4PercentRating: map['average_4_percentRating'] != null
+          ? (map['average4PercentRating'] is String)
+              ? double.parse(map['average_4_percentRating'])
+              : map['average4PercentRating'] as double
           : null,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
+      average3PercentRating: map['average_3_percent_rating'] != null
+          ? (map['average_3_percent_rating'] is String)
+              ? double.parse(map['average_3_percent_rating'])
+              : map['average_3_percent_rating'] as double
           : null,
-      updatedAt: map['updatedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
+      average2PercentRating: map['average_2_percent_rating'] != null
+          ? (map['average_2_percent_rating'] is String)
+              ? double.parse(map['average_2_percent_rating'])
+              : map['average_2_percent_rating'] as double
           : null,
-      downloadedFile: null,
-      files: files,
+      average1PercentRating: map['average_1_percent_rating'] != null
+          ? (map['average_1_percent_rating'] is String)
+              ? double.parse(map['average_1_percent_rating'])
+              : map['average_1_percent_rating'] as double
+          : null,
     );
-
-    return product;
-  }
-
-  static Product fromDataTable(ProductTableData d) {
-    final product = Product(
-      productId: d.productId,
-      categoryId: d.categoryId,
-      inventory: d.inventory,
-      minimumInventory: d.minimumInventory,
-      label: d.label,
-      position: null,
-      relatedProducts: null,
-      crossSellProducts: null,
-      upSellProducts: null,
-      warehouseLocation: null,
-      outletLocation:
-          d.outletLocation != null ? jsonDecode(d.outletLocation!) : null,
-      rackLocation: d.rackLocation != null ? jsonDecode(d.rackLocation!) : null,
-      sku: d.sku,
-      manufactureCountry: d.manufactureCountry,
-      description: d.description,
-      posLabel: d.posLabel,
-      categoryLabel: d.categoryLabel,
-      types: null,
-      shortDescription: d.shortDescription,
-
-      createdBy: d.createdBy != null
-          ? Person.fromJson(jsonDecode(d.createdBy!))
-          : null,
-      updatedBy: d.updatedBy != null
-          ? Person.fromJson(jsonDecode(d.createdBy!))
-          : null,
-      shelfLife: d.shelfLife,
-
-      price: d.price,
-      specialPrice: d.specialPrice,
-      promotionPrice: d.promotionPrice,
-      advancedPrice: d.specialPrice,
-      taxInPercentage: d.taxInPercentage,
-      vatInPercentage: d.vatInPercentage,
-      weight: d.weight,
-      height: d.weight,
-      average5PercentRating: d.average5PercentRating,
-      average4PercentRating: d.average4PercentRating,
-      average3PercentRating: d.average3PercentRating,
-      average2PercentRating: d.average2PercentRating,
-
-      averageRating: d.averageRating,
-      totalNumberOfRating: d.totalNumberOfRating,
-      barcode: d.barcode,
-      qrcode: d.qrcode,
-      tags: null,
-      enable: null,
-      // enable: map['enable'] != null ? map['enable'] as bool : null,
-      isDownloadable: d.isDownloadable,
-      manufacturedDate: d.manufacturedDate,
-      expireDate: d.expireDate,
-      createdAt: d.createdAt,
-      updatedAt: d.updatedAt,
-      downloadedFile: null,
-      files: d.files != null ? jsonDecode(d.files!) : null,
-    );
-    return product;
-  }
-
-  static Product fromDbMap(Map<String, dynamic> map) {
-    final List<String> files = map['images'] == null
-        ? []
-        : (map['images'] as List<dynamic>)
-            .map((e) => ImageModel.fromJson(e).image!)
-            .toList();
-
-    final product = Product(
-      productId: map['id'] != null ? map['id'] as String : null,
-      categoryId: map['category_id'],
-      inventory: null,
-      minimumInventory: null,
-      label: map['name'] != null ? map['name'] as String : null,
-      position: null,
-      relatedProducts: null,
-      crossSellProducts: null,
-      upSellProducts: null,
-      warehouseLocation: null,
-      outletLocation: map['outletLocation'] != null
-          ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
-          : null,
-      rackLocation:
-          map['rackLocation'] != null ? map['rackLocation'] as String : null,
-      sku: map['sku'] != null ? map['sku'] as String : null,
-      manufactureCountry: map['manufactureCountry'] != null
-          ? map['manufactureCountry'] as String
-          : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      posLabel: map['posLabel'] != null ? map['posLabel'] as String : null,
-      categoryLabel:
-          map['categoryLabel'] != null ? map['categoryLabel'] as String : null,
-      types: null,
-      shortDescription: map['shortDescription'] != null
-          ? map['shortDescription'] as String
-          : null,
-      createdBy: map['createdBy'] != null
-          ? Person.fromMap(map['createdBy'] as Map<String, dynamic>)
-          : null,
-      updatedBy: map['updatedBy'] != null
-          ? Person.fromMap(map['updatedBy'] as Map<String, dynamic>)
-          : null,
-      shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
-
-      price: (map['price'] != 'null') ? map['price'] as double : null,
-
-      specialPrice: null,
-      promotionPrice: map['promotionPrice'] != null
-          ? map['promotionPrice'] as double
-          : null,
-      advancedPrice:
-          map['advancedPrice'] != null ? map['advancedPrice'] as double : null,
-      taxInPercentage: null,
-      vatInPercentage: null,
-      weight: map['weight'] != null ? double.tryParse(map['weight']) : null,
-      height: map['height'] != null ? double.tryParse(map['height']) : null,
-      average5PercentRating: map['average5PercentRating'] != null
-          ? map['average5PercentRating'] as double
-          : null,
-      average4PercentRating: map['average4PercentRating'] != null
-          ? map['average4PercentRating'] as double
-          : null,
-      average3PercentRating: map['average3PercentRating'] != null
-          ? map['average3PercentRating'] as double
-          : null,
-      average2PercentRating: map['average2PercentRating'] != null
-          ? map['average2PercentRating'] as double
-          : null,
-      average1PercentRating: map['average1PercentRating'] != null
-          ? map['average1PercentRating'] as double
-          : null,
-      averageRating:
-          map['averageRating'] != null ? map['averageRating'] as double : null,
-      totalNumberOfRating: map['totalNumberOfRating'] != null
-          ? map['totalNumberOfRating'] as double
-          : null,
-      barcode: map['barcode'] != null ? map['barcode'] as String : null,
-      qrcode: map['qrcode'] != null ? map['qrcode'] as String : null,
-      tags: null,
-      enable: null,
-      // enable: map['enable'] != null ? map['enable'] as bool : null,
-      isDownloadable:
-          map['isdownloadable'] != null ? map['isdownloadable'] as bool : null,
-      manufacturedDate: map['manufacturedDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['manufacturedDate'] as int)
-          : null,
-      expireDate: map['expireDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['expireDate'] as int)
-          : null,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
-          : null,
-      updatedAt: map['updatedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
-          : null,
-      downloadedFile: null,
-      files: files,
-    );
-
     return product;
   }
 
   String toJson() => json.encode(toMap());
 
-  static Product fromJson(String source) {
-    return Product.fromMap(json.decode(source) as Map<String, dynamic>);
-  }
+  factory Product.fromJson(String source) =>
+      Product.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Product(productId: $productId, categoryId: $categoryId, inventory: $inventory, minimumInventory: $minimumInventory, label: $label, warehouseLocation: $warehouseLocation, outletLocation: $outletLocation, rackLocation: $rackLocation, manufactureCountry: $manufactureCountry, description: $description, posLabel: $posLabel, categoryLabel: $categoryLabel, types: $types, shortDescription: $shortDescription, createdBy: $createdBy, updatedBy: $updatedBy, shelfLife: $shelfLife, price: $price, specialPrice: $specialPrice, promotionPrice: $promotionPrice, advancedPrice: $advancedPrice, taxInPercentage: $taxInPercentage, vatInPercentage: $vatInPercentage, weight: $weight, height: $height, average5PercentRating: $average5PercentRating, average4PercentRating: $average4PercentRating, average3PercentRating: $average3PercentRating, average2PercentRating: $average2PercentRating, average1PercentRating: $average1PercentRating, averageRating: $averageRating, totalNumberOfRating: $totalNumberOfRating, barcode: $barcode, qrcode: $qrcode, tags: $tags, enable: $enable, isdownloadable: $isDownloadable, manufacturedDate: $manufacturedDate, expireDate: $expireDate, createdAt: $createdAt, updatedAt: $updatedAt, dowanloadFile: $downloadedFile, files: $files)';
+    return 'Product(sl: $sl, id: $id, name: $name, isEnable: $isEnable, price: $price, isDiscount: $isDiscount, discountPrice: $discountPrice, vatPercentage: $vatPercentage, images: $images, categoryId: $categoryId, categoryLabel: $categoryLabel, description: $description, shortDescription: $shortDescription, position: $position, averageRating: $averageRating, totalRating: $totalRating, average5PercentRating: $average5PercentRating, average4PercentRating: $average4PercentRating, average3PercentRating: $average3PercentRating, average2PercentRating: $average2PercentRating, average1PercentRating: $average1PercentRating)';
   }
 
   @override
   bool operator ==(covariant Product other) {
     if (identical(this, other)) return true;
 
-    return other.productId == productId;
+    return other.id == id;
   }
 
   @override
   int get hashCode {
-    return productId.hashCode;
-  }
-
-  static createTable(Database db) async {
-    //! serial order is important
-    await db.execute('''
-          CREATE TABLE product (
-           sl INTEGER PRIMARY KEY AUTOINCREMENT,
-
-           id TEXT,
-           category_id TEXT,
-           position INTEGER,
-           name TEXT,
-           category_label TEXT,
-
-           pos_label TEXT,
-           description TEXT,
-           short_description TEXT,
-           price DOUBLE,
-           promotion_price DOUBLE,
-
-           special_price DOUBLE, 
-           advanced_price DOUBLE,
-           enable BOOLEAN,
-           warehouse_location JSON,
-           outlet_location JSON,
-
-           rack_location JSON,
-           weight DOUBLE,
-           height DOUBLE,
-           manufacture_country TEXT,
-           manufactured_Date TIMESTAMP,
-
-           expire_date TIMESTAMP,
-           average_rating DOUBLE,
-           total_number_of_rating INTEGER,
-           average_5_percent_rating DOUBLE,
-           average_4_percent_rating DOUBLE,
-
-           average_3_percent_rating DOUBLE,
-           average_2_percent_rating DOUBLE,
-           average_1_percent_rating DOUBLE,
-           barcode TEXT,
-           qrcode TEXT,
-
-           taxInPercentage DOUBLE,
-           vatInPercentage DOUBLE,
-           type JSON,
-           tags TEXT[],
-           sku TEXT,
-
-           inventory INTEGER,
-           new_from TIMESTAMP,
-           new_till TIMESTAMP,
-           is_downloadable BOOLEAN,
-           dowanloded_file JSON[],
-           
-
-           related_products JSON,
-           cross_sell_products JSON,
-           up_sell_products JSON,
-           files TEXT[],
-           created_at TIMESTAMP,
-
-           created_by JSON,
-           updated_by JSON,
-           updated_at TIMESTAMP,
-           shelf_life INTEGER,
-           minimum_inventory INTEGER
-          )
-    ''');
+    return id.hashCode;
   }
 }

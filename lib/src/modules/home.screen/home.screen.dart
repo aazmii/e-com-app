@@ -1,15 +1,11 @@
-import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
 import 'package:pos_sq/src/modules/home.screen/layouts/horizontal.view.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
-
-Map<String, dynamic>? map;git
 
 class SalesScreen extends ConsumerWidget {
   const SalesScreen({Key? key}) : super(key: key);
@@ -20,51 +16,27 @@ class SalesScreen extends ConsumerWidget {
 
     return SafeArea(
       child: GestureDetector(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Row(
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DriftDbViewer(db),
-                    ),
-                  ),
-                  icon: const Icon(Icons.remove_red_eye_sharp),
-                ),
-                IconButton(
-                  onPressed: () async {},
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 8.0,
+            left: 8,
+            right: 8,
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              top: 8.0,
-              left: 8,
-              right: 8,
-            ),
-            child: ref.watch(motherCategoriesProvider).when(
-                  data: (data) {
-                    return context.isWide
-                        ? isVertical
-                            ? emptyWidget
-                            : HorizontalView(
-                                motherCategories: data,
-                              )
-                        : emptyWidget;
-                  },
-                  error: (e, s) => const CenterText(
-                    text: 'Oops..!\nSomething went wrong :(',
-                  ),
-                  loading: () => const CenterText(text: 'Loading..'),
+          child: ref.watch(motherCategoriesProvider).when(
+                data: (data) {
+                  return context.isWide
+                      ? isVertical
+                          ? emptyWidget
+                          : HorizontalView(
+                              motherCategories: data,
+                            )
+                      : emptyWidget;
+                },
+                error: (e, s) => const CenterText(
+                  text: 'Oops..!\nSomething went wrong :(',
                 ),
-          ),
+                loading: () => const CenterText(text: 'Loading..'),
+              ),
         ),
       ),
     );

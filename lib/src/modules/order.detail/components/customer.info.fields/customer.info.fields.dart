@@ -8,8 +8,8 @@ class CustomerInfoFields extends ConsumerWidget {
   final Order? order;
   @override
   Widget build(BuildContext context, ref) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 80),
+    return const Padding(
+      padding: EdgeInsets.only(left: 8.0, right: 80),
       child: Row(
         children: [
           SizedBox(
@@ -18,26 +18,26 @@ class CustomerInfoFields extends ConsumerWidget {
               child: SizedBox(
                 child: TextField(
                   // onChanged: order?.onNameChange,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Customer Name',
                   ),
                 ),
               )),
-          const SizedBox(width: 5),
+          SizedBox(width: 5),
           SizedBox(
               height: textFieldHeight,
               width: 150,
               child: TextField(
                 // onChanged: order?.onPhoneChange,
-                decoration: const InputDecoration(hintText: 'Phone Number'),
+                decoration: InputDecoration(hintText: 'Phone Number'),
               )),
-          const SizedBox(width: 5),
+          SizedBox(width: 5),
           SizedBox(
             height: textFieldHeight,
             width: 150,
             child: TextField(
               // onChanged: order?.onLoyalityCardChanged,
-              decoration: const InputDecoration(hintText: 'Loyality Card'),
+              decoration: InputDecoration(hintText: 'Loyality Card'),
             ),
           ),
         ],

@@ -1,59 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pos_sq/src/app.db/tables/order.table.dart';
+import 'package:pos_sq/src/components/confirm.dialog.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/models/order/order.dart';
-
-final orders = [
-  Order(orderTime: DateTime.now()),
-  Order(orderTime: DateTime.now().previousDay),
-  Order(orderTime: DateTime.now().nextDay),
-  Order(orderTime: DateTime.now().nextDay),
-  Order(orderTime: DateTime.now().nextDay),
-  Order(orderTime: DateTime.now().nextDay),
-];
+import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 
 class DraftOrders extends ConsumerWidget {
   const DraftOrders({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
-    return emptyWidget;
-    // return ref.watch(draftOrdersProvider).when(
-    //       data: (draftOrders) {
-    //         return SizedBox(
-    //           height: 40,
-    //           child: ListView.builder(
-    //             itemCount: draftOrders.length,
-    //             scrollDirection: Axis.horizontal,
-    //             itemBuilder: (context, i) {
-    //               // return Text('$i');
-    //               return ref.watch(orderProvider).value != draftOrders[i]
-    //                   ? CustomChoiceChip(
-    //                       label: draftOrders[i].orderTime,
-    //                       isSelected: false,
-    //                       onSelect: () => ref
-    //                           .read(orderProvider.notifier)
-    //                           .setOrder(draftOrders[i]),
-    //                       onDelete: () async {
-    //                         if (!await confirmDialog(
-    //                             context, 'Delete from draft?')) {
-    //                           return;
-    //                         } else {
-    //                           await ref
-    //                               .read(draftOrdersProvider.notifier)
-    //                               .delete(draftOrders[i]);
-    //                         }
-    //                       },
-    //                     )
-    //                   : emptyWidget;
-    //             },
-    //           ),
-    //         );
-    //       },
-    //       error: (e, s) => Text('Could not load drafts $e'),
-    //       loading: () => const SizedBox(),
-    //     );
+    return StreamBuilder(
+      stream: OrderDb().watchOrders(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return emptyWidget;
+        final draftOrders = snapshot.data;
+        if (draftOrders!.isEmpty) return emptyWidget;
+
+        return SizedBox(
+          height: 40,
+          child: ListView.builder(
+            itemCount: draftOrders.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, i) {
+              return CustomChoiceChip(
+                label: Order.fromTableData(draftOrders[i]).orderTime ??
+                    DateTime.now(),
+                isSelected: false,
+                onSelect: () =>
+                    ref.read(orderSlProvider.notifier).set(draftOrders[i].sl),
+                onDelete: () async {
+                  if (!await confirmDialog(context, 'Delete from draft?')) {
+                    return;
+                  } else {}
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
 

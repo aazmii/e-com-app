@@ -4,7 +4,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/provider/cart.state.provider.dart';
 import 'package:pos_sq/src/modules/cart.table/view/components/collapse.button.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 
 class CollapsedView extends ConsumerWidget {
   const CollapsedView({super.key});
@@ -16,7 +16,7 @@ class CollapsedView extends ConsumerWidget {
       children: [
         ElevatedButton(
             onPressed: () async {
-              await ref.read(orderProvider.notifier).resetOrder();
+              await ref.read(orderSlProvider.notifier).resetOrder();
             },
             child: const Text('New Order')),
         Text(

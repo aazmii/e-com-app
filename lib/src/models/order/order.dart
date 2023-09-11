@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
-
 
 part 'src/order.calculation.ext.dart';
 
@@ -52,35 +52,6 @@ class Order {
     this.orderTime,
     this.products,
   });
-  // final db = LocalDB.database;
-
-  static Future createTable( ) async {
-    // await db.execute('''
-    //       CREATE TABLE orders (
-    //       sl INTEGER PRIMARY KEY AUTOINCREMENT,
-
-    //       pos_id VARCHAR,
-    //       pos_user_id VARCHAR,
-    //       customer_name VARCHAR,
-    //       customer_phone VARCHAR,
-
-    //       loyality_card VARCHAR,
-    //       items TEXT,
-    //       sub_total DOUBLE,
-    //       gross_total DOUBLE,
-
-    //       discount_amount DOUBLE,
-    //       discount_type VARCHAR,
-    //       vat_or_gst DOUBLE,
-    //       net_total DOUBLE,
-
-    //       received_amount DOUBLE,
-    //       return_amount DOUBLE,
-    //       payment_details TEXT,
-    //       order_time DATETIME
-    //       )
-    // ''');
-  }
 
   Order copyWith({
     String? customerName,
@@ -116,6 +87,36 @@ class Order {
       posId: posId ?? this.posId,
       posUserId: posUserId ?? this.posUserId,
     );
+  }
+
+  static Order fromTableData(OrderTableData d) {
+    final order = Order(
+      customerName: d.customerName,
+      customerPhone: d.customerPhone,
+      loyalityCard: d.loyalityCard,
+      items: d.items != null
+          ? (jsonDecode(d.items!) as List).map((e) {
+              return Item.fromMap(jsonDecode(e));
+            }).toList()
+          : null,
+      subTotal: d.subTotal,
+      grossTotal: d.grossTotal,
+      discountAmount: d.discountAmount,
+      vatorgst: d.vatorgst,
+      netTotal: d.netTotal,
+      receivedAmount: d.receivedAmount,
+      returnAmount: d.returnAmount,
+      paymentDetails: d.paymentDetails != null
+          ? (jsonDecode(d.paymentDetails!) as List).map((e) {
+              return PaymentDetail.fromMap(jsonDecode(e));
+            }).toList()
+          : null,
+      posId: d.posId,
+      posUserId: d.posUserId,
+      orderTime: d.orderDateTime,
+    );
+
+    return order;
   }
 
   Map<String, dynamic> toMap() {

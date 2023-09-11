@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/components/square.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 
 final _tableHeaders = [
   'SL',
@@ -103,8 +103,7 @@ class AddNewItemRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final order = ref.watch(orderProvider);
-    final sl = order.items != null ? order.items!.length + 1 : 1;
+    final sl = ref.watch(orderSlProvider);
     return Row(
       children: [
         Expanded(

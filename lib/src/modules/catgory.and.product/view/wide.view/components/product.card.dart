@@ -32,7 +32,7 @@ class ProductCard extends ConsumerWidget {
               duration: const Duration(milliseconds: expandDuration),
               margin: EdgeInsets.symmetric(
                 horizontal:
-                    ref.watch(selectedCategoryProvider)?.parentId == categoryId
+                    ref.watch(selectedCategoryProvider)?.id == categoryId
                         ? 12
                         : 2,
               ),
@@ -48,9 +48,9 @@ class ProductCard extends ConsumerWidget {
                           : null,
                       child: ProductImage(
                         productUrl:
-                            (product.files == null || product.files!.isEmpty)
+                            (product.images == null || product.images!.isEmpty)
                                 ? null
-                                : product.files!.first,
+                                : product.images!.first.image,
                       ),
                     ),
                   ),
@@ -58,7 +58,7 @@ class ProductCard extends ConsumerWidget {
               ),
             ),
             Text(
-              product.label ?? '',
+              product.name ?? '',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 overflow: TextOverflow.ellipsis,

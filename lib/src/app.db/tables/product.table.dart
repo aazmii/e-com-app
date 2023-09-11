@@ -1,68 +1,54 @@
 import 'package:drift/drift.dart';
+import 'package:pos_sq/src/app.db/app.db.dart';
 
 class ProductTable extends Table {
   IntColumn get sl => integer().nullable().autoIncrement()();
 
-  TextColumn get productId => text().nullable()();
-  TextColumn get categoryId => text().nullable()();
-  IntColumn get position => integer().nullable()();
-  TextColumn get label => text().nullable()();
-
-  TextColumn get categoryLabel => text().nullable()();
-  TextColumn get posLabel => text().nullable()();
-  TextColumn get description => text().nullable()();
-  TextColumn get shortDescription => text().nullable()();
-
+  TextColumn get id => text().nullable()();
+  TextColumn get name => text().nullable()();
+  BoolColumn get isEnable => boolean().nullable()();
   RealColumn get price => real().nullable()();
-  RealColumn get promotionPrice => real().nullable()();
-  RealColumn get specialPrice => real().nullable()();
-  RealColumn get advancedPrice => real().nullable()();
 
-  BoolColumn get enable => boolean().nullable()();
-  TextColumn get warehouseLocation => text().nullable()();
-  TextColumn get outletLocation => text().nullable()();
-  TextColumn get rackLocation => text().nullable()();
+  BoolColumn get isDiscount => boolean().nullable().named('is_disoucnt')();
+  RealColumn get discountPrice => real().nullable().named('disoucnt_price')();
+  RealColumn get vatPercentage => real().nullable().named('vatpercentage')();
+  TextColumn get images => text().nullable()();
 
-  RealColumn get weight => real().nullable()();
-  RealColumn get height => real().nullable()();
-  TextColumn get manufactureCountry => text().nullable()();
-  DateTimeColumn get manufacturedDate => dateTime().nullable()();
+  TextColumn get categoryId => text().nullable().named('category_id')();
+  TextColumn get categoryLabel => text().nullable().named('category_label')();
+  TextColumn get description => text().nullable()();
+  TextColumn get shortDescription =>
+      text().nullable().named('short_description')();
 
-  DateTimeColumn get expireDate => dateTime().nullable()();
-  RealColumn get averageRating => real().nullable()();
-  RealColumn get totalNumberOfRating => real().nullable()();
-  RealColumn get average5PercentRating => real().nullable()();
+  IntColumn get position => integer().nullable()();
+  IntColumn get averageRating => integer().nullable().named('average_rating')();
+  IntColumn get totalRating => integer().nullable().named('total_rating')();
+  RealColumn get average5PercentRating =>
+      real().nullable().named('average_5_percent_rating')();
 
-  RealColumn get average4PercentRating => real().nullable()();
-  RealColumn get average3PercentRating => real().nullable()();
-  RealColumn get average2PercentRating => real().nullable()();
-  RealColumn get average1PercentRating => real().nullable()();
+  RealColumn get average4PercentRating =>
+      real().nullable().named('average_4_percent_rating')();
+  RealColumn get average3PercentRating =>
+      real().nullable().named('average_3_percent_rating')();
+  RealColumn get average2PercentRating =>
+      real().nullable().named('average_2_percent_rating')();
+  RealColumn get average1PercentRating =>
+      real().nullable().named('average_1_percent_rating')();
 
-  TextColumn get barcode => text().nullable()();
-  TextColumn get qrcode => text().nullable()();
-  RealColumn get taxInPercentage => real().nullable()();
-  RealColumn get vatInPercentage => real().nullable()();
+  //?PRODUCT
+  Future<int> insertProduct(ProductTableCompanion entity) async {
+    return await db.into(db.productTable).insert(entity);
+  }
 
-  TextColumn get types => text().nullable()();
-  TextColumn get tags => text().nullable()();
-  TextColumn get sku => text().nullable()();
-  IntColumn get inventory => integer().nullable()();
+  Future<List<ProductTableData>> getProducts() async {
+    final products = await db.select(db.productTable).get();
+    return products;
+  }
 
-  DateTimeColumn get newFrom => dateTime().nullable()();
-  DateTimeColumn get newTill => dateTime().nullable()();
-  BoolColumn get isDownloadable => boolean().nullable()();
-  Int64Column get downloadedFile => int64().nullable()();
-
-  TextColumn get relatedProducts => text().nullable()();
-  TextColumn get crossSellProducts => text().nullable()();
-  TextColumn get upSellProducts => text().nullable()();
-  TextColumn get files => text().nullable()();
-
-  DateTimeColumn get createdAt => dateTime().nullable()();
-  TextColumn get createdBy => text().nullable()();
-  TextColumn get updatedBy => text().nullable()();
-  DateTimeColumn get updatedAt => dateTime().nullable()();
-
-  IntColumn get shelfLife => integer().nullable()();
-  IntColumn get minimumInventory => integer().nullable()();
+  Future<List<ProductTableData>> getProductByCategoryId(
+      String categoryId) async {
+    return await (db.select(db.productTable)
+          ..where((tbl) => tbl.categoryId.equals(categoryId)))
+        .get();
+  }
 }

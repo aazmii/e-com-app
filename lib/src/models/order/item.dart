@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
 class Item {
@@ -42,13 +43,21 @@ class Item {
     };
   }
 
+  ItemTableData toTableData() => ItemTableData(
+        id: id,
+        name: name,
+        count: count,
+        price: price,
+        imageUrl: imageurl,
+      );
+
   static Item fromProduct(Product p) {
     return Item(
-      id: p.productId,
-      name: p.label,
+      id: p.id,
+      name: p.name,
       price: p.price,
       count: null,
-      imageurl: p.files!.isEmpty ? null : p.files!.first,
+      imageurl: p.images!.isEmpty ? null : p.images!.first.image,
     );
   }
 

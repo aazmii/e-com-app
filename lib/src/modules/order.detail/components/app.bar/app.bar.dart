@@ -14,6 +14,7 @@ class OrderDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       // your customization here
       title: const DispositionHeader(),
+
       elevation: 0,
       centerTitle: true,
       backgroundColor: Colors.transparent,

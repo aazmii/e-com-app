@@ -23,16 +23,26 @@ class $CategoryTableTable extends CategoryTable
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _productsMeta =
+      const VerificationMeta('products');
+  @override
+  late final GeneratedColumn<String> products = GeneratedColumn<String>(
+      'products', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _imagesMeta = const VerificationMeta('images');
+  @override
+  late final GeneratedColumn<String> images = GeneratedColumn<String>(
+      'images', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _imageMeta = const VerificationMeta('image');
+  @override
+  late final GeneratedColumn<String> image = GeneratedColumn<String>(
+      'image', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _labelMeta = const VerificationMeta('label');
   @override
   late final GeneratedColumn<String> label = GeneratedColumn<String>(
       'label', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _parentIdMeta =
-      const VerificationMeta('parentId');
-  @override
-  late final GeneratedColumn<String> parentId = GeneratedColumn<String>(
-      'parent_id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
@@ -40,46 +50,20 @@ class $CategoryTableTable extends CategoryTable
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
       'description', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _childrenMeta =
-      const VerificationMeta('children');
+  static const VerificationMeta _isExpendMeta =
+      const VerificationMeta('isExpend');
   @override
-  late final GeneratedColumn<String> children = GeneratedColumn<String>(
-      'children', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _productsMeta =
-      const VerificationMeta('products');
-  @override
-  late final GeneratedColumn<String> products = GeneratedColumn<String>(
-      'products', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
-  @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _rackLocationMeta =
-      const VerificationMeta('rackLocation');
-  @override
-  late final GeneratedColumn<String> rackLocation = GeneratedColumn<String>(
-      'rack_location', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<bool> isExpend = GeneratedColumn<bool>(
+      'is_expend', aliasedName, true,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_expend" IN (0, 1))'));
   static const VerificationMeta _positionMeta =
       const VerificationMeta('position');
   @override
   late final GeneratedColumn<int> position = GeneratedColumn<int>(
       'position', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _shelfLifeMeta =
-      const VerificationMeta('shelfLife');
-  @override
-  late final GeneratedColumn<int> shelfLife = GeneratedColumn<int>(
-      'shelf_life', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _minimumInventoryMeta =
-      const VerificationMeta('minimumInventory');
-  @override
-  late final GeneratedColumn<int> minimumInventory = GeneratedColumn<int>(
-      'minimum_inventory', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _isEnableMeta =
       const VerificationMeta('isEnable');
@@ -90,39 +74,42 @@ class $CategoryTableTable extends CategoryTable
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('CHECK ("is_enable" IN (0, 1))'));
-  static const VerificationMeta _menuMeta = const VerificationMeta('menu');
+  static const VerificationMeta _isIncludeMenuMeta =
+      const VerificationMeta('isIncludeMenu');
   @override
-  late final GeneratedColumn<bool> menu = GeneratedColumn<bool>(
-      'menu', aliasedName, true,
+  late final GeneratedColumn<bool> isIncludeMenu = GeneratedColumn<bool>(
+      'is_include_menu', aliasedName, true,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_include_menu" IN (0, 1))'));
+  static const VerificationMeta _isIncludeLiveSalesMeta =
+      const VerificationMeta('isIncludeLiveSales');
+  @override
+  late final GeneratedColumn<bool> isIncludeLiveSales = GeneratedColumn<bool>(
+      'is_include_live_sales', aliasedName, true,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_include_live_sales" IN (0, 1))'));
+  static const VerificationMeta _isParentMeta =
+      const VerificationMeta('isParent');
+  @override
+  late final GeneratedColumn<bool> isParent = GeneratedColumn<bool>(
+      'is_parent', aliasedName, true,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
       defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("menu" IN (0, 1))'));
-  static const VerificationMeta _liveSalesMeta =
-      const VerificationMeta('liveSales');
+          GeneratedColumn.constraintIsAlways('CHECK ("is_parent" IN (0, 1))'));
+  static const VerificationMeta _isIncludeHomeMeta =
+      const VerificationMeta('isIncludeHome');
   @override
-  late final GeneratedColumn<bool> liveSales = GeneratedColumn<bool>(
-      'live_sales', aliasedName, true,
+  late final GeneratedColumn<bool> isIncludeHome = GeneratedColumn<bool>(
+      'is_include_home', aliasedName, true,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("live_sales" IN (0, 1))'));
-  static const VerificationMeta _rootMeta = const VerificationMeta('root');
-  @override
-  late final GeneratedColumn<bool> root = GeneratedColumn<bool>(
-      'root', aliasedName, true,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("root" IN (0, 1))'));
-  static const VerificationMeta _homeMeta = const VerificationMeta('home');
-  @override
-  late final GeneratedColumn<bool> home = GeneratedColumn<bool>(
-      'home', aliasedName, true,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("home" IN (0, 1))'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_include_home" IN (0, 1))'));
   static const VerificationMeta _showInSpecialCategoryMeta =
       const VerificationMeta('showInSpecialCategory');
   @override
@@ -141,16 +128,15 @@ class $CategoryTableTable extends CategoryTable
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("show_best_sale_category" IN (0, 1))'));
-  static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<String> tags = GeneratedColumn<String>(
-      'tags', aliasedName, true,
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _categoryFilesMeta =
-      const VerificationMeta('categoryFiles');
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
   @override
-  late final GeneratedColumn<String> categoryFiles = GeneratedColumn<String>(
-      'category_files', aliasedName, true,
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+      'code', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
@@ -176,54 +162,43 @@ class $CategoryTableTable extends CategoryTable
   late final GeneratedColumn<String> updatedBy = GeneratedColumn<String>(
       'updated_by', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _warehouseLocationMeta =
-      const VerificationMeta('warehouseLocation');
+  static const VerificationMeta _parentMeta = const VerificationMeta('parent');
   @override
-  late final GeneratedColumn<String> warehouseLocation =
-      GeneratedColumn<String>('warehouse_location', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _outletLocationMeta =
-      const VerificationMeta('outletLocation');
-  @override
-  late final GeneratedColumn<String> outletLocation = GeneratedColumn<String>(
-      'outlet_location', aliasedName, true,
+  late final GeneratedColumn<String> parent = GeneratedColumn<String>(
+      'parent', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _pinnedCategoryMeta =
-      const VerificationMeta('pinnedCategory');
+  static const VerificationMeta _childrenMeta =
+      const VerificationMeta('children');
   @override
-  late final GeneratedColumn<String> pinnedCategory = GeneratedColumn<String>(
-      'pinned_category', aliasedName, true,
+  late final GeneratedColumn<String> children = GeneratedColumn<String>(
+      'children', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         sl,
         id,
-        label,
-        parentId,
-        description,
-        children,
         products,
-        type,
-        rackLocation,
+        images,
+        image,
+        label,
+        description,
+        isExpend,
         position,
-        shelfLife,
-        minimumInventory,
         isEnable,
-        menu,
-        liveSales,
-        root,
-        home,
+        isIncludeMenu,
+        isIncludeLiveSales,
+        isParent,
+        isIncludeHome,
         showInSpecialCategory,
         showBestSaleCategory,
-        tags,
-        categoryFiles,
+        type,
+        code,
         createdAt,
         updatedAt,
         createdBy,
         updatedBy,
-        warehouseLocation,
-        outletLocation,
-        pinnedCategory
+        parent,
+        children
       ];
   @override
   String get aliasedName => _alias ?? 'category_table';
@@ -240,13 +215,21 @@ class $CategoryTableTable extends CategoryTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('products')) {
+      context.handle(_productsMeta,
+          products.isAcceptableOrUnknown(data['products']!, _productsMeta));
+    }
+    if (data.containsKey('images')) {
+      context.handle(_imagesMeta,
+          images.isAcceptableOrUnknown(data['images']!, _imagesMeta));
+    }
+    if (data.containsKey('image')) {
+      context.handle(
+          _imageMeta, image.isAcceptableOrUnknown(data['image']!, _imageMeta));
+    }
     if (data.containsKey('label')) {
       context.handle(
           _labelMeta, label.isAcceptableOrUnknown(data['label']!, _labelMeta));
-    }
-    if (data.containsKey('parent_id')) {
-      context.handle(_parentIdMeta,
-          parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -254,57 +237,39 @@ class $CategoryTableTable extends CategoryTable
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
     }
-    if (data.containsKey('children')) {
-      context.handle(_childrenMeta,
-          children.isAcceptableOrUnknown(data['children']!, _childrenMeta));
-    }
-    if (data.containsKey('products')) {
-      context.handle(_productsMeta,
-          products.isAcceptableOrUnknown(data['products']!, _productsMeta));
-    }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
-    }
-    if (data.containsKey('rack_location')) {
-      context.handle(
-          _rackLocationMeta,
-          rackLocation.isAcceptableOrUnknown(
-              data['rack_location']!, _rackLocationMeta));
+    if (data.containsKey('is_expend')) {
+      context.handle(_isExpendMeta,
+          isExpend.isAcceptableOrUnknown(data['is_expend']!, _isExpendMeta));
     }
     if (data.containsKey('position')) {
       context.handle(_positionMeta,
           position.isAcceptableOrUnknown(data['position']!, _positionMeta));
     }
-    if (data.containsKey('shelf_life')) {
-      context.handle(_shelfLifeMeta,
-          shelfLife.isAcceptableOrUnknown(data['shelf_life']!, _shelfLifeMeta));
-    }
-    if (data.containsKey('minimum_inventory')) {
-      context.handle(
-          _minimumInventoryMeta,
-          minimumInventory.isAcceptableOrUnknown(
-              data['minimum_inventory']!, _minimumInventoryMeta));
-    }
     if (data.containsKey('is_enable')) {
       context.handle(_isEnableMeta,
           isEnable.isAcceptableOrUnknown(data['is_enable']!, _isEnableMeta));
     }
-    if (data.containsKey('menu')) {
+    if (data.containsKey('is_include_menu')) {
       context.handle(
-          _menuMeta, menu.isAcceptableOrUnknown(data['menu']!, _menuMeta));
+          _isIncludeMenuMeta,
+          isIncludeMenu.isAcceptableOrUnknown(
+              data['is_include_menu']!, _isIncludeMenuMeta));
     }
-    if (data.containsKey('live_sales')) {
-      context.handle(_liveSalesMeta,
-          liveSales.isAcceptableOrUnknown(data['live_sales']!, _liveSalesMeta));
-    }
-    if (data.containsKey('root')) {
+    if (data.containsKey('is_include_live_sales')) {
       context.handle(
-          _rootMeta, root.isAcceptableOrUnknown(data['root']!, _rootMeta));
+          _isIncludeLiveSalesMeta,
+          isIncludeLiveSales.isAcceptableOrUnknown(
+              data['is_include_live_sales']!, _isIncludeLiveSalesMeta));
     }
-    if (data.containsKey('home')) {
+    if (data.containsKey('is_parent')) {
+      context.handle(_isParentMeta,
+          isParent.isAcceptableOrUnknown(data['is_parent']!, _isParentMeta));
+    }
+    if (data.containsKey('is_include_home')) {
       context.handle(
-          _homeMeta, home.isAcceptableOrUnknown(data['home']!, _homeMeta));
+          _isIncludeHomeMeta,
+          isIncludeHome.isAcceptableOrUnknown(
+              data['is_include_home']!, _isIncludeHomeMeta));
     }
     if (data.containsKey('show_in_special_category')) {
       context.handle(
@@ -318,15 +283,13 @@ class $CategoryTableTable extends CategoryTable
           showBestSaleCategory.isAcceptableOrUnknown(
               data['show_best_sale_category']!, _showBestSaleCategoryMeta));
     }
-    if (data.containsKey('tags')) {
+    if (data.containsKey('type')) {
       context.handle(
-          _tagsMeta, tags.isAcceptableOrUnknown(data['tags']!, _tagsMeta));
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     }
-    if (data.containsKey('category_files')) {
+    if (data.containsKey('code')) {
       context.handle(
-          _categoryFilesMeta,
-          categoryFiles.isAcceptableOrUnknown(
-              data['category_files']!, _categoryFilesMeta));
+          _codeMeta, code.isAcceptableOrUnknown(data['code']!, _codeMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -344,23 +307,13 @@ class $CategoryTableTable extends CategoryTable
       context.handle(_updatedByMeta,
           updatedBy.isAcceptableOrUnknown(data['updated_by']!, _updatedByMeta));
     }
-    if (data.containsKey('warehouse_location')) {
-      context.handle(
-          _warehouseLocationMeta,
-          warehouseLocation.isAcceptableOrUnknown(
-              data['warehouse_location']!, _warehouseLocationMeta));
+    if (data.containsKey('parent')) {
+      context.handle(_parentMeta,
+          parent.isAcceptableOrUnknown(data['parent']!, _parentMeta));
     }
-    if (data.containsKey('outlet_location')) {
-      context.handle(
-          _outletLocationMeta,
-          outletLocation.isAcceptableOrUnknown(
-              data['outlet_location']!, _outletLocationMeta));
-    }
-    if (data.containsKey('pinned_category')) {
-      context.handle(
-          _pinnedCategoryMeta,
-          pinnedCategory.isAcceptableOrUnknown(
-              data['pinned_category']!, _pinnedCategoryMeta));
+    if (data.containsKey('children')) {
+      context.handle(_childrenMeta,
+          children.isAcceptableOrUnknown(data['children']!, _childrenMeta));
     }
     return context;
   }
@@ -375,45 +328,39 @@ class $CategoryTableTable extends CategoryTable
           .read(DriftSqlType.int, data['${effectivePrefix}sl']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}id']),
-      label: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}label']),
-      parentId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}parent_id']),
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      children: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}children']),
       products: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}products']),
-      type: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type']),
-      rackLocation: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}rack_location']),
+      images: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}images']),
+      image: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image']),
+      label: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}label']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      isExpend: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_expend']),
       position: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}position']),
-      shelfLife: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}shelf_life']),
-      minimumInventory: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}minimum_inventory']),
       isEnable: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_enable']),
-      menu: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}menu']),
-      liveSales: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}live_sales']),
-      root: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}root']),
-      home: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}home']),
+      isIncludeMenu: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_include_menu']),
+      isIncludeLiveSales: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}is_include_live_sales']),
+      isParent: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_parent']),
+      isIncludeHome: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_include_home']),
       showInSpecialCategory: attachedDatabase.typeMapping.read(
           DriftSqlType.bool,
           data['${effectivePrefix}show_in_special_category']),
       showBestSaleCategory: attachedDatabase.typeMapping.read(
           DriftSqlType.bool, data['${effectivePrefix}show_best_sale_category']),
-      tags: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}tags']),
-      categoryFiles: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category_files']),
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type']),
+      code: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}code']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at']),
       updatedAt: attachedDatabase.typeMapping
@@ -422,12 +369,10 @@ class $CategoryTableTable extends CategoryTable
           .read(DriftSqlType.string, data['${effectivePrefix}created_by']),
       updatedBy: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}updated_by']),
-      warehouseLocation: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}warehouse_location']),
-      outletLocation: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}outlet_location']),
-      pinnedCategory: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}pinned_category']),
+      parent: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}parent']),
+      children: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}children']),
     );
   }
 
@@ -441,61 +386,53 @@ class CategoryTableData extends DataClass
     implements Insertable<CategoryTableData> {
   final int? sl;
   final String? id;
-  final String? label;
-  final String? parentId;
-  final String? description;
-  final String? children;
   final String? products;
-  final String? type;
-  final String? rackLocation;
+  final String? images;
+  final String? image;
+  final String? label;
+  final String? description;
+  final bool? isExpend;
   final int? position;
-  final int? shelfLife;
-  final int? minimumInventory;
   final bool? isEnable;
-  final bool? menu;
-  final bool? liveSales;
-  final bool? root;
-  final bool? home;
+  final bool? isIncludeMenu;
+  final bool? isIncludeLiveSales;
+  final bool? isParent;
+  final bool? isIncludeHome;
   final bool? showInSpecialCategory;
   final bool? showBestSaleCategory;
-  final String? tags;
-  final String? categoryFiles;
+  final String? type;
+  final String? code;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final String? createdBy;
   final String? updatedBy;
-  final String? warehouseLocation;
-  final String? outletLocation;
-  final String? pinnedCategory;
+  final String? parent;
+  final String? children;
   const CategoryTableData(
       {this.sl,
       this.id,
-      this.label,
-      this.parentId,
-      this.description,
-      this.children,
       this.products,
-      this.type,
-      this.rackLocation,
+      this.images,
+      this.image,
+      this.label,
+      this.description,
+      this.isExpend,
       this.position,
-      this.shelfLife,
-      this.minimumInventory,
       this.isEnable,
-      this.menu,
-      this.liveSales,
-      this.root,
-      this.home,
+      this.isIncludeMenu,
+      this.isIncludeLiveSales,
+      this.isParent,
+      this.isIncludeHome,
       this.showInSpecialCategory,
       this.showBestSaleCategory,
-      this.tags,
-      this.categoryFiles,
+      this.type,
+      this.code,
       this.createdAt,
       this.updatedAt,
       this.createdBy,
       this.updatedBy,
-      this.warehouseLocation,
-      this.outletLocation,
-      this.pinnedCategory});
+      this.parent,
+      this.children});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -505,50 +442,41 @@ class CategoryTableData extends DataClass
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<String>(id);
     }
+    if (!nullToAbsent || products != null) {
+      map['products'] = Variable<String>(products);
+    }
+    if (!nullToAbsent || images != null) {
+      map['images'] = Variable<String>(images);
+    }
+    if (!nullToAbsent || image != null) {
+      map['image'] = Variable<String>(image);
+    }
     if (!nullToAbsent || label != null) {
       map['label'] = Variable<String>(label);
-    }
-    if (!nullToAbsent || parentId != null) {
-      map['parent_id'] = Variable<String>(parentId);
     }
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
-    if (!nullToAbsent || children != null) {
-      map['children'] = Variable<String>(children);
-    }
-    if (!nullToAbsent || products != null) {
-      map['products'] = Variable<String>(products);
-    }
-    if (!nullToAbsent || type != null) {
-      map['type'] = Variable<String>(type);
-    }
-    if (!nullToAbsent || rackLocation != null) {
-      map['rack_location'] = Variable<String>(rackLocation);
+    if (!nullToAbsent || isExpend != null) {
+      map['is_expend'] = Variable<bool>(isExpend);
     }
     if (!nullToAbsent || position != null) {
       map['position'] = Variable<int>(position);
     }
-    if (!nullToAbsent || shelfLife != null) {
-      map['shelf_life'] = Variable<int>(shelfLife);
-    }
-    if (!nullToAbsent || minimumInventory != null) {
-      map['minimum_inventory'] = Variable<int>(minimumInventory);
-    }
     if (!nullToAbsent || isEnable != null) {
       map['is_enable'] = Variable<bool>(isEnable);
     }
-    if (!nullToAbsent || menu != null) {
-      map['menu'] = Variable<bool>(menu);
+    if (!nullToAbsent || isIncludeMenu != null) {
+      map['is_include_menu'] = Variable<bool>(isIncludeMenu);
     }
-    if (!nullToAbsent || liveSales != null) {
-      map['live_sales'] = Variable<bool>(liveSales);
+    if (!nullToAbsent || isIncludeLiveSales != null) {
+      map['is_include_live_sales'] = Variable<bool>(isIncludeLiveSales);
     }
-    if (!nullToAbsent || root != null) {
-      map['root'] = Variable<bool>(root);
+    if (!nullToAbsent || isParent != null) {
+      map['is_parent'] = Variable<bool>(isParent);
     }
-    if (!nullToAbsent || home != null) {
-      map['home'] = Variable<bool>(home);
+    if (!nullToAbsent || isIncludeHome != null) {
+      map['is_include_home'] = Variable<bool>(isIncludeHome);
     }
     if (!nullToAbsent || showInSpecialCategory != null) {
       map['show_in_special_category'] = Variable<bool>(showInSpecialCategory);
@@ -556,11 +484,11 @@ class CategoryTableData extends DataClass
     if (!nullToAbsent || showBestSaleCategory != null) {
       map['show_best_sale_category'] = Variable<bool>(showBestSaleCategory);
     }
-    if (!nullToAbsent || tags != null) {
-      map['tags'] = Variable<String>(tags);
+    if (!nullToAbsent || type != null) {
+      map['type'] = Variable<String>(type);
     }
-    if (!nullToAbsent || categoryFiles != null) {
-      map['category_files'] = Variable<String>(categoryFiles);
+    if (!nullToAbsent || code != null) {
+      map['code'] = Variable<String>(code);
     }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime>(createdAt);
@@ -574,14 +502,11 @@ class CategoryTableData extends DataClass
     if (!nullToAbsent || updatedBy != null) {
       map['updated_by'] = Variable<String>(updatedBy);
     }
-    if (!nullToAbsent || warehouseLocation != null) {
-      map['warehouse_location'] = Variable<String>(warehouseLocation);
+    if (!nullToAbsent || parent != null) {
+      map['parent'] = Variable<String>(parent);
     }
-    if (!nullToAbsent || outletLocation != null) {
-      map['outlet_location'] = Variable<String>(outletLocation);
-    }
-    if (!nullToAbsent || pinnedCategory != null) {
-      map['pinned_category'] = Variable<String>(pinnedCategory);
+    if (!nullToAbsent || children != null) {
+      map['children'] = Variable<String>(children);
     }
     return map;
   }
@@ -590,52 +515,47 @@ class CategoryTableData extends DataClass
     return CategoryTableCompanion(
       sl: sl == null && nullToAbsent ? const Value.absent() : Value(sl),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      label:
-          label == null && nullToAbsent ? const Value.absent() : Value(label),
-      parentId: parentId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(parentId),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      children: children == null && nullToAbsent
-          ? const Value.absent()
-          : Value(children),
       products: products == null && nullToAbsent
           ? const Value.absent()
           : Value(products),
-      type: type == null && nullToAbsent ? const Value.absent() : Value(type),
-      rackLocation: rackLocation == null && nullToAbsent
+      images:
+          images == null && nullToAbsent ? const Value.absent() : Value(images),
+      image:
+          image == null && nullToAbsent ? const Value.absent() : Value(image),
+      label:
+          label == null && nullToAbsent ? const Value.absent() : Value(label),
+      description: description == null && nullToAbsent
           ? const Value.absent()
-          : Value(rackLocation),
+          : Value(description),
+      isExpend: isExpend == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isExpend),
       position: position == null && nullToAbsent
           ? const Value.absent()
           : Value(position),
-      shelfLife: shelfLife == null && nullToAbsent
-          ? const Value.absent()
-          : Value(shelfLife),
-      minimumInventory: minimumInventory == null && nullToAbsent
-          ? const Value.absent()
-          : Value(minimumInventory),
       isEnable: isEnable == null && nullToAbsent
           ? const Value.absent()
           : Value(isEnable),
-      menu: menu == null && nullToAbsent ? const Value.absent() : Value(menu),
-      liveSales: liveSales == null && nullToAbsent
+      isIncludeMenu: isIncludeMenu == null && nullToAbsent
           ? const Value.absent()
-          : Value(liveSales),
-      root: root == null && nullToAbsent ? const Value.absent() : Value(root),
-      home: home == null && nullToAbsent ? const Value.absent() : Value(home),
+          : Value(isIncludeMenu),
+      isIncludeLiveSales: isIncludeLiveSales == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isIncludeLiveSales),
+      isParent: isParent == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isParent),
+      isIncludeHome: isIncludeHome == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isIncludeHome),
       showInSpecialCategory: showInSpecialCategory == null && nullToAbsent
           ? const Value.absent()
           : Value(showInSpecialCategory),
       showBestSaleCategory: showBestSaleCategory == null && nullToAbsent
           ? const Value.absent()
           : Value(showBestSaleCategory),
-      tags: tags == null && nullToAbsent ? const Value.absent() : Value(tags),
-      categoryFiles: categoryFiles == null && nullToAbsent
-          ? const Value.absent()
-          : Value(categoryFiles),
+      type: type == null && nullToAbsent ? const Value.absent() : Value(type),
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -648,15 +568,11 @@ class CategoryTableData extends DataClass
       updatedBy: updatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(updatedBy),
-      warehouseLocation: warehouseLocation == null && nullToAbsent
+      parent:
+          parent == null && nullToAbsent ? const Value.absent() : Value(parent),
+      children: children == null && nullToAbsent
           ? const Value.absent()
-          : Value(warehouseLocation),
-      outletLocation: outletLocation == null && nullToAbsent
-          ? const Value.absent()
-          : Value(outletLocation),
-      pinnedCategory: pinnedCategory == null && nullToAbsent
-          ? const Value.absent()
-          : Value(pinnedCategory),
+          : Value(children),
     );
   }
 
@@ -666,35 +582,31 @@ class CategoryTableData extends DataClass
     return CategoryTableData(
       sl: serializer.fromJson<int?>(json['sl']),
       id: serializer.fromJson<String?>(json['id']),
-      label: serializer.fromJson<String?>(json['label']),
-      parentId: serializer.fromJson<String?>(json['parentId']),
-      description: serializer.fromJson<String?>(json['description']),
-      children: serializer.fromJson<String?>(json['children']),
       products: serializer.fromJson<String?>(json['products']),
-      type: serializer.fromJson<String?>(json['type']),
-      rackLocation: serializer.fromJson<String?>(json['rackLocation']),
+      images: serializer.fromJson<String?>(json['images']),
+      image: serializer.fromJson<String?>(json['image']),
+      label: serializer.fromJson<String?>(json['label']),
+      description: serializer.fromJson<String?>(json['description']),
+      isExpend: serializer.fromJson<bool?>(json['isExpend']),
       position: serializer.fromJson<int?>(json['position']),
-      shelfLife: serializer.fromJson<int?>(json['shelfLife']),
-      minimumInventory: serializer.fromJson<int?>(json['minimumInventory']),
       isEnable: serializer.fromJson<bool?>(json['isEnable']),
-      menu: serializer.fromJson<bool?>(json['menu']),
-      liveSales: serializer.fromJson<bool?>(json['liveSales']),
-      root: serializer.fromJson<bool?>(json['root']),
-      home: serializer.fromJson<bool?>(json['home']),
+      isIncludeMenu: serializer.fromJson<bool?>(json['isIncludeMenu']),
+      isIncludeLiveSales:
+          serializer.fromJson<bool?>(json['isIncludeLiveSales']),
+      isParent: serializer.fromJson<bool?>(json['isParent']),
+      isIncludeHome: serializer.fromJson<bool?>(json['isIncludeHome']),
       showInSpecialCategory:
           serializer.fromJson<bool?>(json['showInSpecialCategory']),
       showBestSaleCategory:
           serializer.fromJson<bool?>(json['showBestSaleCategory']),
-      tags: serializer.fromJson<String?>(json['tags']),
-      categoryFiles: serializer.fromJson<String?>(json['categoryFiles']),
+      type: serializer.fromJson<String?>(json['type']),
+      code: serializer.fromJson<String?>(json['code']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
       createdBy: serializer.fromJson<String?>(json['createdBy']),
       updatedBy: serializer.fromJson<String?>(json['updatedBy']),
-      warehouseLocation:
-          serializer.fromJson<String?>(json['warehouseLocation']),
-      outletLocation: serializer.fromJson<String?>(json['outletLocation']),
-      pinnedCategory: serializer.fromJson<String?>(json['pinnedCategory']),
+      parent: serializer.fromJson<String?>(json['parent']),
+      children: serializer.fromJson<String?>(json['children']),
     );
   }
   @override
@@ -703,137 +615,117 @@ class CategoryTableData extends DataClass
     return <String, dynamic>{
       'sl': serializer.toJson<int?>(sl),
       'id': serializer.toJson<String?>(id),
-      'label': serializer.toJson<String?>(label),
-      'parentId': serializer.toJson<String?>(parentId),
-      'description': serializer.toJson<String?>(description),
-      'children': serializer.toJson<String?>(children),
       'products': serializer.toJson<String?>(products),
-      'type': serializer.toJson<String?>(type),
-      'rackLocation': serializer.toJson<String?>(rackLocation),
+      'images': serializer.toJson<String?>(images),
+      'image': serializer.toJson<String?>(image),
+      'label': serializer.toJson<String?>(label),
+      'description': serializer.toJson<String?>(description),
+      'isExpend': serializer.toJson<bool?>(isExpend),
       'position': serializer.toJson<int?>(position),
-      'shelfLife': serializer.toJson<int?>(shelfLife),
-      'minimumInventory': serializer.toJson<int?>(minimumInventory),
       'isEnable': serializer.toJson<bool?>(isEnable),
-      'menu': serializer.toJson<bool?>(menu),
-      'liveSales': serializer.toJson<bool?>(liveSales),
-      'root': serializer.toJson<bool?>(root),
-      'home': serializer.toJson<bool?>(home),
+      'isIncludeMenu': serializer.toJson<bool?>(isIncludeMenu),
+      'isIncludeLiveSales': serializer.toJson<bool?>(isIncludeLiveSales),
+      'isParent': serializer.toJson<bool?>(isParent),
+      'isIncludeHome': serializer.toJson<bool?>(isIncludeHome),
       'showInSpecialCategory': serializer.toJson<bool?>(showInSpecialCategory),
       'showBestSaleCategory': serializer.toJson<bool?>(showBestSaleCategory),
-      'tags': serializer.toJson<String?>(tags),
-      'categoryFiles': serializer.toJson<String?>(categoryFiles),
+      'type': serializer.toJson<String?>(type),
+      'code': serializer.toJson<String?>(code),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
       'createdBy': serializer.toJson<String?>(createdBy),
       'updatedBy': serializer.toJson<String?>(updatedBy),
-      'warehouseLocation': serializer.toJson<String?>(warehouseLocation),
-      'outletLocation': serializer.toJson<String?>(outletLocation),
-      'pinnedCategory': serializer.toJson<String?>(pinnedCategory),
+      'parent': serializer.toJson<String?>(parent),
+      'children': serializer.toJson<String?>(children),
     };
   }
 
   CategoryTableData copyWith(
           {Value<int?> sl = const Value.absent(),
           Value<String?> id = const Value.absent(),
-          Value<String?> label = const Value.absent(),
-          Value<String?> parentId = const Value.absent(),
-          Value<String?> description = const Value.absent(),
-          Value<String?> children = const Value.absent(),
           Value<String?> products = const Value.absent(),
-          Value<String?> type = const Value.absent(),
-          Value<String?> rackLocation = const Value.absent(),
+          Value<String?> images = const Value.absent(),
+          Value<String?> image = const Value.absent(),
+          Value<String?> label = const Value.absent(),
+          Value<String?> description = const Value.absent(),
+          Value<bool?> isExpend = const Value.absent(),
           Value<int?> position = const Value.absent(),
-          Value<int?> shelfLife = const Value.absent(),
-          Value<int?> minimumInventory = const Value.absent(),
           Value<bool?> isEnable = const Value.absent(),
-          Value<bool?> menu = const Value.absent(),
-          Value<bool?> liveSales = const Value.absent(),
-          Value<bool?> root = const Value.absent(),
-          Value<bool?> home = const Value.absent(),
+          Value<bool?> isIncludeMenu = const Value.absent(),
+          Value<bool?> isIncludeLiveSales = const Value.absent(),
+          Value<bool?> isParent = const Value.absent(),
+          Value<bool?> isIncludeHome = const Value.absent(),
           Value<bool?> showInSpecialCategory = const Value.absent(),
           Value<bool?> showBestSaleCategory = const Value.absent(),
-          Value<String?> tags = const Value.absent(),
-          Value<String?> categoryFiles = const Value.absent(),
+          Value<String?> type = const Value.absent(),
+          Value<String?> code = const Value.absent(),
           Value<DateTime?> createdAt = const Value.absent(),
           Value<DateTime?> updatedAt = const Value.absent(),
           Value<String?> createdBy = const Value.absent(),
           Value<String?> updatedBy = const Value.absent(),
-          Value<String?> warehouseLocation = const Value.absent(),
-          Value<String?> outletLocation = const Value.absent(),
-          Value<String?> pinnedCategory = const Value.absent()}) =>
+          Value<String?> parent = const Value.absent(),
+          Value<String?> children = const Value.absent()}) =>
       CategoryTableData(
         sl: sl.present ? sl.value : this.sl,
         id: id.present ? id.value : this.id,
-        label: label.present ? label.value : this.label,
-        parentId: parentId.present ? parentId.value : this.parentId,
-        description: description.present ? description.value : this.description,
-        children: children.present ? children.value : this.children,
         products: products.present ? products.value : this.products,
-        type: type.present ? type.value : this.type,
-        rackLocation:
-            rackLocation.present ? rackLocation.value : this.rackLocation,
+        images: images.present ? images.value : this.images,
+        image: image.present ? image.value : this.image,
+        label: label.present ? label.value : this.label,
+        description: description.present ? description.value : this.description,
+        isExpend: isExpend.present ? isExpend.value : this.isExpend,
         position: position.present ? position.value : this.position,
-        shelfLife: shelfLife.present ? shelfLife.value : this.shelfLife,
-        minimumInventory: minimumInventory.present
-            ? minimumInventory.value
-            : this.minimumInventory,
         isEnable: isEnable.present ? isEnable.value : this.isEnable,
-        menu: menu.present ? menu.value : this.menu,
-        liveSales: liveSales.present ? liveSales.value : this.liveSales,
-        root: root.present ? root.value : this.root,
-        home: home.present ? home.value : this.home,
+        isIncludeMenu:
+            isIncludeMenu.present ? isIncludeMenu.value : this.isIncludeMenu,
+        isIncludeLiveSales: isIncludeLiveSales.present
+            ? isIncludeLiveSales.value
+            : this.isIncludeLiveSales,
+        isParent: isParent.present ? isParent.value : this.isParent,
+        isIncludeHome:
+            isIncludeHome.present ? isIncludeHome.value : this.isIncludeHome,
         showInSpecialCategory: showInSpecialCategory.present
             ? showInSpecialCategory.value
             : this.showInSpecialCategory,
         showBestSaleCategory: showBestSaleCategory.present
             ? showBestSaleCategory.value
             : this.showBestSaleCategory,
-        tags: tags.present ? tags.value : this.tags,
-        categoryFiles:
-            categoryFiles.present ? categoryFiles.value : this.categoryFiles,
+        type: type.present ? type.value : this.type,
+        code: code.present ? code.value : this.code,
         createdAt: createdAt.present ? createdAt.value : this.createdAt,
         updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
         createdBy: createdBy.present ? createdBy.value : this.createdBy,
         updatedBy: updatedBy.present ? updatedBy.value : this.updatedBy,
-        warehouseLocation: warehouseLocation.present
-            ? warehouseLocation.value
-            : this.warehouseLocation,
-        outletLocation:
-            outletLocation.present ? outletLocation.value : this.outletLocation,
-        pinnedCategory:
-            pinnedCategory.present ? pinnedCategory.value : this.pinnedCategory,
+        parent: parent.present ? parent.value : this.parent,
+        children: children.present ? children.value : this.children,
       );
   @override
   String toString() {
     return (StringBuffer('CategoryTableData(')
           ..write('sl: $sl, ')
           ..write('id: $id, ')
-          ..write('label: $label, ')
-          ..write('parentId: $parentId, ')
-          ..write('description: $description, ')
-          ..write('children: $children, ')
           ..write('products: $products, ')
-          ..write('type: $type, ')
-          ..write('rackLocation: $rackLocation, ')
+          ..write('images: $images, ')
+          ..write('image: $image, ')
+          ..write('label: $label, ')
+          ..write('description: $description, ')
+          ..write('isExpend: $isExpend, ')
           ..write('position: $position, ')
-          ..write('shelfLife: $shelfLife, ')
-          ..write('minimumInventory: $minimumInventory, ')
           ..write('isEnable: $isEnable, ')
-          ..write('menu: $menu, ')
-          ..write('liveSales: $liveSales, ')
-          ..write('root: $root, ')
-          ..write('home: $home, ')
+          ..write('isIncludeMenu: $isIncludeMenu, ')
+          ..write('isIncludeLiveSales: $isIncludeLiveSales, ')
+          ..write('isParent: $isParent, ')
+          ..write('isIncludeHome: $isIncludeHome, ')
           ..write('showInSpecialCategory: $showInSpecialCategory, ')
           ..write('showBestSaleCategory: $showBestSaleCategory, ')
-          ..write('tags: $tags, ')
-          ..write('categoryFiles: $categoryFiles, ')
+          ..write('type: $type, ')
+          ..write('code: $code, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('createdBy: $createdBy, ')
           ..write('updatedBy: $updatedBy, ')
-          ..write('warehouseLocation: $warehouseLocation, ')
-          ..write('outletLocation: $outletLocation, ')
-          ..write('pinnedCategory: $pinnedCategory')
+          ..write('parent: $parent, ')
+          ..write('children: $children')
           ..write(')'))
         .toString();
   }
@@ -842,32 +734,28 @@ class CategoryTableData extends DataClass
   int get hashCode => Object.hashAll([
         sl,
         id,
-        label,
-        parentId,
-        description,
-        children,
         products,
-        type,
-        rackLocation,
+        images,
+        image,
+        label,
+        description,
+        isExpend,
         position,
-        shelfLife,
-        minimumInventory,
         isEnable,
-        menu,
-        liveSales,
-        root,
-        home,
+        isIncludeMenu,
+        isIncludeLiveSales,
+        isParent,
+        isIncludeHome,
         showInSpecialCategory,
         showBestSaleCategory,
-        tags,
-        categoryFiles,
+        type,
+        code,
         createdAt,
         updatedAt,
         createdBy,
         updatedBy,
-        warehouseLocation,
-        outletLocation,
-        pinnedCategory
+        parent,
+        children
       ]);
   @override
   bool operator ==(Object other) =>
@@ -875,246 +763,215 @@ class CategoryTableData extends DataClass
       (other is CategoryTableData &&
           other.sl == this.sl &&
           other.id == this.id &&
-          other.label == this.label &&
-          other.parentId == this.parentId &&
-          other.description == this.description &&
-          other.children == this.children &&
           other.products == this.products &&
-          other.type == this.type &&
-          other.rackLocation == this.rackLocation &&
+          other.images == this.images &&
+          other.image == this.image &&
+          other.label == this.label &&
+          other.description == this.description &&
+          other.isExpend == this.isExpend &&
           other.position == this.position &&
-          other.shelfLife == this.shelfLife &&
-          other.minimumInventory == this.minimumInventory &&
           other.isEnable == this.isEnable &&
-          other.menu == this.menu &&
-          other.liveSales == this.liveSales &&
-          other.root == this.root &&
-          other.home == this.home &&
+          other.isIncludeMenu == this.isIncludeMenu &&
+          other.isIncludeLiveSales == this.isIncludeLiveSales &&
+          other.isParent == this.isParent &&
+          other.isIncludeHome == this.isIncludeHome &&
           other.showInSpecialCategory == this.showInSpecialCategory &&
           other.showBestSaleCategory == this.showBestSaleCategory &&
-          other.tags == this.tags &&
-          other.categoryFiles == this.categoryFiles &&
+          other.type == this.type &&
+          other.code == this.code &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.createdBy == this.createdBy &&
           other.updatedBy == this.updatedBy &&
-          other.warehouseLocation == this.warehouseLocation &&
-          other.outletLocation == this.outletLocation &&
-          other.pinnedCategory == this.pinnedCategory);
+          other.parent == this.parent &&
+          other.children == this.children);
 }
 
 class CategoryTableCompanion extends UpdateCompanion<CategoryTableData> {
   final Value<int?> sl;
   final Value<String?> id;
-  final Value<String?> label;
-  final Value<String?> parentId;
-  final Value<String?> description;
-  final Value<String?> children;
   final Value<String?> products;
-  final Value<String?> type;
-  final Value<String?> rackLocation;
+  final Value<String?> images;
+  final Value<String?> image;
+  final Value<String?> label;
+  final Value<String?> description;
+  final Value<bool?> isExpend;
   final Value<int?> position;
-  final Value<int?> shelfLife;
-  final Value<int?> minimumInventory;
   final Value<bool?> isEnable;
-  final Value<bool?> menu;
-  final Value<bool?> liveSales;
-  final Value<bool?> root;
-  final Value<bool?> home;
+  final Value<bool?> isIncludeMenu;
+  final Value<bool?> isIncludeLiveSales;
+  final Value<bool?> isParent;
+  final Value<bool?> isIncludeHome;
   final Value<bool?> showInSpecialCategory;
   final Value<bool?> showBestSaleCategory;
-  final Value<String?> tags;
-  final Value<String?> categoryFiles;
+  final Value<String?> type;
+  final Value<String?> code;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<String?> createdBy;
   final Value<String?> updatedBy;
-  final Value<String?> warehouseLocation;
-  final Value<String?> outletLocation;
-  final Value<String?> pinnedCategory;
+  final Value<String?> parent;
+  final Value<String?> children;
   const CategoryTableCompanion({
     this.sl = const Value.absent(),
     this.id = const Value.absent(),
-    this.label = const Value.absent(),
-    this.parentId = const Value.absent(),
-    this.description = const Value.absent(),
-    this.children = const Value.absent(),
     this.products = const Value.absent(),
-    this.type = const Value.absent(),
-    this.rackLocation = const Value.absent(),
+    this.images = const Value.absent(),
+    this.image = const Value.absent(),
+    this.label = const Value.absent(),
+    this.description = const Value.absent(),
+    this.isExpend = const Value.absent(),
     this.position = const Value.absent(),
-    this.shelfLife = const Value.absent(),
-    this.minimumInventory = const Value.absent(),
     this.isEnable = const Value.absent(),
-    this.menu = const Value.absent(),
-    this.liveSales = const Value.absent(),
-    this.root = const Value.absent(),
-    this.home = const Value.absent(),
+    this.isIncludeMenu = const Value.absent(),
+    this.isIncludeLiveSales = const Value.absent(),
+    this.isParent = const Value.absent(),
+    this.isIncludeHome = const Value.absent(),
     this.showInSpecialCategory = const Value.absent(),
     this.showBestSaleCategory = const Value.absent(),
-    this.tags = const Value.absent(),
-    this.categoryFiles = const Value.absent(),
+    this.type = const Value.absent(),
+    this.code = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.createdBy = const Value.absent(),
     this.updatedBy = const Value.absent(),
-    this.warehouseLocation = const Value.absent(),
-    this.outletLocation = const Value.absent(),
-    this.pinnedCategory = const Value.absent(),
+    this.parent = const Value.absent(),
+    this.children = const Value.absent(),
   });
   CategoryTableCompanion.insert({
     this.sl = const Value.absent(),
     this.id = const Value.absent(),
-    this.label = const Value.absent(),
-    this.parentId = const Value.absent(),
-    this.description = const Value.absent(),
-    this.children = const Value.absent(),
     this.products = const Value.absent(),
-    this.type = const Value.absent(),
-    this.rackLocation = const Value.absent(),
+    this.images = const Value.absent(),
+    this.image = const Value.absent(),
+    this.label = const Value.absent(),
+    this.description = const Value.absent(),
+    this.isExpend = const Value.absent(),
     this.position = const Value.absent(),
-    this.shelfLife = const Value.absent(),
-    this.minimumInventory = const Value.absent(),
     this.isEnable = const Value.absent(),
-    this.menu = const Value.absent(),
-    this.liveSales = const Value.absent(),
-    this.root = const Value.absent(),
-    this.home = const Value.absent(),
+    this.isIncludeMenu = const Value.absent(),
+    this.isIncludeLiveSales = const Value.absent(),
+    this.isParent = const Value.absent(),
+    this.isIncludeHome = const Value.absent(),
     this.showInSpecialCategory = const Value.absent(),
     this.showBestSaleCategory = const Value.absent(),
-    this.tags = const Value.absent(),
-    this.categoryFiles = const Value.absent(),
+    this.type = const Value.absent(),
+    this.code = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.createdBy = const Value.absent(),
     this.updatedBy = const Value.absent(),
-    this.warehouseLocation = const Value.absent(),
-    this.outletLocation = const Value.absent(),
-    this.pinnedCategory = const Value.absent(),
+    this.parent = const Value.absent(),
+    this.children = const Value.absent(),
   });
   static Insertable<CategoryTableData> custom({
     Expression<int>? sl,
     Expression<String>? id,
-    Expression<String>? label,
-    Expression<String>? parentId,
-    Expression<String>? description,
-    Expression<String>? children,
     Expression<String>? products,
-    Expression<String>? type,
-    Expression<String>? rackLocation,
+    Expression<String>? images,
+    Expression<String>? image,
+    Expression<String>? label,
+    Expression<String>? description,
+    Expression<bool>? isExpend,
     Expression<int>? position,
-    Expression<int>? shelfLife,
-    Expression<int>? minimumInventory,
     Expression<bool>? isEnable,
-    Expression<bool>? menu,
-    Expression<bool>? liveSales,
-    Expression<bool>? root,
-    Expression<bool>? home,
+    Expression<bool>? isIncludeMenu,
+    Expression<bool>? isIncludeLiveSales,
+    Expression<bool>? isParent,
+    Expression<bool>? isIncludeHome,
     Expression<bool>? showInSpecialCategory,
     Expression<bool>? showBestSaleCategory,
-    Expression<String>? tags,
-    Expression<String>? categoryFiles,
+    Expression<String>? type,
+    Expression<String>? code,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<String>? createdBy,
     Expression<String>? updatedBy,
-    Expression<String>? warehouseLocation,
-    Expression<String>? outletLocation,
-    Expression<String>? pinnedCategory,
+    Expression<String>? parent,
+    Expression<String>? children,
   }) {
     return RawValuesInsertable({
       if (sl != null) 'sl': sl,
       if (id != null) 'id': id,
-      if (label != null) 'label': label,
-      if (parentId != null) 'parent_id': parentId,
-      if (description != null) 'description': description,
-      if (children != null) 'children': children,
       if (products != null) 'products': products,
-      if (type != null) 'type': type,
-      if (rackLocation != null) 'rack_location': rackLocation,
+      if (images != null) 'images': images,
+      if (image != null) 'image': image,
+      if (label != null) 'label': label,
+      if (description != null) 'description': description,
+      if (isExpend != null) 'is_expend': isExpend,
       if (position != null) 'position': position,
-      if (shelfLife != null) 'shelf_life': shelfLife,
-      if (minimumInventory != null) 'minimum_inventory': minimumInventory,
       if (isEnable != null) 'is_enable': isEnable,
-      if (menu != null) 'menu': menu,
-      if (liveSales != null) 'live_sales': liveSales,
-      if (root != null) 'root': root,
-      if (home != null) 'home': home,
+      if (isIncludeMenu != null) 'is_include_menu': isIncludeMenu,
+      if (isIncludeLiveSales != null)
+        'is_include_live_sales': isIncludeLiveSales,
+      if (isParent != null) 'is_parent': isParent,
+      if (isIncludeHome != null) 'is_include_home': isIncludeHome,
       if (showInSpecialCategory != null)
         'show_in_special_category': showInSpecialCategory,
       if (showBestSaleCategory != null)
         'show_best_sale_category': showBestSaleCategory,
-      if (tags != null) 'tags': tags,
-      if (categoryFiles != null) 'category_files': categoryFiles,
+      if (type != null) 'type': type,
+      if (code != null) 'code': code,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (createdBy != null) 'created_by': createdBy,
       if (updatedBy != null) 'updated_by': updatedBy,
-      if (warehouseLocation != null) 'warehouse_location': warehouseLocation,
-      if (outletLocation != null) 'outlet_location': outletLocation,
-      if (pinnedCategory != null) 'pinned_category': pinnedCategory,
+      if (parent != null) 'parent': parent,
+      if (children != null) 'children': children,
     });
   }
 
   CategoryTableCompanion copyWith(
       {Value<int?>? sl,
       Value<String?>? id,
-      Value<String?>? label,
-      Value<String?>? parentId,
-      Value<String?>? description,
-      Value<String?>? children,
       Value<String?>? products,
-      Value<String?>? type,
-      Value<String?>? rackLocation,
+      Value<String?>? images,
+      Value<String?>? image,
+      Value<String?>? label,
+      Value<String?>? description,
+      Value<bool?>? isExpend,
       Value<int?>? position,
-      Value<int?>? shelfLife,
-      Value<int?>? minimumInventory,
       Value<bool?>? isEnable,
-      Value<bool?>? menu,
-      Value<bool?>? liveSales,
-      Value<bool?>? root,
-      Value<bool?>? home,
+      Value<bool?>? isIncludeMenu,
+      Value<bool?>? isIncludeLiveSales,
+      Value<bool?>? isParent,
+      Value<bool?>? isIncludeHome,
       Value<bool?>? showInSpecialCategory,
       Value<bool?>? showBestSaleCategory,
-      Value<String?>? tags,
-      Value<String?>? categoryFiles,
+      Value<String?>? type,
+      Value<String?>? code,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt,
       Value<String?>? createdBy,
       Value<String?>? updatedBy,
-      Value<String?>? warehouseLocation,
-      Value<String?>? outletLocation,
-      Value<String?>? pinnedCategory}) {
+      Value<String?>? parent,
+      Value<String?>? children}) {
     return CategoryTableCompanion(
       sl: sl ?? this.sl,
       id: id ?? this.id,
-      label: label ?? this.label,
-      parentId: parentId ?? this.parentId,
-      description: description ?? this.description,
-      children: children ?? this.children,
       products: products ?? this.products,
-      type: type ?? this.type,
-      rackLocation: rackLocation ?? this.rackLocation,
+      images: images ?? this.images,
+      image: image ?? this.image,
+      label: label ?? this.label,
+      description: description ?? this.description,
+      isExpend: isExpend ?? this.isExpend,
       position: position ?? this.position,
-      shelfLife: shelfLife ?? this.shelfLife,
-      minimumInventory: minimumInventory ?? this.minimumInventory,
       isEnable: isEnable ?? this.isEnable,
-      menu: menu ?? this.menu,
-      liveSales: liveSales ?? this.liveSales,
-      root: root ?? this.root,
-      home: home ?? this.home,
+      isIncludeMenu: isIncludeMenu ?? this.isIncludeMenu,
+      isIncludeLiveSales: isIncludeLiveSales ?? this.isIncludeLiveSales,
+      isParent: isParent ?? this.isParent,
+      isIncludeHome: isIncludeHome ?? this.isIncludeHome,
       showInSpecialCategory:
           showInSpecialCategory ?? this.showInSpecialCategory,
       showBestSaleCategory: showBestSaleCategory ?? this.showBestSaleCategory,
-      tags: tags ?? this.tags,
-      categoryFiles: categoryFiles ?? this.categoryFiles,
+      type: type ?? this.type,
+      code: code ?? this.code,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       createdBy: createdBy ?? this.createdBy,
       updatedBy: updatedBy ?? this.updatedBy,
-      warehouseLocation: warehouseLocation ?? this.warehouseLocation,
-      outletLocation: outletLocation ?? this.outletLocation,
-      pinnedCategory: pinnedCategory ?? this.pinnedCategory,
+      parent: parent ?? this.parent,
+      children: children ?? this.children,
     );
   }
 
@@ -1127,50 +984,41 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryTableData> {
     if (id.present) {
       map['id'] = Variable<String>(id.value);
     }
+    if (products.present) {
+      map['products'] = Variable<String>(products.value);
+    }
+    if (images.present) {
+      map['images'] = Variable<String>(images.value);
+    }
+    if (image.present) {
+      map['image'] = Variable<String>(image.value);
+    }
     if (label.present) {
       map['label'] = Variable<String>(label.value);
-    }
-    if (parentId.present) {
-      map['parent_id'] = Variable<String>(parentId.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
-    if (children.present) {
-      map['children'] = Variable<String>(children.value);
-    }
-    if (products.present) {
-      map['products'] = Variable<String>(products.value);
-    }
-    if (type.present) {
-      map['type'] = Variable<String>(type.value);
-    }
-    if (rackLocation.present) {
-      map['rack_location'] = Variable<String>(rackLocation.value);
+    if (isExpend.present) {
+      map['is_expend'] = Variable<bool>(isExpend.value);
     }
     if (position.present) {
       map['position'] = Variable<int>(position.value);
     }
-    if (shelfLife.present) {
-      map['shelf_life'] = Variable<int>(shelfLife.value);
-    }
-    if (minimumInventory.present) {
-      map['minimum_inventory'] = Variable<int>(minimumInventory.value);
-    }
     if (isEnable.present) {
       map['is_enable'] = Variable<bool>(isEnable.value);
     }
-    if (menu.present) {
-      map['menu'] = Variable<bool>(menu.value);
+    if (isIncludeMenu.present) {
+      map['is_include_menu'] = Variable<bool>(isIncludeMenu.value);
     }
-    if (liveSales.present) {
-      map['live_sales'] = Variable<bool>(liveSales.value);
+    if (isIncludeLiveSales.present) {
+      map['is_include_live_sales'] = Variable<bool>(isIncludeLiveSales.value);
     }
-    if (root.present) {
-      map['root'] = Variable<bool>(root.value);
+    if (isParent.present) {
+      map['is_parent'] = Variable<bool>(isParent.value);
     }
-    if (home.present) {
-      map['home'] = Variable<bool>(home.value);
+    if (isIncludeHome.present) {
+      map['is_include_home'] = Variable<bool>(isIncludeHome.value);
     }
     if (showInSpecialCategory.present) {
       map['show_in_special_category'] =
@@ -1180,11 +1028,11 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryTableData> {
       map['show_best_sale_category'] =
           Variable<bool>(showBestSaleCategory.value);
     }
-    if (tags.present) {
-      map['tags'] = Variable<String>(tags.value);
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
     }
-    if (categoryFiles.present) {
-      map['category_files'] = Variable<String>(categoryFiles.value);
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -1198,14 +1046,11 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryTableData> {
     if (updatedBy.present) {
       map['updated_by'] = Variable<String>(updatedBy.value);
     }
-    if (warehouseLocation.present) {
-      map['warehouse_location'] = Variable<String>(warehouseLocation.value);
+    if (parent.present) {
+      map['parent'] = Variable<String>(parent.value);
     }
-    if (outletLocation.present) {
-      map['outlet_location'] = Variable<String>(outletLocation.value);
-    }
-    if (pinnedCategory.present) {
-      map['pinned_category'] = Variable<String>(pinnedCategory.value);
+    if (children.present) {
+      map['children'] = Variable<String>(children.value);
     }
     return map;
   }
@@ -1215,32 +1060,28 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryTableData> {
     return (StringBuffer('CategoryTableCompanion(')
           ..write('sl: $sl, ')
           ..write('id: $id, ')
-          ..write('label: $label, ')
-          ..write('parentId: $parentId, ')
-          ..write('description: $description, ')
-          ..write('children: $children, ')
           ..write('products: $products, ')
-          ..write('type: $type, ')
-          ..write('rackLocation: $rackLocation, ')
+          ..write('images: $images, ')
+          ..write('image: $image, ')
+          ..write('label: $label, ')
+          ..write('description: $description, ')
+          ..write('isExpend: $isExpend, ')
           ..write('position: $position, ')
-          ..write('shelfLife: $shelfLife, ')
-          ..write('minimumInventory: $minimumInventory, ')
           ..write('isEnable: $isEnable, ')
-          ..write('menu: $menu, ')
-          ..write('liveSales: $liveSales, ')
-          ..write('root: $root, ')
-          ..write('home: $home, ')
+          ..write('isIncludeMenu: $isIncludeMenu, ')
+          ..write('isIncludeLiveSales: $isIncludeLiveSales, ')
+          ..write('isParent: $isParent, ')
+          ..write('isIncludeHome: $isIncludeHome, ')
           ..write('showInSpecialCategory: $showInSpecialCategory, ')
           ..write('showBestSaleCategory: $showBestSaleCategory, ')
-          ..write('tags: $tags, ')
-          ..write('categoryFiles: $categoryFiles, ')
+          ..write('type: $type, ')
+          ..write('code: $code, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('createdBy: $createdBy, ')
           ..write('updatedBy: $updatedBy, ')
-          ..write('warehouseLocation: $warehouseLocation, ')
-          ..write('outletLocation: $outletLocation, ')
-          ..write('pinnedCategory: $pinnedCategory')
+          ..write('parent: $parent, ')
+          ..write('children: $children')
           ..write(')'))
         .toString();
   }
@@ -2044,6 +1885,368 @@ class OrderTableCompanion extends UpdateCompanion<OrderTableData> {
   }
 }
 
+class $ItemTableTable extends ItemTable
+    with TableInfo<$ItemTableTable, ItemTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ItemTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _slMeta = const VerificationMeta('sl');
+  @override
+  late final GeneratedColumn<int> sl = GeneratedColumn<int>(
+      'sl', aliasedName, true,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _countMeta = const VerificationMeta('count');
+  @override
+  late final GeneratedColumn<int> count = GeneratedColumn<int>(
+      'count', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _priceMeta = const VerificationMeta('price');
+  @override
+  late final GeneratedColumn<double> price = GeneratedColumn<double>(
+      'price', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _imageUrlMeta =
+      const VerificationMeta('imageUrl');
+  @override
+  late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
+      'image_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _orderSlMeta =
+      const VerificationMeta('orderSl');
+  @override
+  late final GeneratedColumn<int> orderSl = GeneratedColumn<int>(
+      'order_sl', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES order_table (sl)'));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [sl, id, name, count, price, imageUrl, orderSl];
+  @override
+  String get aliasedName => _alias ?? 'item_table';
+  @override
+  String get actualTableName => 'item_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<ItemTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('sl')) {
+      context.handle(_slMeta, sl.isAcceptableOrUnknown(data['sl']!, _slMeta));
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    }
+    if (data.containsKey('count')) {
+      context.handle(
+          _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
+    }
+    if (data.containsKey('price')) {
+      context.handle(
+          _priceMeta, price.isAcceptableOrUnknown(data['price']!, _priceMeta));
+    }
+    if (data.containsKey('image_url')) {
+      context.handle(_imageUrlMeta,
+          imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta));
+    }
+    if (data.containsKey('order_sl')) {
+      context.handle(_orderSlMeta,
+          orderSl.isAcceptableOrUnknown(data['order_sl']!, _orderSlMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {sl};
+  @override
+  ItemTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ItemTableData(
+      sl: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}sl']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id']),
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name']),
+      count: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}count']),
+      price: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}price']),
+      imageUrl: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image_url']),
+      orderSl: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}order_sl']),
+    );
+  }
+
+  @override
+  $ItemTableTable createAlias(String alias) {
+    return $ItemTableTable(attachedDatabase, alias);
+  }
+}
+
+class ItemTableData extends DataClass implements Insertable<ItemTableData> {
+  final int? sl;
+  final String? id;
+  final String? name;
+  final int? count;
+  final double? price;
+  final String? imageUrl;
+  final int? orderSl;
+  const ItemTableData(
+      {this.sl,
+      this.id,
+      this.name,
+      this.count,
+      this.price,
+      this.imageUrl,
+      this.orderSl});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || sl != null) {
+      map['sl'] = Variable<int>(sl);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<String>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || count != null) {
+      map['count'] = Variable<int>(count);
+    }
+    if (!nullToAbsent || price != null) {
+      map['price'] = Variable<double>(price);
+    }
+    if (!nullToAbsent || imageUrl != null) {
+      map['image_url'] = Variable<String>(imageUrl);
+    }
+    if (!nullToAbsent || orderSl != null) {
+      map['order_sl'] = Variable<int>(orderSl);
+    }
+    return map;
+  }
+
+  ItemTableCompanion toCompanion(bool nullToAbsent) {
+    return ItemTableCompanion(
+      sl: sl == null && nullToAbsent ? const Value.absent() : Value(sl),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      count:
+          count == null && nullToAbsent ? const Value.absent() : Value(count),
+      price:
+          price == null && nullToAbsent ? const Value.absent() : Value(price),
+      imageUrl: imageUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageUrl),
+      orderSl: orderSl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderSl),
+    );
+  }
+
+  factory ItemTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ItemTableData(
+      sl: serializer.fromJson<int?>(json['sl']),
+      id: serializer.fromJson<String?>(json['id']),
+      name: serializer.fromJson<String?>(json['name']),
+      count: serializer.fromJson<int?>(json['count']),
+      price: serializer.fromJson<double?>(json['price']),
+      imageUrl: serializer.fromJson<String?>(json['imageUrl']),
+      orderSl: serializer.fromJson<int?>(json['orderSl']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'sl': serializer.toJson<int?>(sl),
+      'id': serializer.toJson<String?>(id),
+      'name': serializer.toJson<String?>(name),
+      'count': serializer.toJson<int?>(count),
+      'price': serializer.toJson<double?>(price),
+      'imageUrl': serializer.toJson<String?>(imageUrl),
+      'orderSl': serializer.toJson<int?>(orderSl),
+    };
+  }
+
+  ItemTableData copyWith(
+          {Value<int?> sl = const Value.absent(),
+          Value<String?> id = const Value.absent(),
+          Value<String?> name = const Value.absent(),
+          Value<int?> count = const Value.absent(),
+          Value<double?> price = const Value.absent(),
+          Value<String?> imageUrl = const Value.absent(),
+          Value<int?> orderSl = const Value.absent()}) =>
+      ItemTableData(
+        sl: sl.present ? sl.value : this.sl,
+        id: id.present ? id.value : this.id,
+        name: name.present ? name.value : this.name,
+        count: count.present ? count.value : this.count,
+        price: price.present ? price.value : this.price,
+        imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
+        orderSl: orderSl.present ? orderSl.value : this.orderSl,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ItemTableData(')
+          ..write('sl: $sl, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('count: $count, ')
+          ..write('price: $price, ')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('orderSl: $orderSl')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(sl, id, name, count, price, imageUrl, orderSl);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ItemTableData &&
+          other.sl == this.sl &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.count == this.count &&
+          other.price == this.price &&
+          other.imageUrl == this.imageUrl &&
+          other.orderSl == this.orderSl);
+}
+
+class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
+  final Value<int?> sl;
+  final Value<String?> id;
+  final Value<String?> name;
+  final Value<int?> count;
+  final Value<double?> price;
+  final Value<String?> imageUrl;
+  final Value<int?> orderSl;
+  const ItemTableCompanion({
+    this.sl = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.count = const Value.absent(),
+    this.price = const Value.absent(),
+    this.imageUrl = const Value.absent(),
+    this.orderSl = const Value.absent(),
+  });
+  ItemTableCompanion.insert({
+    this.sl = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.count = const Value.absent(),
+    this.price = const Value.absent(),
+    this.imageUrl = const Value.absent(),
+    this.orderSl = const Value.absent(),
+  });
+  static Insertable<ItemTableData> custom({
+    Expression<int>? sl,
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<int>? count,
+    Expression<double>? price,
+    Expression<String>? imageUrl,
+    Expression<int>? orderSl,
+  }) {
+    return RawValuesInsertable({
+      if (sl != null) 'sl': sl,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (count != null) 'count': count,
+      if (price != null) 'price': price,
+      if (imageUrl != null) 'image_url': imageUrl,
+      if (orderSl != null) 'order_sl': orderSl,
+    });
+  }
+
+  ItemTableCompanion copyWith(
+      {Value<int?>? sl,
+      Value<String?>? id,
+      Value<String?>? name,
+      Value<int?>? count,
+      Value<double?>? price,
+      Value<String?>? imageUrl,
+      Value<int?>? orderSl}) {
+    return ItemTableCompanion(
+      sl: sl ?? this.sl,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      count: count ?? this.count,
+      price: price ?? this.price,
+      imageUrl: imageUrl ?? this.imageUrl,
+      orderSl: orderSl ?? this.orderSl,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (sl.present) {
+      map['sl'] = Variable<int>(sl.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (count.present) {
+      map['count'] = Variable<int>(count.value);
+    }
+    if (price.present) {
+      map['price'] = Variable<double>(price.value);
+    }
+    if (imageUrl.present) {
+      map['image_url'] = Variable<String>(imageUrl.value);
+    }
+    if (orderSl.present) {
+      map['order_sl'] = Variable<int>(orderSl.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ItemTableCompanion(')
+          ..write('sl: $sl, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('count: $count, ')
+          ..write('price: $price, ')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('orderSl: $orderSl')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ProductTableTable extends ProductTable
     with TableInfo<$ProductTableTable, ProductTableData> {
   @override
@@ -2059,11 +2262,55 @@ class $ProductTableTable extends ProductTable
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _productIdMeta =
-      const VerificationMeta('productId');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> productId = GeneratedColumn<String>(
-      'product_id', aliasedName, true,
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _isEnableMeta =
+      const VerificationMeta('isEnable');
+  @override
+  late final GeneratedColumn<bool> isEnable = GeneratedColumn<bool>(
+      'is_enable', aliasedName, true,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_enable" IN (0, 1))'));
+  static const VerificationMeta _priceMeta = const VerificationMeta('price');
+  @override
+  late final GeneratedColumn<double> price = GeneratedColumn<double>(
+      'price', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _isDiscountMeta =
+      const VerificationMeta('isDiscount');
+  @override
+  late final GeneratedColumn<bool> isDiscount = GeneratedColumn<bool>(
+      'is_disoucnt', aliasedName, true,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_disoucnt" IN (0, 1))'));
+  static const VerificationMeta _discountPriceMeta =
+      const VerificationMeta('discountPrice');
+  @override
+  late final GeneratedColumn<double> discountPrice = GeneratedColumn<double>(
+      'disoucnt_price', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _vatPercentageMeta =
+      const VerificationMeta('vatPercentage');
+  @override
+  late final GeneratedColumn<double> vatPercentage = GeneratedColumn<double>(
+      'vatpercentage', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _imagesMeta = const VerificationMeta('images');
+  @override
+  late final GeneratedColumn<String> images = GeneratedColumn<String>(
+      'images', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _categoryIdMeta =
       const VerificationMeta('categoryId');
@@ -2071,28 +2318,11 @@ class $ProductTableTable extends ProductTable
   late final GeneratedColumn<String> categoryId = GeneratedColumn<String>(
       'category_id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _positionMeta =
-      const VerificationMeta('position');
-  @override
-  late final GeneratedColumn<int> position = GeneratedColumn<int>(
-      'position', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _labelMeta = const VerificationMeta('label');
-  @override
-  late final GeneratedColumn<String> label = GeneratedColumn<String>(
-      'label', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _categoryLabelMeta =
       const VerificationMeta('categoryLabel');
   @override
   late final GeneratedColumn<String> categoryLabel = GeneratedColumn<String>(
       'category_label', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _posLabelMeta =
-      const VerificationMeta('posLabel');
-  @override
-  late final GeneratedColumn<String> posLabel = GeneratedColumn<String>(
-      'pos_label', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
@@ -2106,308 +2336,77 @@ class $ProductTableTable extends ProductTable
   late final GeneratedColumn<String> shortDescription = GeneratedColumn<String>(
       'short_description', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _priceMeta = const VerificationMeta('price');
+  static const VerificationMeta _positionMeta =
+      const VerificationMeta('position');
   @override
-  late final GeneratedColumn<double> price = GeneratedColumn<double>(
-      'price', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _promotionPriceMeta =
-      const VerificationMeta('promotionPrice');
-  @override
-  late final GeneratedColumn<double> promotionPrice = GeneratedColumn<double>(
-      'promotion_price', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _specialPriceMeta =
-      const VerificationMeta('specialPrice');
-  @override
-  late final GeneratedColumn<double> specialPrice = GeneratedColumn<double>(
-      'special_price', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _advancedPriceMeta =
-      const VerificationMeta('advancedPrice');
-  @override
-  late final GeneratedColumn<double> advancedPrice = GeneratedColumn<double>(
-      'advanced_price', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _enableMeta = const VerificationMeta('enable');
-  @override
-  late final GeneratedColumn<bool> enable = GeneratedColumn<bool>(
-      'enable', aliasedName, true,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("enable" IN (0, 1))'));
-  static const VerificationMeta _warehouseLocationMeta =
-      const VerificationMeta('warehouseLocation');
-  @override
-  late final GeneratedColumn<String> warehouseLocation =
-      GeneratedColumn<String>('warehouse_location', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _outletLocationMeta =
-      const VerificationMeta('outletLocation');
-  @override
-  late final GeneratedColumn<String> outletLocation = GeneratedColumn<String>(
-      'outlet_location', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _rackLocationMeta =
-      const VerificationMeta('rackLocation');
-  @override
-  late final GeneratedColumn<String> rackLocation = GeneratedColumn<String>(
-      'rack_location', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _weightMeta = const VerificationMeta('weight');
-  @override
-  late final GeneratedColumn<double> weight = GeneratedColumn<double>(
-      'weight', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _heightMeta = const VerificationMeta('height');
-  @override
-  late final GeneratedColumn<double> height = GeneratedColumn<double>(
-      'height', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _manufactureCountryMeta =
-      const VerificationMeta('manufactureCountry');
-  @override
-  late final GeneratedColumn<String> manufactureCountry =
-      GeneratedColumn<String>('manufacture_country', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _manufacturedDateMeta =
-      const VerificationMeta('manufacturedDate');
-  @override
-  late final GeneratedColumn<DateTime> manufacturedDate =
-      GeneratedColumn<DateTime>('manufactured_date', aliasedName, true,
-          type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _expireDateMeta =
-      const VerificationMeta('expireDate');
-  @override
-  late final GeneratedColumn<DateTime> expireDate = GeneratedColumn<DateTime>(
-      'expire_date', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  late final GeneratedColumn<int> position = GeneratedColumn<int>(
+      'position', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _averageRatingMeta =
       const VerificationMeta('averageRating');
   @override
-  late final GeneratedColumn<double> averageRating = GeneratedColumn<double>(
+  late final GeneratedColumn<int> averageRating = GeneratedColumn<int>(
       'average_rating', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _totalNumberOfRatingMeta =
-      const VerificationMeta('totalNumberOfRating');
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _totalRatingMeta =
+      const VerificationMeta('totalRating');
   @override
-  late final GeneratedColumn<double> totalNumberOfRating =
-      GeneratedColumn<double>('total_number_of_rating', aliasedName, true,
-          type: DriftSqlType.double, requiredDuringInsert: false);
+  late final GeneratedColumn<int> totalRating = GeneratedColumn<int>(
+      'total_rating', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _average5PercentRatingMeta =
       const VerificationMeta('average5PercentRating');
   @override
   late final GeneratedColumn<double> average5PercentRating =
-      GeneratedColumn<double>('average5_percent_rating', aliasedName, true,
+      GeneratedColumn<double>('average_5_percent_rating', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _average4PercentRatingMeta =
       const VerificationMeta('average4PercentRating');
   @override
   late final GeneratedColumn<double> average4PercentRating =
-      GeneratedColumn<double>('average4_percent_rating', aliasedName, true,
+      GeneratedColumn<double>('average_4_percent_rating', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _average3PercentRatingMeta =
       const VerificationMeta('average3PercentRating');
   @override
   late final GeneratedColumn<double> average3PercentRating =
-      GeneratedColumn<double>('average3_percent_rating', aliasedName, true,
+      GeneratedColumn<double>('average_3_percent_rating', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _average2PercentRatingMeta =
       const VerificationMeta('average2PercentRating');
   @override
   late final GeneratedColumn<double> average2PercentRating =
-      GeneratedColumn<double>('average2_percent_rating', aliasedName, true,
+      GeneratedColumn<double>('average_2_percent_rating', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _average1PercentRatingMeta =
       const VerificationMeta('average1PercentRating');
   @override
   late final GeneratedColumn<double> average1PercentRating =
-      GeneratedColumn<double>('average1_percent_rating', aliasedName, true,
+      GeneratedColumn<double>('average_1_percent_rating', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _barcodeMeta =
-      const VerificationMeta('barcode');
-  @override
-  late final GeneratedColumn<String> barcode = GeneratedColumn<String>(
-      'barcode', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _qrcodeMeta = const VerificationMeta('qrcode');
-  @override
-  late final GeneratedColumn<String> qrcode = GeneratedColumn<String>(
-      'qrcode', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _taxInPercentageMeta =
-      const VerificationMeta('taxInPercentage');
-  @override
-  late final GeneratedColumn<double> taxInPercentage = GeneratedColumn<double>(
-      'tax_in_percentage', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _vatInPercentageMeta =
-      const VerificationMeta('vatInPercentage');
-  @override
-  late final GeneratedColumn<double> vatInPercentage = GeneratedColumn<double>(
-      'vat_in_percentage', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _typesMeta = const VerificationMeta('types');
-  @override
-  late final GeneratedColumn<String> types = GeneratedColumn<String>(
-      'types', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
-  @override
-  late final GeneratedColumn<String> tags = GeneratedColumn<String>(
-      'tags', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _skuMeta = const VerificationMeta('sku');
-  @override
-  late final GeneratedColumn<String> sku = GeneratedColumn<String>(
-      'sku', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _inventoryMeta =
-      const VerificationMeta('inventory');
-  @override
-  late final GeneratedColumn<int> inventory = GeneratedColumn<int>(
-      'inventory', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _newFromMeta =
-      const VerificationMeta('newFrom');
-  @override
-  late final GeneratedColumn<DateTime> newFrom = GeneratedColumn<DateTime>(
-      'new_from', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _newTillMeta =
-      const VerificationMeta('newTill');
-  @override
-  late final GeneratedColumn<DateTime> newTill = GeneratedColumn<DateTime>(
-      'new_till', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _isDownloadableMeta =
-      const VerificationMeta('isDownloadable');
-  @override
-  late final GeneratedColumn<bool> isDownloadable = GeneratedColumn<bool>(
-      'is_downloadable', aliasedName, true,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("is_downloadable" IN (0, 1))'));
-  static const VerificationMeta _downloadedFileMeta =
-      const VerificationMeta('downloadedFile');
-  @override
-  late final GeneratedColumn<BigInt> downloadedFile = GeneratedColumn<BigInt>(
-      'downloaded_file', aliasedName, true,
-      type: DriftSqlType.bigInt, requiredDuringInsert: false);
-  static const VerificationMeta _relatedProductsMeta =
-      const VerificationMeta('relatedProducts');
-  @override
-  late final GeneratedColumn<String> relatedProducts = GeneratedColumn<String>(
-      'related_products', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _crossSellProductsMeta =
-      const VerificationMeta('crossSellProducts');
-  @override
-  late final GeneratedColumn<String> crossSellProducts =
-      GeneratedColumn<String>('cross_sell_products', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _upSellProductsMeta =
-      const VerificationMeta('upSellProducts');
-  @override
-  late final GeneratedColumn<String> upSellProducts = GeneratedColumn<String>(
-      'up_sell_products', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _filesMeta = const VerificationMeta('files');
-  @override
-  late final GeneratedColumn<String> files = GeneratedColumn<String>(
-      'files', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _createdByMeta =
-      const VerificationMeta('createdBy');
-  @override
-  late final GeneratedColumn<String> createdBy = GeneratedColumn<String>(
-      'created_by', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _updatedByMeta =
-      const VerificationMeta('updatedBy');
-  @override
-  late final GeneratedColumn<String> updatedBy = GeneratedColumn<String>(
-      'updated_by', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
-  @override
-  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _shelfLifeMeta =
-      const VerificationMeta('shelfLife');
-  @override
-  late final GeneratedColumn<int> shelfLife = GeneratedColumn<int>(
-      'shelf_life', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _minimumInventoryMeta =
-      const VerificationMeta('minimumInventory');
-  @override
-  late final GeneratedColumn<int> minimumInventory = GeneratedColumn<int>(
-      'minimum_inventory', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         sl,
-        productId,
+        id,
+        name,
+        isEnable,
+        price,
+        isDiscount,
+        discountPrice,
+        vatPercentage,
+        images,
         categoryId,
-        position,
-        label,
         categoryLabel,
-        posLabel,
         description,
         shortDescription,
-        price,
-        promotionPrice,
-        specialPrice,
-        advancedPrice,
-        enable,
-        warehouseLocation,
-        outletLocation,
-        rackLocation,
-        weight,
-        height,
-        manufactureCountry,
-        manufacturedDate,
-        expireDate,
+        position,
         averageRating,
-        totalNumberOfRating,
+        totalRating,
         average5PercentRating,
         average4PercentRating,
         average3PercentRating,
         average2PercentRating,
-        average1PercentRating,
-        barcode,
-        qrcode,
-        taxInPercentage,
-        vatInPercentage,
-        types,
-        tags,
-        sku,
-        inventory,
-        newFrom,
-        newTill,
-        isDownloadable,
-        downloadedFile,
-        relatedProducts,
-        crossSellProducts,
-        upSellProducts,
-        files,
-        createdAt,
-        createdBy,
-        updatedBy,
-        updatedAt,
-        shelfLife,
-        minimumInventory
+        average1PercentRating
       ];
   @override
   String get aliasedName => _alias ?? 'product_table';
@@ -2421,9 +2420,42 @@ class $ProductTableTable extends ProductTable
     if (data.containsKey('sl')) {
       context.handle(_slMeta, sl.isAcceptableOrUnknown(data['sl']!, _slMeta));
     }
-    if (data.containsKey('product_id')) {
-      context.handle(_productIdMeta,
-          productId.isAcceptableOrUnknown(data['product_id']!, _productIdMeta));
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    }
+    if (data.containsKey('is_enable')) {
+      context.handle(_isEnableMeta,
+          isEnable.isAcceptableOrUnknown(data['is_enable']!, _isEnableMeta));
+    }
+    if (data.containsKey('price')) {
+      context.handle(
+          _priceMeta, price.isAcceptableOrUnknown(data['price']!, _priceMeta));
+    }
+    if (data.containsKey('is_disoucnt')) {
+      context.handle(
+          _isDiscountMeta,
+          isDiscount.isAcceptableOrUnknown(
+              data['is_disoucnt']!, _isDiscountMeta));
+    }
+    if (data.containsKey('disoucnt_price')) {
+      context.handle(
+          _discountPriceMeta,
+          discountPrice.isAcceptableOrUnknown(
+              data['disoucnt_price']!, _discountPriceMeta));
+    }
+    if (data.containsKey('vatpercentage')) {
+      context.handle(
+          _vatPercentageMeta,
+          vatPercentage.isAcceptableOrUnknown(
+              data['vatpercentage']!, _vatPercentageMeta));
+    }
+    if (data.containsKey('images')) {
+      context.handle(_imagesMeta,
+          images.isAcceptableOrUnknown(data['images']!, _imagesMeta));
     }
     if (data.containsKey('category_id')) {
       context.handle(
@@ -2431,23 +2463,11 @@ class $ProductTableTable extends ProductTable
           categoryId.isAcceptableOrUnknown(
               data['category_id']!, _categoryIdMeta));
     }
-    if (data.containsKey('position')) {
-      context.handle(_positionMeta,
-          position.isAcceptableOrUnknown(data['position']!, _positionMeta));
-    }
-    if (data.containsKey('label')) {
-      context.handle(
-          _labelMeta, label.isAcceptableOrUnknown(data['label']!, _labelMeta));
-    }
     if (data.containsKey('category_label')) {
       context.handle(
           _categoryLabelMeta,
           categoryLabel.isAcceptableOrUnknown(
               data['category_label']!, _categoryLabelMeta));
-    }
-    if (data.containsKey('pos_label')) {
-      context.handle(_posLabelMeta,
-          posLabel.isAcceptableOrUnknown(data['pos_label']!, _posLabelMeta));
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -2461,75 +2481,9 @@ class $ProductTableTable extends ProductTable
           shortDescription.isAcceptableOrUnknown(
               data['short_description']!, _shortDescriptionMeta));
     }
-    if (data.containsKey('price')) {
-      context.handle(
-          _priceMeta, price.isAcceptableOrUnknown(data['price']!, _priceMeta));
-    }
-    if (data.containsKey('promotion_price')) {
-      context.handle(
-          _promotionPriceMeta,
-          promotionPrice.isAcceptableOrUnknown(
-              data['promotion_price']!, _promotionPriceMeta));
-    }
-    if (data.containsKey('special_price')) {
-      context.handle(
-          _specialPriceMeta,
-          specialPrice.isAcceptableOrUnknown(
-              data['special_price']!, _specialPriceMeta));
-    }
-    if (data.containsKey('advanced_price')) {
-      context.handle(
-          _advancedPriceMeta,
-          advancedPrice.isAcceptableOrUnknown(
-              data['advanced_price']!, _advancedPriceMeta));
-    }
-    if (data.containsKey('enable')) {
-      context.handle(_enableMeta,
-          enable.isAcceptableOrUnknown(data['enable']!, _enableMeta));
-    }
-    if (data.containsKey('warehouse_location')) {
-      context.handle(
-          _warehouseLocationMeta,
-          warehouseLocation.isAcceptableOrUnknown(
-              data['warehouse_location']!, _warehouseLocationMeta));
-    }
-    if (data.containsKey('outlet_location')) {
-      context.handle(
-          _outletLocationMeta,
-          outletLocation.isAcceptableOrUnknown(
-              data['outlet_location']!, _outletLocationMeta));
-    }
-    if (data.containsKey('rack_location')) {
-      context.handle(
-          _rackLocationMeta,
-          rackLocation.isAcceptableOrUnknown(
-              data['rack_location']!, _rackLocationMeta));
-    }
-    if (data.containsKey('weight')) {
-      context.handle(_weightMeta,
-          weight.isAcceptableOrUnknown(data['weight']!, _weightMeta));
-    }
-    if (data.containsKey('height')) {
-      context.handle(_heightMeta,
-          height.isAcceptableOrUnknown(data['height']!, _heightMeta));
-    }
-    if (data.containsKey('manufacture_country')) {
-      context.handle(
-          _manufactureCountryMeta,
-          manufactureCountry.isAcceptableOrUnknown(
-              data['manufacture_country']!, _manufactureCountryMeta));
-    }
-    if (data.containsKey('manufactured_date')) {
-      context.handle(
-          _manufacturedDateMeta,
-          manufacturedDate.isAcceptableOrUnknown(
-              data['manufactured_date']!, _manufacturedDateMeta));
-    }
-    if (data.containsKey('expire_date')) {
-      context.handle(
-          _expireDateMeta,
-          expireDate.isAcceptableOrUnknown(
-              data['expire_date']!, _expireDateMeta));
+    if (data.containsKey('position')) {
+      context.handle(_positionMeta,
+          position.isAcceptableOrUnknown(data['position']!, _positionMeta));
     }
     if (data.containsKey('average_rating')) {
       context.handle(
@@ -2537,145 +2491,41 @@ class $ProductTableTable extends ProductTable
           averageRating.isAcceptableOrUnknown(
               data['average_rating']!, _averageRatingMeta));
     }
-    if (data.containsKey('total_number_of_rating')) {
+    if (data.containsKey('total_rating')) {
       context.handle(
-          _totalNumberOfRatingMeta,
-          totalNumberOfRating.isAcceptableOrUnknown(
-              data['total_number_of_rating']!, _totalNumberOfRatingMeta));
+          _totalRatingMeta,
+          totalRating.isAcceptableOrUnknown(
+              data['total_rating']!, _totalRatingMeta));
     }
-    if (data.containsKey('average5_percent_rating')) {
+    if (data.containsKey('average_5_percent_rating')) {
       context.handle(
           _average5PercentRatingMeta,
           average5PercentRating.isAcceptableOrUnknown(
-              data['average5_percent_rating']!, _average5PercentRatingMeta));
+              data['average_5_percent_rating']!, _average5PercentRatingMeta));
     }
-    if (data.containsKey('average4_percent_rating')) {
+    if (data.containsKey('average_4_percent_rating')) {
       context.handle(
           _average4PercentRatingMeta,
           average4PercentRating.isAcceptableOrUnknown(
-              data['average4_percent_rating']!, _average4PercentRatingMeta));
+              data['average_4_percent_rating']!, _average4PercentRatingMeta));
     }
-    if (data.containsKey('average3_percent_rating')) {
+    if (data.containsKey('average_3_percent_rating')) {
       context.handle(
           _average3PercentRatingMeta,
           average3PercentRating.isAcceptableOrUnknown(
-              data['average3_percent_rating']!, _average3PercentRatingMeta));
+              data['average_3_percent_rating']!, _average3PercentRatingMeta));
     }
-    if (data.containsKey('average2_percent_rating')) {
+    if (data.containsKey('average_2_percent_rating')) {
       context.handle(
           _average2PercentRatingMeta,
           average2PercentRating.isAcceptableOrUnknown(
-              data['average2_percent_rating']!, _average2PercentRatingMeta));
+              data['average_2_percent_rating']!, _average2PercentRatingMeta));
     }
-    if (data.containsKey('average1_percent_rating')) {
+    if (data.containsKey('average_1_percent_rating')) {
       context.handle(
           _average1PercentRatingMeta,
           average1PercentRating.isAcceptableOrUnknown(
-              data['average1_percent_rating']!, _average1PercentRatingMeta));
-    }
-    if (data.containsKey('barcode')) {
-      context.handle(_barcodeMeta,
-          barcode.isAcceptableOrUnknown(data['barcode']!, _barcodeMeta));
-    }
-    if (data.containsKey('qrcode')) {
-      context.handle(_qrcodeMeta,
-          qrcode.isAcceptableOrUnknown(data['qrcode']!, _qrcodeMeta));
-    }
-    if (data.containsKey('tax_in_percentage')) {
-      context.handle(
-          _taxInPercentageMeta,
-          taxInPercentage.isAcceptableOrUnknown(
-              data['tax_in_percentage']!, _taxInPercentageMeta));
-    }
-    if (data.containsKey('vat_in_percentage')) {
-      context.handle(
-          _vatInPercentageMeta,
-          vatInPercentage.isAcceptableOrUnknown(
-              data['vat_in_percentage']!, _vatInPercentageMeta));
-    }
-    if (data.containsKey('types')) {
-      context.handle(
-          _typesMeta, types.isAcceptableOrUnknown(data['types']!, _typesMeta));
-    }
-    if (data.containsKey('tags')) {
-      context.handle(
-          _tagsMeta, tags.isAcceptableOrUnknown(data['tags']!, _tagsMeta));
-    }
-    if (data.containsKey('sku')) {
-      context.handle(
-          _skuMeta, sku.isAcceptableOrUnknown(data['sku']!, _skuMeta));
-    }
-    if (data.containsKey('inventory')) {
-      context.handle(_inventoryMeta,
-          inventory.isAcceptableOrUnknown(data['inventory']!, _inventoryMeta));
-    }
-    if (data.containsKey('new_from')) {
-      context.handle(_newFromMeta,
-          newFrom.isAcceptableOrUnknown(data['new_from']!, _newFromMeta));
-    }
-    if (data.containsKey('new_till')) {
-      context.handle(_newTillMeta,
-          newTill.isAcceptableOrUnknown(data['new_till']!, _newTillMeta));
-    }
-    if (data.containsKey('is_downloadable')) {
-      context.handle(
-          _isDownloadableMeta,
-          isDownloadable.isAcceptableOrUnknown(
-              data['is_downloadable']!, _isDownloadableMeta));
-    }
-    if (data.containsKey('downloaded_file')) {
-      context.handle(
-          _downloadedFileMeta,
-          downloadedFile.isAcceptableOrUnknown(
-              data['downloaded_file']!, _downloadedFileMeta));
-    }
-    if (data.containsKey('related_products')) {
-      context.handle(
-          _relatedProductsMeta,
-          relatedProducts.isAcceptableOrUnknown(
-              data['related_products']!, _relatedProductsMeta));
-    }
-    if (data.containsKey('cross_sell_products')) {
-      context.handle(
-          _crossSellProductsMeta,
-          crossSellProducts.isAcceptableOrUnknown(
-              data['cross_sell_products']!, _crossSellProductsMeta));
-    }
-    if (data.containsKey('up_sell_products')) {
-      context.handle(
-          _upSellProductsMeta,
-          upSellProducts.isAcceptableOrUnknown(
-              data['up_sell_products']!, _upSellProductsMeta));
-    }
-    if (data.containsKey('files')) {
-      context.handle(
-          _filesMeta, files.isAcceptableOrUnknown(data['files']!, _filesMeta));
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    }
-    if (data.containsKey('created_by')) {
-      context.handle(_createdByMeta,
-          createdBy.isAcceptableOrUnknown(data['created_by']!, _createdByMeta));
-    }
-    if (data.containsKey('updated_by')) {
-      context.handle(_updatedByMeta,
-          updatedBy.isAcceptableOrUnknown(data['updated_by']!, _updatedByMeta));
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    }
-    if (data.containsKey('shelf_life')) {
-      context.handle(_shelfLifeMeta,
-          shelfLife.isAcceptableOrUnknown(data['shelf_life']!, _shelfLifeMeta));
-    }
-    if (data.containsKey('minimum_inventory')) {
-      context.handle(
-          _minimumInventoryMeta,
-          minimumInventory.isAcceptableOrUnknown(
-              data['minimum_inventory']!, _minimumInventoryMeta));
+              data['average_1_percent_rating']!, _average1PercentRatingMeta));
     }
     return context;
   }
@@ -2688,112 +2538,51 @@ class $ProductTableTable extends ProductTable
     return ProductTableData(
       sl: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}sl']),
-      productId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}product_id']),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id']),
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name']),
+      isEnable: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_enable']),
+      price: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}price']),
+      isDiscount: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_disoucnt']),
+      discountPrice: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}disoucnt_price']),
+      vatPercentage: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}vatpercentage']),
+      images: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}images']),
       categoryId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}category_id']),
-      position: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}position']),
-      label: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}label']),
       categoryLabel: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}category_label']),
-      posLabel: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}pos_label']),
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
       shortDescription: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}short_description']),
-      price: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}price']),
-      promotionPrice: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}promotion_price']),
-      specialPrice: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}special_price']),
-      advancedPrice: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}advanced_price']),
-      enable: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}enable']),
-      warehouseLocation: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}warehouse_location']),
-      outletLocation: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}outlet_location']),
-      rackLocation: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}rack_location']),
-      weight: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}weight']),
-      height: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}height']),
-      manufactureCountry: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}manufacture_country']),
-      manufacturedDate: attachedDatabase.typeMapping.read(
-          DriftSqlType.dateTime, data['${effectivePrefix}manufactured_date']),
-      expireDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}expire_date']),
+      position: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}position']),
       averageRating: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}average_rating']),
-      totalNumberOfRating: attachedDatabase.typeMapping.read(
-          DriftSqlType.double,
-          data['${effectivePrefix}total_number_of_rating']),
+          .read(DriftSqlType.int, data['${effectivePrefix}average_rating']),
+      totalRating: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}total_rating']),
       average5PercentRating: attachedDatabase.typeMapping.read(
           DriftSqlType.double,
-          data['${effectivePrefix}average5_percent_rating']),
+          data['${effectivePrefix}average_5_percent_rating']),
       average4PercentRating: attachedDatabase.typeMapping.read(
           DriftSqlType.double,
-          data['${effectivePrefix}average4_percent_rating']),
+          data['${effectivePrefix}average_4_percent_rating']),
       average3PercentRating: attachedDatabase.typeMapping.read(
           DriftSqlType.double,
-          data['${effectivePrefix}average3_percent_rating']),
+          data['${effectivePrefix}average_3_percent_rating']),
       average2PercentRating: attachedDatabase.typeMapping.read(
           DriftSqlType.double,
-          data['${effectivePrefix}average2_percent_rating']),
+          data['${effectivePrefix}average_2_percent_rating']),
       average1PercentRating: attachedDatabase.typeMapping.read(
           DriftSqlType.double,
-          data['${effectivePrefix}average1_percent_rating']),
-      barcode: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}barcode']),
-      qrcode: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}qrcode']),
-      taxInPercentage: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}tax_in_percentage']),
-      vatInPercentage: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}vat_in_percentage']),
-      types: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}types']),
-      tags: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}tags']),
-      sku: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}sku']),
-      inventory: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}inventory']),
-      newFrom: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}new_from']),
-      newTill: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}new_till']),
-      isDownloadable: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_downloadable']),
-      downloadedFile: attachedDatabase.typeMapping
-          .read(DriftSqlType.bigInt, data['${effectivePrefix}downloaded_file']),
-      relatedProducts: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}related_products']),
-      crossSellProducts: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}cross_sell_products']),
-      upSellProducts: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}up_sell_products']),
-      files: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}files']),
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at']),
-      createdBy: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}created_by']),
-      updatedBy: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}updated_by']),
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at']),
-      shelfLife: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}shelf_life']),
-      minimumInventory: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}minimum_inventory']),
+          data['${effectivePrefix}average_1_percent_rating']),
     );
   }
 
@@ -2806,131 +2595,83 @@ class $ProductTableTable extends ProductTable
 class ProductTableData extends DataClass
     implements Insertable<ProductTableData> {
   final int? sl;
-  final String? productId;
+  final String? id;
+  final String? name;
+  final bool? isEnable;
+  final double? price;
+  final bool? isDiscount;
+  final double? discountPrice;
+  final double? vatPercentage;
+  final String? images;
   final String? categoryId;
-  final int? position;
-  final String? label;
   final String? categoryLabel;
-  final String? posLabel;
   final String? description;
   final String? shortDescription;
-  final double? price;
-  final double? promotionPrice;
-  final double? specialPrice;
-  final double? advancedPrice;
-  final bool? enable;
-  final String? warehouseLocation;
-  final String? outletLocation;
-  final String? rackLocation;
-  final double? weight;
-  final double? height;
-  final String? manufactureCountry;
-  final DateTime? manufacturedDate;
-  final DateTime? expireDate;
-  final double? averageRating;
-  final double? totalNumberOfRating;
+  final int? position;
+  final int? averageRating;
+  final int? totalRating;
   final double? average5PercentRating;
   final double? average4PercentRating;
   final double? average3PercentRating;
   final double? average2PercentRating;
   final double? average1PercentRating;
-  final String? barcode;
-  final String? qrcode;
-  final double? taxInPercentage;
-  final double? vatInPercentage;
-  final String? types;
-  final String? tags;
-  final String? sku;
-  final int? inventory;
-  final DateTime? newFrom;
-  final DateTime? newTill;
-  final bool? isDownloadable;
-  final BigInt? downloadedFile;
-  final String? relatedProducts;
-  final String? crossSellProducts;
-  final String? upSellProducts;
-  final String? files;
-  final DateTime? createdAt;
-  final String? createdBy;
-  final String? updatedBy;
-  final DateTime? updatedAt;
-  final int? shelfLife;
-  final int? minimumInventory;
   const ProductTableData(
       {this.sl,
-      this.productId,
+      this.id,
+      this.name,
+      this.isEnable,
+      this.price,
+      this.isDiscount,
+      this.discountPrice,
+      this.vatPercentage,
+      this.images,
       this.categoryId,
-      this.position,
-      this.label,
       this.categoryLabel,
-      this.posLabel,
       this.description,
       this.shortDescription,
-      this.price,
-      this.promotionPrice,
-      this.specialPrice,
-      this.advancedPrice,
-      this.enable,
-      this.warehouseLocation,
-      this.outletLocation,
-      this.rackLocation,
-      this.weight,
-      this.height,
-      this.manufactureCountry,
-      this.manufacturedDate,
-      this.expireDate,
+      this.position,
       this.averageRating,
-      this.totalNumberOfRating,
+      this.totalRating,
       this.average5PercentRating,
       this.average4PercentRating,
       this.average3PercentRating,
       this.average2PercentRating,
-      this.average1PercentRating,
-      this.barcode,
-      this.qrcode,
-      this.taxInPercentage,
-      this.vatInPercentage,
-      this.types,
-      this.tags,
-      this.sku,
-      this.inventory,
-      this.newFrom,
-      this.newTill,
-      this.isDownloadable,
-      this.downloadedFile,
-      this.relatedProducts,
-      this.crossSellProducts,
-      this.upSellProducts,
-      this.files,
-      this.createdAt,
-      this.createdBy,
-      this.updatedBy,
-      this.updatedAt,
-      this.shelfLife,
-      this.minimumInventory});
+      this.average1PercentRating});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || sl != null) {
       map['sl'] = Variable<int>(sl);
     }
-    if (!nullToAbsent || productId != null) {
-      map['product_id'] = Variable<String>(productId);
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<String>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || isEnable != null) {
+      map['is_enable'] = Variable<bool>(isEnable);
+    }
+    if (!nullToAbsent || price != null) {
+      map['price'] = Variable<double>(price);
+    }
+    if (!nullToAbsent || isDiscount != null) {
+      map['is_disoucnt'] = Variable<bool>(isDiscount);
+    }
+    if (!nullToAbsent || discountPrice != null) {
+      map['disoucnt_price'] = Variable<double>(discountPrice);
+    }
+    if (!nullToAbsent || vatPercentage != null) {
+      map['vatpercentage'] = Variable<double>(vatPercentage);
+    }
+    if (!nullToAbsent || images != null) {
+      map['images'] = Variable<String>(images);
     }
     if (!nullToAbsent || categoryId != null) {
       map['category_id'] = Variable<String>(categoryId);
     }
-    if (!nullToAbsent || position != null) {
-      map['position'] = Variable<int>(position);
-    }
-    if (!nullToAbsent || label != null) {
-      map['label'] = Variable<String>(label);
-    }
     if (!nullToAbsent || categoryLabel != null) {
       map['category_label'] = Variable<String>(categoryLabel);
-    }
-    if (!nullToAbsent || posLabel != null) {
-      map['pos_label'] = Variable<String>(posLabel);
     }
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
@@ -2938,131 +2679,29 @@ class ProductTableData extends DataClass
     if (!nullToAbsent || shortDescription != null) {
       map['short_description'] = Variable<String>(shortDescription);
     }
-    if (!nullToAbsent || price != null) {
-      map['price'] = Variable<double>(price);
-    }
-    if (!nullToAbsent || promotionPrice != null) {
-      map['promotion_price'] = Variable<double>(promotionPrice);
-    }
-    if (!nullToAbsent || specialPrice != null) {
-      map['special_price'] = Variable<double>(specialPrice);
-    }
-    if (!nullToAbsent || advancedPrice != null) {
-      map['advanced_price'] = Variable<double>(advancedPrice);
-    }
-    if (!nullToAbsent || enable != null) {
-      map['enable'] = Variable<bool>(enable);
-    }
-    if (!nullToAbsent || warehouseLocation != null) {
-      map['warehouse_location'] = Variable<String>(warehouseLocation);
-    }
-    if (!nullToAbsent || outletLocation != null) {
-      map['outlet_location'] = Variable<String>(outletLocation);
-    }
-    if (!nullToAbsent || rackLocation != null) {
-      map['rack_location'] = Variable<String>(rackLocation);
-    }
-    if (!nullToAbsent || weight != null) {
-      map['weight'] = Variable<double>(weight);
-    }
-    if (!nullToAbsent || height != null) {
-      map['height'] = Variable<double>(height);
-    }
-    if (!nullToAbsent || manufactureCountry != null) {
-      map['manufacture_country'] = Variable<String>(manufactureCountry);
-    }
-    if (!nullToAbsent || manufacturedDate != null) {
-      map['manufactured_date'] = Variable<DateTime>(manufacturedDate);
-    }
-    if (!nullToAbsent || expireDate != null) {
-      map['expire_date'] = Variable<DateTime>(expireDate);
+    if (!nullToAbsent || position != null) {
+      map['position'] = Variable<int>(position);
     }
     if (!nullToAbsent || averageRating != null) {
-      map['average_rating'] = Variable<double>(averageRating);
+      map['average_rating'] = Variable<int>(averageRating);
     }
-    if (!nullToAbsent || totalNumberOfRating != null) {
-      map['total_number_of_rating'] = Variable<double>(totalNumberOfRating);
+    if (!nullToAbsent || totalRating != null) {
+      map['total_rating'] = Variable<int>(totalRating);
     }
     if (!nullToAbsent || average5PercentRating != null) {
-      map['average5_percent_rating'] = Variable<double>(average5PercentRating);
+      map['average_5_percent_rating'] = Variable<double>(average5PercentRating);
     }
     if (!nullToAbsent || average4PercentRating != null) {
-      map['average4_percent_rating'] = Variable<double>(average4PercentRating);
+      map['average_4_percent_rating'] = Variable<double>(average4PercentRating);
     }
     if (!nullToAbsent || average3PercentRating != null) {
-      map['average3_percent_rating'] = Variable<double>(average3PercentRating);
+      map['average_3_percent_rating'] = Variable<double>(average3PercentRating);
     }
     if (!nullToAbsent || average2PercentRating != null) {
-      map['average2_percent_rating'] = Variable<double>(average2PercentRating);
+      map['average_2_percent_rating'] = Variable<double>(average2PercentRating);
     }
     if (!nullToAbsent || average1PercentRating != null) {
-      map['average1_percent_rating'] = Variable<double>(average1PercentRating);
-    }
-    if (!nullToAbsent || barcode != null) {
-      map['barcode'] = Variable<String>(barcode);
-    }
-    if (!nullToAbsent || qrcode != null) {
-      map['qrcode'] = Variable<String>(qrcode);
-    }
-    if (!nullToAbsent || taxInPercentage != null) {
-      map['tax_in_percentage'] = Variable<double>(taxInPercentage);
-    }
-    if (!nullToAbsent || vatInPercentage != null) {
-      map['vat_in_percentage'] = Variable<double>(vatInPercentage);
-    }
-    if (!nullToAbsent || types != null) {
-      map['types'] = Variable<String>(types);
-    }
-    if (!nullToAbsent || tags != null) {
-      map['tags'] = Variable<String>(tags);
-    }
-    if (!nullToAbsent || sku != null) {
-      map['sku'] = Variable<String>(sku);
-    }
-    if (!nullToAbsent || inventory != null) {
-      map['inventory'] = Variable<int>(inventory);
-    }
-    if (!nullToAbsent || newFrom != null) {
-      map['new_from'] = Variable<DateTime>(newFrom);
-    }
-    if (!nullToAbsent || newTill != null) {
-      map['new_till'] = Variable<DateTime>(newTill);
-    }
-    if (!nullToAbsent || isDownloadable != null) {
-      map['is_downloadable'] = Variable<bool>(isDownloadable);
-    }
-    if (!nullToAbsent || downloadedFile != null) {
-      map['downloaded_file'] = Variable<BigInt>(downloadedFile);
-    }
-    if (!nullToAbsent || relatedProducts != null) {
-      map['related_products'] = Variable<String>(relatedProducts);
-    }
-    if (!nullToAbsent || crossSellProducts != null) {
-      map['cross_sell_products'] = Variable<String>(crossSellProducts);
-    }
-    if (!nullToAbsent || upSellProducts != null) {
-      map['up_sell_products'] = Variable<String>(upSellProducts);
-    }
-    if (!nullToAbsent || files != null) {
-      map['files'] = Variable<String>(files);
-    }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<DateTime>(createdAt);
-    }
-    if (!nullToAbsent || createdBy != null) {
-      map['created_by'] = Variable<String>(createdBy);
-    }
-    if (!nullToAbsent || updatedBy != null) {
-      map['updated_by'] = Variable<String>(updatedBy);
-    }
-    if (!nullToAbsent || updatedAt != null) {
-      map['updated_at'] = Variable<DateTime>(updatedAt);
-    }
-    if (!nullToAbsent || shelfLife != null) {
-      map['shelf_life'] = Variable<int>(shelfLife);
-    }
-    if (!nullToAbsent || minimumInventory != null) {
-      map['minimum_inventory'] = Variable<int>(minimumInventory);
+      map['average_1_percent_rating'] = Variable<double>(average1PercentRating);
     }
     return map;
   }
@@ -3070,70 +2709,45 @@ class ProductTableData extends DataClass
   ProductTableCompanion toCompanion(bool nullToAbsent) {
     return ProductTableCompanion(
       sl: sl == null && nullToAbsent ? const Value.absent() : Value(sl),
-      productId: productId == null && nullToAbsent
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      isEnable: isEnable == null && nullToAbsent
           ? const Value.absent()
-          : Value(productId),
+          : Value(isEnable),
+      price:
+          price == null && nullToAbsent ? const Value.absent() : Value(price),
+      isDiscount: isDiscount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDiscount),
+      discountPrice: discountPrice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountPrice),
+      vatPercentage: vatPercentage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(vatPercentage),
+      images:
+          images == null && nullToAbsent ? const Value.absent() : Value(images),
       categoryId: categoryId == null && nullToAbsent
           ? const Value.absent()
           : Value(categoryId),
-      position: position == null && nullToAbsent
-          ? const Value.absent()
-          : Value(position),
-      label:
-          label == null && nullToAbsent ? const Value.absent() : Value(label),
       categoryLabel: categoryLabel == null && nullToAbsent
           ? const Value.absent()
           : Value(categoryLabel),
-      posLabel: posLabel == null && nullToAbsent
-          ? const Value.absent()
-          : Value(posLabel),
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
       shortDescription: shortDescription == null && nullToAbsent
           ? const Value.absent()
           : Value(shortDescription),
-      price:
-          price == null && nullToAbsent ? const Value.absent() : Value(price),
-      promotionPrice: promotionPrice == null && nullToAbsent
+      position: position == null && nullToAbsent
           ? const Value.absent()
-          : Value(promotionPrice),
-      specialPrice: specialPrice == null && nullToAbsent
-          ? const Value.absent()
-          : Value(specialPrice),
-      advancedPrice: advancedPrice == null && nullToAbsent
-          ? const Value.absent()
-          : Value(advancedPrice),
-      enable:
-          enable == null && nullToAbsent ? const Value.absent() : Value(enable),
-      warehouseLocation: warehouseLocation == null && nullToAbsent
-          ? const Value.absent()
-          : Value(warehouseLocation),
-      outletLocation: outletLocation == null && nullToAbsent
-          ? const Value.absent()
-          : Value(outletLocation),
-      rackLocation: rackLocation == null && nullToAbsent
-          ? const Value.absent()
-          : Value(rackLocation),
-      weight:
-          weight == null && nullToAbsent ? const Value.absent() : Value(weight),
-      height:
-          height == null && nullToAbsent ? const Value.absent() : Value(height),
-      manufactureCountry: manufactureCountry == null && nullToAbsent
-          ? const Value.absent()
-          : Value(manufactureCountry),
-      manufacturedDate: manufacturedDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(manufacturedDate),
-      expireDate: expireDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(expireDate),
+          : Value(position),
       averageRating: averageRating == null && nullToAbsent
           ? const Value.absent()
           : Value(averageRating),
-      totalNumberOfRating: totalNumberOfRating == null && nullToAbsent
+      totalRating: totalRating == null && nullToAbsent
           ? const Value.absent()
-          : Value(totalNumberOfRating),
+          : Value(totalRating),
       average5PercentRating: average5PercentRating == null && nullToAbsent
           ? const Value.absent()
           : Value(average5PercentRating),
@@ -3149,65 +2763,6 @@ class ProductTableData extends DataClass
       average1PercentRating: average1PercentRating == null && nullToAbsent
           ? const Value.absent()
           : Value(average1PercentRating),
-      barcode: barcode == null && nullToAbsent
-          ? const Value.absent()
-          : Value(barcode),
-      qrcode:
-          qrcode == null && nullToAbsent ? const Value.absent() : Value(qrcode),
-      taxInPercentage: taxInPercentage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(taxInPercentage),
-      vatInPercentage: vatInPercentage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(vatInPercentage),
-      types:
-          types == null && nullToAbsent ? const Value.absent() : Value(types),
-      tags: tags == null && nullToAbsent ? const Value.absent() : Value(tags),
-      sku: sku == null && nullToAbsent ? const Value.absent() : Value(sku),
-      inventory: inventory == null && nullToAbsent
-          ? const Value.absent()
-          : Value(inventory),
-      newFrom: newFrom == null && nullToAbsent
-          ? const Value.absent()
-          : Value(newFrom),
-      newTill: newTill == null && nullToAbsent
-          ? const Value.absent()
-          : Value(newTill),
-      isDownloadable: isDownloadable == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDownloadable),
-      downloadedFile: downloadedFile == null && nullToAbsent
-          ? const Value.absent()
-          : Value(downloadedFile),
-      relatedProducts: relatedProducts == null && nullToAbsent
-          ? const Value.absent()
-          : Value(relatedProducts),
-      crossSellProducts: crossSellProducts == null && nullToAbsent
-          ? const Value.absent()
-          : Value(crossSellProducts),
-      upSellProducts: upSellProducts == null && nullToAbsent
-          ? const Value.absent()
-          : Value(upSellProducts),
-      files:
-          files == null && nullToAbsent ? const Value.absent() : Value(files),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
-      createdBy: createdBy == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdBy),
-      updatedBy: updatedBy == null && nullToAbsent
-          ? const Value.absent()
-          : Value(updatedBy),
-      updatedAt: updatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(updatedAt),
-      shelfLife: shelfLife == null && nullToAbsent
-          ? const Value.absent()
-          : Value(shelfLife),
-      minimumInventory: minimumInventory == null && nullToAbsent
-          ? const Value.absent()
-          : Value(minimumInventory),
     );
   }
 
@@ -3216,33 +2771,21 @@ class ProductTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ProductTableData(
       sl: serializer.fromJson<int?>(json['sl']),
-      productId: serializer.fromJson<String?>(json['productId']),
+      id: serializer.fromJson<String?>(json['id']),
+      name: serializer.fromJson<String?>(json['name']),
+      isEnable: serializer.fromJson<bool?>(json['isEnable']),
+      price: serializer.fromJson<double?>(json['price']),
+      isDiscount: serializer.fromJson<bool?>(json['isDiscount']),
+      discountPrice: serializer.fromJson<double?>(json['discountPrice']),
+      vatPercentage: serializer.fromJson<double?>(json['vatPercentage']),
+      images: serializer.fromJson<String?>(json['images']),
       categoryId: serializer.fromJson<String?>(json['categoryId']),
-      position: serializer.fromJson<int?>(json['position']),
-      label: serializer.fromJson<String?>(json['label']),
       categoryLabel: serializer.fromJson<String?>(json['categoryLabel']),
-      posLabel: serializer.fromJson<String?>(json['posLabel']),
       description: serializer.fromJson<String?>(json['description']),
       shortDescription: serializer.fromJson<String?>(json['shortDescription']),
-      price: serializer.fromJson<double?>(json['price']),
-      promotionPrice: serializer.fromJson<double?>(json['promotionPrice']),
-      specialPrice: serializer.fromJson<double?>(json['specialPrice']),
-      advancedPrice: serializer.fromJson<double?>(json['advancedPrice']),
-      enable: serializer.fromJson<bool?>(json['enable']),
-      warehouseLocation:
-          serializer.fromJson<String?>(json['warehouseLocation']),
-      outletLocation: serializer.fromJson<String?>(json['outletLocation']),
-      rackLocation: serializer.fromJson<String?>(json['rackLocation']),
-      weight: serializer.fromJson<double?>(json['weight']),
-      height: serializer.fromJson<double?>(json['height']),
-      manufactureCountry:
-          serializer.fromJson<String?>(json['manufactureCountry']),
-      manufacturedDate:
-          serializer.fromJson<DateTime?>(json['manufacturedDate']),
-      expireDate: serializer.fromJson<DateTime?>(json['expireDate']),
-      averageRating: serializer.fromJson<double?>(json['averageRating']),
-      totalNumberOfRating:
-          serializer.fromJson<double?>(json['totalNumberOfRating']),
+      position: serializer.fromJson<int?>(json['position']),
+      averageRating: serializer.fromJson<int?>(json['averageRating']),
+      totalRating: serializer.fromJson<int?>(json['totalRating']),
       average5PercentRating:
           serializer.fromJson<double?>(json['average5PercentRating']),
       average4PercentRating:
@@ -3253,29 +2796,6 @@ class ProductTableData extends DataClass
           serializer.fromJson<double?>(json['average2PercentRating']),
       average1PercentRating:
           serializer.fromJson<double?>(json['average1PercentRating']),
-      barcode: serializer.fromJson<String?>(json['barcode']),
-      qrcode: serializer.fromJson<String?>(json['qrcode']),
-      taxInPercentage: serializer.fromJson<double?>(json['taxInPercentage']),
-      vatInPercentage: serializer.fromJson<double?>(json['vatInPercentage']),
-      types: serializer.fromJson<String?>(json['types']),
-      tags: serializer.fromJson<String?>(json['tags']),
-      sku: serializer.fromJson<String?>(json['sku']),
-      inventory: serializer.fromJson<int?>(json['inventory']),
-      newFrom: serializer.fromJson<DateTime?>(json['newFrom']),
-      newTill: serializer.fromJson<DateTime?>(json['newTill']),
-      isDownloadable: serializer.fromJson<bool?>(json['isDownloadable']),
-      downloadedFile: serializer.fromJson<BigInt?>(json['downloadedFile']),
-      relatedProducts: serializer.fromJson<String?>(json['relatedProducts']),
-      crossSellProducts:
-          serializer.fromJson<String?>(json['crossSellProducts']),
-      upSellProducts: serializer.fromJson<String?>(json['upSellProducts']),
-      files: serializer.fromJson<String?>(json['files']),
-      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
-      createdBy: serializer.fromJson<String?>(json['createdBy']),
-      updatedBy: serializer.fromJson<String?>(json['updatedBy']),
-      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
-      shelfLife: serializer.fromJson<int?>(json['shelfLife']),
-      minimumInventory: serializer.fromJson<int?>(json['minimumInventory']),
     );
   }
   @override
@@ -3283,29 +2803,21 @@ class ProductTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'sl': serializer.toJson<int?>(sl),
-      'productId': serializer.toJson<String?>(productId),
+      'id': serializer.toJson<String?>(id),
+      'name': serializer.toJson<String?>(name),
+      'isEnable': serializer.toJson<bool?>(isEnable),
+      'price': serializer.toJson<double?>(price),
+      'isDiscount': serializer.toJson<bool?>(isDiscount),
+      'discountPrice': serializer.toJson<double?>(discountPrice),
+      'vatPercentage': serializer.toJson<double?>(vatPercentage),
+      'images': serializer.toJson<String?>(images),
       'categoryId': serializer.toJson<String?>(categoryId),
-      'position': serializer.toJson<int?>(position),
-      'label': serializer.toJson<String?>(label),
       'categoryLabel': serializer.toJson<String?>(categoryLabel),
-      'posLabel': serializer.toJson<String?>(posLabel),
       'description': serializer.toJson<String?>(description),
       'shortDescription': serializer.toJson<String?>(shortDescription),
-      'price': serializer.toJson<double?>(price),
-      'promotionPrice': serializer.toJson<double?>(promotionPrice),
-      'specialPrice': serializer.toJson<double?>(specialPrice),
-      'advancedPrice': serializer.toJson<double?>(advancedPrice),
-      'enable': serializer.toJson<bool?>(enable),
-      'warehouseLocation': serializer.toJson<String?>(warehouseLocation),
-      'outletLocation': serializer.toJson<String?>(outletLocation),
-      'rackLocation': serializer.toJson<String?>(rackLocation),
-      'weight': serializer.toJson<double?>(weight),
-      'height': serializer.toJson<double?>(height),
-      'manufactureCountry': serializer.toJson<String?>(manufactureCountry),
-      'manufacturedDate': serializer.toJson<DateTime?>(manufacturedDate),
-      'expireDate': serializer.toJson<DateTime?>(expireDate),
-      'averageRating': serializer.toJson<double?>(averageRating),
-      'totalNumberOfRating': serializer.toJson<double?>(totalNumberOfRating),
+      'position': serializer.toJson<int?>(position),
+      'averageRating': serializer.toJson<int?>(averageRating),
+      'totalRating': serializer.toJson<int?>(totalRating),
       'average5PercentRating':
           serializer.toJson<double?>(average5PercentRating),
       'average4PercentRating':
@@ -3316,125 +2828,54 @@ class ProductTableData extends DataClass
           serializer.toJson<double?>(average2PercentRating),
       'average1PercentRating':
           serializer.toJson<double?>(average1PercentRating),
-      'barcode': serializer.toJson<String?>(barcode),
-      'qrcode': serializer.toJson<String?>(qrcode),
-      'taxInPercentage': serializer.toJson<double?>(taxInPercentage),
-      'vatInPercentage': serializer.toJson<double?>(vatInPercentage),
-      'types': serializer.toJson<String?>(types),
-      'tags': serializer.toJson<String?>(tags),
-      'sku': serializer.toJson<String?>(sku),
-      'inventory': serializer.toJson<int?>(inventory),
-      'newFrom': serializer.toJson<DateTime?>(newFrom),
-      'newTill': serializer.toJson<DateTime?>(newTill),
-      'isDownloadable': serializer.toJson<bool?>(isDownloadable),
-      'downloadedFile': serializer.toJson<BigInt?>(downloadedFile),
-      'relatedProducts': serializer.toJson<String?>(relatedProducts),
-      'crossSellProducts': serializer.toJson<String?>(crossSellProducts),
-      'upSellProducts': serializer.toJson<String?>(upSellProducts),
-      'files': serializer.toJson<String?>(files),
-      'createdAt': serializer.toJson<DateTime?>(createdAt),
-      'createdBy': serializer.toJson<String?>(createdBy),
-      'updatedBy': serializer.toJson<String?>(updatedBy),
-      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
-      'shelfLife': serializer.toJson<int?>(shelfLife),
-      'minimumInventory': serializer.toJson<int?>(minimumInventory),
     };
   }
 
   ProductTableData copyWith(
           {Value<int?> sl = const Value.absent(),
-          Value<String?> productId = const Value.absent(),
+          Value<String?> id = const Value.absent(),
+          Value<String?> name = const Value.absent(),
+          Value<bool?> isEnable = const Value.absent(),
+          Value<double?> price = const Value.absent(),
+          Value<bool?> isDiscount = const Value.absent(),
+          Value<double?> discountPrice = const Value.absent(),
+          Value<double?> vatPercentage = const Value.absent(),
+          Value<String?> images = const Value.absent(),
           Value<String?> categoryId = const Value.absent(),
-          Value<int?> position = const Value.absent(),
-          Value<String?> label = const Value.absent(),
           Value<String?> categoryLabel = const Value.absent(),
-          Value<String?> posLabel = const Value.absent(),
           Value<String?> description = const Value.absent(),
           Value<String?> shortDescription = const Value.absent(),
-          Value<double?> price = const Value.absent(),
-          Value<double?> promotionPrice = const Value.absent(),
-          Value<double?> specialPrice = const Value.absent(),
-          Value<double?> advancedPrice = const Value.absent(),
-          Value<bool?> enable = const Value.absent(),
-          Value<String?> warehouseLocation = const Value.absent(),
-          Value<String?> outletLocation = const Value.absent(),
-          Value<String?> rackLocation = const Value.absent(),
-          Value<double?> weight = const Value.absent(),
-          Value<double?> height = const Value.absent(),
-          Value<String?> manufactureCountry = const Value.absent(),
-          Value<DateTime?> manufacturedDate = const Value.absent(),
-          Value<DateTime?> expireDate = const Value.absent(),
-          Value<double?> averageRating = const Value.absent(),
-          Value<double?> totalNumberOfRating = const Value.absent(),
+          Value<int?> position = const Value.absent(),
+          Value<int?> averageRating = const Value.absent(),
+          Value<int?> totalRating = const Value.absent(),
           Value<double?> average5PercentRating = const Value.absent(),
           Value<double?> average4PercentRating = const Value.absent(),
           Value<double?> average3PercentRating = const Value.absent(),
           Value<double?> average2PercentRating = const Value.absent(),
-          Value<double?> average1PercentRating = const Value.absent(),
-          Value<String?> barcode = const Value.absent(),
-          Value<String?> qrcode = const Value.absent(),
-          Value<double?> taxInPercentage = const Value.absent(),
-          Value<double?> vatInPercentage = const Value.absent(),
-          Value<String?> types = const Value.absent(),
-          Value<String?> tags = const Value.absent(),
-          Value<String?> sku = const Value.absent(),
-          Value<int?> inventory = const Value.absent(),
-          Value<DateTime?> newFrom = const Value.absent(),
-          Value<DateTime?> newTill = const Value.absent(),
-          Value<bool?> isDownloadable = const Value.absent(),
-          Value<BigInt?> downloadedFile = const Value.absent(),
-          Value<String?> relatedProducts = const Value.absent(),
-          Value<String?> crossSellProducts = const Value.absent(),
-          Value<String?> upSellProducts = const Value.absent(),
-          Value<String?> files = const Value.absent(),
-          Value<DateTime?> createdAt = const Value.absent(),
-          Value<String?> createdBy = const Value.absent(),
-          Value<String?> updatedBy = const Value.absent(),
-          Value<DateTime?> updatedAt = const Value.absent(),
-          Value<int?> shelfLife = const Value.absent(),
-          Value<int?> minimumInventory = const Value.absent()}) =>
+          Value<double?> average1PercentRating = const Value.absent()}) =>
       ProductTableData(
         sl: sl.present ? sl.value : this.sl,
-        productId: productId.present ? productId.value : this.productId,
+        id: id.present ? id.value : this.id,
+        name: name.present ? name.value : this.name,
+        isEnable: isEnable.present ? isEnable.value : this.isEnable,
+        price: price.present ? price.value : this.price,
+        isDiscount: isDiscount.present ? isDiscount.value : this.isDiscount,
+        discountPrice:
+            discountPrice.present ? discountPrice.value : this.discountPrice,
+        vatPercentage:
+            vatPercentage.present ? vatPercentage.value : this.vatPercentage,
+        images: images.present ? images.value : this.images,
         categoryId: categoryId.present ? categoryId.value : this.categoryId,
-        position: position.present ? position.value : this.position,
-        label: label.present ? label.value : this.label,
         categoryLabel:
             categoryLabel.present ? categoryLabel.value : this.categoryLabel,
-        posLabel: posLabel.present ? posLabel.value : this.posLabel,
         description: description.present ? description.value : this.description,
         shortDescription: shortDescription.present
             ? shortDescription.value
             : this.shortDescription,
-        price: price.present ? price.value : this.price,
-        promotionPrice:
-            promotionPrice.present ? promotionPrice.value : this.promotionPrice,
-        specialPrice:
-            specialPrice.present ? specialPrice.value : this.specialPrice,
-        advancedPrice:
-            advancedPrice.present ? advancedPrice.value : this.advancedPrice,
-        enable: enable.present ? enable.value : this.enable,
-        warehouseLocation: warehouseLocation.present
-            ? warehouseLocation.value
-            : this.warehouseLocation,
-        outletLocation:
-            outletLocation.present ? outletLocation.value : this.outletLocation,
-        rackLocation:
-            rackLocation.present ? rackLocation.value : this.rackLocation,
-        weight: weight.present ? weight.value : this.weight,
-        height: height.present ? height.value : this.height,
-        manufactureCountry: manufactureCountry.present
-            ? manufactureCountry.value
-            : this.manufactureCountry,
-        manufacturedDate: manufacturedDate.present
-            ? manufacturedDate.value
-            : this.manufacturedDate,
-        expireDate: expireDate.present ? expireDate.value : this.expireDate,
+        position: position.present ? position.value : this.position,
         averageRating:
             averageRating.present ? averageRating.value : this.averageRating,
-        totalNumberOfRating: totalNumberOfRating.present
-            ? totalNumberOfRating.value
-            : this.totalNumberOfRating,
+        totalRating: totalRating.present ? totalRating.value : this.totalRating,
         average5PercentRating: average5PercentRating.present
             ? average5PercentRating.value
             : this.average5PercentRating,
@@ -3450,96 +2891,31 @@ class ProductTableData extends DataClass
         average1PercentRating: average1PercentRating.present
             ? average1PercentRating.value
             : this.average1PercentRating,
-        barcode: barcode.present ? barcode.value : this.barcode,
-        qrcode: qrcode.present ? qrcode.value : this.qrcode,
-        taxInPercentage: taxInPercentage.present
-            ? taxInPercentage.value
-            : this.taxInPercentage,
-        vatInPercentage: vatInPercentage.present
-            ? vatInPercentage.value
-            : this.vatInPercentage,
-        types: types.present ? types.value : this.types,
-        tags: tags.present ? tags.value : this.tags,
-        sku: sku.present ? sku.value : this.sku,
-        inventory: inventory.present ? inventory.value : this.inventory,
-        newFrom: newFrom.present ? newFrom.value : this.newFrom,
-        newTill: newTill.present ? newTill.value : this.newTill,
-        isDownloadable:
-            isDownloadable.present ? isDownloadable.value : this.isDownloadable,
-        downloadedFile:
-            downloadedFile.present ? downloadedFile.value : this.downloadedFile,
-        relatedProducts: relatedProducts.present
-            ? relatedProducts.value
-            : this.relatedProducts,
-        crossSellProducts: crossSellProducts.present
-            ? crossSellProducts.value
-            : this.crossSellProducts,
-        upSellProducts:
-            upSellProducts.present ? upSellProducts.value : this.upSellProducts,
-        files: files.present ? files.value : this.files,
-        createdAt: createdAt.present ? createdAt.value : this.createdAt,
-        createdBy: createdBy.present ? createdBy.value : this.createdBy,
-        updatedBy: updatedBy.present ? updatedBy.value : this.updatedBy,
-        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
-        shelfLife: shelfLife.present ? shelfLife.value : this.shelfLife,
-        minimumInventory: minimumInventory.present
-            ? minimumInventory.value
-            : this.minimumInventory,
       );
   @override
   String toString() {
     return (StringBuffer('ProductTableData(')
           ..write('sl: $sl, ')
-          ..write('productId: $productId, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('isEnable: $isEnable, ')
+          ..write('price: $price, ')
+          ..write('isDiscount: $isDiscount, ')
+          ..write('discountPrice: $discountPrice, ')
+          ..write('vatPercentage: $vatPercentage, ')
+          ..write('images: $images, ')
           ..write('categoryId: $categoryId, ')
-          ..write('position: $position, ')
-          ..write('label: $label, ')
           ..write('categoryLabel: $categoryLabel, ')
-          ..write('posLabel: $posLabel, ')
           ..write('description: $description, ')
           ..write('shortDescription: $shortDescription, ')
-          ..write('price: $price, ')
-          ..write('promotionPrice: $promotionPrice, ')
-          ..write('specialPrice: $specialPrice, ')
-          ..write('advancedPrice: $advancedPrice, ')
-          ..write('enable: $enable, ')
-          ..write('warehouseLocation: $warehouseLocation, ')
-          ..write('outletLocation: $outletLocation, ')
-          ..write('rackLocation: $rackLocation, ')
-          ..write('weight: $weight, ')
-          ..write('height: $height, ')
-          ..write('manufactureCountry: $manufactureCountry, ')
-          ..write('manufacturedDate: $manufacturedDate, ')
-          ..write('expireDate: $expireDate, ')
+          ..write('position: $position, ')
           ..write('averageRating: $averageRating, ')
-          ..write('totalNumberOfRating: $totalNumberOfRating, ')
+          ..write('totalRating: $totalRating, ')
           ..write('average5PercentRating: $average5PercentRating, ')
           ..write('average4PercentRating: $average4PercentRating, ')
           ..write('average3PercentRating: $average3PercentRating, ')
           ..write('average2PercentRating: $average2PercentRating, ')
-          ..write('average1PercentRating: $average1PercentRating, ')
-          ..write('barcode: $barcode, ')
-          ..write('qrcode: $qrcode, ')
-          ..write('taxInPercentage: $taxInPercentage, ')
-          ..write('vatInPercentage: $vatInPercentage, ')
-          ..write('types: $types, ')
-          ..write('tags: $tags, ')
-          ..write('sku: $sku, ')
-          ..write('inventory: $inventory, ')
-          ..write('newFrom: $newFrom, ')
-          ..write('newTill: $newTill, ')
-          ..write('isDownloadable: $isDownloadable, ')
-          ..write('downloadedFile: $downloadedFile, ')
-          ..write('relatedProducts: $relatedProducts, ')
-          ..write('crossSellProducts: $crossSellProducts, ')
-          ..write('upSellProducts: $upSellProducts, ')
-          ..write('files: $files, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('createdBy: $createdBy, ')
-          ..write('updatedBy: $updatedBy, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('shelfLife: $shelfLife, ')
-          ..write('minimumInventory: $minimumInventory')
+          ..write('average1PercentRating: $average1PercentRating')
           ..write(')'))
         .toString();
   }
@@ -3547,463 +2923,214 @@ class ProductTableData extends DataClass
   @override
   int get hashCode => Object.hashAll([
         sl,
-        productId,
+        id,
+        name,
+        isEnable,
+        price,
+        isDiscount,
+        discountPrice,
+        vatPercentage,
+        images,
         categoryId,
-        position,
-        label,
         categoryLabel,
-        posLabel,
         description,
         shortDescription,
-        price,
-        promotionPrice,
-        specialPrice,
-        advancedPrice,
-        enable,
-        warehouseLocation,
-        outletLocation,
-        rackLocation,
-        weight,
-        height,
-        manufactureCountry,
-        manufacturedDate,
-        expireDate,
+        position,
         averageRating,
-        totalNumberOfRating,
+        totalRating,
         average5PercentRating,
         average4PercentRating,
         average3PercentRating,
         average2PercentRating,
-        average1PercentRating,
-        barcode,
-        qrcode,
-        taxInPercentage,
-        vatInPercentage,
-        types,
-        tags,
-        sku,
-        inventory,
-        newFrom,
-        newTill,
-        isDownloadable,
-        downloadedFile,
-        relatedProducts,
-        crossSellProducts,
-        upSellProducts,
-        files,
-        createdAt,
-        createdBy,
-        updatedBy,
-        updatedAt,
-        shelfLife,
-        minimumInventory
+        average1PercentRating
       ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ProductTableData &&
           other.sl == this.sl &&
-          other.productId == this.productId &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.isEnable == this.isEnable &&
+          other.price == this.price &&
+          other.isDiscount == this.isDiscount &&
+          other.discountPrice == this.discountPrice &&
+          other.vatPercentage == this.vatPercentage &&
+          other.images == this.images &&
           other.categoryId == this.categoryId &&
-          other.position == this.position &&
-          other.label == this.label &&
           other.categoryLabel == this.categoryLabel &&
-          other.posLabel == this.posLabel &&
           other.description == this.description &&
           other.shortDescription == this.shortDescription &&
-          other.price == this.price &&
-          other.promotionPrice == this.promotionPrice &&
-          other.specialPrice == this.specialPrice &&
-          other.advancedPrice == this.advancedPrice &&
-          other.enable == this.enable &&
-          other.warehouseLocation == this.warehouseLocation &&
-          other.outletLocation == this.outletLocation &&
-          other.rackLocation == this.rackLocation &&
-          other.weight == this.weight &&
-          other.height == this.height &&
-          other.manufactureCountry == this.manufactureCountry &&
-          other.manufacturedDate == this.manufacturedDate &&
-          other.expireDate == this.expireDate &&
+          other.position == this.position &&
           other.averageRating == this.averageRating &&
-          other.totalNumberOfRating == this.totalNumberOfRating &&
+          other.totalRating == this.totalRating &&
           other.average5PercentRating == this.average5PercentRating &&
           other.average4PercentRating == this.average4PercentRating &&
           other.average3PercentRating == this.average3PercentRating &&
           other.average2PercentRating == this.average2PercentRating &&
-          other.average1PercentRating == this.average1PercentRating &&
-          other.barcode == this.barcode &&
-          other.qrcode == this.qrcode &&
-          other.taxInPercentage == this.taxInPercentage &&
-          other.vatInPercentage == this.vatInPercentage &&
-          other.types == this.types &&
-          other.tags == this.tags &&
-          other.sku == this.sku &&
-          other.inventory == this.inventory &&
-          other.newFrom == this.newFrom &&
-          other.newTill == this.newTill &&
-          other.isDownloadable == this.isDownloadable &&
-          other.downloadedFile == this.downloadedFile &&
-          other.relatedProducts == this.relatedProducts &&
-          other.crossSellProducts == this.crossSellProducts &&
-          other.upSellProducts == this.upSellProducts &&
-          other.files == this.files &&
-          other.createdAt == this.createdAt &&
-          other.createdBy == this.createdBy &&
-          other.updatedBy == this.updatedBy &&
-          other.updatedAt == this.updatedAt &&
-          other.shelfLife == this.shelfLife &&
-          other.minimumInventory == this.minimumInventory);
+          other.average1PercentRating == this.average1PercentRating);
 }
 
 class ProductTableCompanion extends UpdateCompanion<ProductTableData> {
   final Value<int?> sl;
-  final Value<String?> productId;
+  final Value<String?> id;
+  final Value<String?> name;
+  final Value<bool?> isEnable;
+  final Value<double?> price;
+  final Value<bool?> isDiscount;
+  final Value<double?> discountPrice;
+  final Value<double?> vatPercentage;
+  final Value<String?> images;
   final Value<String?> categoryId;
-  final Value<int?> position;
-  final Value<String?> label;
   final Value<String?> categoryLabel;
-  final Value<String?> posLabel;
   final Value<String?> description;
   final Value<String?> shortDescription;
-  final Value<double?> price;
-  final Value<double?> promotionPrice;
-  final Value<double?> specialPrice;
-  final Value<double?> advancedPrice;
-  final Value<bool?> enable;
-  final Value<String?> warehouseLocation;
-  final Value<String?> outletLocation;
-  final Value<String?> rackLocation;
-  final Value<double?> weight;
-  final Value<double?> height;
-  final Value<String?> manufactureCountry;
-  final Value<DateTime?> manufacturedDate;
-  final Value<DateTime?> expireDate;
-  final Value<double?> averageRating;
-  final Value<double?> totalNumberOfRating;
+  final Value<int?> position;
+  final Value<int?> averageRating;
+  final Value<int?> totalRating;
   final Value<double?> average5PercentRating;
   final Value<double?> average4PercentRating;
   final Value<double?> average3PercentRating;
   final Value<double?> average2PercentRating;
   final Value<double?> average1PercentRating;
-  final Value<String?> barcode;
-  final Value<String?> qrcode;
-  final Value<double?> taxInPercentage;
-  final Value<double?> vatInPercentage;
-  final Value<String?> types;
-  final Value<String?> tags;
-  final Value<String?> sku;
-  final Value<int?> inventory;
-  final Value<DateTime?> newFrom;
-  final Value<DateTime?> newTill;
-  final Value<bool?> isDownloadable;
-  final Value<BigInt?> downloadedFile;
-  final Value<String?> relatedProducts;
-  final Value<String?> crossSellProducts;
-  final Value<String?> upSellProducts;
-  final Value<String?> files;
-  final Value<DateTime?> createdAt;
-  final Value<String?> createdBy;
-  final Value<String?> updatedBy;
-  final Value<DateTime?> updatedAt;
-  final Value<int?> shelfLife;
-  final Value<int?> minimumInventory;
   const ProductTableCompanion({
     this.sl = const Value.absent(),
-    this.productId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.isEnable = const Value.absent(),
+    this.price = const Value.absent(),
+    this.isDiscount = const Value.absent(),
+    this.discountPrice = const Value.absent(),
+    this.vatPercentage = const Value.absent(),
+    this.images = const Value.absent(),
     this.categoryId = const Value.absent(),
-    this.position = const Value.absent(),
-    this.label = const Value.absent(),
     this.categoryLabel = const Value.absent(),
-    this.posLabel = const Value.absent(),
     this.description = const Value.absent(),
     this.shortDescription = const Value.absent(),
-    this.price = const Value.absent(),
-    this.promotionPrice = const Value.absent(),
-    this.specialPrice = const Value.absent(),
-    this.advancedPrice = const Value.absent(),
-    this.enable = const Value.absent(),
-    this.warehouseLocation = const Value.absent(),
-    this.outletLocation = const Value.absent(),
-    this.rackLocation = const Value.absent(),
-    this.weight = const Value.absent(),
-    this.height = const Value.absent(),
-    this.manufactureCountry = const Value.absent(),
-    this.manufacturedDate = const Value.absent(),
-    this.expireDate = const Value.absent(),
+    this.position = const Value.absent(),
     this.averageRating = const Value.absent(),
-    this.totalNumberOfRating = const Value.absent(),
+    this.totalRating = const Value.absent(),
     this.average5PercentRating = const Value.absent(),
     this.average4PercentRating = const Value.absent(),
     this.average3PercentRating = const Value.absent(),
     this.average2PercentRating = const Value.absent(),
     this.average1PercentRating = const Value.absent(),
-    this.barcode = const Value.absent(),
-    this.qrcode = const Value.absent(),
-    this.taxInPercentage = const Value.absent(),
-    this.vatInPercentage = const Value.absent(),
-    this.types = const Value.absent(),
-    this.tags = const Value.absent(),
-    this.sku = const Value.absent(),
-    this.inventory = const Value.absent(),
-    this.newFrom = const Value.absent(),
-    this.newTill = const Value.absent(),
-    this.isDownloadable = const Value.absent(),
-    this.downloadedFile = const Value.absent(),
-    this.relatedProducts = const Value.absent(),
-    this.crossSellProducts = const Value.absent(),
-    this.upSellProducts = const Value.absent(),
-    this.files = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.createdBy = const Value.absent(),
-    this.updatedBy = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-    this.shelfLife = const Value.absent(),
-    this.minimumInventory = const Value.absent(),
   });
   ProductTableCompanion.insert({
     this.sl = const Value.absent(),
-    this.productId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.isEnable = const Value.absent(),
+    this.price = const Value.absent(),
+    this.isDiscount = const Value.absent(),
+    this.discountPrice = const Value.absent(),
+    this.vatPercentage = const Value.absent(),
+    this.images = const Value.absent(),
     this.categoryId = const Value.absent(),
-    this.position = const Value.absent(),
-    this.label = const Value.absent(),
     this.categoryLabel = const Value.absent(),
-    this.posLabel = const Value.absent(),
     this.description = const Value.absent(),
     this.shortDescription = const Value.absent(),
-    this.price = const Value.absent(),
-    this.promotionPrice = const Value.absent(),
-    this.specialPrice = const Value.absent(),
-    this.advancedPrice = const Value.absent(),
-    this.enable = const Value.absent(),
-    this.warehouseLocation = const Value.absent(),
-    this.outletLocation = const Value.absent(),
-    this.rackLocation = const Value.absent(),
-    this.weight = const Value.absent(),
-    this.height = const Value.absent(),
-    this.manufactureCountry = const Value.absent(),
-    this.manufacturedDate = const Value.absent(),
-    this.expireDate = const Value.absent(),
+    this.position = const Value.absent(),
     this.averageRating = const Value.absent(),
-    this.totalNumberOfRating = const Value.absent(),
+    this.totalRating = const Value.absent(),
     this.average5PercentRating = const Value.absent(),
     this.average4PercentRating = const Value.absent(),
     this.average3PercentRating = const Value.absent(),
     this.average2PercentRating = const Value.absent(),
     this.average1PercentRating = const Value.absent(),
-    this.barcode = const Value.absent(),
-    this.qrcode = const Value.absent(),
-    this.taxInPercentage = const Value.absent(),
-    this.vatInPercentage = const Value.absent(),
-    this.types = const Value.absent(),
-    this.tags = const Value.absent(),
-    this.sku = const Value.absent(),
-    this.inventory = const Value.absent(),
-    this.newFrom = const Value.absent(),
-    this.newTill = const Value.absent(),
-    this.isDownloadable = const Value.absent(),
-    this.downloadedFile = const Value.absent(),
-    this.relatedProducts = const Value.absent(),
-    this.crossSellProducts = const Value.absent(),
-    this.upSellProducts = const Value.absent(),
-    this.files = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.createdBy = const Value.absent(),
-    this.updatedBy = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-    this.shelfLife = const Value.absent(),
-    this.minimumInventory = const Value.absent(),
   });
   static Insertable<ProductTableData> custom({
     Expression<int>? sl,
-    Expression<String>? productId,
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<bool>? isEnable,
+    Expression<double>? price,
+    Expression<bool>? isDiscount,
+    Expression<double>? discountPrice,
+    Expression<double>? vatPercentage,
+    Expression<String>? images,
     Expression<String>? categoryId,
-    Expression<int>? position,
-    Expression<String>? label,
     Expression<String>? categoryLabel,
-    Expression<String>? posLabel,
     Expression<String>? description,
     Expression<String>? shortDescription,
-    Expression<double>? price,
-    Expression<double>? promotionPrice,
-    Expression<double>? specialPrice,
-    Expression<double>? advancedPrice,
-    Expression<bool>? enable,
-    Expression<String>? warehouseLocation,
-    Expression<String>? outletLocation,
-    Expression<String>? rackLocation,
-    Expression<double>? weight,
-    Expression<double>? height,
-    Expression<String>? manufactureCountry,
-    Expression<DateTime>? manufacturedDate,
-    Expression<DateTime>? expireDate,
-    Expression<double>? averageRating,
-    Expression<double>? totalNumberOfRating,
+    Expression<int>? position,
+    Expression<int>? averageRating,
+    Expression<int>? totalRating,
     Expression<double>? average5PercentRating,
     Expression<double>? average4PercentRating,
     Expression<double>? average3PercentRating,
     Expression<double>? average2PercentRating,
     Expression<double>? average1PercentRating,
-    Expression<String>? barcode,
-    Expression<String>? qrcode,
-    Expression<double>? taxInPercentage,
-    Expression<double>? vatInPercentage,
-    Expression<String>? types,
-    Expression<String>? tags,
-    Expression<String>? sku,
-    Expression<int>? inventory,
-    Expression<DateTime>? newFrom,
-    Expression<DateTime>? newTill,
-    Expression<bool>? isDownloadable,
-    Expression<BigInt>? downloadedFile,
-    Expression<String>? relatedProducts,
-    Expression<String>? crossSellProducts,
-    Expression<String>? upSellProducts,
-    Expression<String>? files,
-    Expression<DateTime>? createdAt,
-    Expression<String>? createdBy,
-    Expression<String>? updatedBy,
-    Expression<DateTime>? updatedAt,
-    Expression<int>? shelfLife,
-    Expression<int>? minimumInventory,
   }) {
     return RawValuesInsertable({
       if (sl != null) 'sl': sl,
-      if (productId != null) 'product_id': productId,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (isEnable != null) 'is_enable': isEnable,
+      if (price != null) 'price': price,
+      if (isDiscount != null) 'is_disoucnt': isDiscount,
+      if (discountPrice != null) 'disoucnt_price': discountPrice,
+      if (vatPercentage != null) 'vatpercentage': vatPercentage,
+      if (images != null) 'images': images,
       if (categoryId != null) 'category_id': categoryId,
-      if (position != null) 'position': position,
-      if (label != null) 'label': label,
       if (categoryLabel != null) 'category_label': categoryLabel,
-      if (posLabel != null) 'pos_label': posLabel,
       if (description != null) 'description': description,
       if (shortDescription != null) 'short_description': shortDescription,
-      if (price != null) 'price': price,
-      if (promotionPrice != null) 'promotion_price': promotionPrice,
-      if (specialPrice != null) 'special_price': specialPrice,
-      if (advancedPrice != null) 'advanced_price': advancedPrice,
-      if (enable != null) 'enable': enable,
-      if (warehouseLocation != null) 'warehouse_location': warehouseLocation,
-      if (outletLocation != null) 'outlet_location': outletLocation,
-      if (rackLocation != null) 'rack_location': rackLocation,
-      if (weight != null) 'weight': weight,
-      if (height != null) 'height': height,
-      if (manufactureCountry != null) 'manufacture_country': manufactureCountry,
-      if (manufacturedDate != null) 'manufactured_date': manufacturedDate,
-      if (expireDate != null) 'expire_date': expireDate,
+      if (position != null) 'position': position,
       if (averageRating != null) 'average_rating': averageRating,
-      if (totalNumberOfRating != null)
-        'total_number_of_rating': totalNumberOfRating,
+      if (totalRating != null) 'total_rating': totalRating,
       if (average5PercentRating != null)
-        'average5_percent_rating': average5PercentRating,
+        'average_5_percent_rating': average5PercentRating,
       if (average4PercentRating != null)
-        'average4_percent_rating': average4PercentRating,
+        'average_4_percent_rating': average4PercentRating,
       if (average3PercentRating != null)
-        'average3_percent_rating': average3PercentRating,
+        'average_3_percent_rating': average3PercentRating,
       if (average2PercentRating != null)
-        'average2_percent_rating': average2PercentRating,
+        'average_2_percent_rating': average2PercentRating,
       if (average1PercentRating != null)
-        'average1_percent_rating': average1PercentRating,
-      if (barcode != null) 'barcode': barcode,
-      if (qrcode != null) 'qrcode': qrcode,
-      if (taxInPercentage != null) 'tax_in_percentage': taxInPercentage,
-      if (vatInPercentage != null) 'vat_in_percentage': vatInPercentage,
-      if (types != null) 'types': types,
-      if (tags != null) 'tags': tags,
-      if (sku != null) 'sku': sku,
-      if (inventory != null) 'inventory': inventory,
-      if (newFrom != null) 'new_from': newFrom,
-      if (newTill != null) 'new_till': newTill,
-      if (isDownloadable != null) 'is_downloadable': isDownloadable,
-      if (downloadedFile != null) 'downloaded_file': downloadedFile,
-      if (relatedProducts != null) 'related_products': relatedProducts,
-      if (crossSellProducts != null) 'cross_sell_products': crossSellProducts,
-      if (upSellProducts != null) 'up_sell_products': upSellProducts,
-      if (files != null) 'files': files,
-      if (createdAt != null) 'created_at': createdAt,
-      if (createdBy != null) 'created_by': createdBy,
-      if (updatedBy != null) 'updated_by': updatedBy,
-      if (updatedAt != null) 'updated_at': updatedAt,
-      if (shelfLife != null) 'shelf_life': shelfLife,
-      if (minimumInventory != null) 'minimum_inventory': minimumInventory,
+        'average_1_percent_rating': average1PercentRating,
     });
   }
 
   ProductTableCompanion copyWith(
       {Value<int?>? sl,
-      Value<String?>? productId,
+      Value<String?>? id,
+      Value<String?>? name,
+      Value<bool?>? isEnable,
+      Value<double?>? price,
+      Value<bool?>? isDiscount,
+      Value<double?>? discountPrice,
+      Value<double?>? vatPercentage,
+      Value<String?>? images,
       Value<String?>? categoryId,
-      Value<int?>? position,
-      Value<String?>? label,
       Value<String?>? categoryLabel,
-      Value<String?>? posLabel,
       Value<String?>? description,
       Value<String?>? shortDescription,
-      Value<double?>? price,
-      Value<double?>? promotionPrice,
-      Value<double?>? specialPrice,
-      Value<double?>? advancedPrice,
-      Value<bool?>? enable,
-      Value<String?>? warehouseLocation,
-      Value<String?>? outletLocation,
-      Value<String?>? rackLocation,
-      Value<double?>? weight,
-      Value<double?>? height,
-      Value<String?>? manufactureCountry,
-      Value<DateTime?>? manufacturedDate,
-      Value<DateTime?>? expireDate,
-      Value<double?>? averageRating,
-      Value<double?>? totalNumberOfRating,
+      Value<int?>? position,
+      Value<int?>? averageRating,
+      Value<int?>? totalRating,
       Value<double?>? average5PercentRating,
       Value<double?>? average4PercentRating,
       Value<double?>? average3PercentRating,
       Value<double?>? average2PercentRating,
-      Value<double?>? average1PercentRating,
-      Value<String?>? barcode,
-      Value<String?>? qrcode,
-      Value<double?>? taxInPercentage,
-      Value<double?>? vatInPercentage,
-      Value<String?>? types,
-      Value<String?>? tags,
-      Value<String?>? sku,
-      Value<int?>? inventory,
-      Value<DateTime?>? newFrom,
-      Value<DateTime?>? newTill,
-      Value<bool?>? isDownloadable,
-      Value<BigInt?>? downloadedFile,
-      Value<String?>? relatedProducts,
-      Value<String?>? crossSellProducts,
-      Value<String?>? upSellProducts,
-      Value<String?>? files,
-      Value<DateTime?>? createdAt,
-      Value<String?>? createdBy,
-      Value<String?>? updatedBy,
-      Value<DateTime?>? updatedAt,
-      Value<int?>? shelfLife,
-      Value<int?>? minimumInventory}) {
+      Value<double?>? average1PercentRating}) {
     return ProductTableCompanion(
       sl: sl ?? this.sl,
-      productId: productId ?? this.productId,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      isEnable: isEnable ?? this.isEnable,
+      price: price ?? this.price,
+      isDiscount: isDiscount ?? this.isDiscount,
+      discountPrice: discountPrice ?? this.discountPrice,
+      vatPercentage: vatPercentage ?? this.vatPercentage,
+      images: images ?? this.images,
       categoryId: categoryId ?? this.categoryId,
-      position: position ?? this.position,
-      label: label ?? this.label,
       categoryLabel: categoryLabel ?? this.categoryLabel,
-      posLabel: posLabel ?? this.posLabel,
       description: description ?? this.description,
       shortDescription: shortDescription ?? this.shortDescription,
-      price: price ?? this.price,
-      promotionPrice: promotionPrice ?? this.promotionPrice,
-      specialPrice: specialPrice ?? this.specialPrice,
-      advancedPrice: advancedPrice ?? this.advancedPrice,
-      enable: enable ?? this.enable,
-      warehouseLocation: warehouseLocation ?? this.warehouseLocation,
-      outletLocation: outletLocation ?? this.outletLocation,
-      rackLocation: rackLocation ?? this.rackLocation,
-      weight: weight ?? this.weight,
-      height: height ?? this.height,
-      manufactureCountry: manufactureCountry ?? this.manufactureCountry,
-      manufacturedDate: manufacturedDate ?? this.manufacturedDate,
-      expireDate: expireDate ?? this.expireDate,
+      position: position ?? this.position,
       averageRating: averageRating ?? this.averageRating,
-      totalNumberOfRating: totalNumberOfRating ?? this.totalNumberOfRating,
+      totalRating: totalRating ?? this.totalRating,
       average5PercentRating:
           average5PercentRating ?? this.average5PercentRating,
       average4PercentRating:
@@ -4014,28 +3141,6 @@ class ProductTableCompanion extends UpdateCompanion<ProductTableData> {
           average2PercentRating ?? this.average2PercentRating,
       average1PercentRating:
           average1PercentRating ?? this.average1PercentRating,
-      barcode: barcode ?? this.barcode,
-      qrcode: qrcode ?? this.qrcode,
-      taxInPercentage: taxInPercentage ?? this.taxInPercentage,
-      vatInPercentage: vatInPercentage ?? this.vatInPercentage,
-      types: types ?? this.types,
-      tags: tags ?? this.tags,
-      sku: sku ?? this.sku,
-      inventory: inventory ?? this.inventory,
-      newFrom: newFrom ?? this.newFrom,
-      newTill: newTill ?? this.newTill,
-      isDownloadable: isDownloadable ?? this.isDownloadable,
-      downloadedFile: downloadedFile ?? this.downloadedFile,
-      relatedProducts: relatedProducts ?? this.relatedProducts,
-      crossSellProducts: crossSellProducts ?? this.crossSellProducts,
-      upSellProducts: upSellProducts ?? this.upSellProducts,
-      files: files ?? this.files,
-      createdAt: createdAt ?? this.createdAt,
-      createdBy: createdBy ?? this.createdBy,
-      updatedBy: updatedBy ?? this.updatedBy,
-      updatedAt: updatedAt ?? this.updatedAt,
-      shelfLife: shelfLife ?? this.shelfLife,
-      minimumInventory: minimumInventory ?? this.minimumInventory,
     );
   }
 
@@ -4045,23 +3150,35 @@ class ProductTableCompanion extends UpdateCompanion<ProductTableData> {
     if (sl.present) {
       map['sl'] = Variable<int>(sl.value);
     }
-    if (productId.present) {
-      map['product_id'] = Variable<String>(productId.value);
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (isEnable.present) {
+      map['is_enable'] = Variable<bool>(isEnable.value);
+    }
+    if (price.present) {
+      map['price'] = Variable<double>(price.value);
+    }
+    if (isDiscount.present) {
+      map['is_disoucnt'] = Variable<bool>(isDiscount.value);
+    }
+    if (discountPrice.present) {
+      map['disoucnt_price'] = Variable<double>(discountPrice.value);
+    }
+    if (vatPercentage.present) {
+      map['vatpercentage'] = Variable<double>(vatPercentage.value);
+    }
+    if (images.present) {
+      map['images'] = Variable<String>(images.value);
     }
     if (categoryId.present) {
       map['category_id'] = Variable<String>(categoryId.value);
     }
-    if (position.present) {
-      map['position'] = Variable<int>(position.value);
-    }
-    if (label.present) {
-      map['label'] = Variable<String>(label.value);
-    }
     if (categoryLabel.present) {
       map['category_label'] = Variable<String>(categoryLabel.value);
-    }
-    if (posLabel.present) {
-      map['pos_label'] = Variable<String>(posLabel.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -4069,137 +3186,34 @@ class ProductTableCompanion extends UpdateCompanion<ProductTableData> {
     if (shortDescription.present) {
       map['short_description'] = Variable<String>(shortDescription.value);
     }
-    if (price.present) {
-      map['price'] = Variable<double>(price.value);
-    }
-    if (promotionPrice.present) {
-      map['promotion_price'] = Variable<double>(promotionPrice.value);
-    }
-    if (specialPrice.present) {
-      map['special_price'] = Variable<double>(specialPrice.value);
-    }
-    if (advancedPrice.present) {
-      map['advanced_price'] = Variable<double>(advancedPrice.value);
-    }
-    if (enable.present) {
-      map['enable'] = Variable<bool>(enable.value);
-    }
-    if (warehouseLocation.present) {
-      map['warehouse_location'] = Variable<String>(warehouseLocation.value);
-    }
-    if (outletLocation.present) {
-      map['outlet_location'] = Variable<String>(outletLocation.value);
-    }
-    if (rackLocation.present) {
-      map['rack_location'] = Variable<String>(rackLocation.value);
-    }
-    if (weight.present) {
-      map['weight'] = Variable<double>(weight.value);
-    }
-    if (height.present) {
-      map['height'] = Variable<double>(height.value);
-    }
-    if (manufactureCountry.present) {
-      map['manufacture_country'] = Variable<String>(manufactureCountry.value);
-    }
-    if (manufacturedDate.present) {
-      map['manufactured_date'] = Variable<DateTime>(manufacturedDate.value);
-    }
-    if (expireDate.present) {
-      map['expire_date'] = Variable<DateTime>(expireDate.value);
+    if (position.present) {
+      map['position'] = Variable<int>(position.value);
     }
     if (averageRating.present) {
-      map['average_rating'] = Variable<double>(averageRating.value);
+      map['average_rating'] = Variable<int>(averageRating.value);
     }
-    if (totalNumberOfRating.present) {
-      map['total_number_of_rating'] =
-          Variable<double>(totalNumberOfRating.value);
+    if (totalRating.present) {
+      map['total_rating'] = Variable<int>(totalRating.value);
     }
     if (average5PercentRating.present) {
-      map['average5_percent_rating'] =
+      map['average_5_percent_rating'] =
           Variable<double>(average5PercentRating.value);
     }
     if (average4PercentRating.present) {
-      map['average4_percent_rating'] =
+      map['average_4_percent_rating'] =
           Variable<double>(average4PercentRating.value);
     }
     if (average3PercentRating.present) {
-      map['average3_percent_rating'] =
+      map['average_3_percent_rating'] =
           Variable<double>(average3PercentRating.value);
     }
     if (average2PercentRating.present) {
-      map['average2_percent_rating'] =
+      map['average_2_percent_rating'] =
           Variable<double>(average2PercentRating.value);
     }
     if (average1PercentRating.present) {
-      map['average1_percent_rating'] =
+      map['average_1_percent_rating'] =
           Variable<double>(average1PercentRating.value);
-    }
-    if (barcode.present) {
-      map['barcode'] = Variable<String>(barcode.value);
-    }
-    if (qrcode.present) {
-      map['qrcode'] = Variable<String>(qrcode.value);
-    }
-    if (taxInPercentage.present) {
-      map['tax_in_percentage'] = Variable<double>(taxInPercentage.value);
-    }
-    if (vatInPercentage.present) {
-      map['vat_in_percentage'] = Variable<double>(vatInPercentage.value);
-    }
-    if (types.present) {
-      map['types'] = Variable<String>(types.value);
-    }
-    if (tags.present) {
-      map['tags'] = Variable<String>(tags.value);
-    }
-    if (sku.present) {
-      map['sku'] = Variable<String>(sku.value);
-    }
-    if (inventory.present) {
-      map['inventory'] = Variable<int>(inventory.value);
-    }
-    if (newFrom.present) {
-      map['new_from'] = Variable<DateTime>(newFrom.value);
-    }
-    if (newTill.present) {
-      map['new_till'] = Variable<DateTime>(newTill.value);
-    }
-    if (isDownloadable.present) {
-      map['is_downloadable'] = Variable<bool>(isDownloadable.value);
-    }
-    if (downloadedFile.present) {
-      map['downloaded_file'] = Variable<BigInt>(downloadedFile.value);
-    }
-    if (relatedProducts.present) {
-      map['related_products'] = Variable<String>(relatedProducts.value);
-    }
-    if (crossSellProducts.present) {
-      map['cross_sell_products'] = Variable<String>(crossSellProducts.value);
-    }
-    if (upSellProducts.present) {
-      map['up_sell_products'] = Variable<String>(upSellProducts.value);
-    }
-    if (files.present) {
-      map['files'] = Variable<String>(files.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (createdBy.present) {
-      map['created_by'] = Variable<String>(createdBy.value);
-    }
-    if (updatedBy.present) {
-      map['updated_by'] = Variable<String>(updatedBy.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime>(updatedAt.value);
-    }
-    if (shelfLife.present) {
-      map['shelf_life'] = Variable<int>(shelfLife.value);
-    }
-    if (minimumInventory.present) {
-      map['minimum_inventory'] = Variable<int>(minimumInventory.value);
     }
     return map;
   }
@@ -4208,56 +3222,26 @@ class ProductTableCompanion extends UpdateCompanion<ProductTableData> {
   String toString() {
     return (StringBuffer('ProductTableCompanion(')
           ..write('sl: $sl, ')
-          ..write('productId: $productId, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('isEnable: $isEnable, ')
+          ..write('price: $price, ')
+          ..write('isDiscount: $isDiscount, ')
+          ..write('discountPrice: $discountPrice, ')
+          ..write('vatPercentage: $vatPercentage, ')
+          ..write('images: $images, ')
           ..write('categoryId: $categoryId, ')
-          ..write('position: $position, ')
-          ..write('label: $label, ')
           ..write('categoryLabel: $categoryLabel, ')
-          ..write('posLabel: $posLabel, ')
           ..write('description: $description, ')
           ..write('shortDescription: $shortDescription, ')
-          ..write('price: $price, ')
-          ..write('promotionPrice: $promotionPrice, ')
-          ..write('specialPrice: $specialPrice, ')
-          ..write('advancedPrice: $advancedPrice, ')
-          ..write('enable: $enable, ')
-          ..write('warehouseLocation: $warehouseLocation, ')
-          ..write('outletLocation: $outletLocation, ')
-          ..write('rackLocation: $rackLocation, ')
-          ..write('weight: $weight, ')
-          ..write('height: $height, ')
-          ..write('manufactureCountry: $manufactureCountry, ')
-          ..write('manufacturedDate: $manufacturedDate, ')
-          ..write('expireDate: $expireDate, ')
+          ..write('position: $position, ')
           ..write('averageRating: $averageRating, ')
-          ..write('totalNumberOfRating: $totalNumberOfRating, ')
+          ..write('totalRating: $totalRating, ')
           ..write('average5PercentRating: $average5PercentRating, ')
           ..write('average4PercentRating: $average4PercentRating, ')
           ..write('average3PercentRating: $average3PercentRating, ')
           ..write('average2PercentRating: $average2PercentRating, ')
-          ..write('average1PercentRating: $average1PercentRating, ')
-          ..write('barcode: $barcode, ')
-          ..write('qrcode: $qrcode, ')
-          ..write('taxInPercentage: $taxInPercentage, ')
-          ..write('vatInPercentage: $vatInPercentage, ')
-          ..write('types: $types, ')
-          ..write('tags: $tags, ')
-          ..write('sku: $sku, ')
-          ..write('inventory: $inventory, ')
-          ..write('newFrom: $newFrom, ')
-          ..write('newTill: $newTill, ')
-          ..write('isDownloadable: $isDownloadable, ')
-          ..write('downloadedFile: $downloadedFile, ')
-          ..write('relatedProducts: $relatedProducts, ')
-          ..write('crossSellProducts: $crossSellProducts, ')
-          ..write('upSellProducts: $upSellProducts, ')
-          ..write('files: $files, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('createdBy: $createdBy, ')
-          ..write('updatedBy: $updatedBy, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('shelfLife: $shelfLife, ')
-          ..write('minimumInventory: $minimumInventory')
+          ..write('average1PercentRating: $average1PercentRating')
           ..write(')'))
         .toString();
   }
@@ -4267,11 +3251,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $CategoryTableTable categoryTable = $CategoryTableTable(this);
   late final $OrderTableTable orderTable = $OrderTableTable(this);
+  late final $ItemTableTable itemTable = $ItemTableTable(this);
   late final $ProductTableTable productTable = $ProductTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [categoryTable, orderTable, productTable];
+      [categoryTable, orderTable, itemTable, productTable];
 }

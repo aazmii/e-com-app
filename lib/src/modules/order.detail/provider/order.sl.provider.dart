@@ -1,81 +1,55 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/models/order/item.dart';
-import 'package:pos_sq/src/models/order/order.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
-final orderProvider = NotifierProvider<OrderProvider, Order>(OrderProvider.new);
+final orderSlProvider =
+    NotifierProvider<OrderProvider, int?>(OrderProvider.new);
 
-class OrderProvider extends Notifier<Order> {
+class OrderProvider extends Notifier<int?> {
   @override
-  Order build() => Order();
+  int? build() => null;
 
-  Future addToCart(Product? product) async {
+  void set(int sl) => state = sl;
+
+  Future onItemPress(Product? product) async {
+    ItemTable().getItems(orderSerial: state!);
     if (product == null) return;
-    // final item = Item.fromProduct(product);
-    // await state.addItem(
-    //   item.copyWith(count: 1, price: product.price ?? 1),
-    // );
-    // print(isUpdated);
-    // if (!isUpdated) return;
-    // List<Item> items = state.value?.items ?? [];
-    // items.add(item);
-    // state = AsyncData(state.value!.copyWith(items: items));
+
+    // print(await ItemDb().getItems(orderSerial: state!));
+    // final isInCart = (await ItemDb().getItems(orderSerial: state!))
+    //     .contains(product.toTableData());
+    // print(isInCart);
+
+    // print(Item.fromProduct(product));
+
+    // await ItemDb().insertItem(
+    //     Item.fromProduct(product).copyWith(count: 1).toTableData(), state!);
   }
 
-  Future removeItemFromCart(Item item) async {
-    // await state.removeItem(item.id!);
-    // if (!isUpdated) return;
-    // List<Item> items = state.value?.items ?? [];
-    // items.remove(item);
-    // state = AsyncData(state.value!.copyWith(items: items));
-  }
+  Future removeItemFromCart(Item item) async {}
 
   Future<void> onQuantityAdd(Item? item) async {
     if (item == null) return;
-    print(state);
-    // await state.increaseQuantity(item.id!);
-    // final updatedItems = state.items!.map((m) {
-    //   if (m.id == item.id) {
-    //     return m.copyWith(count: m.count! + 1);
-    //   } else {
-    //     return m;
-    //   }
-    // }).toList();
-    // state = state.copyWith(items: updatedItems);
   }
 
-  Future<void> onQuantityRemove(Item? item) async {
-    // if (item == null) return;
-    // if (await state.decreaseQuantity(item)) {
-    //   item = item.copyWith(count: item.count! - 1);
-
-    //   List<Item> updatedItems = state.items!.map((m) {
-    //     if (m.id == item!.id) {
-    //       return m.copyWith(count: m.count! - 1);
-    //     } else {
-    //       return m;
-    //     }
-    //   }).toList();
-    //   state = state.copyWith(items: updatedItems);
-    // }
-  }
-
-  void setOrder(Order o) => state = o;
+  Future<void> onQuantityRemove(Item? item) async {}
 
   Future resetOrder() async {
-    // return state = AsyncData(await getNewOrderFromDb());
+    final orders = (await OrderDb().getAllOrders());
+    if (orders.isNotEmpty) {
+      return orders.last.sl;
+    } else {
+      final orderTime = DateTime.now();
+      OrderDb().insetOrder(OrderTableCompanion(
+        orderDateTime: Value(orderTime),
+      ));
+      return (await OrderDb().getOrderBySavedTime(orderTime)).sl;
+    }
   }
-
-  // Future<Order> getNewOrderFromDb() async {
-  //   await Order(orderTime: DateTime.now())
-  //       .saveInLocalDb(await LocalDB.database);
-
-  //   return Order.fromDbMap(await LocalDB.getLastItem('orders'));
-  // }
 }
-
-
-
 
 // final orderProvider =
 //     AsyncNotifierProvider<OrderProvider, Order>(OrderProvider.new);

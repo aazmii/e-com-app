@@ -6,8 +6,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/modules/cart.table/cart.components.dart';
 import 'package:pos_sq/src/modules/cart.table/provider/cart.state.provider.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
-
+import 'package:pos_sq/src/modules/order.detail/provider/providers.dart';
 import 'components/collapse.button.dart';
 import 'components/collapsed.view.dart';
 
@@ -18,123 +17,65 @@ class Cart extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final order = ref.watch(orderProvider);
-    return ref.watch(cartStateProvider) == CartState.collapsed
-        ? const CollapsedView()
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (order.items != null)
-                ...List.generate(
-                  order.items!.length,
-                  (i) => Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        color: i % 2 == 0 ? Colors.transparent : Colors.white60,
-                        child: _CustomRow(
-                          flexes: _flexes,
-                          sl: i + 1,
-                          item: order.items![i],
+    return ref.watch(selectedOrderStream).when(
+        data: (order) {
+          return ref.watch(cartStateProvider) == CartState.collapsed
+              ? const CollapsedView()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (order.items != null && order.items.isNotEmpty)
+                      ...List.generate(
+                        order.items.length,
+                        (i) => Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              color: i % 2 == 0
+                                  ? Colors.transparent
+                                  : Colors.white60,
+                              child: _CustomRow(
+                                flexes: _flexes,
+                                sl: i + 1,
+                                item: order.items[i],
+                              ),
+                            ),
+                            const Divider()
+                          ],
                         ),
                       ),
-                      const Divider()
-                    ],
-                  ),
-                ),
-              AddNewItemRow(flexes: _flexes),
-              const Divider(),
-              const CustomTableRow(
-                title: 'Gross Total',
-                value: 23.42,
-              ),
-              const Divider(),
-              const CustomTableRow(
-                title: 'Total Vat',
-                value: 23.42,
-              ),
-              const Divider(),
-              const CustomTableRow(
-                title: 'Total Tax',
-                value: 23.42,
-              ),
-              const Divider(),
-              const CustomTableRow(
-                title: 'Net Total',
-                value: 23.42,
-              ),
-              const Divider(),
-              CartStateButton(
-                onPressed: ref.read(cartStateProvider.notifier).toggleCartState,
-              ),
-            ],
-          );
+                    AddNewItemRow(flexes: _flexes),
+                    const Divider(),
+                    const CustomTableRow(
+                      title: 'Gross Total',
+                      value: 23.42,
+                    ),
+                    const Divider(),
+                    const CustomTableRow(
+                      title: 'Total Vat',
+                      value: 23.42,
+                    ),
+                    const Divider(),
+                    const CustomTableRow(
+                      title: 'Total Tax',
+                      value: 23.42,
+                    ),
+                    const Divider(),
+                    const CustomTableRow(
+                      title: 'Net Total',
+                      value: 23.42,
+                    ),
+                    const Divider(),
+                    CartStateButton(
+                      onPressed:
+                          ref.read(cartStateProvider.notifier).toggleCartState,
+                    ),
+                  ],
+                );
+        },
+        error: (e, s) => Text('Error : $e'),
+        loading: () => const Text('Initializing cart'));
   }
-  // Widget build(BuildContext context, ref) {
-  //   return ref.watch(cartStateProvider) == CartState.collapsed
-  //       ? const CollapsedView()
-  //       : Column(
-  //           crossAxisAlignment: CrossAxisAlignment.end,
-  //           children: [
-  //             TableTitles(flexes: _flexes),
-  //             ...ref.watch(orderProvider).when(
-  //                   data: (order) {
-  //                     if (order?.items == null || order!.items!.isEmpty) {
-  //                       return [];
-  //                     }
-  //                     return List.generate(
-  //                       order.items!.length,
-  //                       (i) => Column(
-  //                         children: [
-  //                           Container(
-  //                             padding: const EdgeInsets.symmetric(vertical: 4),
-  //                             color: i % 2 == 0
-  //                                 ? Colors.transparent
-  //                                 : Colors.white60,
-  //                             child: _CustomRow(
-  //                               flexes: _flexes,
-  //                               sl: i + 1,
-  //                               item: order.items![i],
-  //                             ),
-  //                           ),
-  //                           const Divider()
-  //                         ],
-  //                       ),
-  //                     );
-  //                   },
-  //                   error: (e, s) {
-  //                     return [];
-  //                   },
-  //                   loading: () => [],
-  //                 ),
-  //             AddNewItemRow(flexes: _flexes),
-  //             const Divider(),
-  //             const CustomTableRow(
-  //               title: 'Gross Total',
-  //               value: 23.42,
-  //             ),
-  //             const Divider(),
-  //             const CustomTableRow(
-  //               title: 'Total Vat',
-  //               value: 23.42,
-  //             ),
-  //             const Divider(),
-  //             const CustomTableRow(
-  //               title: 'Total Tax',
-  //               value: 23.42,
-  //             ),
-  //             const Divider(),
-  //             const CustomTableRow(
-  //               title: 'Net Total',
-  //               value: 23.42,
-  //             ),
-  //             const Divider(),
-  //             CartStateButton(
-  //               onPressed: ref.read(cartStateProvider.notifier).toggleCartState,
-  //             ),
-  //           ],
-  //         );
-  // }
 }
 
 class _CustomRow extends ConsumerWidget {
@@ -150,7 +91,7 @@ class _CustomRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final notifier = ref.watch(orderProvider.notifier);
+    // final notifier = ref.watch(orderSlProvider.notifier);
     final price = item.price ?? 0;
     final count = item.count ?? 0;
     final totalPrice = price * count;
@@ -178,7 +119,9 @@ class _CustomRow extends ConsumerWidget {
                     backgroundColor: Colors.red,
                     iconColor: Colors.white,
                     icon: Icons.remove,
-                    onPressed: () async => notifier.onQuantityRemove(item),
+                    onPressed: () async {
+                      // return notifier.onQuantityRemove(item);
+                    },
                   ),
                 ),
               ),
@@ -196,7 +139,9 @@ class _CustomRow extends ConsumerWidget {
                     backgroundColor: Colors.green,
                     iconColor: Colors.white,
                     icon: Icons.add,
-                    onPressed: () async => notifier.onQuantityAdd(item),
+                    onPressed: () async {
+                      // return notifier.onQuantityAdd(item);
+                    },
                   ),
                 ),
               ),
@@ -233,7 +178,9 @@ class _CustomRow extends ConsumerWidget {
             alignment: Alignment.center,
             child: CustomButton(
               iconColor: Colors.black54,
-              onPressed: () async => notifier.removeItemFromCart(item),
+              onPressed: () async {
+                // return notifier.removeItemFromCart(item);
+              },
               icon: FontAwesomeIcons.xmark,
             ),
           ),
