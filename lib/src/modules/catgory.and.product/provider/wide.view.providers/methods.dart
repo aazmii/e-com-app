@@ -1,5 +1,5 @@
 import '../../model/category/category.dart';
-import '../../model/product/product.dart';
+import '../../model/product/product_.dart';
 
 List<Category> categoryList = [];
 List<Product> productList = [];

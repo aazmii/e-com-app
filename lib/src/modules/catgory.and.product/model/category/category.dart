@@ -13,7 +13,7 @@ import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/app.db/tables/category.table.dart';
 import 'package:pos_sq/src/app.db/tables/product.table.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/image.model.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product_.dart';
 
 part 'category.ext.dart';
 

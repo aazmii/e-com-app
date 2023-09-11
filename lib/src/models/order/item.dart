@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:pos_sq/src/app.db/app.db.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product_.dart';
 
 class Item {
   final String? id;
