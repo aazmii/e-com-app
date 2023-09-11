@@ -1,5 +1,6 @@
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+
 import '../../model/category/category.dart';
-import '../../model/product/product_.dart';
 
 List<Category> categoryList = [];
 List<Product> productList = [];

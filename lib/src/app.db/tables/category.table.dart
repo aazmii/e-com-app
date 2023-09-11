@@ -5,28 +5,36 @@ class CategoryTable extends Table {
   IntColumn get sl => integer().autoIncrement().nullable()();
 
   TextColumn get id => text().nullable()();
-  TextColumn get products => text().nullable()();
-  TextColumn get images => text().nullable()();
-  TextColumn get image => text().nullable()();
   TextColumn get label => text().nullable()();
+  TextColumn get parentId => text().nullable().named('parent_id')();
+  BoolColumn get menu => boolean().nullable()();
   TextColumn get description => text().nullable()();
-  BoolColumn? get isExpend => boolean().nullable()();
-  IntColumn? get position => integer().nullable()();
-  BoolColumn? get isEnable => boolean().nullable()();
-  BoolColumn? get isIncludeMenu => boolean().nullable()();
-  BoolColumn? get isIncludeLiveSales => boolean().nullable()();
-  BoolColumn? get isParent => boolean().nullable()();
-  BoolColumn? get isIncludeHome => boolean().nullable()();
-  BoolColumn? get showInSpecialCategory => boolean().nullable()();
-  BoolColumn? get showBestSaleCategory => boolean().nullable()();
+  IntColumn get position => integer().nullable()();
+  IntColumn get enable => integer().nullable()();
+
+  BoolColumn get liveSales => boolean().nullable().named('live_sales')();
+  BoolColumn get root => boolean().nullable()();
+  BoolColumn get home => boolean().nullable()();
+  BoolColumn get specialCategory =>
+      boolean().nullable().named('special_category')();
+  BoolColumn get bestSellCategory =>
+      boolean().nullable().named('best_sale_category')();
   TextColumn get type => text().nullable()();
-  TextColumn get code => text().nullable()();
-  DateTimeColumn? get createdAt => dateTime().nullable()();
-  DateTimeColumn? get updatedAt => dateTime().nullable()();
-  TextColumn get createdBy => text().nullable()();
-  TextColumn get updatedBy => text().nullable()();
-  TextColumn get parent => text().nullable()();
-  TextColumn get children => text().nullable()();
+  TextColumn get tags => text().nullable()();
+  TextColumn get categoryFiles => text().nullable().named('category_files')();
+
+  DateTimeColumn? get createdAt => dateTime().nullable().named('created_at')();
+  TextColumn get createdBy => text().nullable().named('created_by')();
+  DateTimeColumn? get updatedAt => dateTime().nullable().named('updated_at')();
+  TextColumn get updatedBy => text().nullable().named('updated_by')();
+  IntColumn get shelfLife => integer().nullable().named('shelf_life')();
+  IntColumn get minimumInventory =>
+      integer().nullable().named('minimum_inventory')();
+
+  TextColumn get warehouseLocation =>
+      text().nullable().named('warehouse_location')();
+  TextColumn get outletLocation => text().named('outlet_location').nullable()();
+  TextColumn get rackLocation => text().nullable().named('rack_location')();
 
   Future<List<CategoryTableData>> getCategories() async {
     final categories = await db.select(db.categoryTable).get();
@@ -48,40 +56,3 @@ class CategoryTable extends Table {
     return await db.into(db.categoryTable).insert(entity);
   }
 }
-// class CategoryTable extends Table {
-//   IntColumn get sl => integer().nullable().autoIncrement()();
-
-//   TextColumn get id => text().nullable()();
-//   TextColumn get label => text().nullable()();
-//   TextColumn get parentId => text().nullable()();
-//   TextColumn get description => text().nullable()();
-
-//   TextColumn get children => text().nullable()();
-//   TextColumn get products => text().nullable()();
-//   TextColumn get type => text().nullable()();
-//   TextColumn get rackLocation => text().nullable()();
-
-//   IntColumn get position => integer().nullable()();
-//   IntColumn get shelfLife => integer().nullable()();
-//   IntColumn get minimumInventory => integer().nullable()();
-//   BoolColumn get isEnable => boolean().nullable()();
-
-//   BoolColumn get menu => boolean().nullable()();
-//   BoolColumn get liveSales => boolean().nullable()();
-//   BoolColumn get root => boolean().nullable()();
-//   BoolColumn get home => boolean().nullable()();
-
-//   BoolColumn get showInSpecialCategory => boolean().nullable()();
-//   BoolColumn get showBestSaleCategory => boolean().nullable()();
-//   TextColumn get tags => text().nullable()();
-//   TextColumn get categoryFiles => text().nullable()();
-
-//   DateTimeColumn get createdAt => dateTime().nullable()();
-//   DateTimeColumn get updatedAt => dateTime().nullable()();
-//   TextColumn get createdBy => text().nullable()();
-//   TextColumn get updatedBy => text().nullable()();
-
-//   TextColumn get warehouseLocation => text().nullable()();
-//   TextColumn get outletLocation => text().nullable()();
-//   TextColumn get pinnedCategory => text().nullable()();
-// }

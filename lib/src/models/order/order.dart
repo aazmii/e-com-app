@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product_.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
 part 'src/order.calculation.ext.dart';
 

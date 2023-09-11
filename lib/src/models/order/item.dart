@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:pos_sq/src/app.db/app.db.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product_.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
 class Item {
   final String? id;
@@ -53,11 +53,11 @@ class Item {
 
   static Item fromProduct(Product p) {
     return Item(
-      id: p.id,
-      name: p.name,
+      id: p.productId,
+      name: p.label,
       price: p.price,
       count: null,
-      imageurl: p.images!.isEmpty ? null : p.images!.first.image,
+      imageurl: p.files!.isEmpty ? null : p.files!.first,
     );
   }
 

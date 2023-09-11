@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product_.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/selected.category.id.provider.dart';
 
 class ProductCard extends ConsumerWidget {
@@ -48,9 +48,9 @@ class ProductCard extends ConsumerWidget {
                           : null,
                       child: ProductImage(
                         productUrl:
-                            (product.images == null || product.images!.isEmpty)
+                            (product.files == null || product.files!.isEmpty)
                                 ? null
-                                : product.images!.first.image,
+                                : product.files!.first,
                       ),
                     ),
                   ),
@@ -58,7 +58,7 @@ class ProductCard extends ConsumerWidget {
               ),
             ),
             Text(
-              product.name ?? '',
+              product.label ?? '',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 overflow: TextOverflow.ellipsis,

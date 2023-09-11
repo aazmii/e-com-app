@@ -43,7 +43,6 @@ class CategoryContainer extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const _DisplayImage(),
               Container(
                 height: 25,
                 color: context.secondaryColor,

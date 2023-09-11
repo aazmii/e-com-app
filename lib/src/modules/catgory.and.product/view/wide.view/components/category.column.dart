@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product_.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/column.provider.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -58,7 +58,7 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                           category: categoryOrProduct,
                           onSelect: () => {},
                           isSelected: selectedId == categoryOrProduct.id,
-                          isChild: selectedId == categoryOrProduct.parent?.id,
+                          isChild: selectedId == categoryOrProduct.parentId,
                           onTogglePinnedCategory: (info) {
                             notifier.onTogglePinnedCategory(
                               categoryOrProduct,

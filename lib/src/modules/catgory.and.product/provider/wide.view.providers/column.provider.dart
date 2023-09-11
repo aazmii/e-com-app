@@ -3,10 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/methods.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
+import '../../model/category/category.dart';
 import 'selected.category.id.provider.dart';
 
 final columnProvider =
@@ -19,11 +18,12 @@ class _ColumnProvider extends FamilyAsyncNotifier<List<dynamic>, Category> {
 
   @override
   Future<List<dynamic>> build(Category motherCategory) async {
-    final subCategories = motherCategory.children ?? [];
-    final products = motherCategory.products ?? [];
+    final subCategories = await motherCategory.getChildren();
+
+    final products = await motherCategory.getProducts();
 
     defultState = [
-      motherCategory,
+      // motherCategory,
       ...subCategories,
       ...products,
     ];

@@ -1,12 +1,14 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/app.db/tables/category.table.dart';
 import 'package:pos_sq/src/app.db/tables/product.table.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
+
+import '../../model/category/category.dart';
 
 ScrollController horizonalScrollController = ScrollController();
 
@@ -64,12 +66,14 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
     list?.forEach(
       (e) async {
         try {
-          // await CategoryTable()
-          //     .insertCategory(e.toTableData().toCompanion(true));
+          await CategoryTable()
+              .insertCategory(e.toTableData().toCompanion(true));
           if (e.products != null && e.products!.isNotEmpty) {
             for (var p in e.products!) {
-              await ProductTable()
-                  .insertProduct(p.toTableData().toCompanion(true));
+              await ProductTable().insertProduct(p
+                  .toTableData()
+                  .copyWith(categoryId: Value(e.id))
+                  .toCompanion(true));
             }
           }
         } catch (e) {

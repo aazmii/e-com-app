@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/view/wide.view/category.and.product.dart';
 import 'package:pos_sq/src/modules/order.detail/view/order.detail.dart';
+
+import '../../catgory.and.product/model/category/category.dart';
 
 class HorizontalView extends ConsumerWidget {
   const HorizontalView({
@@ -19,7 +20,7 @@ class HorizontalView extends ConsumerWidget {
       children: [
         Expanded(
           flex: context.width < 1350 ? 6 : 5,
-          child: const OrderDetail(),
+          child: OrderDetail(),
         ),
         width10,
         Expanded(

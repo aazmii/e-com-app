@@ -21,19 +21,9 @@ extension CategoryDbExt on Category {
 
   Future<List<Product>> getProducts() async {
     if (id == null) return [];
-    return (await ProductTable().getProductByCategoryId(id!))
+    final products = (await ProductTable().getProductsByCategoryId(id!))
         .map((e) => Product.fromTableData(e))
         .toList();
-
-    // final products = (await db.query(
-    //   'product',
-    //   where: 'category_id = ?',
-    //   whereArgs: [id],
-    // ))
-    //     .map((e) {
-    //   return Product.fromDbMap(e);
-    // }).toList();
-
-    // return products;
+    return products;
   }
 }
