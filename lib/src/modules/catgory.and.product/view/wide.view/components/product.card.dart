@@ -19,6 +19,7 @@ class ProductCard extends ConsumerWidget {
   final VoidCallback? onSelect;
   @override
   Widget build(BuildContext context, ref) {
+    print(product.files?.first);
     final categoryId = product.categoryId ?? false;
     return InkWell(
       splashColor: context.secondaryColor,
