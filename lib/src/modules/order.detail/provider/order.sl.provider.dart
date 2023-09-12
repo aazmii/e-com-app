@@ -55,7 +55,8 @@ class OrderProvider extends Notifier<int?> {
   double grossTotal(List<Item>? items) {
     if (items == null || items.isEmpty) return 0.00;
     return items.fold(0.0, (sum, Item item) {
-      return sum + (item.price!) * item.count!;
+      final price = item.price ?? 0.0;
+      return sum + (price) * item.count!;
     });
   }
 
