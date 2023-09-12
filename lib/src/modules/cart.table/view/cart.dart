@@ -6,7 +6,9 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/modules/cart.table/cart.components.dart';
 import 'package:pos_sq/src/modules/cart.table/provider/cart.state.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/providers.dart';
+
 import 'components/collapse.button.dart';
 import 'components/collapsed.view.dart';
 
@@ -17,16 +19,17 @@ class Cart extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return ref.watch(selectedOrderStream).when(
-        data: (order) {
+    final notifier = ref.watch(orderSlProvider.notifier);
+    return ref.watch(cartStream).when(
+        data: (items) {
           return ref.watch(cartStateProvider) == CartState.collapsed
               ? const CollapsedView()
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    if (order.items != null && order.items.isNotEmpty)
+                    if (items.isNotEmpty)
                       ...List.generate(
-                        order.items.length,
+                        items.length,
                         (i) => Column(
                           children: [
                             Container(
@@ -37,28 +40,37 @@ class Cart extends ConsumerWidget {
                               child: _CustomRow(
                                 flexes: _flexes,
                                 sl: i + 1,
-                                item: order.items[i],
+                                item: items[i],
                               ),
                             ),
                             const Divider()
                           ],
                         ),
                       ),
-                    AddNewItemRow(flexes: _flexes),
+                    AddNewItemRow(flexes: _flexes, indexNo: items.length),
                     const Divider(),
-                    const CustomTableRow(
+                    CustomTableRow(
                       title: 'Gross Total',
-                      value: 23.42,
+                      value: notifier.grossTotal(items),
                     ),
                     const Divider(),
-                    const CustomTableRow(
-                      title: 'Total Vat',
-                      value: 23.42,
+                    CustomTableRow(
+                      title: 'Disocunt',
+                      child: SizedBox(
+                        height: textFieldHeight,
+                        child: TextField(
+                          onChanged: ref
+                              .read(orderSlProvider.notifier)
+                              .onDiscountChange,
+                        ),
+                      ),
                     ),
+                    const Divider(),
+                    const CustomTableRow(title: 'Total Vat', value: 0.00),
                     const Divider(),
                     const CustomTableRow(
                       title: 'Total Tax',
-                      value: 23.42,
+                      value: 0.00,
                     ),
                     const Divider(),
                     const CustomTableRow(
@@ -91,7 +103,7 @@ class _CustomRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    // final notifier = ref.watch(orderSlProvider.notifier);
+    final notifier = ref.watch(orderSlProvider.notifier);
     final price = item.price ?? 0;
     final count = item.count ?? 0;
     final totalPrice = price * count;
@@ -120,7 +132,7 @@ class _CustomRow extends ConsumerWidget {
                     iconColor: Colors.white,
                     icon: Icons.remove,
                     onPressed: () async {
-                      // return notifier.onQuantityRemove(item);
+                      return notifier.onQuantityRemove(item);
                     },
                   ),
                 ),
@@ -140,7 +152,7 @@ class _CustomRow extends ConsumerWidget {
                     iconColor: Colors.white,
                     icon: Icons.add,
                     onPressed: () async {
-                      // return notifier.onQuantityAdd(item);
+                      return notifier.onQuantityAdd(item, count + 1);
                     },
                   ),
                 ),
@@ -178,9 +190,7 @@ class _CustomRow extends ConsumerWidget {
             alignment: Alignment.center,
             child: CustomButton(
               iconColor: Colors.black54,
-              onPressed: () async {
-                // return notifier.removeItemFromCart(item);
-              },
+              onPressed: () async => notifier.removeItemFromCart(item),
               icon: FontAwesomeIcons.xmark,
             ),
           ),

@@ -8,17 +8,6 @@ extension CategoryDbExt on Category {
         .toList();
   }
 
-  // Future<List<Category>> getChildren(Database db) async {
-  //   final children = (await db.query(
-  //     'category',
-  //     where: 'parent = ?',
-  //     whereArgs: [id],
-  //   ))
-  //       .map((e) => Category.fromMap(e))
-  //       .toList();
-  //   return children;
-  // }
-
   Future<List<Product>> getProducts() async {
     if (id == null) return [];
     final products = (await ProductTable().getProductsByCategoryId(id!))

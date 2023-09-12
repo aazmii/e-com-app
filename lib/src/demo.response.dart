@@ -1,6 +1,5 @@
 import 'package:pos_sq/src/models/order/order.dart';
 
-import 'models/order/item.dart';
 import 'models/payment_details/payment.detail.dart';
 
 const jsonData =
@@ -68,10 +67,10 @@ final demoOrderObject = Order(
   customerPhone: "20390392",
   loyalityCard: "loyaltiy394985",
   items: [
-    Item(
-      id: "xyz",
-      name: "kkejriw",
-    )
+    // Item(
+    //   id: "xyz",
+    //   name: "kkejriw",
+    // )
   ],
   subTotal: 23.54,
   grossTotal: 43.245,

@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/components/square.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 
 final _tableHeaders = [
   'SL',
@@ -58,9 +57,11 @@ class CustomTableRow extends StatelessWidget {
     super.key,
     this.title,
     this.value,
+    this.child,
   });
   final String? title;
   final double? value;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +81,11 @@ class CustomTableRow extends StatelessWidget {
         ),
         Expanded(
           flex: 2,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text('BDT $value'),
-          ),
+          child: child ??
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text('BDT $value'),
+              ),
         ),
         Expanded(
           flex: 1,
@@ -95,20 +97,21 @@ class CustomTableRow extends StatelessWidget {
 }
 
 class AddNewItemRow extends ConsumerWidget {
+  final int? indexNo;
   const AddNewItemRow({
     super.key,
     required this.flexes,
+    this.indexNo,
   });
   final List<int> flexes;
 
   @override
   Widget build(BuildContext context, ref) {
-    final sl = ref.watch(orderSlProvider);
     return Row(
       children: [
         Expanded(
           flex: flexes[0],
-          child: Text('$sl'),
+          child: Text('${indexNo! + 1}'),
         ),
         const SizedBox(width: 8),
         Expanded(

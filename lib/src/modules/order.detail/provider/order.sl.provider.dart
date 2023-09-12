@@ -15,27 +15,49 @@ class OrderProvider extends Notifier<int?> {
   void set(int sl) => state = sl;
 
   Future onItemPress(Product? product) async {
-    ItemTable().getItems(orderSerial: state!);
     if (product == null) return;
+    final item = Item.fromProduct(product);
 
-    // print(await ItemDb().getItems(orderSerial: state!));
-    // final isInCart = (await ItemDb().getItems(orderSerial: state!))
-    //     .contains(product.toTableData());
-    // print(isInCart);
+    final isInCart = (await ItemTable().getItems(orderSerial: state!))
+        .map((e) => Item.fromTableData(e))
+        .toList()
+        .contains(item);
 
-    // print(Item.fromProduct(product));
-
-    // await ItemDb().insertItem(
-    //     Item.fromProduct(product).copyWith(count: 1).toTableData(), state!);
+    if (isInCart) {
+      final count = (await ItemTable().getItemDataById(item.id!)).count;
+      if (count == null) return;
+      await onQuantityAdd(item, count + 1);
+    } else {
+      //add new item
+      await ItemTable()
+          .insertItem(item.copyWith(count: 1).toTableData(), state!);
+    }
   }
 
-  Future removeItemFromCart(Item item) async {}
-
-  Future<void> onQuantityAdd(Item? item) async {
+  Future<void> onQuantityAdd(Item? item, int updatedQnt) async {
     if (item == null) return;
+    await ItemTable().updateQuantity(item.id!, updatedQnt);
   }
 
-  Future<void> onQuantityRemove(Item? item) async {}
+  Future<void> onQuantityRemove(Item? item) async {
+    if (item == null || item.count! <= 1) return;
+    await ItemTable().updateQuantity(item.id!, item.count! - 1);
+  }
+
+  Future removeItemFromCart(Item item) async {
+    await ItemTable().removeItemById(item.id);
+  }
+
+  void onDiscountChange(String? s) async {
+    await OrderTable().updateDiscount(state!, double.tryParse(s!)!);
+  }
+
+  double grossTotal(List<Item>? items) {
+    if (items == null || items.isEmpty) return 0.00;
+    return items.fold(0.0, (sum, Item item) {
+      return sum + (item.price!) * item.count!;
+    });
+  }
 
   Future resetOrder() async {
     final orders = (await OrderDb().getAllOrders());
@@ -50,6 +72,7 @@ class OrderProvider extends Notifier<int?> {
     }
   }
 }
+
 
 // final orderProvider =
 //     AsyncNotifierProvider<OrderProvider, Order>(OrderProvider.new);

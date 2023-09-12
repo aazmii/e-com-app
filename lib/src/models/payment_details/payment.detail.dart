@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:sqflite/sqflite.dart';
-
-part 'payement.deitail.ext.dart';
 
 class PaymentDetail {
   final String? paymentType;
@@ -71,16 +68,4 @@ class PaymentDetail {
   @override
   int get hashCode =>
       paymentType.hashCode ^ transactionDetails.hashCode ^ amount.hashCode;
-
-  static Future createTable(Database db) async {
-    await db.execute(
-        '''
-          CREATE TABLE payment_detail (
-          sl INTEGER PRIMARY KEY AUTOINCREMENT,
-          payment_type ,
-          transaction_details ,
-          amount 
-          )
-    ''');
-  }
 }

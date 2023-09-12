@@ -11,9 +11,9 @@ class Item {
   final String? imageurl;
   Item({
     this.id,
-    this.name,
-    this.count,
-    this.price,
+    required this.name,
+    required this.count,
+    required this.price,
     this.imageurl,
   });
 
@@ -50,15 +50,21 @@ class Item {
         price: price,
         imageUrl: imageurl,
       );
+  static Item fromTableData(ItemTableData d) => Item(
+        id: d.id,
+        name: d.name,
+        count: d.count,
+        price: d.price,
+        imageurl: d.imageUrl,
+      );
 
   static Item fromProduct(Product p) {
     return Item(
-      id: p.productId,
-      name: p.label,
-      price: p.price,
-      count: null,
-      imageurl: p.files!.isEmpty ? null : p.files!.first,
-    );
+        id: p.productId,
+        name: p.label,
+        price: p.price,
+        count: null,
+        imageurl: p.files != null ? p.files!.first : null);
   }
 
   static Item fromMap(Map<String, dynamic> map) {
