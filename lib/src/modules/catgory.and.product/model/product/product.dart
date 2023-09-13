@@ -283,9 +283,7 @@ class Product {
   }
 
   static Product fromMap(Map<String, dynamic> map) {
-    final a = (map['images'] as List)
-        .map((e) => ImageModel.fromJson(e).image)
-        .toList();
+ 
     final product = Product(
       productId: map['id'] != null ? map['id'] as String : null,
       categoryId: map['category_id'],

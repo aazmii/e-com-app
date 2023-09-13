@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/item.table.dart';
 import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
@@ -59,6 +60,14 @@ class OrderProvider extends Notifier<int?> {
       return sum + (price) * item.count!;
     });
   }
+
+  //  double balance({required int index}) {
+  //   double amount = transactions[index].transactionAmount ?? 0.0;
+  //   if (index == 0) {
+  //     return netTotal - amount;
+  //   }
+  //   return netTotal - prevAmounts(index + 1);
+  // }
 
   Future resetOrder() async {
     final orders = (await OrderDb().getAllOrders());

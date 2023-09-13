@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/transacions/model/transaction/transaction.dart';
+import 'package:pos_sq/src/modules/payment.detail/model/transaction/transaction.dart';
 
 import 'papyment.dropdown.dart';
 

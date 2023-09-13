@@ -21,7 +21,6 @@ class PaymentCustomTable extends ConsumerWidget {
     final isVertical = ref.watch(layoutProvider) == AppLayout.verticalView;
     final transactions = [];
     String txt = '';
-
     return Column(
       children: [
         Text(
@@ -262,7 +261,8 @@ class _TableTtile extends ConsumerWidget {
     final isVertical = ref.watch(layoutProvider) == AppLayout.verticalView;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4),
-      color: context.primaryColor,
+      color: context.secondaryColor
+      ,
       child: Row(
         children: List.generate(
           paymentTableHeaders.length,

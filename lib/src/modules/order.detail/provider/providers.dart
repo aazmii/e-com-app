@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/item.table.dart';
 import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/models/order/item.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';

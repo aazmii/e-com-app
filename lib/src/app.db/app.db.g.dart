@@ -4468,16 +4468,326 @@ class ProductTableCompanion extends UpdateCompanion<ProductTableData> {
   }
 }
 
+class $PaymentDetailTableTable extends PaymentDetailTable
+    with TableInfo<$PaymentDetailTableTable, PaymentDetailTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PaymentDetailTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'payment_detail_id', aliasedName, true,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _orderIdMeta =
+      const VerificationMeta('orderId');
+  @override
+  late final GeneratedColumn<int> orderId = GeneratedColumn<int>(
+      'order_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES order_table (sl)'));
+  static const VerificationMeta _paymentTypeMeta =
+      const VerificationMeta('paymentType');
+  @override
+  late final GeneratedColumn<String> paymentType = GeneratedColumn<String>(
+      'payment_type', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _transactionDetailMeta =
+      const VerificationMeta('transactionDetail');
+  @override
+  late final GeneratedColumn<String> transactionDetail =
+      GeneratedColumn<String>('transaction_detail', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<double> amount = GeneratedColumn<double>(
+      'amount', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, orderId, paymentType, transactionDetail, amount];
+  @override
+  String get aliasedName => _alias ?? 'payment_detail_table';
+  @override
+  String get actualTableName => 'payment_detail_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<PaymentDetailTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('payment_detail_id')) {
+      context.handle(_idMeta,
+          id.isAcceptableOrUnknown(data['payment_detail_id']!, _idMeta));
+    }
+    if (data.containsKey('order_id')) {
+      context.handle(_orderIdMeta,
+          orderId.isAcceptableOrUnknown(data['order_id']!, _orderIdMeta));
+    }
+    if (data.containsKey('payment_type')) {
+      context.handle(
+          _paymentTypeMeta,
+          paymentType.isAcceptableOrUnknown(
+              data['payment_type']!, _paymentTypeMeta));
+    }
+    if (data.containsKey('transaction_detail')) {
+      context.handle(
+          _transactionDetailMeta,
+          transactionDetail.isAcceptableOrUnknown(
+              data['transaction_detail']!, _transactionDetailMeta));
+    }
+    if (data.containsKey('amount')) {
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PaymentDetailTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PaymentDetailTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}payment_detail_id']),
+      orderId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}order_id']),
+      paymentType: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}payment_type']),
+      transactionDetail: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}transaction_detail']),
+      amount: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}amount']),
+    );
+  }
+
+  @override
+  $PaymentDetailTableTable createAlias(String alias) {
+    return $PaymentDetailTableTable(attachedDatabase, alias);
+  }
+}
+
+class PaymentDetailTableData extends DataClass
+    implements Insertable<PaymentDetailTableData> {
+  final int? id;
+  final int? orderId;
+  final String? paymentType;
+  final String? transactionDetail;
+  final double? amount;
+  const PaymentDetailTableData(
+      {this.id,
+      this.orderId,
+      this.paymentType,
+      this.transactionDetail,
+      this.amount});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['payment_detail_id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || orderId != null) {
+      map['order_id'] = Variable<int>(orderId);
+    }
+    if (!nullToAbsent || paymentType != null) {
+      map['payment_type'] = Variable<String>(paymentType);
+    }
+    if (!nullToAbsent || transactionDetail != null) {
+      map['transaction_detail'] = Variable<String>(transactionDetail);
+    }
+    if (!nullToAbsent || amount != null) {
+      map['amount'] = Variable<double>(amount);
+    }
+    return map;
+  }
+
+  PaymentDetailTableCompanion toCompanion(bool nullToAbsent) {
+    return PaymentDetailTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      orderId: orderId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderId),
+      paymentType: paymentType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentType),
+      transactionDetail: transactionDetail == null && nullToAbsent
+          ? const Value.absent()
+          : Value(transactionDetail),
+      amount:
+          amount == null && nullToAbsent ? const Value.absent() : Value(amount),
+    );
+  }
+
+  factory PaymentDetailTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PaymentDetailTableData(
+      id: serializer.fromJson<int?>(json['id']),
+      orderId: serializer.fromJson<int?>(json['orderId']),
+      paymentType: serializer.fromJson<String?>(json['paymentType']),
+      transactionDetail:
+          serializer.fromJson<String?>(json['transactionDetail']),
+      amount: serializer.fromJson<double?>(json['amount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'orderId': serializer.toJson<int?>(orderId),
+      'paymentType': serializer.toJson<String?>(paymentType),
+      'transactionDetail': serializer.toJson<String?>(transactionDetail),
+      'amount': serializer.toJson<double?>(amount),
+    };
+  }
+
+  PaymentDetailTableData copyWith(
+          {Value<int?> id = const Value.absent(),
+          Value<int?> orderId = const Value.absent(),
+          Value<String?> paymentType = const Value.absent(),
+          Value<String?> transactionDetail = const Value.absent(),
+          Value<double?> amount = const Value.absent()}) =>
+      PaymentDetailTableData(
+        id: id.present ? id.value : this.id,
+        orderId: orderId.present ? orderId.value : this.orderId,
+        paymentType: paymentType.present ? paymentType.value : this.paymentType,
+        transactionDetail: transactionDetail.present
+            ? transactionDetail.value
+            : this.transactionDetail,
+        amount: amount.present ? amount.value : this.amount,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('PaymentDetailTableData(')
+          ..write('id: $id, ')
+          ..write('orderId: $orderId, ')
+          ..write('paymentType: $paymentType, ')
+          ..write('transactionDetail: $transactionDetail, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, orderId, paymentType, transactionDetail, amount);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PaymentDetailTableData &&
+          other.id == this.id &&
+          other.orderId == this.orderId &&
+          other.paymentType == this.paymentType &&
+          other.transactionDetail == this.transactionDetail &&
+          other.amount == this.amount);
+}
+
+class PaymentDetailTableCompanion
+    extends UpdateCompanion<PaymentDetailTableData> {
+  final Value<int?> id;
+  final Value<int?> orderId;
+  final Value<String?> paymentType;
+  final Value<String?> transactionDetail;
+  final Value<double?> amount;
+  const PaymentDetailTableCompanion({
+    this.id = const Value.absent(),
+    this.orderId = const Value.absent(),
+    this.paymentType = const Value.absent(),
+    this.transactionDetail = const Value.absent(),
+    this.amount = const Value.absent(),
+  });
+  PaymentDetailTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.orderId = const Value.absent(),
+    this.paymentType = const Value.absent(),
+    this.transactionDetail = const Value.absent(),
+    this.amount = const Value.absent(),
+  });
+  static Insertable<PaymentDetailTableData> custom({
+    Expression<int>? id,
+    Expression<int>? orderId,
+    Expression<String>? paymentType,
+    Expression<String>? transactionDetail,
+    Expression<double>? amount,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'payment_detail_id': id,
+      if (orderId != null) 'order_id': orderId,
+      if (paymentType != null) 'payment_type': paymentType,
+      if (transactionDetail != null) 'transaction_detail': transactionDetail,
+      if (amount != null) 'amount': amount,
+    });
+  }
+
+  PaymentDetailTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<int?>? orderId,
+      Value<String?>? paymentType,
+      Value<String?>? transactionDetail,
+      Value<double?>? amount}) {
+    return PaymentDetailTableCompanion(
+      id: id ?? this.id,
+      orderId: orderId ?? this.orderId,
+      paymentType: paymentType ?? this.paymentType,
+      transactionDetail: transactionDetail ?? this.transactionDetail,
+      amount: amount ?? this.amount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['payment_detail_id'] = Variable<int>(id.value);
+    }
+    if (orderId.present) {
+      map['order_id'] = Variable<int>(orderId.value);
+    }
+    if (paymentType.present) {
+      map['payment_type'] = Variable<String>(paymentType.value);
+    }
+    if (transactionDetail.present) {
+      map['transaction_detail'] = Variable<String>(transactionDetail.value);
+    }
+    if (amount.present) {
+      map['amount'] = Variable<double>(amount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PaymentDetailTableCompanion(')
+          ..write('id: $id, ')
+          ..write('orderId: $orderId, ')
+          ..write('paymentType: $paymentType, ')
+          ..write('transactionDetail: $transactionDetail, ')
+          ..write('amount: $amount')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $CategoryTableTable categoryTable = $CategoryTableTable(this);
   late final $OrderTableTable orderTable = $OrderTableTable(this);
   late final $ItemTableTable itemTable = $ItemTableTable(this);
   late final $ProductTableTable productTable = $ProductTableTable(this);
+  late final $PaymentDetailTableTable paymentDetailTable =
+      $PaymentDetailTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [categoryTable, orderTable, itemTable, productTable];
+      [categoryTable, orderTable, itemTable, productTable, paymentDetailTable];
 }
