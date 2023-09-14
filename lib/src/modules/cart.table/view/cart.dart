@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pos_sq/src/components/square.button.dart';
+import 'package:pos_sq/src/components/buttons/custom.square.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
-import 'package:pos_sq/src/models/order/item.dart';
+import 'package:pos_sq/src/modules/calculation/provider/calculation.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/cart.table/cart.components.dart';
 import 'package:pos_sq/src/modules/cart.table/provider/cart.state.provider.dart';
+import 'package:pos_sq/src/modules/cart.table/provider/cart.stream.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/providers.dart';
-
 import 'components/collapse.button.dart';
 import 'components/collapsed.view.dart';
 
@@ -60,8 +60,8 @@ class Cart extends ConsumerWidget {
                         height: textFieldHeight,
                         child: TextField(
                           onChanged: ref
-                              .read(orderSlProvider.notifier)
-                              .onDiscountChange,
+                              .read(calculationProvider.notifier)
+                              .onDiscountAmountChange,
                         ),
                       ),
                     ),
@@ -127,10 +127,9 @@ class _CustomRow extends ConsumerWidget {
             children: [
               Expanded(
                 child: Center(
-                  child: QuantityButton(
-                    backgroundColor: Colors.red,
-                    iconColor: Colors.white,
-                    icon: Icons.remove,
+                  child: ColoredButton(
+                    color: Colors.red,
+                    child: const Icon(Icons.remove),
                     onPressed: () async {
                       return notifier.onQuantityRemove(item);
                     },
@@ -147,10 +146,9 @@ class _CustomRow extends ConsumerWidget {
               width5,
               Expanded(
                 child: Center(
-                  child: QuantityButton(
-                    backgroundColor: Colors.green,
-                    iconColor: Colors.white,
-                    icon: Icons.add,
+                  child: ColoredButton(
+                    color: Colors.green,
+                    child: const Icon(Icons.add),
                     onPressed: () async {
                       return notifier.onQuantityAdd(item, count + 1);
                     },

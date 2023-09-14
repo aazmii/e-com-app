@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pos_sq/src/components/square.button.dart';
+import 'package:pos_sq/src/components/buttons/custom.square.button.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/order/order.dart';
-import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
+import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
 
+import '../model/payment.detail.dart';
 import 'payment.type.option.dart';
 
 class PaymentCustomTable extends ConsumerWidget {
@@ -261,8 +261,7 @@ class _TableTtile extends ConsumerWidget {
     final isVertical = ref.watch(layoutProvider) == AppLayout.verticalView;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4),
-      color: context.secondaryColor
-      ,
+      color: context.secondaryColor,
       child: Row(
         children: List.generate(
           paymentTableHeaders.length,

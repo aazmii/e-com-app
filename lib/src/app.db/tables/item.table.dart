@@ -11,6 +11,7 @@ class ItemTable extends Table {
   IntColumn get count => integer().nullable()();
   RealColumn get price => real().nullable()();
   TextColumn get imageUrl => text().nullable()();
+  RealColumn get vat => real().nullable().named('vat_in_percentage')();
 
   IntColumn get orderSl => integer().nullable().references(OrderTable, #sl)();
 

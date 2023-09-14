@@ -63,36 +63,6 @@ class Config {
         paymentDetails?.toJson(),
       ];
 
-  // static Future<void> createTable(Database db) async {
-  //   await db.execute('''
-  //         CREATE TABLE config (
-  //           sl SMALLSERIAL PRIMARY KEY,
-  //           col1 TEXT,
-  //           col2 TEXT
-  //         )
-  //         ''');
-  // }
-
-  // static Future<bool> insertData(
-  //   Database db, {
-  //   required String sl,
-  //   required String keyName,
-  //   required String? value,
-  // }) async {
-  //   bool isSuccess = true;
-  //   try {
-  //     await db.rawInsert('''
-  //           INSERT INTO config(sl,col1, col2)
-  //           VALUES
-  //           ('$sl','$keyName','$value')
-  //     ''');
-  //   } catch (e) {
-  //     isSuccess = false;
-  //   }
-
-  //   return isSuccess;
-  // }
-
   Config copyWith({
     String? companyName,
     String? companyShortName,

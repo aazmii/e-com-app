@@ -7,7 +7,7 @@ enum PaymentType {
 }
 
 enum DigitalPaymentType {
-  digitalPayemnt,
+  digitalPayment,
   bkash,
   rocket,
   nagad,
@@ -20,4 +20,4 @@ enum AppLayout {
   verticalView,
 }
 
-enum DiscountType { cash, percentage }
+enum DiscountType { cash, percentage, none }

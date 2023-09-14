@@ -7,12 +7,12 @@ import 'package:pos_sq/src/extensions/extensions.dart';
 class DigitalPaymentDropdown extends ConsumerWidget {
   final VoidCallback? onTap;
   final Function(DigitalPaymentType? t)? onChange;
-  final bool? isSelected;
+  final bool isSelected;
   DigitalPaymentDropdown({
     super.key,
     this.onTap,
     this.onChange,
-    this.isSelected,
+    required this.isSelected,
     required this.dropdownValue,
   });
   DigitalPaymentType dropdownValue;
@@ -20,10 +20,13 @@ class DigitalPaymentDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Container(
+      height: 35,
       decoration: BoxDecoration(
+        color: isSelected ? Colors.green : Colors.transparent,
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(
-          width: isSelected! ? 2 : 0,
-          color: isSelected! ? context.primaryColor : Colors.transparent,
+          width: 1,
+          color: isSelected ? Colors.white : Colors.grey,
         ),
       ),
       child: DropdownButton<DigitalPaymentType>(
@@ -32,10 +35,10 @@ class DigitalPaymentDropdown extends ConsumerWidget {
         value: dropdownValue,
         // elevation: 16,
         isDense: true,
-        iconSize: 0,
+        iconSize: 16,
         focusColor: Colors.transparent,
         style: context.bodyMedium.copyWith(
-          fontWeight: FontWeight.bold,
+          letterSpacing: 0.1,
         ),
         // style: const TextStyle(
         //   color: Colors.black,
@@ -45,7 +48,10 @@ class DigitalPaymentDropdown extends ConsumerWidget {
           (DigitalPaymentType type) {
             return DropdownMenuItem<DigitalPaymentType>(
               value: type,
-              child: Text(type.name),
+              child: Text(
+                type.name.capitalizeFirstofEach,
+                style: const TextStyle(fontSize: 12),
+              ),
             );
           },
         ).toList(),

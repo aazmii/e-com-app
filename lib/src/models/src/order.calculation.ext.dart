@@ -1,4 +1,4 @@
-part of '../order.dart';
+part of '../../modules/order.detail/models/order/order.dart';
 
 extension OrderCalculationExt on Order {
   double get grossTotal => items!.fold(0.00, (prevValue, item) {

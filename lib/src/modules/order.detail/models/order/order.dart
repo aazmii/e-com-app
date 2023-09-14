@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:pos_sq/src/app.db/app.db.dart';
-import 'package:pos_sq/src/models/order/item.dart';
-import 'package:pos_sq/src/models/payment_details/payment.detail.dart';
+import 'package:pos_sq/src/constants/constants.dart';
+import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:pos_sq/src/modules/payment.detail/model/payment.detail.dart';
 
-part 'src/order.calculation.ext.dart';
+part '../../../../models/src/order.calculation.ext.dart';
 
 enum ChangeType { increase, decrease }
 
@@ -19,7 +20,7 @@ class Order {
   double? subTotal;
   double? grossTotal;
   double? discountAmount;
-  String? discountType;
+  DiscountType? discountType;
   double? vatorgst;
   double? netTotal;
   double? receivedAmount;
@@ -61,7 +62,7 @@ class Order {
     double? subTotal,
     double? grossTotal,
     double? discountAmount,
-    String? discountType,
+    DiscountType? discountType,
     double? vatorgst,
     double? netTotal,
     double? receivedAmount,
@@ -114,6 +115,7 @@ class Order {
       posId: d.posId,
       posUserId: d.posUserId,
       orderTime: d.orderDateTime,
+      discountType: stringToPaymentType(d.discountType),
     );
 
     return order;
@@ -157,7 +159,7 @@ class Order {
       discountAmount: map['discount_amount'] != 'null'
           ? map['discount_amount'] as double
           : null,
-      discountType: map['discount_type'] as String,
+      discountType: null,
       vatorgst:
           map['vat_or_gst'] != 'null' ? map['vat_or_gst'] as double : null,
       netTotal: map['net_total'] != 'null' ? map['net_total'] as double : null,
@@ -167,11 +169,7 @@ class Order {
       returnAmount: map['return_amount'] != 'null'
           ? double.parse(map['return_amount'])
           : null,
-      paymentDetails: map['payment_details'] != 'null'
-          ? (jsonDecode(map['payment_details']) as List).map((e) {
-              return PaymentDetail.fromDbMap(e as Map<String, dynamic>);
-            }).toList()
-          : null,
+      paymentDetails: null,
       posId: map['pos_id'] as String,
       posUserId: map['pos_user_id'] as String,
       orderTime: map['order_time'] != 'null'
@@ -193,7 +191,7 @@ class Order {
       subTotal: map['subtotal'].todouble() as double,
       grossTotal: map['grosstotal'].todouble() as double,
       discountAmount: map['discountamount'].todouble() as double,
-      discountType: map['discounttype'] as String,
+      discountType: null,
       vatorgst: map['vatorgst'].todouble() as double,
       netTotal: map['nettotal'].todouble() as double,
       receivedAmount: map['receivedamount'].todouble() as double,
@@ -207,6 +205,19 @@ class Order {
       posUserId: map['posuserid'] as String,
       orderTime: map['orderTime'] != null ? map['orderTime'] as DateTime : null,
     );
+  }
+
+  static DiscountType? stringToPaymentType(String? input) {
+    if (input == null) return DiscountType.none;
+    switch (input.toLowerCase()) {
+      case 'cash':
+        return DiscountType.cash;
+      case 'percentage':
+        return DiscountType.percentage;
+      default:
+        return DiscountType.none;
+      // throw Exception("Invalid payment type string: $input");
+    }
   }
 
   String toJson() => json.encode(toMap());

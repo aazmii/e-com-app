@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pos_sq/src/components/square.button.dart';
+import 'package:pos_sq/src/components/buttons/custom.square.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 
@@ -132,10 +132,9 @@ class AddNewItemRow extends ConsumerWidget {
             children: [
               Expanded(
                 child: Center(
-                  child: QuantityButton(
-                    backgroundColor: Colors.red.shade100,
-                    iconColor: Colors.white,
-                    icon: Icons.remove,
+                  child: ColoredButton(
+                    color: Colors.red.shade100,
+                    child: const Icon(Icons.remove),
                     onPressed: () => {},
                   ),
                 ),
@@ -150,10 +149,9 @@ class AddNewItemRow extends ConsumerWidget {
               width5,
               Expanded(
                 child: Center(
-                  child: QuantityButton(
-                    backgroundColor: Colors.green.shade100,
-                    iconColor: Colors.white,
-                    icon: Icons.add,
+                  child: ColoredButton(
+                    color: Colors.green.shade100,
+                    child: const Icon(Icons.add),
                     onPressed: () => {},
                   ),
                 ),

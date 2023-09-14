@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 part 'src/context.dart';
 part 'src/string.dart';
 part 'src/double.dart';
 part 'src/duration.dart';
 part 'src/date.dart';
 part 'src/int.dart';
-part 'src/list.ext.dart'; 
+part 'src/list.ext.dart';
+part 'src/item.list.dart';

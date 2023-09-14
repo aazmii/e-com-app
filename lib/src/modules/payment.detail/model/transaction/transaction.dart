@@ -6,7 +6,7 @@ import '../payment.type/payment.type.model.dart';
 
 class Transaction {
   Transaction({
-    this.digitalPaymentType = DigitalPaymentType.digitalPayemnt,
+    this.digitalPaymentType = DigitalPaymentType.digitalPayment,
     this.transactionAmount,
     this.paymentType = PaymentType.none,
     this.transactionDetail,

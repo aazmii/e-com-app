@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/order/order.dart';
+import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 import 'package:pos_sq/src/modules/cart.table/view/components/disocunt.button.dart';
 
 class DiscountTypeButtons extends ConsumerWidget {

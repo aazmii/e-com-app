@@ -8,14 +8,14 @@ class CustomButton extends StatelessWidget {
     this.icon,
     this.iconColor,
     this.margineAll,
-    this.backgroundColor,
+    this.color,
   });
   final double? size;
   final double? margineAll;
   final VoidCallback? onPressed;
   final IconData? icon;
   final Color? iconColor;
-  final Color? backgroundColor;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class CustomButton extends StatelessWidget {
         height: size,
         width: size,
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: color,
         ),
         child: Icon(
           icon,
@@ -38,22 +38,20 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class QuantityButton extends StatelessWidget {
-  const QuantityButton({
+class ColoredButton extends StatelessWidget {
+  const ColoredButton({
     super.key,
     this.size = 20,
     this.onPressed,
-    required this.icon,
-    this.iconColor,
+    required this.child,
     this.margineAll,
-    this.backgroundColor,
+    this.color,
   });
   final double? size;
   final double? margineAll;
   final VoidCallback? onPressed;
-  final IconData icon;
-  final Color? iconColor;
-  final Color? backgroundColor;
+  final Widget child;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +62,10 @@ class QuantityButton extends StatelessWidget {
         height: size,
         width: size! + 5,
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: color,
           borderRadius: BorderRadius.circular(2),
         ),
-        child: Icon(
-          icon,
-          size: size! - 4,
-          color: iconColor,
-        ),
+        child: Center(child: child),
       ),
     );
   }

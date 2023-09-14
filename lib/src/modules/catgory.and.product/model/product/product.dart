@@ -283,7 +283,6 @@ class Product {
   }
 
   static Product fromMap(Map<String, dynamic> map) {
- 
     final product = Product(
       productId: map['id'] != null ? map['id'] as String : null,
       categoryId: map['category_id'],
@@ -325,7 +324,9 @@ class Product {
       advancePrice:
           map['advancePrice'] != null ? map['advancePrice'] as double : null,
       taxInPercentage: null,
-      vatInPercentage: null,
+      vatInPercentage: map['vatpercentage'] != null
+          ? double.parse(map['vatpercentage'])
+          : null,
       weight: map['weight'] != null ? double.tryParse(map['weight']) : null,
       height: map['height'] != null ? double.tryParse(map['height']) : null,
       average5PercentRating: map['average5PercentRating'] != null
@@ -388,7 +389,7 @@ class Product {
       posLabel: p.posLabel,
       description: p.description,
       shortDescription: p.shortdescription,
-      price: p.price,
+      price: p.price ?? 0.00,
       promotionPrice: p.promotionPrice,
       advancePrice: p.advancePrice,
       enable: p.enable,
@@ -549,7 +550,7 @@ class Product {
       posLabel: posLabel,
       description: description,
       shortdescription: shortDescription,
-      price: price,
+      price: price ?? 0.00,
       promotionPrice: promotionPrice,
       advancePrice: advancePrice,
       enable: enable,

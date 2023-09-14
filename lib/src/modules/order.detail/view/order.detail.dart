@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
+import 'package:pos_sq/src/modules/cart.table/view/cart.2.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 import 'package:pos_sq/src/modules/payment.detail/view/payment.detail.dart';
 import 'package:pos_sq/src/providers/providers.dart';
@@ -70,11 +71,11 @@ class OrderDetail extends ConsumerWidget {
                   height20,
                   const CustomerInfoFields(),
                   height10,
-                  // if (ref.watch(orderSlProvider) != null) const NewCart(),
-                  if (ref.watch(orderSlProvider) != null) const Cart(),
+                  if (ref.watch(orderSlProvider) != null) const NewCart(),
+                  // if (ref.watch(orderSlProvider) != null) const Cart(),
                 ],
               ),
-            if (context.width > 280) const PaymentDetail(),
+            if (context.width > 280) const PaymentDetailView(),
             const Divider(),
           ],
         ),

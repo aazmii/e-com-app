@@ -4,7 +4,7 @@ import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/components/confirm.dialog.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/models/order/order.dart';
+import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 
 class DraftOrders extends ConsumerWidget {
@@ -13,7 +13,7 @@ class DraftOrders extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return StreamBuilder(
-      stream: OrderDb().watchOrders(),
+      stream: OrderTable().watchOrders(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return emptyWidget;
         final draftOrders = snapshot.data;

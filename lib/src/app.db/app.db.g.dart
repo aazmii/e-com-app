@@ -1952,6 +1952,11 @@ class $ItemTableTable extends ItemTable
   late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
       'image_url', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _vatMeta = const VerificationMeta('vat');
+  @override
+  late final GeneratedColumn<double> vat = GeneratedColumn<double>(
+      'vat_in_percentage', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _orderSlMeta =
       const VerificationMeta('orderSl');
   @override
@@ -1963,7 +1968,7 @@ class $ItemTableTable extends ItemTable
           GeneratedColumn.constraintIsAlways('REFERENCES order_table (sl)'));
   @override
   List<GeneratedColumn> get $columns =>
-      [sl, id, name, count, price, imageUrl, orderSl];
+      [sl, id, name, count, price, imageUrl, vat, orderSl];
   @override
   String get aliasedName => _alias ?? 'item_table';
   @override
@@ -1995,6 +2000,10 @@ class $ItemTableTable extends ItemTable
       context.handle(_imageUrlMeta,
           imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta));
     }
+    if (data.containsKey('vat_in_percentage')) {
+      context.handle(_vatMeta,
+          vat.isAcceptableOrUnknown(data['vat_in_percentage']!, _vatMeta));
+    }
     if (data.containsKey('order_sl')) {
       context.handle(_orderSlMeta,
           orderSl.isAcceptableOrUnknown(data['order_sl']!, _orderSlMeta));
@@ -2020,6 +2029,8 @@ class $ItemTableTable extends ItemTable
           .read(DriftSqlType.double, data['${effectivePrefix}price']),
       imageUrl: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}image_url']),
+      vat: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}vat_in_percentage']),
       orderSl: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}order_sl']),
     );
@@ -2038,6 +2049,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
   final int? count;
   final double? price;
   final String? imageUrl;
+  final double? vat;
   final int? orderSl;
   const ItemTableData(
       {this.sl,
@@ -2046,6 +2058,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
       this.count,
       this.price,
       this.imageUrl,
+      this.vat,
       this.orderSl});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2068,6 +2081,9 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     if (!nullToAbsent || imageUrl != null) {
       map['image_url'] = Variable<String>(imageUrl);
     }
+    if (!nullToAbsent || vat != null) {
+      map['vat_in_percentage'] = Variable<double>(vat);
+    }
     if (!nullToAbsent || orderSl != null) {
       map['order_sl'] = Variable<int>(orderSl);
     }
@@ -2086,6 +2102,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
       imageUrl: imageUrl == null && nullToAbsent
           ? const Value.absent()
           : Value(imageUrl),
+      vat: vat == null && nullToAbsent ? const Value.absent() : Value(vat),
       orderSl: orderSl == null && nullToAbsent
           ? const Value.absent()
           : Value(orderSl),
@@ -2102,6 +2119,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
       count: serializer.fromJson<int?>(json['count']),
       price: serializer.fromJson<double?>(json['price']),
       imageUrl: serializer.fromJson<String?>(json['imageUrl']),
+      vat: serializer.fromJson<double?>(json['vat']),
       orderSl: serializer.fromJson<int?>(json['orderSl']),
     );
   }
@@ -2115,6 +2133,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
       'count': serializer.toJson<int?>(count),
       'price': serializer.toJson<double?>(price),
       'imageUrl': serializer.toJson<String?>(imageUrl),
+      'vat': serializer.toJson<double?>(vat),
       'orderSl': serializer.toJson<int?>(orderSl),
     };
   }
@@ -2126,6 +2145,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
           Value<int?> count = const Value.absent(),
           Value<double?> price = const Value.absent(),
           Value<String?> imageUrl = const Value.absent(),
+          Value<double?> vat = const Value.absent(),
           Value<int?> orderSl = const Value.absent()}) =>
       ItemTableData(
         sl: sl.present ? sl.value : this.sl,
@@ -2134,6 +2154,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
         count: count.present ? count.value : this.count,
         price: price.present ? price.value : this.price,
         imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
+        vat: vat.present ? vat.value : this.vat,
         orderSl: orderSl.present ? orderSl.value : this.orderSl,
       );
   @override
@@ -2145,6 +2166,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
           ..write('count: $count, ')
           ..write('price: $price, ')
           ..write('imageUrl: $imageUrl, ')
+          ..write('vat: $vat, ')
           ..write('orderSl: $orderSl')
           ..write(')'))
         .toString();
@@ -2152,7 +2174,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
 
   @override
   int get hashCode =>
-      Object.hash(sl, id, name, count, price, imageUrl, orderSl);
+      Object.hash(sl, id, name, count, price, imageUrl, vat, orderSl);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2163,6 +2185,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
           other.count == this.count &&
           other.price == this.price &&
           other.imageUrl == this.imageUrl &&
+          other.vat == this.vat &&
           other.orderSl == this.orderSl);
 }
 
@@ -2173,6 +2196,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
   final Value<int?> count;
   final Value<double?> price;
   final Value<String?> imageUrl;
+  final Value<double?> vat;
   final Value<int?> orderSl;
   const ItemTableCompanion({
     this.sl = const Value.absent(),
@@ -2181,6 +2205,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     this.count = const Value.absent(),
     this.price = const Value.absent(),
     this.imageUrl = const Value.absent(),
+    this.vat = const Value.absent(),
     this.orderSl = const Value.absent(),
   });
   ItemTableCompanion.insert({
@@ -2190,6 +2215,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     this.count = const Value.absent(),
     this.price = const Value.absent(),
     this.imageUrl = const Value.absent(),
+    this.vat = const Value.absent(),
     this.orderSl = const Value.absent(),
   });
   static Insertable<ItemTableData> custom({
@@ -2199,6 +2225,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     Expression<int>? count,
     Expression<double>? price,
     Expression<String>? imageUrl,
+    Expression<double>? vat,
     Expression<int>? orderSl,
   }) {
     return RawValuesInsertable({
@@ -2208,6 +2235,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
       if (count != null) 'count': count,
       if (price != null) 'price': price,
       if (imageUrl != null) 'image_url': imageUrl,
+      if (vat != null) 'vat_in_percentage': vat,
       if (orderSl != null) 'order_sl': orderSl,
     });
   }
@@ -2219,6 +2247,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
       Value<int?>? count,
       Value<double?>? price,
       Value<String?>? imageUrl,
+      Value<double?>? vat,
       Value<int?>? orderSl}) {
     return ItemTableCompanion(
       sl: sl ?? this.sl,
@@ -2227,6 +2256,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
       count: count ?? this.count,
       price: price ?? this.price,
       imageUrl: imageUrl ?? this.imageUrl,
+      vat: vat ?? this.vat,
       orderSl: orderSl ?? this.orderSl,
     );
   }
@@ -2252,6 +2282,9 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     if (imageUrl.present) {
       map['image_url'] = Variable<String>(imageUrl.value);
     }
+    if (vat.present) {
+      map['vat_in_percentage'] = Variable<double>(vat.value);
+    }
     if (orderSl.present) {
       map['order_sl'] = Variable<int>(orderSl.value);
     }
@@ -2267,6 +2300,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
           ..write('count: $count, ')
           ..write('price: $price, ')
           ..write('imageUrl: $imageUrl, ')
+          ..write('vat: $vat, ')
           ..write('orderSl: $orderSl')
           ..write(')'))
         .toString();
@@ -4498,6 +4532,12 @@ class $PaymentDetailTableTable extends PaymentDetailTable
   late final GeneratedColumn<String> paymentType = GeneratedColumn<String>(
       'payment_type', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _digitalPaymentTypeMeta =
+      const VerificationMeta('digitalPaymentType');
+  @override
+  late final GeneratedColumn<String> digitalPaymentType =
+      GeneratedColumn<String>('digital_payment_type', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _transactionDetailMeta =
       const VerificationMeta('transactionDetail');
   @override
@@ -4511,7 +4551,7 @@ class $PaymentDetailTableTable extends PaymentDetailTable
       type: DriftSqlType.double, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, orderId, paymentType, transactionDetail, amount];
+      [id, orderId, paymentType, digitalPaymentType, transactionDetail, amount];
   @override
   String get aliasedName => _alias ?? 'payment_detail_table';
   @override
@@ -4535,6 +4575,12 @@ class $PaymentDetailTableTable extends PaymentDetailTable
           _paymentTypeMeta,
           paymentType.isAcceptableOrUnknown(
               data['payment_type']!, _paymentTypeMeta));
+    }
+    if (data.containsKey('digital_payment_type')) {
+      context.handle(
+          _digitalPaymentTypeMeta,
+          digitalPaymentType.isAcceptableOrUnknown(
+              data['digital_payment_type']!, _digitalPaymentTypeMeta));
     }
     if (data.containsKey('transaction_detail')) {
       context.handle(
@@ -4561,6 +4607,8 @@ class $PaymentDetailTableTable extends PaymentDetailTable
           .read(DriftSqlType.int, data['${effectivePrefix}order_id']),
       paymentType: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}payment_type']),
+      digitalPaymentType: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}digital_payment_type']),
       transactionDetail: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}transaction_detail']),
       amount: attachedDatabase.typeMapping
@@ -4579,12 +4627,14 @@ class PaymentDetailTableData extends DataClass
   final int? id;
   final int? orderId;
   final String? paymentType;
+  final String? digitalPaymentType;
   final String? transactionDetail;
   final double? amount;
   const PaymentDetailTableData(
       {this.id,
       this.orderId,
       this.paymentType,
+      this.digitalPaymentType,
       this.transactionDetail,
       this.amount});
   @override
@@ -4598,6 +4648,9 @@ class PaymentDetailTableData extends DataClass
     }
     if (!nullToAbsent || paymentType != null) {
       map['payment_type'] = Variable<String>(paymentType);
+    }
+    if (!nullToAbsent || digitalPaymentType != null) {
+      map['digital_payment_type'] = Variable<String>(digitalPaymentType);
     }
     if (!nullToAbsent || transactionDetail != null) {
       map['transaction_detail'] = Variable<String>(transactionDetail);
@@ -4617,6 +4670,9 @@ class PaymentDetailTableData extends DataClass
       paymentType: paymentType == null && nullToAbsent
           ? const Value.absent()
           : Value(paymentType),
+      digitalPaymentType: digitalPaymentType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(digitalPaymentType),
       transactionDetail: transactionDetail == null && nullToAbsent
           ? const Value.absent()
           : Value(transactionDetail),
@@ -4632,6 +4688,8 @@ class PaymentDetailTableData extends DataClass
       id: serializer.fromJson<int?>(json['id']),
       orderId: serializer.fromJson<int?>(json['orderId']),
       paymentType: serializer.fromJson<String?>(json['paymentType']),
+      digitalPaymentType:
+          serializer.fromJson<String?>(json['digitalPaymentType']),
       transactionDetail:
           serializer.fromJson<String?>(json['transactionDetail']),
       amount: serializer.fromJson<double?>(json['amount']),
@@ -4644,6 +4702,7 @@ class PaymentDetailTableData extends DataClass
       'id': serializer.toJson<int?>(id),
       'orderId': serializer.toJson<int?>(orderId),
       'paymentType': serializer.toJson<String?>(paymentType),
+      'digitalPaymentType': serializer.toJson<String?>(digitalPaymentType),
       'transactionDetail': serializer.toJson<String?>(transactionDetail),
       'amount': serializer.toJson<double?>(amount),
     };
@@ -4653,12 +4712,16 @@ class PaymentDetailTableData extends DataClass
           {Value<int?> id = const Value.absent(),
           Value<int?> orderId = const Value.absent(),
           Value<String?> paymentType = const Value.absent(),
+          Value<String?> digitalPaymentType = const Value.absent(),
           Value<String?> transactionDetail = const Value.absent(),
           Value<double?> amount = const Value.absent()}) =>
       PaymentDetailTableData(
         id: id.present ? id.value : this.id,
         orderId: orderId.present ? orderId.value : this.orderId,
         paymentType: paymentType.present ? paymentType.value : this.paymentType,
+        digitalPaymentType: digitalPaymentType.present
+            ? digitalPaymentType.value
+            : this.digitalPaymentType,
         transactionDetail: transactionDetail.present
             ? transactionDetail.value
             : this.transactionDetail,
@@ -4670,6 +4733,7 @@ class PaymentDetailTableData extends DataClass
           ..write('id: $id, ')
           ..write('orderId: $orderId, ')
           ..write('paymentType: $paymentType, ')
+          ..write('digitalPaymentType: $digitalPaymentType, ')
           ..write('transactionDetail: $transactionDetail, ')
           ..write('amount: $amount')
           ..write(')'))
@@ -4677,8 +4741,8 @@ class PaymentDetailTableData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, orderId, paymentType, transactionDetail, amount);
+  int get hashCode => Object.hash(
+      id, orderId, paymentType, digitalPaymentType, transactionDetail, amount);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4686,6 +4750,7 @@ class PaymentDetailTableData extends DataClass
           other.id == this.id &&
           other.orderId == this.orderId &&
           other.paymentType == this.paymentType &&
+          other.digitalPaymentType == this.digitalPaymentType &&
           other.transactionDetail == this.transactionDetail &&
           other.amount == this.amount);
 }
@@ -4695,12 +4760,14 @@ class PaymentDetailTableCompanion
   final Value<int?> id;
   final Value<int?> orderId;
   final Value<String?> paymentType;
+  final Value<String?> digitalPaymentType;
   final Value<String?> transactionDetail;
   final Value<double?> amount;
   const PaymentDetailTableCompanion({
     this.id = const Value.absent(),
     this.orderId = const Value.absent(),
     this.paymentType = const Value.absent(),
+    this.digitalPaymentType = const Value.absent(),
     this.transactionDetail = const Value.absent(),
     this.amount = const Value.absent(),
   });
@@ -4708,6 +4775,7 @@ class PaymentDetailTableCompanion
     this.id = const Value.absent(),
     this.orderId = const Value.absent(),
     this.paymentType = const Value.absent(),
+    this.digitalPaymentType = const Value.absent(),
     this.transactionDetail = const Value.absent(),
     this.amount = const Value.absent(),
   });
@@ -4715,6 +4783,7 @@ class PaymentDetailTableCompanion
     Expression<int>? id,
     Expression<int>? orderId,
     Expression<String>? paymentType,
+    Expression<String>? digitalPaymentType,
     Expression<String>? transactionDetail,
     Expression<double>? amount,
   }) {
@@ -4722,6 +4791,8 @@ class PaymentDetailTableCompanion
       if (id != null) 'payment_detail_id': id,
       if (orderId != null) 'order_id': orderId,
       if (paymentType != null) 'payment_type': paymentType,
+      if (digitalPaymentType != null)
+        'digital_payment_type': digitalPaymentType,
       if (transactionDetail != null) 'transaction_detail': transactionDetail,
       if (amount != null) 'amount': amount,
     });
@@ -4731,12 +4802,14 @@ class PaymentDetailTableCompanion
       {Value<int?>? id,
       Value<int?>? orderId,
       Value<String?>? paymentType,
+      Value<String?>? digitalPaymentType,
       Value<String?>? transactionDetail,
       Value<double?>? amount}) {
     return PaymentDetailTableCompanion(
       id: id ?? this.id,
       orderId: orderId ?? this.orderId,
       paymentType: paymentType ?? this.paymentType,
+      digitalPaymentType: digitalPaymentType ?? this.digitalPaymentType,
       transactionDetail: transactionDetail ?? this.transactionDetail,
       amount: amount ?? this.amount,
     );
@@ -4754,6 +4827,9 @@ class PaymentDetailTableCompanion
     if (paymentType.present) {
       map['payment_type'] = Variable<String>(paymentType.value);
     }
+    if (digitalPaymentType.present) {
+      map['digital_payment_type'] = Variable<String>(digitalPaymentType.value);
+    }
     if (transactionDetail.present) {
       map['transaction_detail'] = Variable<String>(transactionDetail.value);
     }
@@ -4769,6 +4845,7 @@ class PaymentDetailTableCompanion
           ..write('id: $id, ')
           ..write('orderId: $orderId, ')
           ..write('paymentType: $paymentType, ')
+          ..write('digitalPaymentType: $digitalPaymentType, ')
           ..write('transactionDetail: $transactionDetail, ')
           ..write('amount: $amount')
           ..write(')'))
