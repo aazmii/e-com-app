@@ -12,10 +12,10 @@ class OrderProvider extends Notifier<Order> {
 
   Future addToCart(Product? product) async {
     if (product == null) return;
-    final item = Item.fromProduct(product);
-    final isUpdated = await state.addItem(
-      item.copyWith(count: 1, price: product.price ?? 1),
-    );
+    // final item = Item.fromProduct(product);
+    // final isUpdated = await state.addItem(
+    //   item.copyWith(count: 1, price: product.price ?? 1),
+    // );
     // print(isUpdated);
     // if (!isUpdated) return;
     // List<Item> items = state.value?.items ?? [];
@@ -24,7 +24,7 @@ class OrderProvider extends Notifier<Order> {
   }
 
   Future removeItemFromCart(Item item) async {
-    final isUpdated = await state.removeItem(item.id!);
+    // final isUpdated = await state.removeItem(item.id!);
     // if (!isUpdated) return;
     // List<Item> items = state.value?.items ?? [];
     // items.remove(item);
