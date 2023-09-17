@@ -70,6 +70,30 @@ class OrderTable extends Table {
     return tableStream;
   }
 
+  Future updateGrossTotal(int sl, double grossTotal) {
+    return (db.update(db.orderTable)
+          ..where((tbl) {
+            return tbl.sl.equals(sl);
+          }))
+        .write(OrderTableCompanion(grossTotal: Value(grossTotal)));
+  }
+
+  Future updateVat(int sl, double vat) {
+    return (db.update(db.orderTable)
+          ..where((tbl) {
+            return tbl.sl.equals(sl);
+          }))
+        .write(OrderTableCompanion(vatorgst: Value(vat)));
+  }
+
+  Future updateNetTotal(int sl, double amount) {
+    return (db.update(db.orderTable)
+          ..where((tbl) {
+            return tbl.sl.equals(sl);
+          }))
+        .write(OrderTableCompanion(netTotal: Value(amount)));
+  }
+
   Stream<List<OrderTableData>> watchOrders() {
     final Stream<List<OrderTableData>> dataStream =
         db.select(db.orderTable).watch();

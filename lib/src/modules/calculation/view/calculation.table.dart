@@ -8,6 +8,8 @@ import 'package:pos_sq/src/modules/calculation/provider/calculation.provider.dar
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 import 'package:pos_sq/src/modules/payment.detail/view/wide.view.dart';
+import 'package:pos_sq/src/providers/methods.dart';
+import 'package:pos_sq/src/providers/providers.dart';
 
 const _cellHeight = 35.0;
 Table calculatoinTable(
@@ -16,6 +18,7 @@ Table calculatoinTable(
   List<Item>? items,
   Order? order,
 ) {
+  // ref.watch(tecProvider('discount')).text = '${order?.discountAmount ?? 0}';
   return Table(
     border: TableBorder.all(
       color: Colors.grey.shade300,
@@ -95,10 +98,16 @@ Table calculatoinTable(
                         children: [
                           SizedBox(
                             height: textFieldHeight,
-                            child: TextField(
-                              onChanged: (s) => ref
-                                  .read(calculationProvider.notifier)
-                                  .onDiscountAmountChange(s),
+                            child: TextFormField(
+                              controller: ref.watch(tecProvider('discount')),
+                              onTap: () =>
+                                  selectAll(ref.watch(tecProvider('discount'))),
+                              onChanged: (s) {
+                                ref
+                                    .read(calculationProvider.notifier)
+                                    .onDiscountAmountChange(
+                                        s, order?.discountType);
+                              },
                               textAlign: TextAlign.right,
                               decoration: const InputDecoration(
                                 contentPadding:
@@ -180,9 +189,9 @@ Table calculatoinTable(
                   ),
                 ],
               ),
-              const TableRow(
+              TableRow(
                 children: [
-                  TableCell(
+                  const TableCell(
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
@@ -199,9 +208,11 @@ Table calculatoinTable(
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                        child: Text('BDT 90'),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 4,
+                        ),
+                        child: Text('BDT ${order?.netTotal.formatted}'),
                       ),
                     ),
                   ),

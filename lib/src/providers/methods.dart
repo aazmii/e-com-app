@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flutter/material.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/app.db/tables/payment.table.dart';
@@ -20,3 +21,9 @@ Future<int> getSelectedOrderSerial() async {
     return (await OrderTable().getOrderBySl(sl)).sl;
   }
 }
+
+void selectAll(TextEditingController controller) =>
+    controller.selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: controller.value.text.length,
+    );

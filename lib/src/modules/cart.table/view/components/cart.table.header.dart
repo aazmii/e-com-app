@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/cart.table/view/cart.2.dart';
+import 'package:pos_sq/src/modules/cart.table/view/cart..dart';
 
 TableRow tableHeader(BuildContext context) {
   return TableRow(

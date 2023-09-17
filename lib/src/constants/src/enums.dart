@@ -20,4 +20,4 @@ enum AppLayout {
   verticalView,
 }
 
-enum DiscountType { cash, percentage, none }
+enum DiscountType { cash, percentage }

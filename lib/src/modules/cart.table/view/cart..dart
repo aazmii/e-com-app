@@ -24,8 +24,8 @@ final columnTitleAndItemWidth = {
   4: const FlexColumnWidth(2.5),
 };
 
-class NewCart extends ConsumerWidget {
-  const NewCart({super.key});
+class ItemCart extends ConsumerWidget {
+  const ItemCart({super.key});
 
   final rootColumnWidth = const {
     0: FlexColumnWidth(6),
@@ -118,8 +118,10 @@ class NewCart extends ConsumerWidget {
                 ),
                 TableCell(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 3,
+                      vertical: 3,
+                    ),
                     child: Text(item.name ?? 'Unnamed'),
                   ),
                 ),
@@ -182,7 +184,7 @@ class NewCart extends ConsumerWidget {
                     child: Center(
                       child: Text(
                         item.vat != null
-                            ? (item.vat! * item.count!).formatted
+                            ? ((item.vat! * item.count!) / 100).formatted
                             : '0.00',
                       ),
                     ),

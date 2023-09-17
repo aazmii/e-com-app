@@ -4,13 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/cart.table/view/cart.2.dart';
+import 'package:pos_sq/src/modules/cart.table/view/cart..dart';
 import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 import 'package:pos_sq/src/modules/payment.detail/view/payment.detail.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
 import '../components/customer.info.fields/customer.info.fields.dart';
+import '../models/item.dart';
 
 class OrderDetail extends ConsumerWidget {
   const OrderDetail({super.key});
@@ -34,7 +35,11 @@ class OrderDetail extends ConsumerWidget {
               icon: const Icon(Icons.remove_red_eye_sharp),
             ),
             IconButton(
-              onPressed: () async {},
+              onPressed: () async {
+                final list = await getProductCategories();
+                print(list?.first.products!
+                    .map((e) => Item.fromProduct(e).price));
+              },
               icon: const Icon(
                 Icons.add,
                 color: Colors.black,
@@ -71,7 +76,7 @@ class OrderDetail extends ConsumerWidget {
                   height20,
                   const CustomerInfoFields(),
                   height10,
-                  if (ref.watch(orderSlProvider) != null) const NewCart(),
+                  if (ref.watch(orderSlProvider) != null) const ItemCart(),
                   // if (ref.watch(orderSlProvider) != null) const Cart(),
                 ],
               ),

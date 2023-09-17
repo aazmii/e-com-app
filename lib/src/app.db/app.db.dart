@@ -5,6 +5,7 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:pos_sq/src/app.db/tables/category.table.dart';
+import 'package:pos_sq/src/app.db/tables/config.table.dart';
 import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/app.db/tables/payment.table.dart';
 
@@ -16,6 +17,7 @@ part 'app.db.g.dart';
 late AppDatabase db;
 
 @DriftDatabase(tables: [
+  ConfigTable,
   CategoryTable,
   OrderTable,
   ItemTable,

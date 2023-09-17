@@ -208,14 +208,14 @@ class Order {
   }
 
   static DiscountType? stringToPaymentType(String? input) {
-    if (input == null) return DiscountType.none;
+    if (input == null) return null;
     switch (input.toLowerCase()) {
       case 'cash':
         return DiscountType.cash;
       case 'percentage':
         return DiscountType.percentage;
       default:
-        return DiscountType.none;
+        return null;
       // throw Exception("Invalid payment type string: $input");
     }
   }

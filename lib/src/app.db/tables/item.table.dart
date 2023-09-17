@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 
 import 'order.table.dart';
 
@@ -21,25 +22,31 @@ class ItemTable extends Table {
         .watch();
   }
 
-  Future<List<ItemTableData>> getItems({required int orderSerial}) {
-    return (db.select(db.itemTable)
-          ..where((tbl) => tbl.orderSl.equals(orderSerial)))
-        .get();
+  Future<List<Item>> getItems({required int orderSerial}) async {
+    return (await (db.select(db.itemTable)
+              ..where((tbl) => tbl.orderSl.equals(orderSerial)))
+            .get())
+        .map((e) => Item.fromTableData(e))
+        .toList();
   }
 
-  Future<ItemTableData> getItemDataById(String id) async {
-    return (db.select(db.itemTable)..where((t) => t.id.equals(id))).getSingle();
+  Future<Item> getItemDataById(String id) async {
+    return Item.fromTableData((await (db.select(db.itemTable)
+          ..where((t) => t.id.equals(id)))
+        .getSingle()));
   }
 
   Future insertItem(ItemTableData entity, int orderSl) async {
-    await db
-        .into(db.itemTable)
-        .insert(entity.copyWith(orderSl: Value(orderSl)));
+    await db.into(db.itemTable).insert(
+          entity.copyWith(
+            orderSl: Value(orderSl),
+          ),
+        );
   }
 
   Future removeItemById(String? id) async {
     if (id == null) return;
-    return (db.delete(db.itemTable)..where((tbl) => tbl.id.equals(id))).go();
+    (db.delete(db.itemTable)..where((tbl) => tbl.id.equals(id))).go();
   }
 
   Future updateQuantity(String id, int qnt) async {

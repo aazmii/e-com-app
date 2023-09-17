@@ -2,12 +2,13 @@ part of '../extensions.dart';
 
 extension ItemList on List<Item> {
   double get grossTotal {
-    return fold(0.0, (sum, Item item) {
+    double gross = fold(0.0, (sum, Item item) {
       final vat = item.vat ?? 0.00;
       final vatPercentage = vat / 100;
       final price = item.price ?? 0.0;
       return (sum + (price + vatPercentage) * item.count!);
     });
+    return gross;
   }
 
   double get totalVat {
@@ -17,5 +18,6 @@ extension ItemList on List<Item> {
       return (sum + ((vat / 100) * count)); //in percentage
     });
   }
-  
+
+  double get netTotal => grossTotal - totalVat;
 }
