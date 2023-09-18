@@ -7,7 +7,7 @@ enum PaymentType {
 }
 
 enum DigitalPaymentType {
-  digitalPayemnt,
+  digitalPayment,
   bkash,
   rocket,
   nagad,

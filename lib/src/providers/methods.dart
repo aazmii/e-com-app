@@ -1,28 +1,38 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/db/app.db.dart';
-import 'package:pos_sq/src/models/order/order.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
+import 'package:drift/drift.dart';
+import 'package:flutter/material.dart';
+import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/item.table.dart';
+import 'package:pos_sq/src/app.db/tables/order.table.dart';
+import 'package:pos_sq/src/app.db/tables/payment.table.dart';
+import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 
-final selectedOrderProvider =
-    AsyncNotifierProvider<OrderProvider, Order>(OrderProvider.new);
-
-class OrderProvider extends AsyncNotifier<Order> {
-  @override
-  Future<Order> build() async {
-    final count = await LocalDB.getDbCount('orders');
-    Order order;
-    if (count! > 0) {
-      order = Order.fromDbMap(await LocalDB.getLastItem('orders'));
-    } else {
-      order = await getNewOrderFromDb();
-    }
-    ref.watch(orderProvider.notifier).setOrder(order);
-    return order;
+Future<int> getSelectedOrderSerial() async {
+  final orders = (await OrderTable().getAllOrders());
+  if (orders.isNotEmpty) {
+    return orders.last.sl;
+  } else {
+    final sl = await OrderTable()
+        .insetOrder(OrderTableCompanion(
+      orderDateTime: Value(DateTime.now()),
+    ))
+        .then(
+      (orderId) {
+        PaymentDetailTable().insertPayment(
+            PaymentDetailTableCompanion(orderId: Value(orderId)));
+        ItemTable()
+            .insertItem(Item(name: '', count: 1, price: 0), orderId)
+            .then((itemSl) {
+          ItemTable().updateId(itemSl, itemSl.toString());
+        });
+        return orderId;
+      },
+    );
+    return (await OrderTable().getOrderBySl(sl)).sl;
   }
 }
 
-Future<Order> getNewOrderFromDb() async {
-  await Order(orderTime: DateTime.now()).saveInLocalDb(await LocalDB.database);
-
-  return Order.fromDbMap(await LocalDB.getLastItem('orders'));
-}
+void selectAll(TextEditingController controller) =>
+    controller.selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: controller.value.text.length,
+    );

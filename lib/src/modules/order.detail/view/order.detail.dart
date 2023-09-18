@@ -1,12 +1,14 @@
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/item.table.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
-import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
-import 'package:pos_sq/src/modules/transacions/view/payment.detail.dart';
-import 'package:pos_sq/src/providers/methods.dart';
-import 'package:pos_sq/src/providers/order.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/models/item.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
+import 'package:pos_sq/src/modules/payment.detail/view/payment.detail.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
 import '../components/customer.info.fields/customer.info.fields.dart';
@@ -17,55 +19,73 @@ class OrderDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var isCartVisible = ref.watch(isCartVisibleProvider);
-    final order = ref.watch(orderProvider);
-    return Scaffold(
-      appBar: const OrderDetailAppBar(),
-      body: ref.watch(selectedOrderProvider).when(
-            data: (data) {
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: context.secondaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: ListView(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        if (context.isMobileWidth)
-                          IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.black,
-                            ),
-                          ),
-                      ],
-                    ),
-                    if (isCartVisible && context.width > 235)
-                      Column(
-                        children: [
-                          height20,
-                          CustomerInfoFields(
-                            order: order,
-                          ),
-                          height10,
-                          const Cart(),
 
-                          // CartTable()
-                        ],
-                      ),
-                    const Divider(),
-                    if (context.width > 280) const PaymentDetailView(),
-                  ],
+    return Scaffold(
+      // appBar: const OrderDetailAppBar(),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            IconButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DriftDbViewer(db),
                 ),
-              );
-            },
-            error: (e, s) => emptyWidget,
-            loading: () => emptyWidget,
+              ),
+              icon: const Icon(Icons.remove_red_eye_sharp),
+            ),
+            IconButton(
+              onPressed: () async {
+                final item = Item(name: '', count: 1, price: 0);
+                ItemTable().insertItem(item, 5).then((sl) {
+                  ItemTable().updateId(sl, sl.toString());
+                });
+              },
+              icon: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: context.secondaryColor,
           ),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (context.isMobileWidth)
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                  ),
+              ],
+            ),
+            if (isCartVisible && context.width > 235)
+              Column(
+                children: [
+                  height20,
+                  const CustomerInfoFields(),
+                  height10,
+                  if (ref.watch(orderSlProvider) != null) const ItemCart(),
+                  // if (ref.watch(orderSlProvider) != null) const Cart(),
+                ],
+              ),
+            if (context.width > 280) const PaymentDetailView(),
+            const Divider(),
+          ],
+        ),
+      ),
     );
   }
 }

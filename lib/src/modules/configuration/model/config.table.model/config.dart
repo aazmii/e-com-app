@@ -13,7 +13,7 @@ class Config {
   int? daysLeftToExpireLicense;
   String? companyInvoiceHeaderText;
   String? companyInvoiceFooterText;
-  ConfigPaymentDetails? paymentDetails;
+  double? taxPercentage;
   Config({
     this.companyName,
     this.companyShortName,
@@ -27,71 +27,11 @@ class Config {
     this.daysLeftToExpireLicense,
     this.companyInvoiceHeaderText,
     this.companyInvoiceFooterText,
-    this.paymentDetails,
+    this.taxPercentage,
   });
-  static final configfields = [
-    'company_name',
-    'company_short_name',
-    'company_logo',
-    'company_address',
-    'company_city',
-    'company_country',
-    'company_post_code',
-    'company_license_expireDate',
-    'last_update',
-    'daysLeft_to_expire_license',
-    'company_invoice_header_text',
-    'company_invoice_footer_text',
-    'paymet_details',
-  ];
+
   bool get hasNullValue =>
       companyName == null || companyShortName == null || companyLogo == null;
-
-  get fieldValues => [
-        companyName,
-        companyShortName,
-        companyLogo,
-        companyAddress,
-        companyCity,
-        companyCountry,
-        companyPostCode,
-        companyLicenseExpireDate?.toIso8601String(),
-        lastUpdate?.toIso8601String(),
-        daysLeftToExpireLicense?.toString(),
-        companyInvoiceHeaderText,
-        companyInvoiceFooterText,
-        paymentDetails?.toJson(),
-      ];
-
-  // static Future<void> createTable(Database db) async {
-  //   await db.execute('''
-  //         CREATE TABLE config (
-  //           sl SMALLSERIAL PRIMARY KEY,
-  //           col1 TEXT,
-  //           col2 TEXT
-  //         )
-  //         ''');
-  // }
-
-  // static Future<bool> insertData(
-  //   Database db, {
-  //   required String sl,
-  //   required String keyName,
-  //   required String? value,
-  // }) async {
-  //   bool isSuccess = true;
-  //   try {
-  //     await db.rawInsert('''
-  //           INSERT INTO config(sl,col1, col2)
-  //           VALUES
-  //           ('$sl','$keyName','$value')
-  //     ''');
-  //   } catch (e) {
-  //     isSuccess = false;
-  //   }
-
-  //   return isSuccess;
-  // }
 
   Config copyWith({
     String? companyName,
@@ -106,6 +46,7 @@ class Config {
     int? daysLeftToExpireLicense,
     String? companyInvoiceHeaderText,
     String? companyInvoiceFooterText,
+    double? taxPercentage,
   }) {
     return Config(
       companyName: companyName ?? this.companyName,
@@ -124,6 +65,7 @@ class Config {
           companyInvoiceHeaderText ?? this.companyInvoiceHeaderText,
       companyInvoiceFooterText:
           companyInvoiceFooterText ?? this.companyInvoiceFooterText,
+      taxPercentage: taxPercentage ?? this.taxPercentage,
     );
   }
 
@@ -141,6 +83,7 @@ class Config {
       'daysLeftToExpireLicense': daysLeftToExpireLicense,
       'companyInvoiceHeaderText': companyInvoiceHeaderText,
       'companyInvoiceFooterText': companyInvoiceFooterText,
+      'tax_percentage': taxPercentage,
     };
   }
 
@@ -164,6 +107,7 @@ class Config {
           : null,
       companyInvoiceHeaderText: map['company_invoiceheader_text'] as String?,
       companyInvoiceFooterText: map['company_invoicefooter_text'] as String?,
+      taxPercentage: map['tax_percentage'] as double?,
     );
   }
 
@@ -176,45 +120,4 @@ class Config {
   String toString() {
     return 'Config(companyName: $companyName, companyShortName: $companyShortName, companyLogo: $companyLogo, companyAddress: $companyAddress, companyCity: $companyCity, companyCountry: $companyCountry, companyPostCode: $companyPostCode, companyLicense: $companyLicenseExpireDate,daysLeftToExpireLicense: $daysLeftToExpireLicense, companyInvoiceHeaderText: $companyInvoiceHeaderText, companyInvoiceFooterText: $companyInvoiceFooterText)';
   }
-}
-
-class ConfigPaymentDetails {
-  List<String>? paymentType;
-  List<String>? digitalPaymentTypes;
-  ConfigPaymentDetails({
-    this.paymentType,
-    this.digitalPaymentTypes,
-  });
-
-  ConfigPaymentDetails copyWith({
-    List<String>? paymentType,
-    List<String>? digitalPaymentTypes,
-  }) {
-    return ConfigPaymentDetails(
-      paymentType: paymentType ?? this.paymentType,
-      digitalPaymentTypes: digitalPaymentTypes ?? this.digitalPaymentTypes,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'paymentType': paymentType,
-      'digitalPaymentTypes': digitalPaymentTypes,
-    };
-  }
-
-  factory ConfigPaymentDetails.fromMap(Map<String, dynamic> map) {
-    return ConfigPaymentDetails(
-      paymentType: map['paymentType'] != null
-          ? List<String>.from((map['paymentType'] as List<String>))
-          : null,
-      digitalPaymentTypes: map['digitalPaymentTypes'] != null
-          ? List<String>.from((map['digitalPaymentTypes'] as List<String>))
-          : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-  factory ConfigPaymentDetails.fromJson(String source) =>
-      ConfigPaymentDetails.fromMap(json.decode(source) as Map<String, dynamic>);
 }

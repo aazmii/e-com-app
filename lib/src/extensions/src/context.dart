@@ -37,6 +37,7 @@ extension BuildContextExtension on BuildContext {
   //color
   Color get primaryColor => Theme.of(this).primaryColor;
   Color get secondaryColor => Theme.of(this).secondaryHeaderColor;
+  Color get selectColor => Colors.green;
 
   //textStyle
   TextStyle get titleLarge => Theme.of(this).textTheme.titleLarge!;

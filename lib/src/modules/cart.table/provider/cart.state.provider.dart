@@ -13,4 +13,5 @@ class CartStateProvider extends Notifier<CartState> {
   void toggleCartState() => state == CartState.collapsed
       ? state = CartState.expnaded
       : state = CartState.collapsed;
+
 }

@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/src/api.const.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
-import 'package:sqflite/sqflite.dart';
 
+import '../../model/category/category.dart';
 import 'selected.category.id.provider.dart';
 
 final motherCategoryProvider =
@@ -14,15 +13,15 @@ final motherCategoryProvider =
 );
 
 class _CategoryColumnProvider extends FamilyNotifier<List<dynamic>, Category> {
-  late final Database db;
   late final List<dynamic> defultState;
   @override
   List<dynamic> build(Category motherCategory) {
     defultState = [
       motherCategory,
-      motherCategory.getChildren(db),
-      motherCategory.getProducts(db)
+      motherCategory.getChildren(),
+      motherCategory.getProducts()
     ];
+
     return defultState;
   }
 

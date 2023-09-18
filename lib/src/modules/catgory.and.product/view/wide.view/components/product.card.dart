@@ -32,7 +32,7 @@ class ProductCard extends ConsumerWidget {
               duration: const Duration(milliseconds: expandDuration),
               margin: EdgeInsets.symmetric(
                 horizontal:
-                    ref.watch(selectedCategoryProvider)?.parentId == categoryId
+                    ref.watch(selectedCategoryProvider)?.id == categoryId
                         ? 12
                         : 2,
               ),

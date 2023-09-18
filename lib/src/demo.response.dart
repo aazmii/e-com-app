@@ -1,10 +1,9 @@
-import 'package:pos_sq/src/models/order/order.dart';
+import 'package:pos_sq/src/constants/constants.dart';
+import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 
-import 'models/order/item.dart';
-import 'models/payment_details/payment.detail.dart';
+import 'modules/payment.detail/model/payment.detail.dart';
 
-const jsonData =
-    '''
+const jsonData = '''
 {
     "customername": "Rabbi hasan",
     "customerphone": "01681194424",
@@ -68,23 +67,23 @@ final demoOrderObject = Order(
   customerPhone: "20390392",
   loyalityCard: "loyaltiy394985",
   items: [
-    Item(
-      id: "xyz",
-      name: "kkejriw",
-    )
+    // Item(
+    //   id: "xyz",
+    //   name: "kkejriw",
+    // )
   ],
   subTotal: 23.54,
   grossTotal: 43.245,
   discountAmount: 34,
-  discountType: "cash",
+  discountType: DiscountType.cash,
   vatorgst: 24.43,
   netTotal: 543.23,
   receivedAmount: 35.5,
   returnAmount: 235.3,
   paymentDetails: [
     PaymentDetail(
-      paymentType: "cash",
-      transactionDetails: "this is details",
+      paymentType: PaymentDetail.stringToPaymentType("cash"),
+      transactionDetail: "this is details",
       amount: 34.43,
     ),
   ],
