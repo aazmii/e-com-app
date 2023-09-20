@@ -6,7 +6,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
 import 'package:pos_sq/src/providers/methods.dart';
 
 TableRow customItemRow(
@@ -50,7 +50,7 @@ TableRow customItemRow(
                       //   ref.watch(tecProvider(TECProvider.itemName)),
                       // ),
                       onChanged: (s) async => ref
-                          .read(orderSlProvider.notifier)
+                          .read(orderProvider.notifier)
                           .updateItemName(item.id, name: s),
                     ),
                   ),
@@ -65,7 +65,7 @@ TableRow customItemRow(
                       ColoredButton(
                         color: Colors.red,
                         onPressed: () async => ref
-                            .read(orderSlProvider.notifier)
+                            .read(orderProvider.notifier)
                             .onQuantityRemove(item),
                         child: const Icon(
                           Icons.remove,
@@ -76,7 +76,7 @@ TableRow customItemRow(
                       ColoredButton(
                         color: Colors.green,
                         onPressed: () async => ref
-                            .read(orderSlProvider.notifier)
+                            .read(orderProvider.notifier)
                             .onQuantityAdd(item, item.count! + 1),
                         child: const Icon(
                           Icons.add,
@@ -102,7 +102,7 @@ TableRow customItemRow(
                         //     ref.watch(tecProvider(TECProvider.itemPrice))),
                         textAlign: TextAlign.right,
                         onChanged: (s) async => ref
-                            .read(orderSlProvider.notifier)
+                            .read(orderProvider.notifier)
                             .updateItemPrice(item.id, s),
                       ),
                     ),
@@ -131,7 +131,7 @@ TableRow customItemRow(
                         textAlign: TextAlign.right,
                         decoration: const InputDecoration(hintText: '%'),
                         onChanged: (s) async => ref
-                            .read(orderSlProvider.notifier)
+                            .read(orderProvider.notifier)
                             .updateItemVat(item.id, s)),
                   ),
                 ),
@@ -147,10 +147,9 @@ TableRow customItemRow(
                     iconColor: Colors.grey,
                     onPressed: () async {
                       isLastItem
-                          ? await addCustomItemInOrder(
-                              ref.read(orderSlProvider)!)
+                          ? await addCustomItemInOrder(ref.read(orderProvider)!)
                           : ref
-                              .read(orderSlProvider.notifier)
+                              .read(orderProvider.notifier)
                               .removeItemFromCart(item);
                     },
                   ),

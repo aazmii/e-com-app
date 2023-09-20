@@ -1,13 +1,10 @@
-import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/app.db/app.db.dart';
-import 'package:pos_sq/src/app.db/tables/product.table.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/components/app.bar/app.bar.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
 import 'package:pos_sq/src/modules/payment.detail/view/payment.detail.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
@@ -21,36 +18,7 @@ class OrderDetail extends ConsumerWidget {
     var isCartVisible = ref.watch(isCartVisibleProvider);
 
     return Scaffold(
-      // appBar: const OrderDetailAppBar(),
-      appBar: AppBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DriftDbViewer(db),
-                ),
-              ),
-              icon: const Icon(Icons.remove_red_eye_sharp),
-            ),
-            IconButton(
-              onPressed: () async {
-                final list = await ProductTable.getProducts();
-                for (var v in list) {
-                  if (Product.fromTableData(v).files!.isNotEmpty) {
-                    print(Product.fromTableData(v).files!.first);
-                  }
-                }
-              },
-              icon: const Icon(
-                Icons.add,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
+      appBar: const OrderDetailAppBar(),
       body: Container(
         decoration: BoxDecoration(
           border: Border.all(
@@ -75,11 +43,13 @@ class OrderDetail extends ConsumerWidget {
             ),
             if (isCartVisible && context.width > 235)
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   height20,
                   const CustomerInfoFields(),
+                  Text('order id: ${ref.watch(orderProvider)} '),
                   height10,
-                  if (ref.watch(orderSlProvider) != null) const ItemCart(),
+                  if (ref.watch(orderProvider) != null) const ItemCart(),
                   // if (ref.watch(orderSlProvider) != null) const Cart(),
                 ],
               ),

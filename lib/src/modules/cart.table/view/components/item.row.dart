@@ -6,7 +6,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
 
 TableRow buildItemRow(WidgetRef ref, int i, Item item) {
   final count = item.count ?? 1;
@@ -49,7 +49,7 @@ TableRow buildItemRow(WidgetRef ref, int i, Item item) {
                           size: iconSize,
                         ),
                         onPressed: () async => ref
-                            .read(orderSlProvider.notifier)
+                            .read(orderProvider.notifier)
                             .onQuantityRemove(item),
                       ),
                       Text('${item.count}'),
@@ -61,7 +61,7 @@ TableRow buildItemRow(WidgetRef ref, int i, Item item) {
                         ),
                         onPressed: () async {
                           await ref
-                              .read(orderSlProvider.notifier)
+                              .read(orderProvider.notifier)
                               .onQuantityAdd(item, count + 1);
                         },
                       ),
@@ -103,7 +103,7 @@ TableRow buildItemRow(WidgetRef ref, int i, Item item) {
                   child: CustomButton(
                     iconColor: Colors.black54,
                     onPressed: () async => ref
-                        .read(orderSlProvider.notifier)
+                        .read(orderProvider.notifier)
                         .removeItemFromCart(item),
                     icon: FontAwesomeIcons.xmark,
                   ),

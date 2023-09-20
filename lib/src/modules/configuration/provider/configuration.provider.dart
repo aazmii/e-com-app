@@ -16,7 +16,6 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
     currentDate = await TimeApi.getTime() ?? DateTime.now();
     config = await ConfigTable.getConfig();
     if (config == null) {
-      //insert
       await ConfigTable.insertConfig(appConfig(currentDate));
     } else {
       _updateLicenseDateInLocalDb(config!);
@@ -28,10 +27,6 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
   Future _updateLicenseDateInLocalDb(Config config) async {
     if (config.lastUpdate!.isSameDay(currentDate)) return;
 
-    // final daysLeft = _daysLeftToExpireLicense(
-    //   now: currentDate,
-    //   expireDate: config.companyLicenseExpireDate!,
-    // );
     return await ConfigTable.updateValue(
       fieldName: 'daysLeftToExpireLicense',
       value: config.companyLicenseExpireDate!

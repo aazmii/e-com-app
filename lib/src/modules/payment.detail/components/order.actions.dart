@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pos_sq/src/components/buttons/order.action.button.dart';
+import 'package:pos_sq/src/constants/src/ui.consts.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
+import 'package:pos_sq/src/modules/payment.detail/view/wide.view.dart';
+
+TableRow actionButtons(WidgetRef ref, BuildContext context) {
+  return TableRow(
+    children: [
+      const SizedBox.shrink(),
+      Table(
+        columnWidths: const {
+          0: FlexColumnWidth(0.6),
+          1: FlexColumnWidth(0.6),
+          2: FlexColumnWidth(0.2),
+        },
+        border: tableBorder,
+        children: [
+          TableRow(
+            children: [
+              SizedBox(
+                height: tableColumnHeight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 8,
+                  ),
+                  child: OrderActionButton(
+                    text: 'New Order',
+                    onPress: () async {
+                      await ref
+                          .read(orderProvider.notifier)
+                          .onPressNewOrder(context);
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: tableColumnHeight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: OrderActionButton(
+                    text: 'Print',
+                    onPress: () {},
+                  ),
+                ),
+              ),
+              emptyWidget,
+            ],
+          ),
+          TableRow(children: [
+            const SizedBox(
+              height: tableColumnHeight,
+              child: Padding(
+                padding: EdgeInsets.all(2.0),
+                child: Text(
+                  'Return Amount\nBDT 120',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OrderActionButton(
+                text: 'Discard',
+                color: Colors.red,
+                onPress: () {},
+              ),
+            ),
+            emptyWidget,
+          ]),
+        ],
+      )
+    ],
+  );
+}

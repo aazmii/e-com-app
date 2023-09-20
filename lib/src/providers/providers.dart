@@ -14,4 +14,8 @@ class TECProvider extends FamilyNotifier<TextEditingController, String> {
   static String get itemName => 'itemName';
   static String get itemPrice => 'itemPrice';
   static String get itemVat => 'itemVat';
+  static String get customerName => 'name';
+  static String get customerPhone => 'phone';
+  static String get customerLoyalityCard => 'loyalityCardd';
+
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 //returns true or false
-Future<bool> confirmDialog(BuildContext context, String alertMessage,
-    {bool? isDismissable, String? cancelText, String? confirmText}) {
-  bool res = false;
+Future<bool?> confirmDialog(
+  BuildContext context,
+  String alertMessage, {
+  bool? isDismissable,
+  String? cancelText,
+  String? confirmText,
+}) {
+  bool? res;
   return showDialog(
     barrierDismissible: isDismissable ?? true,
     context: context,

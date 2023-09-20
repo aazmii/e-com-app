@@ -1,6 +1,8 @@
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
@@ -30,6 +32,24 @@ class SearchAndOrientationButton extends ConsumerWidget {
             : emptyWidget,
         const Expanded(
           child: SearchField(),
+        ),
+        IconButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DriftDbViewer(db),
+            ),
+          ),
+          icon: const Icon(Icons.remove_red_eye_sharp),
+        ),
+        IconButton(
+          onPressed: () async {
+            // await ref.read(orderProvider.notifier).createNewOrder();
+          },
+          icon: const Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
         ),
       ],
     );

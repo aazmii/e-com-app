@@ -6,10 +6,6 @@ import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/payment.detail/model/payment.detail.dart';
 
-part '../../../../models/src/order.calculation.ext.dart';
-
-enum ChangeType { increase, decrease }
-
 class Order {
   int? sl;
 

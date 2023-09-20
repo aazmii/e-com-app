@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pos_sq/src/components/buttons/order.action.button.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
@@ -11,6 +10,8 @@ import 'package:pos_sq/src/modules/payment.detail/components/papyment.dropdown.d
 import 'package:pos_sq/src/modules/payment.detail/model/payment.detail.dart';
 import 'package:pos_sq/src/modules/payment.detail/provider/payemnt.provider.dart';
 import 'package:pos_sq/src/modules/payment.detail/provider/payment.stream.dart';
+
+import '../components/order.actions.dart';
 
 final tableBorder = TableBorder.all(width: 1, color: Colors.grey);
 const tableColumnHeight = 55.0;
@@ -26,7 +27,7 @@ class PaymentDetailWideView extends ConsumerWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Payment Detail'),
+                Text('Payment Detail', style: context.titleMedium),
                 PaymentTable(
                   paymentList: paymentList,
                 ),
@@ -130,70 +131,8 @@ class PaymentTable extends ConsumerWidget {
           ],
         ),
 
-        //data
-        TableRow(
-          children: [
-            const SizedBox.shrink(),
-            Table(
-              columnWidths: const {
-                0: FlexColumnWidth(0.6),
-                1: FlexColumnWidth(0.6),
-                2: FlexColumnWidth(0.2),
-              },
-              border: tableBorder,
-              children: [
-                TableRow(
-                  children: [
-                    SizedBox(
-                      height: tableColumnHeight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 8,
-                        ),
-                        child: OrderActionButton(
-                          text: 'New Order',
-                          onPress: () {},
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: tableColumnHeight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: OrderActionButton(
-                          text: 'Print',
-                          onPress: () {},
-                        ),
-                      ),
-                    ),
-                    emptyWidget,
-                  ],
-                ),
-                TableRow(children: [
-                  const SizedBox(
-                    height: tableColumnHeight,
-                    child: Padding(
-                      padding: EdgeInsets.all(2.0),
-                      child: Text(
-                        'Return Amount\nBDT 120',
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: OrderActionButton(
-                      text: 'Discard',
-                      color: Colors.red,
-                      onPress: () {},
-                    ),
-                  ),
-                  emptyWidget,
-                ]),
-              ],
-            )
-          ],
-        ),
+        //*BUTTONS
+        actionButtons(ref, context),
       ],
     );
   }

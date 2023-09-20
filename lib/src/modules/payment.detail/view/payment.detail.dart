@@ -8,6 +8,8 @@ class PaymentDetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return context.isMobileWidth ? SizedBox() : PaymentDetailWideView();
+    return context.isMobileWidth
+        ? const SizedBox()
+        : const PaymentDetailWideView();
   }
 }

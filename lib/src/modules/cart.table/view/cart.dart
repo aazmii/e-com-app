@@ -112,9 +112,8 @@ class ItemCart extends ConsumerWidget {
                                 allItmes.totalVat,
                                 Order.fromTableData(order),
                                 allItmes.length > 1
-                                    ? allItmes.totalTax(
-                                        config?.taxPercentage ?? 0,
-                                      )
+                                    ? allItmes
+                                        .totalTax(config?.taxPercentage ?? 0)
                                     : null,
                               );
                             },

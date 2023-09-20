@@ -94,6 +94,30 @@ class OrderTable extends Table {
         .write(OrderTableCompanion(netTotal: Value(amount)));
   }
 
+  static Future updateCustomerName(int sl, String name) {
+    return (db.update(db.orderTable)
+          ..where((tbl) {
+            return tbl.sl.equals(sl);
+          }))
+        .write(OrderTableCompanion(customerName: Value(name)));
+  }
+
+  static Future updateCustomerPhone(int sl, String phone) {
+    return (db.update(db.orderTable)
+          ..where((tbl) {
+            return tbl.sl.equals(sl);
+          }))
+        .write(OrderTableCompanion(customerPhone: Value(phone)));
+  }
+
+  static Future updateCustomerLoyaltiCardNumber(int sl, String number) {
+    return (db.update(db.orderTable)
+          ..where((tbl) {
+            return tbl.sl.equals(sl);
+          }))
+        .write(OrderTableCompanion(loyalityCard: Value(number)));
+  }
+
   static Stream<List<OrderTableData>> watchOrders() {
     final Stream<List<OrderTableData>> dataStream =
         db.select(db.orderTable).watch();

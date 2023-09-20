@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/modules/home.screen/home.screen.dart';
 import 'package:pos_sq/src/modules/license.expire.and.renew/license.expired.page.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
-import 'package:pos_sq/src/providers/methods.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
+
 import 'components/footer.dart';
 import 'modules/configuration/provider/configuration.provider.dart';
 
@@ -47,10 +48,15 @@ class Wrapper extends ConsumerWidget {
 
   Future<bool> setCurrentOrder(WidgetRef ref) async {
     try {
-      ref.read(orderSlProvider.notifier).set(await getSelectedOrderSerial());
+      final orders = await OrderTable.getAllOrders();
+      if (orders.isEmpty) {
+        ref.read(orderProvider.notifier).reset();
+      } else {
+        ref.read(orderProvider.notifier).set(orders.last.sl);
+      }
       return true;
     } catch (e) {
-      print('error : $e');
+      debugPrint('error : $e');
       return false;
     }
   }

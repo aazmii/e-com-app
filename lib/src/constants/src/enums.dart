@@ -21,3 +21,5 @@ enum AppLayout {
 }
 
 enum DiscountType { cash, percentage }
+
+enum CustomerInfoType { name, phone, loyalityCard }

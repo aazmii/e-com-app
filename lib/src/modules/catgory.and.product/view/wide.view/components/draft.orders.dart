@@ -5,7 +5,7 @@ import 'package:pos_sq/src/components/confirm.dialog.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
 
 class DraftOrders extends ConsumerWidget {
   const DraftOrders({super.key});
@@ -17,7 +17,7 @@ class DraftOrders extends ConsumerWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return emptyWidget;
         final draftOrders = snapshot.data;
-        if (draftOrders!.isEmpty) return emptyWidget;
+        if (draftOrders!.length <= 1) return emptyWidget;
 
         return SizedBox(
           height: 40,
@@ -25,16 +25,25 @@ class DraftOrders extends ConsumerWidget {
             itemCount: draftOrders.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, i) {
+              if (draftOrders[i].sl == ref.watch(orderProvider)) {
+                return emptyWidget;
+              }
               return CustomChoiceChip(
                 label: Order.fromTableData(draftOrders[i]).orderTime ??
                     DateTime.now(),
                 isSelected: false,
                 onSelect: () =>
-                    ref.read(orderSlProvider.notifier).set(draftOrders[i].sl),
+                    ref.read(orderProvider.notifier).set(draftOrders[i].sl),
                 onDelete: () async {
-                  if (!await confirmDialog(context, 'Delete from draft?')) {
+                  final res =
+                      await confirmDialog(context, 'Delete from draft?');
+                  if (res == null || !res) {
                     return;
-                  } else {}
+                  } else {
+                    await ref
+                        .read(orderProvider.notifier)
+                        .removeAndResetOrder(draftOrders[i].sl);
+                  }
                 },
               );
             },

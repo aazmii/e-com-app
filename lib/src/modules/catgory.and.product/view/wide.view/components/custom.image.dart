@@ -12,18 +12,15 @@ class CustomImage extends StatelessWidget {
     if (imageUrl == null) return defaultImage;
     if (imageUrl!.isEmpty) return defaultImage;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(0),
-      child: CachedNetworkImage(
-        imageUrl: fullUrl,
-        placeholder: (context, url) => SvgPicture.asset(
-          'assets/images/placeholder.image.svg',
-        ),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-        fit: BoxFit.cover,
-        width: 120,
-        height: 70,
+    return CachedNetworkImage(
+      imageUrl: fullUrl,
+      placeholder: (context, url) => SvgPicture.asset(
+        'assets/images/placeholder.image.svg',
       ),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+      fit: BoxFit.cover,
+      width: 120,
+      height: 70,
     );
   }
 
