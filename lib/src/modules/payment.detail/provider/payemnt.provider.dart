@@ -14,7 +14,7 @@ class _PaymentProvider extends Notifier<void> {
     PaymentType? paymentType,
     DigitalPaymentType? digitalPaymentType,
   }) async {
-    await PaymentDetailTable().updatePaymentMethod(
+    await PaymentDetailTable.updatePaymentMethod(
       paymentId,
       paymentType: paymentType,
       digitalPaymentType: digitalPaymentType,
@@ -25,11 +25,11 @@ class _PaymentProvider extends Notifier<void> {
     int paymentId,
     String s,
   ) async {
-    await PaymentDetailTable()
+    await PaymentDetailTable
         .updatePaymentAmount(paymentId, amount: double.tryParse(s));
   }
 
   Future deletePaymentMethod(int paymentDetailId) async {
-    await PaymentDetailTable().deletePaymentById(paymentDetailId);
+    await PaymentDetailTable.deletePaymentById(paymentDetailId);
   }
 }

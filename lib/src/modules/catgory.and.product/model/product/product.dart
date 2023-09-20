@@ -58,7 +58,7 @@ class Product {
   List<Product>? relatedProducts;
   List<Product>? crossSaleProducts;
   List<Product>? upSaleProducts;
-  List<String>? files;
+  List<ImageModel>? files;
   DateTime? createdAt;
 
   String? createdBy;
@@ -170,7 +170,7 @@ class Product {
     DateTime? createdAt,
     DateTime? updatedAt,
     File? downloadedFiles,
-    List<String>? files,
+    List<ImageModel>? files,
   }) {
     return Product(
       sl: sl ?? this.sl,
@@ -315,7 +315,6 @@ class Product {
       createdBy: map['createdBy'],
       updatedBy: map['updatedBy'],
       shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
-
       price: map['price'] != null ? double.parse(map['price']) : null,
       specialPrice: null,
       promotionPrice: map['promotionPrice'] != null
@@ -369,13 +368,11 @@ class Product {
           ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
           : null,
       downloadedFiles: null,
-      // files: map['images'] != null
-      //     ? (map['images'] as List)
-      //         .map((e) => ImageModel.fromJson(e).image)
-      //         .toList()
-      //     : null,
+      files: map['images'] != null
+          ? (map['images'] as List).map((e) => ImageModel.fromJson(e)).toList()
+          : null,
     );
-
+    print(product.files);
     return product;
   }
 
@@ -443,12 +440,6 @@ class Product {
   }
 
   static Product fromDbMap(Map<String, dynamic> map) {
-    final List<String> files = map['images'] == null
-        ? []
-        : (map['images'] as List<dynamic>)
-            .map((e) => ImageModel.fromJson(e).image!)
-            .toList();
-
     final product = Product(
       productId: map['id'] != null ? map['id'] as String : null,
       categoryId: map['category_id'],
@@ -534,7 +525,11 @@ class Product {
           ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
           : null,
       downloadedFiles: null,
-      files: files,
+      files: map['images'] == null
+          ? []
+          : (map['images'] as List<dynamic>)
+              .map((e) => ImageModel.fromJson(e))
+              .toList(),
     );
 
     return product;

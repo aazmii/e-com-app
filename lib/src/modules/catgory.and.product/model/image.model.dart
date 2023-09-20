@@ -38,12 +38,13 @@ class ImageModel {
   }
 
   factory ImageModel.fromMap(Map<String, dynamic> map) {
-    return ImageModel(
+    final model = ImageModel(
       id: map['id'] != null ? map['id'] as String : null,
       image: map['image'] != null ? map['image'] as String : null,
       name: map['name'] != null ? map['name'] as String : null,
       itemType: map['itemType'] != null ? map['itemType'] as String : null,
     );
+    return model;
   }
 
   String toJson() => json.encode(toMap());

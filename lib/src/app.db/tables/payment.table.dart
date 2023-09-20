@@ -19,17 +19,17 @@ class PaymentDetailTable extends Table {
       text().nullable().named('transaction_detail')();
   RealColumn get amount => real().nullable()();
 
-  Future<int> insertPayment(PaymentDetailTableCompanion entity) async {
+ static Future<int> insertPayment(PaymentDetailTableCompanion entity) async {
     return await db.into(db.paymentDetailTable).insert(entity);
   }
 
-  Future<PaymentDetailTableData> getPaymentById(int id) async {
+ static Future<PaymentDetailTableData> getPaymentById(int id) async {
     return await (db.select(db.paymentDetailTable)
           ..where((tbl) => tbl.id.equals(id)))
         .getSingle();
   }
 
-  Future updatePaymentMethod(
+ static Future updatePaymentMethod(
     int id, {
     PaymentType? paymentType,
     DigitalPaymentType? digitalPaymentType,
@@ -46,7 +46,7 @@ class PaymentDetailTable extends Table {
     );
   }
 
-  Future updatePaymentAmount(
+ static Future updatePaymentAmount(
     int id, {
     double? amount,
   }) async {
@@ -59,7 +59,7 @@ class PaymentDetailTable extends Table {
     );
   }
 
-  Future updateTransactionDetail(
+ static Future updateTransactionDetail(
     int id, {
     double? amount,
   }) async {
@@ -72,17 +72,17 @@ class PaymentDetailTable extends Table {
     );
   }
 
-  Future deletePaymentById(int? id) async {
+ static Future deletePaymentById(int? id) async {
     if (id == null) return;
     return (db.delete(db.paymentDetailTable)..where((tbl) => tbl.id.equals(id)))
         .go();
   }
 
-  Future insertNewPaymentDetail(PaymentDetailTableData data) async {
+ static Future insertNewPaymentDetail(PaymentDetailTableData data) async {
     return db.into(db.paymentDetailTable).insert(data);
   }
 
-  Stream<List<PaymentDetailTableData>> watchPayments({required int orderSl}) {
+ static Stream<List<PaymentDetailTableData>> watchPayments({required int orderSl}) {
     return (db.select(db.paymentDetailTable)
           ..where((tbl) => tbl.orderId.equals(orderSl)))
         .watch();

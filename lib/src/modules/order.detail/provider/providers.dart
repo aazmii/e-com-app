@@ -5,5 +5,5 @@ import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart'
 final selectedOrderStream = StreamProvider((ref) {
   final sl = ref.watch(orderSlProvider);
   if (sl == null) return const Stream.empty();
-  return OrderTable().watchOrdersBySl(sl);
+  return OrderTable.watchOrdersBySl(sl);
 });

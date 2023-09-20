@@ -47,10 +47,7 @@ class ProductCard extends ConsumerWidget {
                           ? _selectedBorder
                           : null,
                       child: ProductImage(
-                        productUrl:
-                            (product.files == null || product.files!.isEmpty)
-                                ? null
-                                : product.files!.first,
+                        productUrl: product.files?.first.image,
                       ),
                     ),
                   ),

@@ -5,6 +5,7 @@ import 'package:pos_sq/src/app.db/tables/item.table.dart';
 import 'package:pos_sq/src/app.db/tables/order.table.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
+import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 
@@ -22,32 +23,32 @@ class OrderProvider extends Notifier<int?> {
     final item = Item.fromProduct(product);
 
     final isInCart =
-        (await ItemTable().getItems(orderSerial: state!)).contains(item);
+        (await ItemTable.getItems(orderSerial: state!)).contains(item);
 
     if (isInCart) {
-      final count = (await ItemTable().getItemDataById(item.id!)).count;
+      final count = (await ItemTable.getItemDataById(item.id!)).count;
       if (count == null) return;
       await onQuantityAdd(item, count + 1);
     } else {
       //add new item
-      await ItemTable().insertItem(item.copyWith(count: 1), state!);
+      await ItemTable.insertItem(item.copyWith(count: 1), state!);
     }
     await updateCalculationFields();
   }
 
   Future updateCalculationFields() async {
-    final order = Order.fromTableData(await OrderTable().getOrderBySl(state!));
-    final items = await ItemTable().getItems(orderSerial: state!);
+    final order = Order.fromTableData(await OrderTable.getOrderBySl(state!));
+    final items = await ItemTable.getItems(orderSerial: state!);
 
     final grossTotal = items.grossTotal;
     final discountAmount = order.getDisocuntAmount(total: grossTotal);
     final totalVat = items.totalVat;
-    const totalTax = 0; //retrive tax from config table
+    double totalTax =
+        items.totalTax(config!.taxPercentage!); //retrive tax from config table
     final netTotal = (grossTotal + totalVat + totalTax) - discountAmount;
-
-    await OrderTable().updateGrossTotal(state!, grossTotal);
-    await OrderTable().updateVat(state!, totalVat);
-    await OrderTable().updateNetTotal(state!, netTotal);
+    await OrderTable.updateGrossTotal(state!, grossTotal);
+    await OrderTable.updateVat(state!, totalVat);
+    await OrderTable.updateNetTotal(state!, netTotal);
   }
 
   Future updateItemName(
@@ -69,7 +70,6 @@ class OrderProvider extends Notifier<int?> {
     String? s,
   ) async {
     if (id == null) return;
-
     return (db.update(db.itemTable)
           ..where((tbl) {
             return tbl.id.equals(id);
@@ -83,37 +83,53 @@ class OrderProvider extends Notifier<int?> {
     );
   }
 
-  void onCustomProductPriceChange(String? s) {
-    print(s);
+  Future updateItemVat(
+    String? id,
+    String? s,
+  ) async {
+    if (id == null) return;
+    return (db.update(db.itemTable)
+          ..where((tbl) {
+            return tbl.id.equals(id);
+          }))
+        .write(
+      ItemTableCompanion(
+        vat: Value(
+          (s != null ? double.tryParse(s) : 0) ?? 0,
+        ),
+      ),
+    );
   }
+
+  void onCustomProductPriceChange(String? s) {}
 
   Future<void> onQuantityAdd(Item? item, int updatedQnt) async {
     if (item == null) return;
-    await ItemTable().updateQuantity(item.id!, updatedQnt);
+    await ItemTable.updateQuantity(item.id!, updatedQnt);
     await updateCalculationFields();
   }
 
   Future<void> onQuantityRemove(Item? item) async {
     if (item == null || item.count! <= 1) return;
-    await ItemTable().updateQuantity(item.id!, item.count! - 1);
+    await ItemTable.updateQuantity(item.id!, item.count! - 1);
     await updateCalculationFields();
   }
 
   Future removeItemFromCart(Item item) async {
-    await ItemTable().removeItemById(item.id);
+    await ItemTable.removeItemById(item.id);
     await updateCalculationFields();
   }
 
   Future resetOrder() async {
-    final orders = (await OrderTable().getAllOrders());
+    final orders = (await OrderTable.getAllOrders());
     if (orders.isNotEmpty) {
       return orders.last.sl;
     } else {
       final orderTime = DateTime.now();
-      final sl = await OrderTable().insetOrder(OrderTableCompanion(
+      final sl = await OrderTable.insetOrder(OrderTableCompanion(
         orderDateTime: Value(orderTime),
       ));
-      return (await OrderTable().getOrderBySl(sl));
+      return (await OrderTable.getOrderBySl(sl));
     }
   }
 }

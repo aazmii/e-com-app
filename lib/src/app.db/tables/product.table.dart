@@ -41,7 +41,6 @@ class ProductTable extends Table {
   RealColumn get average4PercentRating =>
       real().nullable().named('average_4_percent_rating')();
 
-
   RealColumn get average3PercentRating =>
       real().nullable().named('average_3_percent_rating')();
   RealColumn get average2PercentRating =>
@@ -79,22 +78,22 @@ class ProductTable extends Table {
   TextColumn get createdBy => text().nullable().named('created_by')();
   DateTimeColumn? get updatedAt => dateTime().nullable().named('updated_at')();
   TextColumn get updatedBy => text().nullable().named('updated_by')();
-  
+
   IntColumn get shelfLife => integer().nullable().named('shelf_life')();
   IntColumn get minimumInventory =>
       integer().nullable().named('minimum_inventory')();
 
   //?PRODUCT
-  Future<int> insertProduct(ProductTableCompanion entity) async {
+  static Future<int> insertProduct(ProductTableCompanion entity) async {
     return await db.into(db.productTable).insert(entity);
   }
 
-  Future<List<ProductTableData>> getProducts() async {
+  static Future<List<ProductTableData>> getProducts() async {
     final products = await db.select(db.productTable).get();
     return products;
   }
 
-  Future<List<ProductTableData>> getProductsByCategoryId(
+  static Future<List<ProductTableData>> getProductsByCategoryId(
       String categoryId) async {
     return await (db.select(db.productTable)
           ..where((tbl) => tbl.categoryId.equals(categoryId)))

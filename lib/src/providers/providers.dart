@@ -11,4 +11,7 @@ final tecProvider =
 class TECProvider extends FamilyNotifier<TextEditingController, String> {
   @override
   TextEditingController build(String arg) => TextEditingController();
+  static String get itemName => 'itemName';
+  static String get itemPrice => 'itemPrice';
+  static String get itemVat => 'itemVat';
 }

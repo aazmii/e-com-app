@@ -7,11 +7,13 @@ import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
+import 'package:pos_sq/src/providers/methods.dart';
 
 TableRow customItemRow(
   WidgetRef ref,
-  int i,
+  int rowIndex,
   Item item,
+  bool isLastItem,
 ) {
   final count = item.count ?? 1;
   final price = item.price ?? 0;
@@ -25,11 +27,13 @@ TableRow customItemRow(
         children: [
           TableRow(
             decoration: BoxDecoration(
-              color: i % 2 != 0 ? const Color(0xffFCFCFC) : Colors.transparent,
+              color: rowIndex % 2 != 0
+                  ? const Color(0xffFCFCFC)
+                  : Colors.transparent,
             ),
             children: [
               TableCell(
-                child: Center(child: Text('$i')),
+                child: Center(child: Text('$rowIndex')),
               ),
               TableCell(
                 child: Padding(
@@ -39,7 +43,12 @@ TableRow customItemRow(
                   ),
                   child: SizedBox(
                     height: textFieldHeight,
-                    child: TextField(
+                    child: TextFormField(
+                      initialValue: item.name,
+                      // controller: ref.watch(tecProvider(TECProvider.itemName)),
+                      // onTap: () => selectAll(
+                      //   ref.watch(tecProvider(TECProvider.itemName)),
+                      // ),
                       onChanged: (s) async => ref
                           .read(orderSlProvider.notifier)
                           .updateItemName(item.id, name: s),
@@ -85,7 +94,13 @@ TableRow customItemRow(
                     alignment: Alignment.centerRight,
                     child: SizedBox(
                       height: textFieldHeight,
-                      child: TextField(
+                      child: TextFormField(
+                        initialValue: item.price.formatted,
+                        // controller:
+                        //     ref.watch(tecProvider(TECProvider.itemPrice)),
+                        // onTap: () => selectAll(
+                        //     ref.watch(tecProvider(TECProvider.itemPrice))),
+                        textAlign: TextAlign.right,
                         onChanged: (s) async => ref
                             .read(orderSlProvider.notifier)
                             .updateItemPrice(item.id, s),
@@ -99,19 +114,25 @@ TableRow customItemRow(
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: Text('${count * price}'),
+                    child: Text((count * price).formatted),
                   ),
                 ),
               ),
               TableCell(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: Center(
-                    child: Text(
-                      item.vat != null
-                          ? ((item.vat! * item.count!) / 100).formatted
-                          : '0.00',
-                    ),
+                  child: SizedBox(
+                    height: textFieldHeight,
+                    child: TextFormField(
+                        initialValue: item.vat.formatted,
+                        // controller: ref.watch(tecProvider(TECProvider.itemVat)),
+                        // onTap: () => selectAll(
+                        //     ref.watch(tecProvider(TECProvider.itemVat))),
+                        textAlign: TextAlign.right,
+                        decoration: const InputDecoration(hintText: '%'),
+                        onChanged: (s) async => ref
+                            .read(orderSlProvider.notifier)
+                            .updateItemVat(item.id, s)),
                   ),
                 ),
               ),
@@ -120,8 +141,18 @@ TableRow customItemRow(
                   height: 36,
                   child: CustomButton(
                     // iconColor: Colors.grey,
-                    icon: FontAwesomeIcons.plus,
-                    onPressed: () {},
+                    icon: isLastItem
+                        ? FontAwesomeIcons.plus
+                        : FontAwesomeIcons.xmark,
+                    iconColor: Colors.grey,
+                    onPressed: () async {
+                      isLastItem
+                          ? await addCustomItemInOrder(
+                              ref.read(orderSlProvider)!)
+                          : ref
+                              .read(orderSlProvider.notifier)
+                              .removeItemFromCart(item);
+                    },
                   ),
                 ),
               ),

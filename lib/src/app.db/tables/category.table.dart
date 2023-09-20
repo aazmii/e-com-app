@@ -36,23 +36,24 @@ class CategoryTable extends Table {
   TextColumn get outletLocation => text().named('outlet_location').nullable()();
   TextColumn get rackLocation => text().nullable().named('rack_location')();
 
-  Future<List<CategoryTableData>> getCategories() async {
+  static Future<List<CategoryTableData>> getCategories() async {
     final categories = await db.select(db.categoryTable).get();
     return categories;
   }
 
-  Future<List<CategoryTableData>> getCategoryByParentId(String parentId) async {
+  static Future<List<CategoryTableData>> getCategoryByParentId(
+      String parentId) async {
     return await (db.select(db.categoryTable)
           ..where((tbl) => tbl.id.equals(parentId)))
         .get();
   }
 
-  Stream<List<CategoryTableData>> watchCategory() {
+  static Stream<List<CategoryTableData>> watchCategory() {
     final something = db.select(db.categoryTable).watch();
     return something;
   }
 
-  Future<int> insertCategory(CategoryTableCompanion entity) async {
+  static Future<int> insertCategory(CategoryTableCompanion entity) async {
     return await db.into(db.categoryTable).insert(entity);
   }
 }

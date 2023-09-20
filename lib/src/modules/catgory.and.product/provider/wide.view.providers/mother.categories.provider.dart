@@ -21,10 +21,10 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
   @override
   FutureOr<List<Category>> build() async {
     List<CategoryTableData>? categoryDataList =
-        await CategoryTable().getCategories();
+        await CategoryTable.getCategories();
     if (categoryDataList.isEmpty) {
       await initLocalDb();
-      categoryDataList = await CategoryTable().getCategories();
+      categoryDataList = await CategoryTable.getCategories();
     }
     return categoryDataList.map((x) => Category.fromTableData(x)).toList();
   }
@@ -66,11 +66,11 @@ class ApiCategoryProvider extends AsyncNotifier<List<Category>> {
     list?.forEach(
       (e) async {
         try {
-          await CategoryTable()
+          await CategoryTable
               .insertCategory(e.toTableData().toCompanion(true));
           if (e.products != null && e.products!.isNotEmpty) {
             for (var p in e.products!) {
-              await ProductTable().insertProduct(p
+              await ProductTable.insertProduct(p
                   .toTableData()
                   .copyWith(categoryId: Value(e.id))
                   .toCompanion(true));

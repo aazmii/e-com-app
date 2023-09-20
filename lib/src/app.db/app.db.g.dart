@@ -3,6 +3,225 @@
 part of 'app.db.dart';
 
 // ignore_for_file: type=lint
+class $ConfigTableTable extends ConfigTable
+    with TableInfo<$ConfigTableTable, ConfigTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ConfigTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _slMeta = const VerificationMeta('sl');
+  @override
+  late final GeneratedColumn<int> sl = GeneratedColumn<int>(
+      'sl', aliasedName, true,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _keyColumnMeta =
+      const VerificationMeta('keyColumn');
+  @override
+  late final GeneratedColumn<String> keyColumn = GeneratedColumn<String>(
+      'key_column', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _valueColumnMeta =
+      const VerificationMeta('valueColumn');
+  @override
+  late final GeneratedColumn<String> valueColumn = GeneratedColumn<String>(
+      'value_column', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [sl, keyColumn, valueColumn];
+  @override
+  String get aliasedName => _alias ?? 'config_table';
+  @override
+  String get actualTableName => 'config_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<ConfigTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('sl')) {
+      context.handle(_slMeta, sl.isAcceptableOrUnknown(data['sl']!, _slMeta));
+    }
+    if (data.containsKey('key_column')) {
+      context.handle(_keyColumnMeta,
+          keyColumn.isAcceptableOrUnknown(data['key_column']!, _keyColumnMeta));
+    }
+    if (data.containsKey('value_column')) {
+      context.handle(
+          _valueColumnMeta,
+          valueColumn.isAcceptableOrUnknown(
+              data['value_column']!, _valueColumnMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {sl};
+  @override
+  ConfigTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ConfigTableData(
+      sl: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}sl']),
+      keyColumn: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}key_column']),
+      valueColumn: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}value_column']),
+    );
+  }
+
+  @override
+  $ConfigTableTable createAlias(String alias) {
+    return $ConfigTableTable(attachedDatabase, alias);
+  }
+}
+
+class ConfigTableData extends DataClass implements Insertable<ConfigTableData> {
+  final int? sl;
+  final String? keyColumn;
+  final String? valueColumn;
+  const ConfigTableData({this.sl, this.keyColumn, this.valueColumn});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || sl != null) {
+      map['sl'] = Variable<int>(sl);
+    }
+    if (!nullToAbsent || keyColumn != null) {
+      map['key_column'] = Variable<String>(keyColumn);
+    }
+    if (!nullToAbsent || valueColumn != null) {
+      map['value_column'] = Variable<String>(valueColumn);
+    }
+    return map;
+  }
+
+  ConfigTableCompanion toCompanion(bool nullToAbsent) {
+    return ConfigTableCompanion(
+      sl: sl == null && nullToAbsent ? const Value.absent() : Value(sl),
+      keyColumn: keyColumn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(keyColumn),
+      valueColumn: valueColumn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(valueColumn),
+    );
+  }
+
+  factory ConfigTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ConfigTableData(
+      sl: serializer.fromJson<int?>(json['sl']),
+      keyColumn: serializer.fromJson<String?>(json['keyColumn']),
+      valueColumn: serializer.fromJson<String?>(json['valueColumn']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'sl': serializer.toJson<int?>(sl),
+      'keyColumn': serializer.toJson<String?>(keyColumn),
+      'valueColumn': serializer.toJson<String?>(valueColumn),
+    };
+  }
+
+  ConfigTableData copyWith(
+          {Value<int?> sl = const Value.absent(),
+          Value<String?> keyColumn = const Value.absent(),
+          Value<String?> valueColumn = const Value.absent()}) =>
+      ConfigTableData(
+        sl: sl.present ? sl.value : this.sl,
+        keyColumn: keyColumn.present ? keyColumn.value : this.keyColumn,
+        valueColumn: valueColumn.present ? valueColumn.value : this.valueColumn,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ConfigTableData(')
+          ..write('sl: $sl, ')
+          ..write('keyColumn: $keyColumn, ')
+          ..write('valueColumn: $valueColumn')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(sl, keyColumn, valueColumn);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ConfigTableData &&
+          other.sl == this.sl &&
+          other.keyColumn == this.keyColumn &&
+          other.valueColumn == this.valueColumn);
+}
+
+class ConfigTableCompanion extends UpdateCompanion<ConfigTableData> {
+  final Value<int?> sl;
+  final Value<String?> keyColumn;
+  final Value<String?> valueColumn;
+  const ConfigTableCompanion({
+    this.sl = const Value.absent(),
+    this.keyColumn = const Value.absent(),
+    this.valueColumn = const Value.absent(),
+  });
+  ConfigTableCompanion.insert({
+    this.sl = const Value.absent(),
+    this.keyColumn = const Value.absent(),
+    this.valueColumn = const Value.absent(),
+  });
+  static Insertable<ConfigTableData> custom({
+    Expression<int>? sl,
+    Expression<String>? keyColumn,
+    Expression<String>? valueColumn,
+  }) {
+    return RawValuesInsertable({
+      if (sl != null) 'sl': sl,
+      if (keyColumn != null) 'key_column': keyColumn,
+      if (valueColumn != null) 'value_column': valueColumn,
+    });
+  }
+
+  ConfigTableCompanion copyWith(
+      {Value<int?>? sl,
+      Value<String?>? keyColumn,
+      Value<String?>? valueColumn}) {
+    return ConfigTableCompanion(
+      sl: sl ?? this.sl,
+      keyColumn: keyColumn ?? this.keyColumn,
+      valueColumn: valueColumn ?? this.valueColumn,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (sl.present) {
+      map['sl'] = Variable<int>(sl.value);
+    }
+    if (keyColumn.present) {
+      map['key_column'] = Variable<String>(keyColumn.value);
+    }
+    if (valueColumn.present) {
+      map['value_column'] = Variable<String>(valueColumn.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ConfigTableCompanion(')
+          ..write('sl: $sl, ')
+          ..write('keyColumn: $keyColumn, ')
+          ..write('valueColumn: $valueColumn')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $CategoryTableTable extends CategoryTable
     with TableInfo<$CategoryTableTable, CategoryTableData> {
   @override
@@ -1931,6 +2150,15 @@ class $ItemTableTable extends ItemTable
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _isCustomItemMeta =
+      const VerificationMeta('isCustomItem');
+  @override
+  late final GeneratedColumn<bool> isCustomItem = GeneratedColumn<bool>(
+      'is_custom_item', aliasedName, true,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_custom_item" IN (0, 1))'));
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -1968,7 +2196,7 @@ class $ItemTableTable extends ItemTable
           GeneratedColumn.constraintIsAlways('REFERENCES order_table (sl)'));
   @override
   List<GeneratedColumn> get $columns =>
-      [sl, id, name, count, price, imageUrl, vat, orderSl];
+      [sl, id, isCustomItem, name, count, price, imageUrl, vat, orderSl];
   @override
   String get aliasedName => _alias ?? 'item_table';
   @override
@@ -1983,6 +2211,12 @@ class $ItemTableTable extends ItemTable
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('is_custom_item')) {
+      context.handle(
+          _isCustomItemMeta,
+          isCustomItem.isAcceptableOrUnknown(
+              data['is_custom_item']!, _isCustomItemMeta));
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -2021,6 +2255,8 @@ class $ItemTableTable extends ItemTable
           .read(DriftSqlType.int, data['${effectivePrefix}sl']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}id']),
+      isCustomItem: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_custom_item']),
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name']),
       count: attachedDatabase.typeMapping
@@ -2045,6 +2281,7 @@ class $ItemTableTable extends ItemTable
 class ItemTableData extends DataClass implements Insertable<ItemTableData> {
   final int? sl;
   final String? id;
+  final bool? isCustomItem;
   final String? name;
   final int? count;
   final double? price;
@@ -2054,6 +2291,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
   const ItemTableData(
       {this.sl,
       this.id,
+      this.isCustomItem,
       this.name,
       this.count,
       this.price,
@@ -2068,6 +2306,9 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<String>(id);
+    }
+    if (!nullToAbsent || isCustomItem != null) {
+      map['is_custom_item'] = Variable<bool>(isCustomItem);
     }
     if (!nullToAbsent || name != null) {
       map['name'] = Variable<String>(name);
@@ -2094,6 +2335,9 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     return ItemTableCompanion(
       sl: sl == null && nullToAbsent ? const Value.absent() : Value(sl),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      isCustomItem: isCustomItem == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isCustomItem),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
       count:
           count == null && nullToAbsent ? const Value.absent() : Value(count),
@@ -2115,6 +2359,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     return ItemTableData(
       sl: serializer.fromJson<int?>(json['sl']),
       id: serializer.fromJson<String?>(json['id']),
+      isCustomItem: serializer.fromJson<bool?>(json['isCustomItem']),
       name: serializer.fromJson<String?>(json['name']),
       count: serializer.fromJson<int?>(json['count']),
       price: serializer.fromJson<double?>(json['price']),
@@ -2129,6 +2374,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     return <String, dynamic>{
       'sl': serializer.toJson<int?>(sl),
       'id': serializer.toJson<String?>(id),
+      'isCustomItem': serializer.toJson<bool?>(isCustomItem),
       'name': serializer.toJson<String?>(name),
       'count': serializer.toJson<int?>(count),
       'price': serializer.toJson<double?>(price),
@@ -2141,6 +2387,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
   ItemTableData copyWith(
           {Value<int?> sl = const Value.absent(),
           Value<String?> id = const Value.absent(),
+          Value<bool?> isCustomItem = const Value.absent(),
           Value<String?> name = const Value.absent(),
           Value<int?> count = const Value.absent(),
           Value<double?> price = const Value.absent(),
@@ -2150,6 +2397,8 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
       ItemTableData(
         sl: sl.present ? sl.value : this.sl,
         id: id.present ? id.value : this.id,
+        isCustomItem:
+            isCustomItem.present ? isCustomItem.value : this.isCustomItem,
         name: name.present ? name.value : this.name,
         count: count.present ? count.value : this.count,
         price: price.present ? price.value : this.price,
@@ -2162,6 +2411,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     return (StringBuffer('ItemTableData(')
           ..write('sl: $sl, ')
           ..write('id: $id, ')
+          ..write('isCustomItem: $isCustomItem, ')
           ..write('name: $name, ')
           ..write('count: $count, ')
           ..write('price: $price, ')
@@ -2173,14 +2423,15 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(sl, id, name, count, price, imageUrl, vat, orderSl);
+  int get hashCode => Object.hash(
+      sl, id, isCustomItem, name, count, price, imageUrl, vat, orderSl);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ItemTableData &&
           other.sl == this.sl &&
           other.id == this.id &&
+          other.isCustomItem == this.isCustomItem &&
           other.name == this.name &&
           other.count == this.count &&
           other.price == this.price &&
@@ -2192,6 +2443,7 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
 class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
   final Value<int?> sl;
   final Value<String?> id;
+  final Value<bool?> isCustomItem;
   final Value<String?> name;
   final Value<int?> count;
   final Value<double?> price;
@@ -2201,6 +2453,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
   const ItemTableCompanion({
     this.sl = const Value.absent(),
     this.id = const Value.absent(),
+    this.isCustomItem = const Value.absent(),
     this.name = const Value.absent(),
     this.count = const Value.absent(),
     this.price = const Value.absent(),
@@ -2211,6 +2464,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
   ItemTableCompanion.insert({
     this.sl = const Value.absent(),
     this.id = const Value.absent(),
+    this.isCustomItem = const Value.absent(),
     this.name = const Value.absent(),
     this.count = const Value.absent(),
     this.price = const Value.absent(),
@@ -2221,6 +2475,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
   static Insertable<ItemTableData> custom({
     Expression<int>? sl,
     Expression<String>? id,
+    Expression<bool>? isCustomItem,
     Expression<String>? name,
     Expression<int>? count,
     Expression<double>? price,
@@ -2231,6 +2486,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     return RawValuesInsertable({
       if (sl != null) 'sl': sl,
       if (id != null) 'id': id,
+      if (isCustomItem != null) 'is_custom_item': isCustomItem,
       if (name != null) 'name': name,
       if (count != null) 'count': count,
       if (price != null) 'price': price,
@@ -2243,6 +2499,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
   ItemTableCompanion copyWith(
       {Value<int?>? sl,
       Value<String?>? id,
+      Value<bool?>? isCustomItem,
       Value<String?>? name,
       Value<int?>? count,
       Value<double?>? price,
@@ -2252,6 +2509,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     return ItemTableCompanion(
       sl: sl ?? this.sl,
       id: id ?? this.id,
+      isCustomItem: isCustomItem ?? this.isCustomItem,
       name: name ?? this.name,
       count: count ?? this.count,
       price: price ?? this.price,
@@ -2269,6 +2527,9 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     }
     if (id.present) {
       map['id'] = Variable<String>(id.value);
+    }
+    if (isCustomItem.present) {
+      map['is_custom_item'] = Variable<bool>(isCustomItem.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -2296,6 +2557,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     return (StringBuffer('ItemTableCompanion(')
           ..write('sl: $sl, ')
           ..write('id: $id, ')
+          ..write('isCustomItem: $isCustomItem, ')
           ..write('name: $name, ')
           ..write('count: $count, ')
           ..write('price: $price, ')
@@ -4855,6 +5117,7 @@ class PaymentDetailTableCompanion
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
+  late final $ConfigTableTable configTable = $ConfigTableTable(this);
   late final $CategoryTableTable categoryTable = $CategoryTableTable(this);
   late final $OrderTableTable orderTable = $OrderTableTable(this);
   late final $ItemTableTable itemTable = $ItemTableTable(this);
@@ -4865,6 +5128,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [categoryTable, orderTable, itemTable, productTable, paymentDetailTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        configTable,
+        categoryTable,
+        orderTable,
+        itemTable,
+        productTable,
+        paymentDetailTable
+      ];
 }

@@ -13,7 +13,7 @@ class DraftOrders extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return StreamBuilder(
-      stream: OrderTable().watchOrders(),
+      stream: OrderTable.watchOrders(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return emptyWidget;
         final draftOrders = snapshot.data;

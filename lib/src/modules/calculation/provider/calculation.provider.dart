@@ -13,7 +13,7 @@ class CalculationProvider extends Notifier<void> {
   void build() {}
 
   Future updateDiscountType(DiscountType type) async {
-    await OrderTable().updateDiscountType(ref.read(orderSlProvider)!, type);
+    await OrderTable.updateDiscountType(ref.read(orderSlProvider)!, type);
     await ref.read(orderSlProvider.notifier).updateCalculationFields();
   }
 
@@ -21,7 +21,7 @@ class CalculationProvider extends Notifier<void> {
     if (type == null) return;
     double? amount = s != null ? double.tryParse(s) : 0;
     amount = amount ?? 0;
-    await OrderTable().updateDiscountAmount(
+    await OrderTable.updateDiscountAmount(
       ref.read(orderSlProvider)!,
       amount,
     );

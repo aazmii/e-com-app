@@ -8,7 +8,7 @@ final paymentStream = StreamProvider<List<PaymentDetail>>((ref) {
   final sl = ref.watch(orderSlProvider);
   if (sl == null) return const Stream.empty();
   Stream<List<PaymentDetailTableData>> itemDataStream =
-      PaymentDetailTable().watchPayments(orderSl: sl);
+      PaymentDetailTable.watchPayments(orderSl: sl);
 
   return itemDataStream.map((List<PaymentDetailTableData> itemDataList) {
     final List<PaymentDetail> paymentDetails = itemDataList.map((paymentData) {

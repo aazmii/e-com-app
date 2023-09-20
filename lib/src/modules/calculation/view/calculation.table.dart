@@ -5,9 +5,7 @@ import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/calculation/provider/calculation.provider.dart';
-import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
-import 'package:pos_sq/src/modules/payment.detail/view/wide.view.dart';
 import 'package:pos_sq/src/providers/methods.dart';
 import 'package:pos_sq/src/providers/providers.dart';
 
@@ -15,8 +13,10 @@ const _cellHeight = 35.0;
 Table calculatoinTable(
   BuildContext context,
   WidgetRef ref,
-  List<Item>? items,
+  double? grossTotal,
+  double? totalVat,
   Order? order,
+  double? tax,
 ) {
   // ref.watch(tecProvider('discount')).text = '${order?.discountAmount ?? 0}';
   return Table(
@@ -62,11 +62,7 @@ Table calculatoinTable(
                           vertical: 8,
                           horizontal: 4,
                         ),
-                        child: Text(
-                          items != null
-                              ? items.grossTotal.formatted
-                              : 'BDT 0.00',
-                        ),
+                        child: Text(grossTotal.formatted),
                       ),
                     ),
                   ),
@@ -76,7 +72,6 @@ Table calculatoinTable(
                 children: [
                   const TableCell(
                     child: SizedBox(
-                      height: tableColumnHeight + 20,
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Padding(
@@ -116,15 +111,14 @@ Table calculatoinTable(
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              order?.discountType == DiscountType.cash
-                                  ? 'Discount BDT ${order?.discountAmount.formatted}'
-                                  : 'Discount BDT ${discountAmount(order?.discountAmount, items?.grossTotal).formatted}',
-                              textAlign: TextAlign.right,
+                          if (order?.discountType != null)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'Discount BDT ${order!.getDisocuntAmount(total: grossTotal ?? 0)}',
+                                textAlign: TextAlign.right,
+                              ),
                             ),
-                          )
                         ],
                       ),
                     ),
@@ -152,19 +146,15 @@ Table calculatoinTable(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8, horizontal: 4),
-                        child: Text(
-                          items != null
-                              ? 'BDT ${items.totalVat.formatted}'
-                              : 'BDT 0.00',
-                        ),
+                        child: Text('BDT ${totalVat.formatted}'),
                       ),
                     ),
                   ),
                 ],
               ),
-              const TableRow(
+              TableRow(
                 children: [
-                  TableCell(
+                  const TableCell(
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
@@ -181,9 +171,9 @@ Table calculatoinTable(
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                        child: Text('BDT 0.00'),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 4),
+                        child: Text(tax != null ? 'BDT $tax' : 'BDT 0.00'),
                       ),
                     ),
                   ),

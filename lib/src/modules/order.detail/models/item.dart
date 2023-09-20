@@ -7,6 +7,7 @@ class Item {
   final int? sl;
   final String? id;
   final String? name;
+  final bool? isCustomItem;
   final int? count;
   final double? price;
   final double? vat;
@@ -15,6 +16,7 @@ class Item {
   Item({
     this.sl,
     this.id,
+    this.isCustomItem,
     required this.name,
     required this.count,
     required this.price,
@@ -25,6 +27,7 @@ class Item {
   Item copyWith({
     int? sl,
     String? id,
+    bool? isCustomItem,
     String? name,
     int? count,
     double? price,
@@ -33,6 +36,7 @@ class Item {
   }) {
     return Item(
       sl: sl ?? this.sl,
+      isCustomItem: isCustomItem ?? this.isCustomItem,
       id: id ?? this.id,
       name: name ?? this.name,
       count: count ?? this.count,
@@ -46,6 +50,7 @@ class Item {
     return <String, dynamic>{
       'sl': sl,
       'id': id,
+      'isCustomItem': isCustomItem,
       'name': name,
       'count': count,
       'price': price,
@@ -60,6 +65,7 @@ class Item {
       id: id,
       name: name,
       count: count,
+      isCustomItem: isCustomItem,
       price: price,
       imageUrl: imageurl,
       vat: vat ?? 0.00,
@@ -71,6 +77,7 @@ class Item {
         sl: d.sl,
         id: d.id,
         name: d.name,
+        isCustomItem: d.isCustomItem,
         count: d.count,
         price: d.price,
         imageurl: d.imageUrl,
@@ -80,10 +87,11 @@ class Item {
   static Item fromProduct(Product p) {
     return Item(
       id: p.productId,
+      isCustomItem: false,
       name: p.label,
       price: p.price ?? 0.00,
       count: null,
-      imageurl: p.files != null ? p.files!.first : null,
+      imageurl: p.files?.first.image,
       vat: p.vatInPercentage,
     );
   }

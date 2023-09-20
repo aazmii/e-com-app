@@ -2,11 +2,11 @@ import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
-import 'package:pos_sq/src/app.db/tables/item.table.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
-import 'package:pos_sq/src/modules/order.detail/models/item.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
+import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 import 'package:pos_sq/src/modules/payment.detail/view/payment.detail.dart';
 import 'package:pos_sq/src/providers/providers.dart';
@@ -36,10 +36,7 @@ class OrderDetail extends ConsumerWidget {
             ),
             IconButton(
               onPressed: () async {
-                final item = Item(name: '', count: 1, price: 0);
-                ItemTable().insertItem(item, 5).then((sl) {
-                  ItemTable().updateId(sl, sl.toString());
-                });
+                final list = await getProductCategories();
               },
               icon: const Icon(
                 Icons.add,

@@ -1,6 +1,9 @@
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/constants/constants.dart';
+import 'package:pos_sq/src/modules/configuration/model/config.table.model/config.dart';
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
 import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 import 'package:pos_sq/src/modules/payment.detail/model/payment.detail.dart';
@@ -14,3 +17,5 @@ part 'src/list.ext.dart';
 part 'src/string.dart';
 part 'src/order.ext.dart';
 part 'src/payment.detail.ext.dart';
+part 'src/item.ext.dart';
+part 'src/conifg.ext.dart';

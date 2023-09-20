@@ -27,7 +27,7 @@ class OrderTable extends Table {
 
   DateTimeColumn get orderDateTime => dateTime().nullable()();
 
-  Future updateDiscountAmount(int sl, double? d) async {
+  static Future updateDiscountAmount(int sl, double? d) async {
     if (d == null) return;
     return (db.update(db.orderTable)
           ..where((tbl) {
@@ -36,7 +36,7 @@ class OrderTable extends Table {
         .write(OrderTableCompanion(discountAmount: Value(d)));
   }
 
-  Future updateDiscountType(int sl, DiscountType discountType) async {
+  static Future updateDiscountType(int sl, DiscountType discountType) async {
     return (db.update(db.orderTable)
           ..where((tbl) {
             return tbl.sl.equals(sl);
@@ -44,25 +44,25 @@ class OrderTable extends Table {
         .write(OrderTableCompanion(discountType: Value(discountType.name)));
   }
 
-  Future<int> insetOrder(OrderTableCompanion entity) async {
+  static Future<int> insetOrder(OrderTableCompanion entity) async {
     return await db.into(db.orderTable).insert(entity);
   }
 
-  Future removeOrder(int? sl) async {
+  static Future removeOrder(int? sl) async {
     if (sl == null) return;
     return (db.delete(db.orderTable)..where((tbl) => tbl.sl.equals(sl))).go();
   }
 
-  Future<List<OrderTableData>> getAllOrders() async {
+  static Future<List<OrderTableData>> getAllOrders() async {
     return await db.select(db.orderTable).get();
   }
 
-  Future<OrderTableData> getOrderBySl(int sl) async {
+  static Future<OrderTableData> getOrderBySl(int sl) async {
     return await (db.select(db.orderTable)..where((tbl) => tbl.sl.equals(sl)))
         .getSingle();
   }
 
-  Stream<OrderTableData> watchOrdersBySl(int sl) {
+  static Stream<OrderTableData> watchOrdersBySl(int sl) {
     final Stream<OrderTableData> tableStream = (db.select(db.orderTable)
           ..where((tbl) => tbl.sl.equals(sl)))
         .watchSingle();
@@ -70,7 +70,7 @@ class OrderTable extends Table {
     return tableStream;
   }
 
-  Future updateGrossTotal(int sl, double grossTotal) {
+  static Future updateGrossTotal(int sl, double grossTotal) {
     return (db.update(db.orderTable)
           ..where((tbl) {
             return tbl.sl.equals(sl);
@@ -78,7 +78,7 @@ class OrderTable extends Table {
         .write(OrderTableCompanion(grossTotal: Value(grossTotal)));
   }
 
-  Future updateVat(int sl, double vat) {
+  static Future updateVat(int sl, double vat) {
     return (db.update(db.orderTable)
           ..where((tbl) {
             return tbl.sl.equals(sl);
@@ -86,7 +86,7 @@ class OrderTable extends Table {
         .write(OrderTableCompanion(vatorgst: Value(vat)));
   }
 
-  Future updateNetTotal(int sl, double amount) {
+  static Future updateNetTotal(int sl, double amount) {
     return (db.update(db.orderTable)
           ..where((tbl) {
             return tbl.sl.equals(sl);
@@ -94,7 +94,7 @@ class OrderTable extends Table {
         .write(OrderTableCompanion(netTotal: Value(amount)));
   }
 
-  Stream<List<OrderTableData>> watchOrders() {
+  static Stream<List<OrderTableData>> watchOrders() {
     final Stream<List<OrderTableData>> dataStream =
         db.select(db.orderTable).watch();
 
