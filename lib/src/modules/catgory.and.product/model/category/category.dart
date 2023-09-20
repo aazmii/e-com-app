@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:pos_sq/src/app.db/app.db.dart';
 import 'package:pos_sq/src/app.db/tables/category.table.dart';
 import 'package:pos_sq/src/app.db/tables/product.table.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/image.model.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
@@ -35,7 +36,7 @@ class Category {
   bool? showInSpecialCategory;
   bool? showBestSaleCategory;
   List<String>? tags;
-  List<String>? categoryFiles;
+  List<ImageModel?>? categoryFiles;
 
   DateTime? createdAt;
 
@@ -98,7 +99,7 @@ class Category {
     bool? showInSpecialCategory,
     bool? showBestSaleCategory,
     List<String>? tags,
-    List<String>? categoryFiles,
+    List<ImageModel?>? categoryFiles,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? createdBy,
@@ -169,6 +170,10 @@ class Category {
   }
 
   static Category fromMap(Map<String, dynamic> map) {
+    List<ImageModel?> images = [];
+    for (var data in map['images']) {
+      images.add(ImageModel.fromMap(data));
+    }
     final category = Category(
       id: map['id'] != null ? map['id'] as String? : null,
       label: map['label'] != null ? map['label'] as String : null,
@@ -203,7 +208,6 @@ class Category {
           ? map['show_best_sale_category'] as bool
           : null,
       tags: null,
-      categoryFiles: null,
       createdAt:
           map['created_at'] != null ? DateTime.parse(map['created_at']) : null,
       updatedAt:
@@ -212,6 +216,7 @@ class Category {
       updatedBy: map['updated_by'] as String?,
       warehouseLocation: null,
       outletLocation: null,
+      categoryFiles: images,
     );
 
     return category;
@@ -241,14 +246,16 @@ class Category {
       specialCategory: showInSpecialCategory,
       bestSellCategory: showBestSaleCategory,
       tags: jsonEncode(tags),
-      categoryFiles: jsonEncode(categoryFiles),
+      categoryFiles: categoryFiles != null
+          ? jsonEncode(categoryFiles!.map((e) => e?.toJson()).toList())
+          : null,
       createdAt: createdAt,
       createdBy: createdBy,
       warehouseLocation:
           warehouseLocation != null ? warehouseLocation!.toJson() : null,
       outletLocation: outletLocation != null ? outletLocation!.toJson() : null,
     );
-    return data;
+  return data;
   }
 
   static Category fromTableData(CategoryTableData d) {
@@ -275,8 +282,11 @@ class Category {
       showBestSaleCategory: d.specialCategory,
       showInSpecialCategory: d.bestSellCategory,
       tags: d.tags != null ? jsonDecode(d.tags!) : null,
-      categoryFiles:
-          d.categoryFiles != null ? jsonDecode(d.categoryFiles!) : null,
+      categoryFiles: d.categoryFiles != null
+          ? (jsonDecode(d.categoryFiles!) as List)
+              .map((e) => ImageModel.fromJson(e))
+              .toList()
+          : null,
       createdAt: d.createdAt,
       createdBy: d.createdBy,
       warehouseLocation: d.warehouseLocation != null

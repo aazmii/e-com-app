@@ -21,7 +21,7 @@ static  Future insertConfig(Config config) async {
     return Config.fromDataList(await db.select(db.configTable).get());
   }
 
- static Future<bool> updateValue({required String fieldName, dynamic value}) async {
+ static Future<bool> updateValue({required String fieldName, String? value}) async {
     return (await (db.update(db.configTable)
               ..where((tbl) => tbl.keyColumn.equals(fieldName)))
             .write(ConfigTableCompanion(valueColumn: Value(value)))) ==

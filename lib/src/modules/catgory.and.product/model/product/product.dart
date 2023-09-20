@@ -283,6 +283,10 @@ class Product {
   }
 
   static Product fromMap(Map<String, dynamic> map) {
+    List<ImageModel> images = [];
+    for (var e in (map['images'] as List)) {
+      images.add(ImageModel.fromMap(e));
+    }
     final product = Product(
       productId: map['id'] != null ? map['id'] as String : null,
       categoryId: map['category_id'],
@@ -368,11 +372,8 @@ class Product {
           ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
           : null,
       downloadedFiles: null,
-      files: map['images'] != null
-          ? (map['images'] as List).map((e) => ImageModel.fromJson(e)).toList()
-          : null,
+      files: images,
     );
-    print(product.files);
     return product;
   }
 
@@ -429,7 +430,11 @@ class Product {
           p.crossSaleProducts != null ? jsonDecode(p.crossSaleProducts!) : null,
       upSaleProducts:
           p.upSaleProducts != null ? jsonDecode(p.upSaleProducts!) : null,
-      files: p.files != null ? jsonDecode(p.files!) : null,
+      files: p.files!.isNotEmpty
+          ? (jsonDecode(p.files!) as List)
+              .map((e) => ImageModel.fromJson(e))
+              .toList()
+          : null,
       createdAt: p.createdAt,
       createdBy: p.createdBy,
       updatedAt: p.updatedAt,
@@ -437,102 +442,6 @@ class Product {
       shelfLife: p.shelfLife,
       minimumInventory: p.minimumInventory,
     );
-  }
-
-  static Product fromDbMap(Map<String, dynamic> map) {
-    final product = Product(
-      productId: map['id'] != null ? map['id'] as String : null,
-      categoryId: map['category_id'],
-      inventory: null,
-      minimumInventory: null,
-      label: map['name'] != null ? map['name'] as String : null,
-      position: null,
-      relatedProducts: null,
-      crossSaleProducts: null,
-      upSaleProducts: null,
-      warehouseLocation: null,
-      outletLocation: map['outletLocation'] != null
-          ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
-          : null,
-      rackLocation:
-          map['rackLocation'] != null ? map['rackLocation'] as String : null,
-      sku: map['sku'] != null ? map['sku'] as String : null,
-      manufactureCountry: map['manufactureCountry'] != null
-          ? map['manufactureCountry'] as String
-          : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      posLabel: map['posLabel'] != null ? map['posLabel'] as String : null,
-      categoryLabel:
-          map['categoryLabel'] != null ? map['categoryLabel'] as String : null,
-      types: null,
-      shortDescription: map['shortDescription'] != null
-          ? map['shortDescription'] as String
-          : null,
-      createdBy: map['createdBy'],
-      updatedBy: map['updatedBy'],
-      shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
-
-      price: (map['price'] != 'null') ? map['price'] as double : null,
-
-      specialPrice: null,
-      promotionPrice: map['promotionPrice'] != null
-          ? map['promotionPrice'] as double
-          : null,
-      advancePrice:
-          map['advancePrice'] != null ? map['advancePrice'] as double : null,
-      taxInPercentage: null,
-      vatInPercentage: null,
-      weight: map['weight'] != null ? double.tryParse(map['weight']) : null,
-      height: map['height'] != null ? double.tryParse(map['height']) : null,
-      average5PercentRating: map['average5PercentRating'] != null
-          ? map['average5PercentRating'] as double
-          : null,
-      average4PercentRating: map['average4PercentRating'] != null
-          ? map['average4PercentRating'] as double
-          : null,
-      average3PercentRating: map['average3PercentRating'] != null
-          ? map['average3PercentRating'] as double
-          : null,
-      average2PercentRating: map['average2PercentRating'] != null
-          ? map['average2PercentRating'] as double
-          : null,
-      average1PercentRating: map['average1PercentRating'] != null
-          ? map['average1PercentRating'] as double
-          : null,
-      averageRating:
-          map['averageRating'] != null ? map['averageRating'] as int : null,
-      totalNumberOfRating: map['totalNumberOfRating'] != null
-          ? map['totalNumberOfRating'] as int
-          : null,
-      barCode: map['barCode'] != null ? map['barCode'] as String : null,
-      qrCode: map['qrCode'] != null ? map['qrCode'] as String : null,
-      tags: null,
-      enable: null,
-      // enable: map['enable'] != null ? map['enable'] as bool : null,
-      isDownloadable:
-          map['isdownloadable'] != null ? map['isdownloadable'] as bool : null,
-      manufactureDate: map['manufactureDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['manufactureDate'] as int)
-          : null,
-      expireDate: map['expireDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['expireDate'] as int)
-          : null,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
-          : null,
-      updatedAt: map['updatedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
-          : null,
-      downloadedFiles: null,
-      files: map['images'] == null
-          ? []
-          : (map['images'] as List<dynamic>)
-              .map((e) => ImageModel.fromJson(e))
-              .toList(),
-    );
-
-    return product;
   }
 
   ProductTableData toTableData() {

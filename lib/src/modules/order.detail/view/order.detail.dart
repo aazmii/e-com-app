@@ -2,11 +2,11 @@ import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/product.table.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
-import 'package:pos_sq/src/modules/catgory.and.product/api/category.api.dart';
-import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.sl.provider.dart';
 import 'package:pos_sq/src/modules/payment.detail/view/payment.detail.dart';
 import 'package:pos_sq/src/providers/providers.dart';
@@ -36,7 +36,12 @@ class OrderDetail extends ConsumerWidget {
             ),
             IconButton(
               onPressed: () async {
-                final list = await getProductCategories();
+                final list = await ProductTable.getProducts();
+                for (var v in list) {
+                  if (Product.fromTableData(v).files!.isNotEmpty) {
+                    print(Product.fromTableData(v).files!.first);
+                  }
+                }
               },
               icon: const Icon(
                 Icons.add,

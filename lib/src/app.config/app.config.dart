@@ -10,7 +10,7 @@ Config appConfig(DateTime currentDatetime) {
     companyCity: 'Washington',
     companyCountry: 'US',
     companyPostCode: '2354',
-    companyLicenseExpireDate: DateTime(2023, 09, 04),
+    companyLicenseExpireDate: DateTime(2023, 12, 30),
     lastUpdate: DateTime(2023, 09, 04),
     daysLeftToExpireLicense: licenseDate.difference(currentDatetime).inDays,
     companyInvoiceHeaderText:
