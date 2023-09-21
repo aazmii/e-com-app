@@ -64,7 +64,7 @@ TableRow actionButtons(WidgetRef ref, BuildContext context) {
               child: OrderActionButton(
                 text: 'Discard',
                 color: Colors.red,
-                onPress: () {},
+                onPress: ref.read(orderProvider.notifier).onPressDiscard,
               ),
             ),
             emptyWidget,

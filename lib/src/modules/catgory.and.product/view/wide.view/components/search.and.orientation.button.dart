@@ -7,6 +7,7 @@ import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/view/wide.view/components/search.field.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
 
 class SearchAndOrientationButton extends ConsumerWidget {
@@ -44,7 +45,7 @@ class SearchAndOrientationButton extends ConsumerWidget {
         ),
         IconButton(
           onPressed: () async {
-            // await ref.read(orderProvider.notifier).createNewOrder();
+            ref.read(orderProvider.notifier).removeAndResetOrder(1);
           },
           icon: const Icon(
             Icons.add,

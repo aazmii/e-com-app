@@ -22,4 +22,5 @@ enum AppLayout {
 
 enum DiscountType { cash, percentage }
 
+//!this can cause build runner to fail who know why
 enum CustomerInfoType { name, phone, loyalityCard }

@@ -2150,6 +2150,15 @@ class $ItemTableTable extends ItemTable
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _orderSlMeta =
+      const VerificationMeta('orderSl');
+  @override
+  late final GeneratedColumn<int> orderSl = GeneratedColumn<int>(
+      'order_sl', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES order_table (sl)'));
   static const VerificationMeta _isCustomItemMeta =
       const VerificationMeta('isCustomItem');
   @override
@@ -2185,18 +2194,9 @@ class $ItemTableTable extends ItemTable
   late final GeneratedColumn<double> vat = GeneratedColumn<double>(
       'vat_in_percentage', aliasedName, true,
       type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _orderSlMeta =
-      const VerificationMeta('orderSl');
-  @override
-  late final GeneratedColumn<int> orderSl = GeneratedColumn<int>(
-      'order_sl', aliasedName, true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES order_table (sl)'));
   @override
   List<GeneratedColumn> get $columns =>
-      [sl, id, isCustomItem, name, count, price, imageUrl, vat, orderSl];
+      [sl, id, orderSl, isCustomItem, name, count, price, imageUrl, vat];
   @override
   String get aliasedName => _alias ?? 'item_table';
   @override
@@ -2211,6 +2211,10 @@ class $ItemTableTable extends ItemTable
     }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('order_sl')) {
+      context.handle(_orderSlMeta,
+          orderSl.isAcceptableOrUnknown(data['order_sl']!, _orderSlMeta));
     }
     if (data.containsKey('is_custom_item')) {
       context.handle(
@@ -2238,10 +2242,6 @@ class $ItemTableTable extends ItemTable
       context.handle(_vatMeta,
           vat.isAcceptableOrUnknown(data['vat_in_percentage']!, _vatMeta));
     }
-    if (data.containsKey('order_sl')) {
-      context.handle(_orderSlMeta,
-          orderSl.isAcceptableOrUnknown(data['order_sl']!, _orderSlMeta));
-    }
     return context;
   }
 
@@ -2255,6 +2255,8 @@ class $ItemTableTable extends ItemTable
           .read(DriftSqlType.int, data['${effectivePrefix}sl']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}id']),
+      orderSl: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}order_sl']),
       isCustomItem: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_custom_item']),
       name: attachedDatabase.typeMapping
@@ -2267,8 +2269,6 @@ class $ItemTableTable extends ItemTable
           .read(DriftSqlType.string, data['${effectivePrefix}image_url']),
       vat: attachedDatabase.typeMapping.read(
           DriftSqlType.double, data['${effectivePrefix}vat_in_percentage']),
-      orderSl: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}order_sl']),
     );
   }
 
@@ -2281,23 +2281,23 @@ class $ItemTableTable extends ItemTable
 class ItemTableData extends DataClass implements Insertable<ItemTableData> {
   final int? sl;
   final String? id;
+  final int? orderSl;
   final bool? isCustomItem;
   final String? name;
   final int? count;
   final double? price;
   final String? imageUrl;
   final double? vat;
-  final int? orderSl;
   const ItemTableData(
       {this.sl,
       this.id,
+      this.orderSl,
       this.isCustomItem,
       this.name,
       this.count,
       this.price,
       this.imageUrl,
-      this.vat,
-      this.orderSl});
+      this.vat});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2306,6 +2306,9 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     }
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<String>(id);
+    }
+    if (!nullToAbsent || orderSl != null) {
+      map['order_sl'] = Variable<int>(orderSl);
     }
     if (!nullToAbsent || isCustomItem != null) {
       map['is_custom_item'] = Variable<bool>(isCustomItem);
@@ -2325,9 +2328,6 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     if (!nullToAbsent || vat != null) {
       map['vat_in_percentage'] = Variable<double>(vat);
     }
-    if (!nullToAbsent || orderSl != null) {
-      map['order_sl'] = Variable<int>(orderSl);
-    }
     return map;
   }
 
@@ -2335,6 +2335,9 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     return ItemTableCompanion(
       sl: sl == null && nullToAbsent ? const Value.absent() : Value(sl),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      orderSl: orderSl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orderSl),
       isCustomItem: isCustomItem == null && nullToAbsent
           ? const Value.absent()
           : Value(isCustomItem),
@@ -2347,9 +2350,6 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
           ? const Value.absent()
           : Value(imageUrl),
       vat: vat == null && nullToAbsent ? const Value.absent() : Value(vat),
-      orderSl: orderSl == null && nullToAbsent
-          ? const Value.absent()
-          : Value(orderSl),
     );
   }
 
@@ -2359,13 +2359,13 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     return ItemTableData(
       sl: serializer.fromJson<int?>(json['sl']),
       id: serializer.fromJson<String?>(json['id']),
+      orderSl: serializer.fromJson<int?>(json['orderSl']),
       isCustomItem: serializer.fromJson<bool?>(json['isCustomItem']),
       name: serializer.fromJson<String?>(json['name']),
       count: serializer.fromJson<int?>(json['count']),
       price: serializer.fromJson<double?>(json['price']),
       imageUrl: serializer.fromJson<String?>(json['imageUrl']),
       vat: serializer.fromJson<double?>(json['vat']),
-      orderSl: serializer.fromJson<int?>(json['orderSl']),
     );
   }
   @override
@@ -2374,29 +2374,30 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
     return <String, dynamic>{
       'sl': serializer.toJson<int?>(sl),
       'id': serializer.toJson<String?>(id),
+      'orderSl': serializer.toJson<int?>(orderSl),
       'isCustomItem': serializer.toJson<bool?>(isCustomItem),
       'name': serializer.toJson<String?>(name),
       'count': serializer.toJson<int?>(count),
       'price': serializer.toJson<double?>(price),
       'imageUrl': serializer.toJson<String?>(imageUrl),
       'vat': serializer.toJson<double?>(vat),
-      'orderSl': serializer.toJson<int?>(orderSl),
     };
   }
 
   ItemTableData copyWith(
           {Value<int?> sl = const Value.absent(),
           Value<String?> id = const Value.absent(),
+          Value<int?> orderSl = const Value.absent(),
           Value<bool?> isCustomItem = const Value.absent(),
           Value<String?> name = const Value.absent(),
           Value<int?> count = const Value.absent(),
           Value<double?> price = const Value.absent(),
           Value<String?> imageUrl = const Value.absent(),
-          Value<double?> vat = const Value.absent(),
-          Value<int?> orderSl = const Value.absent()}) =>
+          Value<double?> vat = const Value.absent()}) =>
       ItemTableData(
         sl: sl.present ? sl.value : this.sl,
         id: id.present ? id.value : this.id,
+        orderSl: orderSl.present ? orderSl.value : this.orderSl,
         isCustomItem:
             isCustomItem.present ? isCustomItem.value : this.isCustomItem,
         name: name.present ? name.value : this.name,
@@ -2404,118 +2405,117 @@ class ItemTableData extends DataClass implements Insertable<ItemTableData> {
         price: price.present ? price.value : this.price,
         imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
         vat: vat.present ? vat.value : this.vat,
-        orderSl: orderSl.present ? orderSl.value : this.orderSl,
       );
   @override
   String toString() {
     return (StringBuffer('ItemTableData(')
           ..write('sl: $sl, ')
           ..write('id: $id, ')
+          ..write('orderSl: $orderSl, ')
           ..write('isCustomItem: $isCustomItem, ')
           ..write('name: $name, ')
           ..write('count: $count, ')
           ..write('price: $price, ')
           ..write('imageUrl: $imageUrl, ')
-          ..write('vat: $vat, ')
-          ..write('orderSl: $orderSl')
+          ..write('vat: $vat')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(
-      sl, id, isCustomItem, name, count, price, imageUrl, vat, orderSl);
+      sl, id, orderSl, isCustomItem, name, count, price, imageUrl, vat);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ItemTableData &&
           other.sl == this.sl &&
           other.id == this.id &&
+          other.orderSl == this.orderSl &&
           other.isCustomItem == this.isCustomItem &&
           other.name == this.name &&
           other.count == this.count &&
           other.price == this.price &&
           other.imageUrl == this.imageUrl &&
-          other.vat == this.vat &&
-          other.orderSl == this.orderSl);
+          other.vat == this.vat);
 }
 
 class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
   final Value<int?> sl;
   final Value<String?> id;
+  final Value<int?> orderSl;
   final Value<bool?> isCustomItem;
   final Value<String?> name;
   final Value<int?> count;
   final Value<double?> price;
   final Value<String?> imageUrl;
   final Value<double?> vat;
-  final Value<int?> orderSl;
   const ItemTableCompanion({
     this.sl = const Value.absent(),
     this.id = const Value.absent(),
+    this.orderSl = const Value.absent(),
     this.isCustomItem = const Value.absent(),
     this.name = const Value.absent(),
     this.count = const Value.absent(),
     this.price = const Value.absent(),
     this.imageUrl = const Value.absent(),
     this.vat = const Value.absent(),
-    this.orderSl = const Value.absent(),
   });
   ItemTableCompanion.insert({
     this.sl = const Value.absent(),
     this.id = const Value.absent(),
+    this.orderSl = const Value.absent(),
     this.isCustomItem = const Value.absent(),
     this.name = const Value.absent(),
     this.count = const Value.absent(),
     this.price = const Value.absent(),
     this.imageUrl = const Value.absent(),
     this.vat = const Value.absent(),
-    this.orderSl = const Value.absent(),
   });
   static Insertable<ItemTableData> custom({
     Expression<int>? sl,
     Expression<String>? id,
+    Expression<int>? orderSl,
     Expression<bool>? isCustomItem,
     Expression<String>? name,
     Expression<int>? count,
     Expression<double>? price,
     Expression<String>? imageUrl,
     Expression<double>? vat,
-    Expression<int>? orderSl,
   }) {
     return RawValuesInsertable({
       if (sl != null) 'sl': sl,
       if (id != null) 'id': id,
+      if (orderSl != null) 'order_sl': orderSl,
       if (isCustomItem != null) 'is_custom_item': isCustomItem,
       if (name != null) 'name': name,
       if (count != null) 'count': count,
       if (price != null) 'price': price,
       if (imageUrl != null) 'image_url': imageUrl,
       if (vat != null) 'vat_in_percentage': vat,
-      if (orderSl != null) 'order_sl': orderSl,
     });
   }
 
   ItemTableCompanion copyWith(
       {Value<int?>? sl,
       Value<String?>? id,
+      Value<int?>? orderSl,
       Value<bool?>? isCustomItem,
       Value<String?>? name,
       Value<int?>? count,
       Value<double?>? price,
       Value<String?>? imageUrl,
-      Value<double?>? vat,
-      Value<int?>? orderSl}) {
+      Value<double?>? vat}) {
     return ItemTableCompanion(
       sl: sl ?? this.sl,
       id: id ?? this.id,
+      orderSl: orderSl ?? this.orderSl,
       isCustomItem: isCustomItem ?? this.isCustomItem,
       name: name ?? this.name,
       count: count ?? this.count,
       price: price ?? this.price,
       imageUrl: imageUrl ?? this.imageUrl,
       vat: vat ?? this.vat,
-      orderSl: orderSl ?? this.orderSl,
     );
   }
 
@@ -2527,6 +2527,9 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     }
     if (id.present) {
       map['id'] = Variable<String>(id.value);
+    }
+    if (orderSl.present) {
+      map['order_sl'] = Variable<int>(orderSl.value);
     }
     if (isCustomItem.present) {
       map['is_custom_item'] = Variable<bool>(isCustomItem.value);
@@ -2546,9 +2549,6 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     if (vat.present) {
       map['vat_in_percentage'] = Variable<double>(vat.value);
     }
-    if (orderSl.present) {
-      map['order_sl'] = Variable<int>(orderSl.value);
-    }
     return map;
   }
 
@@ -2557,13 +2557,13 @@ class ItemTableCompanion extends UpdateCompanion<ItemTableData> {
     return (StringBuffer('ItemTableCompanion(')
           ..write('sl: $sl, ')
           ..write('id: $id, ')
+          ..write('orderSl: $orderSl, ')
           ..write('isCustomItem: $isCustomItem, ')
           ..write('name: $name, ')
           ..write('count: $count, ')
           ..write('price: $price, ')
           ..write('imageUrl: $imageUrl, ')
-          ..write('vat: $vat, ')
-          ..write('orderSl: $orderSl')
+          ..write('vat: $vat')
           ..write(')'))
         .toString();
   }

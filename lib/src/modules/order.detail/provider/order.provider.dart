@@ -41,13 +41,17 @@ class OrderProvider extends Notifier<int?> {
     await updateCalculationFields();
   }
 
+  Future onPressDiscard() async => await removeAndResetOrder(state!);
+
   Future removeAndResetOrder(int orderSl) async {
-    await OrderTable.removeOrder(state)
+    await OrderTable.removeOrder(orderSl)
         .then((v) => ItemTable.removeAllByOrderId(orderSl))
-        .then((v) => PaymentDetailTable.deletePaymentsByOrderId(state));
+        .then((v) => PaymentDetailTable.deletePaymentsByOrderId(orderSl));
     final orders = (await OrderTable.getAllOrders());
     if (orders.isEmpty) {
       state = await createNewOrder();
+    } else {
+      state = orders.last.sl;
     }
   }
 
