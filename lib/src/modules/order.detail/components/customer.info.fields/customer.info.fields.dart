@@ -17,11 +17,11 @@ class CustomerInfoFields extends ConsumerWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return emptyWidget;
         final order = snapshot.data;
-        ref.watch(tecProvider(TECProvider.customerName)).text =
+        ref.watch(tecProvider(Fields.customerName)).text =
             order?.customerName ?? '';
-        ref.watch(tecProvider(TECProvider.customerPhone)).text =
+        ref.watch(tecProvider(Fields.customerPhone)).text =
             order?.customerPhone ?? '';
-        ref.watch(tecProvider(TECProvider.customerLoyalityCard)).text =
+        ref.watch(tecProvider(Fields.customerLoyalityCard)).text =
             order?.loyalityCard ?? '';
         return Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 80),
@@ -32,8 +32,7 @@ class CustomerInfoFields extends ConsumerWidget {
                   width: 150,
                   child: SizedBox(
                     child: TextField(
-                      controller:
-                          ref.watch(tecProvider(TECProvider.customerName)),
+                      controller: ref.watch(tecProvider(Fields.customerName)),
                       onChanged: (s) async => await notifier
                           .onCustomerFieldChange(s, CustomerInfoType.name),
                       decoration: const InputDecoration(
@@ -46,8 +45,7 @@ class CustomerInfoFields extends ConsumerWidget {
                   height: textFieldHeight,
                   width: 150,
                   child: TextField(
-                    controller:
-                        ref.watch(tecProvider(TECProvider.customerPhone)),
+                    controller: ref.watch(tecProvider(Fields.customerPhone)),
                     onChanged: (s) async => await notifier
                         .onCustomerFieldChange(s, CustomerInfoType.phone),
                     decoration: const InputDecoration(hintText: 'Phone Number'),
@@ -58,7 +56,7 @@ class CustomerInfoFields extends ConsumerWidget {
                 width: 150,
                 child: TextField(
                   controller:
-                      ref.watch(tecProvider(TECProvider.customerLoyalityCard)),
+                      ref.watch(tecProvider(Fields.customerLoyalityCard)),
                   onChanged: (s) async => await notifier.onCustomerFieldChange(
                       s, CustomerInfoType.loyalityCard),
                   decoration: const InputDecoration(hintText: 'Loyality Card'),

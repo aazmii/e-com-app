@@ -85,10 +85,7 @@ class PaymentDetailTable extends Table {
         .go();
   }
 
-  static Future insertNewPaymentDetail(PaymentDetailTableData data) async {
-    return db.into(db.paymentDetailTable).insert(data);
-  }
-
+ 
   static Stream<List<PaymentDetailTableData>> watchPayments(
       {required int orderSl}) {
     return (db.select(db.paymentDetailTable)

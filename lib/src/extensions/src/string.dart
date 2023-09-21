@@ -9,7 +9,7 @@ extension StringUtils on String {
 
   String get capitalize => '${this[0].toUpperCase()}${substring(1)}';
   String get capitalizeFirstofEach =>
-      this.split(" ").map((str) => str.capitalize).join(" ");
+      split(" ").map((str) => str.capitalize).join(" ");
 
   bool hasMatch(String v) => toLowerCase().contains(v.toLowerCase());
 }
@@ -21,6 +21,8 @@ extension NullableStringExt on String? {
     final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
     return numericRegex.hasMatch(string);
   }
+
+  double toDouble() => double.tryParse(this ?? '0.00') ?? 0.0;
 }
 
 final RegExp _emailRegularExpression = RegExp(

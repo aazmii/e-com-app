@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/components/buttons/custom.square.button.dart';
+import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/cart.table/view/cart.dart';
@@ -95,6 +96,7 @@ TableRow customItemRow(
                     child: SizedBox(
                       height: textFieldHeight,
                       child: TextFormField(
+                        inputFormatters: [decimalOnly],
                         initialValue: item.price.formatted,
                         // controller:
                         //     ref.watch(tecProvider(TECProvider.itemPrice)),
@@ -124,6 +126,9 @@ TableRow customItemRow(
                   child: SizedBox(
                     height: textFieldHeight,
                     child: TextFormField(
+                        inputFormatters: [
+                          decimalOnly
+                        ],
                         initialValue: item.vat.formatted,
                         // controller: ref.watch(tecProvider(TECProvider.itemVat)),
                         // onTap: () => selectAll(

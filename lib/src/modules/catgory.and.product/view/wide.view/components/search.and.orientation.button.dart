@@ -7,8 +7,9 @@ import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/view/wide.view/components/search.field.dart';
-import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
+
+final myKey = GlobalKey<FormState>();
 
 class SearchAndOrientationButton extends ConsumerWidget {
   const SearchAndOrientationButton({super.key});
@@ -34,6 +35,17 @@ class SearchAndOrientationButton extends ConsumerWidget {
         const Expanded(
           child: SearchField(),
         ),
+        // SizedBox(
+        //     width: 90,
+        //     child: Form(
+        //       key: myKey,
+        //       child: TextFormField(
+        //         validator: (s) {
+        //           if (s!.isEmpty) return 'is empty';
+        //           return null;
+        //         },
+        //       ),
+        //     )),
         IconButton(
           onPressed: () => Navigator.push(
             context,
@@ -45,7 +57,8 @@ class SearchAndOrientationButton extends ConsumerWidget {
         ),
         IconButton(
           onPressed: () async {
-            ref.read(orderProvider.notifier).removeAndResetOrder(1);
+            // ref.read(orderProvider.notifier).removeAndResetOrder(1);
+            print(myKey.currentState!.validate());
           },
           icon: const Icon(
             Icons.add,

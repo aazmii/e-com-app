@@ -94,6 +94,7 @@ Table calculatoinTable(
                           SizedBox(
                             height: textFieldHeight,
                             child: TextFormField(
+                              inputFormatters: [decimalOnly],
                               controller: ref.watch(tecProvider('discount')),
                               onTap: () =>
                                   selectAll(ref.watch(tecProvider('discount'))),

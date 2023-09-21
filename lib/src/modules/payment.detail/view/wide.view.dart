@@ -240,16 +240,45 @@ class PaymentTable extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: SizedBox(
-              height: textFieldHeight,
-              //*AMOUNT
-              child: TextField(
-                onChanged: (s) {
-                  ref
-                      .read(paymentProvider.notifier)
-                      .onChangeAmount(paymentList![index].id!, s);
-                },
-              ),
-            ),
+                height: textFieldHeight,
+                //*AMOUNT
+                child: ref.watch(selectedOrderStream).when(
+                      data: (order) {
+                        return TextFormField(
+                          initialValue: paymentList![index].amount != null
+                              ? paymentList![index].amount.toString()
+                              : '',
+                          textAlign: TextAlign.right,
+                          inputFormatters: [decimalOnly],
+                          // validator: (s) {
+                          //   return ref
+                          //       .read(paymentProvider.notifier)
+                          //       .amountValidator(
+                          //         s,
+                          //         balance(
+                          //             paymentList!,
+                          //             index,
+                          //             Order.fromTableData(order).netTotal ??
+                          //                 0),
+                          //       );
+                          // },
+                          onChanged: (s) {
+                            ref.read(paymentProvider.notifier).onChangeAmount(
+                                  value: s,
+                                  isLastItem: paymentList!.length - 1 == index,
+                                  lastItem:
+                                      paymentList![paymentList!.length - 1],
+                                  detail: paymentList![index],
+                                  balance: balance(paymentList!, index,
+                                      Order.fromTableData(order).netTotal ?? 0),
+                                );
+                          },
+                        );
+                        // return Text((Order.fromTableData(o)).netTotal.formatted);
+                      },
+                      error: (e, s) => emptyWidget,
+                      loading: () => emptyWidget,
+                    )),
           ),
         ),
         SizedBox(
@@ -262,7 +291,6 @@ class PaymentTable extends ConsumerWidget {
                     return Text(balance(paymentList!, index,
                             (Order.fromTableData(o)).netTotal ?? 0)
                         .formatted);
-                    // return Text((Order.fromTableData(o)).netTotal.formatted);
                   },
                   error: (e, s) => emptyWidget,
                   loading: () => emptyWidget,
