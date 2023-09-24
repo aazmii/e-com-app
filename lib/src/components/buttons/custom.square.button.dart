@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_sq/src/extensions/extensions.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -55,17 +56,22 @@ class ColoredButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
-        margin: EdgeInsets.all(margineAll != null ? margineAll! : 0),
-        height: size,
-        width: size! + 5,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(2),
+    return SizedBox(
+      width: 20.0,
+      height: 20.0,
+      child: IconButton(
+        style: IconButton.styleFrom(
+          padding: const EdgeInsets.all(2),
+          backgroundColor: color ?? context.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0),
+          ),
         ),
-        child: Center(child: child),
+        onPressed: () {},
+        icon: Center(child: child),
+        iconSize: 15.0,
+        color: context.secondaryColor,
+        focusColor: context.primaryColor,
       ),
     );
   }

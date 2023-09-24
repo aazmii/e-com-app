@@ -29,7 +29,7 @@ TableRow actionButtons(
           TableRow(
             children: [
               SizedBox(
-                height: tableColumnHeight,
+                height: tableColumnHeight + 40,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 6,
@@ -37,6 +37,8 @@ TableRow actionButtons(
                   ),
                   child: OrderActionButton(
                     text: 'New Order',
+                    color: Colors.yellow,
+                    textColor: Colors.black,
                     onPress: () async {
                       await ref
                           .read(orderProvider.notifier)
@@ -46,10 +48,12 @@ TableRow actionButtons(
                 ),
               ),
               SizedBox(
-                height: tableColumnHeight,
+                height: tableColumnHeight + 40,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: OrderActionButton(
+                    color: Colors.transparent,
+                    textColor: Colors.black,
                     text: 'Print',
                     onPress: () {},
                   ),
@@ -87,7 +91,7 @@ TableRow actionButtons(
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(right: 23, top: 10, left: 5),
               child: OrderActionButton(
                 text: 'Discard',
                 color: Colors.red,

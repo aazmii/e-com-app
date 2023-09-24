@@ -156,6 +156,7 @@ class PaymentTable extends ConsumerWidget {
               children: [
                 GestureDetector(
                   onTap: () {
+                    if (!canCashAdd(paymentList!)) return;
                     ref.read(paymentProvider.notifier).changePaymentMethod(
                           paymentType: PaymentType.cash,
                           paymentList![index].id!,
@@ -321,7 +322,7 @@ class PaymentTable extends ConsumerWidget {
         ),
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: paymentList!.length > 2
+          child: index != 0
               ? IconButton(
                   onPressed: () async {
                     await ref
@@ -341,5 +342,14 @@ class PaymentTable extends ConsumerWidget {
         )
       ],
     );
+  }
+
+  bool canCashAdd(List<PaymentDetail> list) {
+    for (var e in list) {
+      if (e.paymentType == PaymentType.cash) {
+        return false;
+      }
+    }
+    return true;
   }
 }

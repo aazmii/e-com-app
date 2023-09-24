@@ -32,6 +32,9 @@ class _PaymentProvider extends Notifier<void> {
     DigitalPaymentType? digitalPaymentType,
     required int listLen,
   }) async {
+    if(paymentType ==PaymentType.cash){
+      
+    }
     await PaymentDetailTable.updatePaymentMethod(
       paymentId,
       paymentType: paymentType,
@@ -73,6 +76,26 @@ class _PaymentProvider extends Notifier<void> {
 
   bool get isCartExpanded => ref.read(cartStateProvider) == CartState.expnaded;
 
+  Future addPaymentMethod(int listLen) async {
+    if (listLen + 1 > 2 && isCartExpanded) {
+      ref.read(cartStateProvider.notifier).toggleCartState();
+    }
+    await PaymentDetailTable.insertPayment(
+      PaymentDetailTableCompanion(
+        orderId: Value(
+          ref.read(orderProvider),
+        ),
+      ),
+    );
+  }
+
+  Future deletePaymentMethod(int paymentDetailId, int listLen) async {
+    if (listLen < 4 && !isCartExpanded) {
+      ref.read(cartStateProvider.notifier).toggleCartState();
+    }
+    await PaymentDetailTable.deletePaymentById(paymentDetailId);
+  }
+}
   //has some bugs
   // void onChangeAmount({
   //   required PaymentDetail detail,
@@ -111,24 +134,3 @@ class _PaymentProvider extends Notifier<void> {
   //   //   }
   //   // }
   // }
-
-  Future addPaymentMethod(int listLen) async {
-    if (listLen + 1 > 2 && isCartExpanded) {
-      ref.read(cartStateProvider.notifier).toggleCartState();
-    }
-    await PaymentDetailTable.insertPayment(
-      PaymentDetailTableCompanion(
-        orderId: Value(
-          ref.read(orderProvider),
-        ),
-      ),
-    );
-  }
-
-  Future deletePaymentMethod(int paymentDetailId, int listLen) async {
-    if (listLen < 4 && !isCartExpanded) {
-      ref.read(cartStateProvider.notifier).toggleCartState();
-    }
-    await PaymentDetailTable.deletePaymentById(paymentDetailId);
-  }
-}

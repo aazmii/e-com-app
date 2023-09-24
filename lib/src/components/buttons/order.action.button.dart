@@ -7,8 +7,9 @@ class OrderActionButton extends StatelessWidget {
     this.color,
     this.onPress,
     this.text,
+    this.textColor,
   });
-  final Color? color;
+  final Color? color, textColor;
   final VoidCallback? onPress;
   final String? text;
   @override
@@ -26,7 +27,7 @@ class OrderActionButton extends StatelessWidget {
         child: Text(
           text ?? '',
           style: context.titleMedium.copyWith(
-            color: Colors.white,
+            color: textColor ?? Colors.white,
             // fontWeight: FontWeight.bold,
             fontSize: 12,
           ),
