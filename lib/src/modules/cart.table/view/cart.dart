@@ -8,7 +8,6 @@ import 'package:pos_sq/src/modules/cart.table/view/components/collapse.button.da
 import 'package:pos_sq/src/modules/cart.table/view/components/collapsed.view.dart';
 import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
-import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/providers.dart';
 
 import '../provider/cart.stream.dart';
@@ -110,7 +109,7 @@ class ItemCart extends ConsumerWidget {
                                 ref,
                                 allItmes.grossTotal,
                                 allItmes.totalVat,
-                                Order.fromTableData(order),
+                                order,
                                 allItmes.length > 1
                                     ? allItmes
                                         .totalTax(config?.taxPercentage ?? 0)

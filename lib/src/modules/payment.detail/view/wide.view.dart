@@ -4,12 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
-import 'package:pos_sq/src/modules/order.detail/models/order/order.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/providers.dart';
 import 'package:pos_sq/src/modules/payment.detail/components/papyment.dropdown.dart';
 import 'package:pos_sq/src/modules/payment.detail/model/payment.detail.dart';
 import 'package:pos_sq/src/modules/payment.detail/provider/payemnt.provider.dart';
 import 'package:pos_sq/src/modules/payment.detail/provider/payment.stream.dart';
+import 'package:pos_sq/src/providers/methods.dart';
 
 import '../components/order.actions.dart';
 
@@ -132,7 +132,7 @@ class PaymentTable extends ConsumerWidget {
         ),
 
         //*BUTTONS
-        actionButtons(ref, context),
+        actionButtons(ref, context, paymentList)
       ],
     );
   }
@@ -159,6 +159,8 @@ class PaymentTable extends ConsumerWidget {
                     ref.read(paymentProvider.notifier).changePaymentMethod(
                           paymentType: PaymentType.cash,
                           paymentList![index].id!,
+                          lastDetail: paymentList![paymentList!.length - 1],
+                          listLen: paymentList!.length,
                         );
                   },
                   child: Container(
@@ -176,6 +178,8 @@ class PaymentTable extends ConsumerWidget {
                     ref.read(paymentProvider.notifier).changePaymentMethod(
                           paymentType: PaymentType.card,
                           paymentList![index].id!,
+                          lastDetail: paymentList![paymentList!.length - 1],
+                          listLen: paymentList!.length,
                         );
                   },
                   child: Container(
@@ -208,6 +212,8 @@ class PaymentTable extends ConsumerWidget {
                         ref.read(paymentProvider.notifier).changePaymentMethod(
                               digitalPaymentType: type,
                               paymentList![index].id!,
+                              lastDetail: paymentList![paymentList!.length - 1],
+                              listLen: paymentList!.length,
                             );
                       },
                     ),
@@ -217,14 +223,21 @@ class PaymentTable extends ConsumerWidget {
             )
           ],
         ),
-        const TableCell(
+        TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: SizedBox(
               height: textFieldHeight,
               //*TRANSACTION DETAIL
-              child: TextField(),
+              child: TextFormField(
+                initialValue: paymentList![index].transactionDetail ?? '',
+                onChanged: (s) async {
+                  ref
+                      .read(paymentProvider.notifier)
+                      .onChangePaymentDetail(paymentList![index].id, s);
+                },
+              ),
             ),
           ),
         ),
@@ -264,13 +277,16 @@ class PaymentTable extends ConsumerWidget {
                           // },
                           onChanged: (s) {
                             ref.read(paymentProvider.notifier).onChangeAmount(
+                                  listLength: paymentList?.length ?? 0,
                                   value: s,
                                   isLastItem: paymentList!.length - 1 == index,
                                   lastItem:
                                       paymentList![paymentList!.length - 1],
                                   detail: paymentList![index],
-                                  balance: balance(paymentList!, index,
-                                      Order.fromTableData(order).netTotal ?? 0),
+                                  balance: index == 0
+                                      ? order.netTotal
+                                      : findBalance(paymentList!, index,
+                                          order.netTotal ?? 0),
                                 );
                           },
                         );
@@ -281,16 +297,22 @@ class PaymentTable extends ConsumerWidget {
                     )),
           ),
         ),
-        SizedBox(
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           height: tableColumnHeight,
           child: Align(
             alignment: Alignment.centerRight,
             //*BALANCE
             child: ref.watch(selectedOrderStream).when(
-                  data: (o) {
-                    return Text(balance(paymentList!, index,
-                            (Order.fromTableData(o)).netTotal ?? 0)
-                        .formatted);
+                  data: (order) {
+                    findBalance(paymentList!, index, order.netTotal ?? 0);
+                    return Text(
+                      index == 0
+                          ? order.netTotal.formatted
+                          : findBalance(
+                                  paymentList!, index - 1, order.netTotal ?? 0)
+                              .formatted,
+                    );
                   },
                   error: (e, s) => emptyWidget,
                   loading: () => emptyWidget,
@@ -299,36 +321,25 @@ class PaymentTable extends ConsumerWidget {
         ),
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: IconButton(
-            onPressed: paymentList!.length < 2
-                ? null
-                : () async {
+          child: paymentList!.length > 2
+              ? IconButton(
+                  onPressed: () async {
                     await ref
                         .read(paymentProvider.notifier)
-                        .deletePaymentMethod(paymentList![index].id!);
+                        .deletePaymentMethod(
+                          paymentList![index].id!,
+                          paymentList!.length,
+                        );
                   },
-            icon: const Icon(
-              FontAwesomeIcons.xmark,
-              size: 20,
-              color: Colors.grey,
-            ),
-          ),
+                  icon: const Icon(
+                    FontAwesomeIcons.xmark,
+                    size: 20,
+                    color: Colors.grey,
+                  ),
+                )
+              : emptyWidget,
         )
       ],
     );
   }
-}
-
-double prevAmounts(List<PaymentDetail> payments, int indexUntil) =>
-    payments.sublist(0, indexUntil).fold(0.0, (p, t) {
-      double amount = t.amount ?? 0;
-      return p + amount;
-    });
-
-double balance(List<PaymentDetail> payments, int index, double netTotal) {
-  double amount = payments[index].amount ?? 0.0;
-  if (index == 0) {
-    return netTotal - amount;
-  }
-  return netTotal - prevAmounts(payments, index + 1);
 }

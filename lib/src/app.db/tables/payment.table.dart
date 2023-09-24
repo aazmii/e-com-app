@@ -61,14 +61,14 @@ class PaymentDetailTable extends Table {
 
   static Future updateTransactionDetail(
     int id, {
-    double? amount,
+    String? tDetail,
   }) async {
     return (db.update(db.paymentDetailTable)
           ..where((tbl) {
             return tbl.id.equals(id);
           }))
         .write(
-      PaymentDetailTableCompanion(amount: Value(amount)),
+      PaymentDetailTableCompanion(transactionDetail: Value(tDetail)),
     );
   }
 
@@ -85,7 +85,6 @@ class PaymentDetailTable extends Table {
         .go();
   }
 
- 
   static Stream<List<PaymentDetailTableData>> watchPayments(
       {required int orderSl}) {
     return (db.select(db.paymentDetailTable)

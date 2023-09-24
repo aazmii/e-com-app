@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_sq/src/app.db/tables/item.table.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/modules/order.detail/models/item.dart';
+import 'package:pos_sq/src/modules/payment.detail/model/payment.detail.dart';
 
 // Future<int> getSelectedOrderSerial() async {
 //   final orders = (await OrderTable.getAllOrders());
@@ -33,3 +34,17 @@ void selectAll(TextEditingController controller) =>
       baseOffset: 0,
       extentOffset: controller.value.text.length,
     );
+
+double prevAmounts(List<PaymentDetail> payments, int indexUntil) =>
+    payments.sublist(0, indexUntil).fold(0.0, (p, t) {
+      double amount = t.amount ?? 0;
+      return p + amount;
+    });
+
+double findBalance(List<PaymentDetail> payments, int index, double netTotal) {
+  double amount = payments[index].amount ?? 0.0;
+  if (index == 0) {
+    return netTotal - amount;
+  }
+  return netTotal - prevAmounts(payments, index + 1);
+}

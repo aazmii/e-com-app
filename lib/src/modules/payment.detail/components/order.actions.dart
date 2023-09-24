@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/components/buttons/order.action.button.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
+import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/providers.dart';
 import 'package:pos_sq/src/modules/payment.detail/view/wide.view.dart';
+import 'package:pos_sq/src/providers/methods.dart';
 
-TableRow actionButtons(WidgetRef ref, BuildContext context) {
+import '../model/payment.detail.dart';
+
+TableRow actionButtons(
+  WidgetRef ref,
+  BuildContext context,
+  List<PaymentDetail>? payemnts,
+) {
   return TableRow(
     children: [
       const SizedBox.shrink(),
@@ -50,13 +59,31 @@ TableRow actionButtons(WidgetRef ref, BuildContext context) {
             ],
           ),
           TableRow(children: [
-            const SizedBox(
+            SizedBox(
               height: tableColumnHeight,
               child: Padding(
-                padding: EdgeInsets.all(2.0),
-                child: Text(
-                  'Return Amount\nBDT 120',
-                ),
+                padding: const EdgeInsets.all(2.0),
+                child: payemnts != null
+                    ? ref.watch(selectedOrderStream).when(
+                        data: (order) {
+                          final returnAmount = findBalance(payemnts,
+                              payemnts.length - 1, order.netTotal ?? 0);
+                          return returnAmount < 0
+                              ? Text(
+                                  'Return Amount: BDT ${returnAmount.abs().formatted}',
+                                  textAlign: TextAlign.end,
+                                )
+                              : const Text(
+                                  'Return Amount: BDT 0.00',
+                                  textAlign: TextAlign.end,
+                                );
+                        },
+                        error: (e, s) => emptyWidget,
+                        loading: () => emptyWidget)
+                    : emptyWidget,
+                // child: Text(
+                //   'Return Amount\nBDT 120',
+                // ),
               ),
             ),
             Padding(
