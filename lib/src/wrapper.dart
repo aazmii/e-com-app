@@ -12,13 +12,11 @@ class Wrapper extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
-   
       body: ref.watch(configProvider).when(
             data: (config) {
               if (ref.read(configProvider.notifier).isLicenseExpired()) {
                 return const SalesScreen();
               }
-              // return const HomeScreen();
               return LicenseExpiredPage();
             },
             error: (s, e) => Scaffold(

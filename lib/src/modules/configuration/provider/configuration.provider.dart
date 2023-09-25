@@ -118,7 +118,7 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
       companyCity: 'Washington',
       companyCountry: 'US',
       companyPostCode: '2354',
-      companyLicenseExpireDate: DateTime(2023, 09, 04),
+      companyLicenseExpireDate: DateTime(2024, 09, 04),
       lastUpdate: currentDate,
       daysLeftToExpireLicense: _daysLeftToExpireLicense(
         now: currentDate,
