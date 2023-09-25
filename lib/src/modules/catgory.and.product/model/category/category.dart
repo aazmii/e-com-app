@@ -1,13 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:pos_sq/src/app.db/app.db.dart';
+import 'package:pos_sq/src/app.db/tables/category.table.dart';
+import 'package:pos_sq/src/app.db/tables/product.table.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/image.model.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/location.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
-import 'package:sqflite/sqflite.dart';
 
 part 'category.ext.dart';
 
 class Category {
+  int? sl;
+
   String? id;
   String? label;
   String? parentId;
@@ -15,24 +20,24 @@ class Category {
 
   List<Category>? children;
   List<Product>? products;
-
   String? type;
   String? rackLocation;
+
   int? position;
   int? shelfLife;
-
   int? minimumInventory;
   bool? isEnable;
+
   bool? menu;
   bool? liveSales;
-
   bool? root;
   bool? home;
+
   bool? showInSpecialCategory;
   bool? showBestSaleCategory;
-
   List<String>? tags;
-  List<String>? categoryFiles;
+  List<ImageModel?>? categoryFiles;
+
   DateTime? createdAt;
 
   DateTime? updatedAt;
@@ -45,6 +50,7 @@ class Category {
   //needed only for state management
   Category? pinnedCategory;
   Category({
+    this.sl,
     this.id,
     this.label,
     this.parentId,
@@ -93,7 +99,7 @@ class Category {
     bool? showInSpecialCategory,
     bool? showBestSaleCategory,
     List<String>? tags,
-    List<String>? categoryFiles,
+    List<ImageModel?>? categoryFiles,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? createdBy,
@@ -164,6 +170,10 @@ class Category {
   }
 
   static Category fromMap(Map<String, dynamic> map) {
+    List<ImageModel?> images = [];
+    for (var data in map['images']) {
+      images.add(ImageModel.fromMap(data));
+    }
     final category = Category(
       id: map['id'] != null ? map['id'] as String? : null,
       label: map['label'] != null ? map['label'] as String : null,
@@ -185,14 +195,12 @@ class Category {
           map['rackLocation'] != null ? map['rackLocation'] as String : null,
       position: map['position'] != null ? map['position'] as int : null,
       shelfLife: map['shelfLife'] != null ? map['shelfLife'] as int : null,
-      minimumInventory: map['minimumInventory'] != null
-          ? map['minimumInventory'] as int
-          : null,
+      minimumInventory: null,
       // isEnable: map['is_enable'] as bool?,
-      // menu: map['menu'] != null ? map['menu'] as bool : null,
-      liveSales: map['liveSales'] != null ? map['liveSales'] as bool : null,
-      // root: map['root'] != null ? map['root'] as bool : null,
-      // home: map['home'] != null ? map['home'] as bool : null,
+      menu: null,
+      liveSales: null,
+      root: null,
+      home: null,
       showInSpecialCategory: map['show_in_special_category'] != null
           ? map['show_in_special_category'] as bool
           : null,
@@ -200,21 +208,94 @@ class Category {
           ? map['show_best_sale_category'] as bool
           : null,
       tags: null,
-      categoryFiles: null,
       createdAt:
           map['created_at'] != null ? DateTime.parse(map['created_at']) : null,
       updatedAt:
           map['updated_at'] != null ? DateTime.parse(map['updated_at']) : null,
       createdBy: map['created_by'] as String?,
       updatedBy: map['updated_by'] as String?,
-      warehouseLocation: map['warehouseLocation'] != null
-          ? Location.fromMap(map['warehouseLocation'] as Map<String, dynamic>)
-          : null,
-      outletLocation: map['outletLocation'] != null
-          ? Location.fromMap(map['outletLocation'] as Map<String, dynamic>)
-          : null,
+      warehouseLocation: null,
+      outletLocation: null,
+      categoryFiles: images,
     );
 
+    return category;
+  }
+
+  CategoryTableData toTableData() {
+    final data = CategoryTableData(
+      sl: sl,
+      id: id,
+      parentId: parentId,
+      label: label,
+      description: description,
+      type: type,
+      rackLocation: rackLocation,
+      position: position,
+      shelfLife: shelfLife,
+      minimumInventory: minimumInventory,
+      enable: isEnable != null
+          ? isEnable!
+              ? 1
+              : 0
+          : null,
+      menu: menu,
+      liveSales: liveSales,
+      root: root,
+      home: home,
+      specialCategory: showInSpecialCategory,
+      bestSellCategory: showBestSaleCategory,
+      tags: jsonEncode(tags),
+      categoryFiles: categoryFiles != null
+          ? jsonEncode(categoryFiles!.map((e) => e?.toJson()).toList())
+          : null,
+      createdAt: createdAt,
+      createdBy: createdBy,
+      warehouseLocation:
+          warehouseLocation != null ? warehouseLocation!.toJson() : null,
+      outletLocation: outletLocation != null ? outletLocation!.toJson() : null,
+    );
+  return data;
+  }
+
+  static Category fromTableData(CategoryTableData d) {
+    final category = Category(
+      sl: d.sl,
+      id: d.id,
+      parentId: d.parentId,
+      label: d.label,
+      description: d.description,
+      type: d.type,
+      rackLocation: d.rackLocation,
+      position: d.position,
+      shelfLife: d.shelfLife,
+      minimumInventory: d.minimumInventory,
+      isEnable: d.enable != null
+          ? d.enable! == 1
+              ? true
+              : false
+          : null,
+      menu: d.menu,
+      liveSales: d.liveSales,
+      root: d.root,
+      home: d.home,
+      showBestSaleCategory: d.specialCategory,
+      showInSpecialCategory: d.bestSellCategory,
+      tags: d.tags != null ? jsonDecode(d.tags!) : null,
+      categoryFiles: d.categoryFiles != null
+          ? (jsonDecode(d.categoryFiles!) as List)
+              .map((e) => ImageModel.fromJson(e))
+              .toList()
+          : null,
+      createdAt: d.createdAt,
+      createdBy: d.createdBy,
+      warehouseLocation: d.warehouseLocation != null
+          ? Location.fromJson(d.warehouseLocation!)
+          : null,
+      outletLocation: d.outletLocation != null
+          ? Location.fromJson(d.outletLocation!)
+          : null,
+    );
     return category;
   }
 

@@ -5,7 +5,7 @@ import 'payment.type.model.dart';
 class CustomerTransaction {
   CustomerTransaction({
     this.transactionId,
-    this.digitalPaymentType = DigitalPaymentType.digitalPayemnt,
+    this.digitalPaymentType = DigitalPaymentType.digitalPayment,
     this.transactionAmount,
     this.paymentType = PaymentType.cash,
     this.transactionDetail,
@@ -13,10 +13,10 @@ class CustomerTransaction {
 
   int? transactionId;
   String? transactionDetail;
- 
+
   PaymentType paymentType;
   double? transactionAmount;
- 
+
   DigitalPaymentType digitalPaymentType;
   CustomerTransaction copyWith({
     List<PaymentTypeModel>? payemntOptions,

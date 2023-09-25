@@ -5,6 +5,8 @@ import 'package:pos_sq/src/extensions/extensions.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import 'custom.image.dart';
+
 class CategoryContainer extends StatelessWidget {
   const CategoryContainer({
     super.key,
@@ -42,23 +44,41 @@ class CategoryContainer extends StatelessWidget {
           height: isSelected ? categoryHeight + 8 : categoryHeight,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              const _DisplayImage(),
-              Container(
-                height: 25,
-                color: context.secondaryColor,
-                width: double.infinity,
-                child: Center(
-                  child: Text(
-                    category.label ?? '',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
+              CategoryTitle(label: category.label),
+              Expanded(
+                child: CustomImage(
+                  imageUrl: category.categoryFiles!.isNotEmpty
+                      ? category.categoryFiles!.first?.image
+                      : null,
                 ),
-              )
+              ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CategoryTitle extends StatelessWidget {
+  const CategoryTitle({super.key, this.label});
+
+  final String? label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 25,
+      color: context.secondaryColor,
+      width: double.infinity,
+      child: Center(
+        child: Text(
+          label ?? '',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -69,21 +89,3 @@ final _selectedBorder = Border.all(
   width: 2,
   color: Colors.orange,
 );
-
-class _DisplayImage extends StatelessWidget {
-  const _DisplayImage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
-        ),
-      ),
-      // height: 70,
-      // child: SvgPicture.asset('assets/images/Poke-bowl-pana.svg'),
-    );
-  }
-}

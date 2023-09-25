@@ -5,6 +5,7 @@ import 'package:pos_sq/src/constants/src/ui.consts.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/category/category.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/column.provider.dart';
+import 'package:pos_sq/src/modules/order.detail/provider/order.provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../provider/wide.view.providers/selected.category.id.provider.dart';
@@ -55,8 +56,7 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                             ref.watch(selectedCategoryProvider)?.id;
                         return CategoryContainer(
                           category: categoryOrProduct,
-                          onSelect: () =>
-                              notifier.onTapCategory(context, index: index),
+                          onSelect: () => {},
                           isSelected: selectedId == categoryOrProduct.id,
                           isChild: selectedId == categoryOrProduct.parentId,
                           onTogglePinnedCategory: (info) {
@@ -69,7 +69,9 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
                       }
                       if (categoryOrProduct is Product) {
                         return ProductCard(
-                          onSelect: () async {},
+                          onSelect: () async => ref
+                              .read(orderProvider.notifier)
+                              .onItemPress(categoryOrProduct),
                           product: categoryOrProduct,
                           isLastItem: dynamicList.last == categoryOrProduct,
                         );
@@ -141,7 +143,9 @@ class VerticalSCrollableCategoryColumn extends ConsumerWidget {
           //   ],
           // );
         },
-        error: (e, s) => Text('Error: $e'),
+        error: (e, s) {
+          return Text('Error: $e');
+        },
         loading: () => const Text('Loading'));
   }
 

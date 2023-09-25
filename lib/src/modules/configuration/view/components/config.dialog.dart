@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pos_sq/src/modules/configuration/provider/configuration.provider.dart';
-import 'package:pos_sq/src/modules/configuration/view/components/config.table.dart';
+import 'package:pos_sq/src/constants/src/ui.consts.dart';
 
 Future<void> showConfigDialog(BuildContext context) async {
   await showDialog(
@@ -15,7 +14,7 @@ class _DialogBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final config = ref.watch(configProvider).value;
+    // final config = ref.watch(configProvider).value;
     return AlertDialog(
       title: const Center(child: Text('App Configuration')),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -24,7 +23,8 @@ class _DialogBody extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: makeConfigTable(config),
+            child: emptyWidget,
+            // child: makeConfigTable(config),
           ),
         ),
       ),

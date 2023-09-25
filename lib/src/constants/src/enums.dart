@@ -1,16 +1,13 @@
 enum PaymentType {
   cash,
   card,
-  digitalPayment;
-}
-
-enum AppLayout {
-  horizontalView,
-  verticalView,
+  onlinePayment,
+  digitalPayment,
+  none;
 }
 
 enum DigitalPaymentType {
-  digitalPayemnt,
+  digitalPayment,
   bkash,
   rocket,
   nagad,
@@ -18,4 +15,12 @@ enum DigitalPaymentType {
   upay,
 }
 
+enum AppLayout {
+  horizontalView,
+  verticalView,
+}
+
 enum DiscountType { cash, percentage }
+
+//!this can cause build runner to fail who know why
+enum CustomerInfoType { name, phone, loyalityCard }

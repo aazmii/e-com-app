@@ -1,15 +1,14 @@
-import 'package:sqflite/sqflite.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/model/product/product.dart';
 
 import '../../model/category/category.dart';
-import '../../model/product/product.dart';
 
 List<Category> categoryList = [];
 List<Product> productList = [];
 
-Future<List<Category>> getAllNestedCategories(Database db, category) async {
+Future<List<Category>> getAllNestedCategories(category) async {
   List<Category> result = [];
   Future traverse(Category current) async {
-    final children = await current.getChildren(db);
+    final children = await current.getChildren();
 
     for (var child in children) {
       result.add(child);
@@ -23,12 +22,12 @@ Future<List<Category>> getAllNestedCategories(Database db, category) async {
 }
 
 Future<List<Product>> getAllProducts(
-  Database db,
+  db,
   List<Category> categories,
 ) async {
   List<Product> result = [];
   for (var v in categories) {
-    final products = await v.getProducts(db);
+    final products = await v.getProducts();
     result.addAll(products);
   }
   return result;

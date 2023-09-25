@@ -8,16 +8,21 @@ extension StringUtils on String {
   List<String> get words => split(' ');
 
   String get capitalize => '${this[0].toUpperCase()}${substring(1)}';
+  String get capitalizeFirstofEach =>
+      split(" ").map((str) => str.capitalize).join(" ");
 
   bool hasMatch(String v) => toLowerCase().contains(v.toLowerCase());
 }
 
 extension NullableStringExt on String? {
-  bool isNumericNullable(String? string) {//allows emtpy string
+  bool isNumericNullable(String? string) {
+    //allows emtpy string
     if (string == null) return true;
     final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
     return numericRegex.hasMatch(string);
   }
+
+  double toDouble() => double.tryParse(this ?? '0.00') ?? 0.0;
 }
 
 final RegExp _emailRegularExpression = RegExp(

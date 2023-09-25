@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pos_sq/src/constants/constants.dart';
 import 'package:pos_sq/src/constants/src/ui.consts.dart';
-import 'package:pos_sq/src/db/app.db.dart';
 import 'package:pos_sq/src/extensions/extensions.dart';
+import 'package:pos_sq/src/modules/catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
+import 'package:pos_sq/src/modules/home.screen/layouts/horizontal.view.dart';
 import 'package:pos_sq/src/providers/orientation.provider.dart';
-
-import '../catgory.and.product/provider/wide.view.providers/mother.categories.provider.dart';
-import 'layouts/horizontal.view.dart';
 
 class SalesScreen extends ConsumerWidget {
   const SalesScreen({Key? key}) : super(key: key);
@@ -15,43 +13,30 @@ class SalesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final isVertical = ref.watch(layoutProvider) == AppLayout.verticalView;
+
     return SafeArea(
       child: GestureDetector(
-        child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.only(
-              top: 8.0,
-              left: 8,
-              right: 8,
-            ),
-            child: ref.watch(motherCategoriesProvider).when(
-                  data: (data) {
-                    return context.isWide
-                        ? isVertical
-                            ? emptyWidget
-                            : HorizontalView(
-                                motherCategories: data,
-                              )
-                        : emptyWidget;
-                  },
-                  error: (e, s) => const CenterText(
-                    text: 'Oops..!\nSomething went wrong :(',
-                  ),
-                  loading: () => const CenterText(text: 'Loading..'),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 8.0,
+            left: 8,
+            right: 8,
+          ),
+          child: ref.watch(motherCategoriesProvider).when(
+                data: (data) {
+                  return context.isWide
+                      ? isVertical
+                          ? emptyWidget
+                          : HorizontalView(
+                              motherCategories: data,
+                            )
+                      : emptyWidget;
+                },
+                error: (e, s) => const CenterText(
+                  text: 'Oops..!\nSomething went wrong :(',
                 ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              final db = await LocalDB().database;
-              final products = await db.query('product',
-                  where: 'category_id =?',
-                  whereArgs: ['9e06e21a-118d-4ae7-9a1e-6144d5c7a59f']);
-              print(products.length);
-              for (var p in products) {
-                print(p['name']);
-              }
-            },
-          ),
+                loading: () => const CenterText(text: 'Loading..'),
+              ),
         ),
       ),
     );
