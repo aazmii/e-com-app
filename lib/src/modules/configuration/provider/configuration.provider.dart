@@ -27,13 +27,18 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
   Future _updateLicenseDateInLocalDb(Config config) async {
     if (config.lastUpdate!.isSameDay(currentDate)) return;
 
-    return await ConfigTable.updateValue(
+    await ConfigTable.updateValue(
       fieldName: 'daysLeftToExpireLicense',
       value: config.companyLicenseExpireDate!
           .difference(currentDate)
           .inDays
           .toString(),
-    );
+    ).then((value) {
+      ConfigTable.updateValue(
+        fieldName: 'lastUpdate',
+        value: currentDate.toIso8601String(),
+      );
+    });
   }
 
   bool isLicenseExpired() {
