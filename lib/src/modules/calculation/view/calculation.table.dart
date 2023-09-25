@@ -225,23 +225,22 @@ Table calculatoinTable(
               TableRow(
                 children: [
                   TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 12),
                       child: ColoredButton(
+                        buttonHeight: 28,
                         color: order?.discountType == DiscountType.cash
                             ? context.selectColor
                             : context.primaryColor,
                         onPressed: () => ref
                             .read(calculationProvider.notifier)
-                            .updateDiscountType(
-                              DiscountType.cash,
-                            ),
+                            .updateDiscountType(DiscountType.cash),
                         child: const Text(
                           '৳',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 12,
+                            fontSize: 18,
                           ),
                         ),
                       ),
@@ -251,23 +250,20 @@ Table calculatoinTable(
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 10,
-                      ),
+                          horizontal: 10, vertical: 5),
                       child: ColoredButton(
+                        buttonHeight: 28,
                         color: order?.discountType == DiscountType.percentage
                             ? context.selectColor
                             : context.primaryColor,
                         onPressed: () => ref
                             .read(calculationProvider.notifier)
-                            .updateDiscountType(
-                              DiscountType.percentage,
-                            ),
+                            .updateDiscountType(DiscountType.percentage),
                         child: const Text(
                           '%',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 12,
+                            fontSize: 14,
                           ),
                         ),
                       ),

@@ -47,7 +47,11 @@ class ColoredButton extends StatelessWidget {
     required this.child,
     this.margineAll,
     this.color,
+    this.buttonHeight,
+    this.buttonWidth,
   });
+  final double? buttonHeight;
+  final double? buttonWidth;
   final double? size;
   final double? margineAll;
   final VoidCallback? onPressed;
@@ -57,8 +61,8 @@ class ColoredButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 20.0,
-      height: 20.0,
+      width: buttonWidth ?? 20.0,
+      height: buttonHeight ?? 20.0,
       child: IconButton(
         style: IconButton.styleFrom(
           padding: const EdgeInsets.all(2),
@@ -67,7 +71,7 @@ class ColoredButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(0.0),
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         icon: Center(child: child),
         iconSize: 15.0,
         color: context.secondaryColor,

@@ -17,8 +17,9 @@ class ConfiurationProvider extends AsyncNotifier<Config?> {
     config = await ConfigTable.getConfig();
     if (config == null) {
       await ConfigTable.insertConfig(appConfig(currentDate));
+      config = await ConfigTable.getConfig();
     } else {
-      _updateLicenseDateInLocalDb(config!);
+      await _updateLicenseDateInLocalDb(config!);
     }
     state = AsyncData(config);
     return state.value;
